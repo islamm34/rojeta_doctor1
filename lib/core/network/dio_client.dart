@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
+import 'package:rojeta_doctor/core/network/endpoints.dart';
 import '../../config/routes/app_router.dart';
 import '../../main.dart';
 import '../utils/extensions/context_extensions.dart';
@@ -15,7 +16,7 @@ class DioClient implements ApiConsumer {
 
   DioClient(this.dio) {
     dio.options
-      ..baseUrl = AppConstants.baseUrl
+      ..baseUrl = Endpoints.baseUrl
       ..responseType = ResponseType.json
       ..connectTimeout = const Duration(seconds: 30)
       ..receiveTimeout = const Duration(seconds: 30)

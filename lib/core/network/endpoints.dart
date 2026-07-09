@@ -1,4 +1,11 @@
 class Endpoints {
-  // static const String baseUrl = 'https://api.example.com';
-  // static const String login = '/login';
+  static const String baseUrl = 'https://jsonplaceholder.typicode.com';
+  static const String authTokenKey = '/login';
+  static const String register = '/register';
+  static const String registrationStatus = '/registration-status';
+  static const String notifications = '/notifications';
+  static const String profile = '/profile';
+  static const String getFinancialData = '/financial';
+  static const String addClinic = '/clinics/add';
+  static const String getMarketingAnalytics = '/marketing/analytics';
 }

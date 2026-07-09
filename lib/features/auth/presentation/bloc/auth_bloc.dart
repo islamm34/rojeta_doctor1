@@ -10,6 +10,29 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({required this.getAuth})
       : super(const AuthState()) {
     on<LoadAuthEvent>(_onLoad);
+    on<SelectUserTypeEvent>((event, emit) => emit(state.copyWith(selectedType: event.type)));
+    on<FullNameChangedEvent>((event, emit) => emit(state.copyWith(fullName: event.fullName)));
+    on<EmailChangedEvent>((event, emit) => emit(state.copyWith(email: event.email)));
+    on<PhoneChangedEvent>((event, emit) => emit(state.copyWith(phone: event.phone)));
+    on<PasswordChangedEvent>((event, emit) => emit(state.copyWith(password: event.password)));
+    on<ConfirmPasswordChangedEvent>((event, emit) => emit(state.copyWith(confirmPassword: event.confirmPassword)));
+    on<TogglePasswordVisibilityEvent>((event, emit) => emit(state.copyWith(isPasswordVisible: !state.isPasswordVisible)));
+    on<ToggleConfirmPasswordVisibilityEvent>((event, emit) => emit(state.copyWith(isConfirmPasswordVisible: !state.isConfirmPasswordVisible)));
+    
+    // Professional Information Events
+    on<SpecialtyChangedEvent>((event, emit) => emit(state.copyWith(specialty: event.specialty)));
+    on<SubSpecialtyChangedEvent>((event, emit) => emit(state.copyWith(subSpecialty: event.subSpecialty)));
+    on<MedicalLicenseChangedEvent>((event, emit) => emit(state.copyWith(medicalLicenseNumber: event.license)));
+    on<YearsOfExperienceChangedEvent>((event, emit) => emit(state.copyWith(yearsOfExperience: event.years)));
+    on<EducationChangedEvent>((event, emit) => emit(state.copyWith(education: event.education)));
+    on<AboutChangedEvent>((event, emit) => emit(state.copyWith(about: event.about)));
+    
+    // File Picking Events
+    on<PickProfileImageEvent>((event, emit) => emit(state.copyWith(profileImagePath: event.path)));
+    on<PickMedicalLicenseEvent>((event, emit) => emit(state.copyWith(medicalLicensePath: event.path)));
+    on<PickCertificatesEvent>((event, emit) => emit(state.copyWith(certificatesPath: event.path)));
+    on<PickNationalIdEvent>((event, emit) => emit(state.copyWith(nationalIdPath: event.path)));
+    on<OtpChangedEvent>((event, emit) => emit(state.copyWith(otpCode: event.otp)));
   }
 
   FutureOr<void> _onLoad(

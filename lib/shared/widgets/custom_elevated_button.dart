@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   final String text;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final bool isLoading;
   final double? width;
   final double height;
@@ -10,6 +10,7 @@ class CustomElevatedButton extends StatelessWidget {
   final Color? foregroundColor;
   final double borderRadius;
   final TextStyle? textStyle;
+  final Widget? icon;
 
   const CustomElevatedButton({
     super.key,
@@ -22,6 +23,7 @@ class CustomElevatedButton extends StatelessWidget {
     this.foregroundColor,
     this.borderRadius = 30.0,
     this.textStyle,
+    this.icon,
   });
 
   @override
@@ -55,7 +57,17 @@ class CustomElevatedButton extends StatelessWidget {
                   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                 ),
               )
-            : Text(text),
+            : (icon != null
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      icon!,
+                      const SizedBox(width: 8),
+                      Text(text),
+                    ],
+                  )
+                : Text(text)),
       ),
     );
   }

@@ -30,7 +30,31 @@ class CustomBottomNavBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-        
+          _buildNavItem(
+            context,
+            index: 0,
+            icon: selectedIndex == 0 ? Icons.home : Icons.home_outlined,
+            label: context.strings.home, 
+          ),
+          _buildNavItem(
+            context,
+            index: 1,
+            icon: selectedIndex == 1 ? Icons.calendar_today : Icons.calendar_today_outlined,
+            label: context.strings.appointments,
+          ),
+          _buildNavItem(
+            context,
+            index: 2,
+            icon: selectedIndex == 2 ? Icons.notifications : Icons.notifications_none_outlined,
+            label: context.strings.notifications,
+            badgeCount: 4,
+          ),
+          _buildNavItem(
+            context,
+            index: 3,
+            icon: selectedIndex == 3 ? Icons.settings : Icons.settings_outlined,
+            label: context.strings.settings,
+          ),
         ],
       ),
     );
@@ -41,6 +65,7 @@ class CustomBottomNavBar extends StatelessWidget {
     required int index,
     required IconData icon,
     required String label,
+    int? badgeCount,
   }) {
     final isSelected = selectedIndex == index;
     return GestureDetector(
@@ -59,10 +84,42 @@ class CustomBottomNavBar extends StatelessWidget {
             ),
           ),
           10.ver,
-          Icon(
-            icon,
-            color: isSelected ? context.colors.primary : Colors.grey.shade600,
-            size: 28.r,
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Icon(
+                icon,
+                color: isSelected ? context.colors.primary : Colors.grey.shade600,
+                size: 28.r,
+              ),
+              if (badgeCount != null && badgeCount > 0)
+                Positioned(
+                  right: -4.w,
+                  top: -4.h,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(10.r),
+                    ),
+                    constraints: BoxConstraints(
+                      minWidth: 16.w,
+                      minHeight: 16.h,
+                    ),
+                    child: Center(
+                      child: Text(
+                        badgeCount.toString(),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 9.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ),
+            ],
           ),
           4.ver,
           Text(

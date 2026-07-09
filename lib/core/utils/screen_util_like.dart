@@ -131,6 +131,11 @@ extension Sizee on num {
     return (toDouble()) * ScreenUtil.scaleText;
   }
 
+  /// Scaled font size
+  double get sp {
+    return (toDouble()) * ScreenUtil.scaleText;
+  }
+
   Widget get ver {
     return SizedBox(height: toDouble().h);
   }

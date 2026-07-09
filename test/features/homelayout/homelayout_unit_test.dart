@@ -2,10 +2,10 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:rojeta_doctor/features/homelayout/data/models/homelayoutmodel.dart';
-import 'package:rojeta_doctor/features/homelayout/data/repositories/homelayout_repository_impl.dart';
-import 'package:rojeta_doctor/features/homelayout/domain/datasources/homelayout_remote_data_source.dart';
-import 'package:rojeta_doctor/features/homelayout/domain/datasources/homelayout_local_data_source.dart';
+import 'package:rojeta_doctor/features/doctor/homelayout/data/models/homelayoutmodel.dart';
+import 'package:rojeta_doctor/features/doctor/homelayout/data/repositories/homelayout_repository_impl.dart';
+import 'package:rojeta_doctor/features/doctor/homelayout/domain/datasources/homelayout_remote_data_source.dart';
+import 'package:rojeta_doctor/features/doctor/homelayout/domain/datasources/homelayout_local_data_source.dart';
 
 class MockRemoteDS extends Mock implements HomelayoutRemoteDataSource {}
 class MockLocalDS extends Mock implements HomelayoutLocalDataSource {}

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
-import 'package:rojeta_doctor/features/homelayout/di/homelayout_injector.dart';
+import 'package:rojeta_doctor/features/doctor/homelayout/di/homelayout_injector.dart';
 import '../../features/auth/di/auth_injector.dart';
 import '../network/api_consumer.dart';
 import '../network/dio_client.dart';

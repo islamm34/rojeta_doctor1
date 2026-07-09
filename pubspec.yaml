@@ -49,6 +49,11 @@ dependencies:
   path_provider: ^2.1.6
   flutter_localizations:
     sdk: flutter
+  flutter_svg: ^2.3.0
+  image_picker: ^1.2.3
+  file_picker: ^11.0.2
+  pinput: ^6.0.2
+
 
 dev_dependencies:
   flutter_test:
@@ -77,8 +82,7 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/icons/
- 
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
