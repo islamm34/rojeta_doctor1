@@ -1035,4 +1035,56 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get avgRevenuePerPatient => 'متوسط الإيراد/المريض';
+
+  @override
+  String get medicalConsultation => 'استشارة طبية';
+
+  @override
+  String get startConsultation => 'بدء الاستشارة';
+
+  @override
+  String get diagnosis => 'التشخيص *';
+
+  @override
+  String get enterDiagnosis => 'أدخل التشخيص..';
+
+  @override
+  String get medicalNotes => 'ملاحظات طبية';
+
+  @override
+  String get prescriptionImgHere => 'صورة الوصفة هنا';
+
+  @override
+  String get openBtn => 'فتح';
+
+  @override
+  String get prescription => 'وصفة طبية';
+
+  @override
+  String get uploadPdf => 'رفع PDF';
+
+  @override
+  String get medicationDetails => 'اسم الدواء، الجرعة، التردد، المدة...';
+
+  @override
+  String get laboratoryTests => 'تحاليل مخبرية';
+
+  @override
+  String get requiredLabTests => 'التحاليل المطلوبة (مثل: CBC، الخ)..';
+
+  @override
+  String get radiologyTests => 'فحوصات الأشعة';
+
+  @override
+  String get requiredRadiologyTests =>
+      'فحوصات الأشعة المطلوبة (مثل: X-Ray، الخ)..';
+
+  @override
+  String get followUpDate => 'تاريخ المتابعة';
+
+  @override
+  String get saveDraft => 'حفظ كمسودة';
+
+  @override
+  String get completeBtn => 'إكمال';
 }

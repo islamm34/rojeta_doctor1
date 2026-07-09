@@ -135,7 +135,12 @@ class _AppointmentsTabState extends State<AppointmentsTab> {
                         onAccept: () {},
                         onReject: () {},
                         onViewDetails: () {},
-                        onStartConsultation: () {},
+                        onStartConsultation: () {
+                          context.pushNamed(
+                            '/medical-consultation',
+                            extra: appointment,
+                          );
+                        },
                       );
                     },
                   ),

@@ -14,6 +14,8 @@ import '../../features/auth/presentation/pages/forgot_password_page.dart';
 import '../../features/auth/presentation/pages/reset_password_page.dart';
 import '../../features/doctor/profile/presentation/pages/profile_page.dart';
 import '../../features/doctor/profile/presentation/pages/add_clinic_page.dart';
+import '../../features/doctor/medical_consultation/presentation/pages/medical_consultation_page.dart';
+import '../../features/doctor/homelayout/data/models/doctor_appointment_model.dart';
 import 'custom_routes.dart';
 
 class AppRoutes {
@@ -34,6 +36,7 @@ class AppRoutes {
   static const String marketingPackages = '/marketing-packages';
   static const String financialManagement = '/financial-management';
   static const String addClinic = '/add-clinic';
+  static const String medicalConsultation = '/medical-consultation';
 }
 
 class AppRouter {
@@ -76,6 +79,11 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const FinancialManagementPage());
       case AppRoutes.addClinic:
         return MaterialPageRoute(builder: (_) => const AddClinicPage());
+      case AppRoutes.medicalConsultation:
+        final appointment = settings.arguments as DoctorAppointmentModel;
+        return MaterialPageRoute(
+          builder: (_) => MedicalConsultationPage(appointment: appointment),
+        );
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

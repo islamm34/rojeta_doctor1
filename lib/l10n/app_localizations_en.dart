@@ -1044,4 +1044,58 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get avgRevenuePerPatient => 'Avg. Revenue/Patient';
+
+  @override
+  String get medicalConsultation => 'Medical Consultation';
+
+  @override
+  String get startConsultation => 'Start Consultation';
+
+  @override
+  String get diagnosis => 'Diagnosis *';
+
+  @override
+  String get enterDiagnosis => 'Enter diagnosis..';
+
+  @override
+  String get medicalNotes => 'Medical Notes';
+
+  @override
+  String get prescriptionImgHere => 'prescription img here';
+
+  @override
+  String get openBtn => 'open';
+
+  @override
+  String get prescription => 'Prescription';
+
+  @override
+  String get uploadPdf => 'Upload PDF';
+
+  @override
+  String get medicationDetails =>
+      'Medication name, dosage, frequency, duration...';
+
+  @override
+  String get laboratoryTests => 'Laboratory Tests';
+
+  @override
+  String get requiredLabTests =>
+      'Required lab tests (e.g., CBC, Lipid Profile, HbA1c)..';
+
+  @override
+  String get radiologyTests => 'Radiology Tests';
+
+  @override
+  String get requiredRadiologyTests =>
+      'Required radiology tests (e.g., X-Ray, CT Scan, MRI)..';
+
+  @override
+  String get followUpDate => 'Follow-up Date';
+
+  @override
+  String get saveDraft => 'Save Draft';
+
+  @override
+  String get completeBtn => 'Complete';
 }

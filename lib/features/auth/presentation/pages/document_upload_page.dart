@@ -158,8 +158,9 @@ class _DocumentUploadView extends StatelessWidget {
                                     subtitle: context.strings.uploadClearCopy,
                                     isPicked: state.medicalLicensePath != null,
                                     onTap: () async {
-                                      final path =
+                                      final file =
                                           await FilePickerHelper.pickFile();
+                                      final path = file?.path;
                                       if (path != null) {
                                         context.read<AuthBloc>().add(
                                           PickMedicalLicenseEvent(path),
@@ -174,8 +175,9 @@ class _DocumentUploadView extends StatelessWidget {
                                         context.strings.optionalButRecommended,
                                     isPicked: state.certificatesPath != null,
                                     onTap: () async {
-                                      final path =
+                                      final file =
                                           await FilePickerHelper.pickFile();
+                                      final path = file?.path;
                                       if (path != null) {
                                         context.read<AuthBloc>().add(
                                           PickCertificatesEvent(path),
@@ -190,8 +192,9 @@ class _DocumentUploadView extends StatelessWidget {
                                         context.strings.forVerificationPurposes,
                                     isPicked: state.nationalIdPath != null,
                                     onTap: () async {
-                                      final path =
+                                      final file =
                                           await FilePickerHelper.pickFile();
+                                      final path = file?.path;
                                       if (path != null) {
                                         context.read<AuthBloc>().add(
                                           PickNationalIdEvent(path),

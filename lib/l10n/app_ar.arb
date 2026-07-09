@@ -342,5 +342,22 @@
   "patientGrowth": "نمو المرضى",
   "revenueGrowth": "نمو الإيراد",
   "successRate": "معدل النجاح",
-  "avgRevenuePerPatient": "متوسط الإيراد/المريض"
+  "avgRevenuePerPatient": "متوسط الإيراد/المريض",
+  "medicalConsultation": "استشارة طبية",
+  "startConsultation": "بدء الاستشارة",
+  "diagnosis": "التشخيص *",
+  "enterDiagnosis": "أدخل التشخيص..",
+  "medicalNotes": "ملاحظات طبية",
+  "prescriptionImgHere": "صورة الوصفة هنا",
+  "openBtn": "فتح",
+  "prescription": "وصفة طبية",
+  "uploadPdf": "رفع PDF",
+  "medicationDetails": "اسم الدواء، الجرعة، التردد، المدة...",
+  "laboratoryTests": "تحاليل مخبرية",
+  "requiredLabTests": "التحاليل المطلوبة (مثل: CBC، الخ)..",
+  "radiologyTests": "فحوصات الأشعة",
+  "requiredRadiologyTests": "فحوصات الأشعة المطلوبة (مثل: X-Ray، الخ)..",
+  "followUpDate": "تاريخ المتابعة",
+  "saveDraft": "حفظ كمسودة",
+  "completeBtn": "إكمال"
 }

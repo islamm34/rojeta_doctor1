@@ -57,7 +57,7 @@ class ProfessionalInfoForm extends StatelessWidget {
               builder: (context, state) {
                 return GestureDetector(
                   onTap: () async {
-                    final path = await ImagePickerHelper.pickImage();
+                    final path = await ImagePickerHelper.pickImagePath();
                     if (path != null) {
                       context.read<AuthBloc>().add(PickProfileImageEvent(path));
                     }

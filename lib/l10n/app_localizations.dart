@@ -2119,6 +2119,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Avg. Revenue/Patient'**
   String get avgRevenuePerPatient;
+
+  /// No description provided for @medicalConsultation.
+  ///
+  /// In en, this message translates to:
+  /// **'Medical Consultation'**
+  String get medicalConsultation;
+
+  /// No description provided for @startConsultation.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Consultation'**
+  String get startConsultation;
+
+  /// No description provided for @diagnosis.
+  ///
+  /// In en, this message translates to:
+  /// **'Diagnosis *'**
+  String get diagnosis;
+
+  /// No description provided for @enterDiagnosis.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter diagnosis..'**
+  String get enterDiagnosis;
+
+  /// No description provided for @medicalNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Medical Notes'**
+  String get medicalNotes;
+
+  /// No description provided for @prescriptionImgHere.
+  ///
+  /// In en, this message translates to:
+  /// **'prescription img here'**
+  String get prescriptionImgHere;
+
+  /// No description provided for @openBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'open'**
+  String get openBtn;
+
+  /// No description provided for @prescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Prescription'**
+  String get prescription;
+
+  /// No description provided for @uploadPdf.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload PDF'**
+  String get uploadPdf;
+
+  /// No description provided for @medicationDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Medication name, dosage, frequency, duration...'**
+  String get medicationDetails;
+
+  /// No description provided for @laboratoryTests.
+  ///
+  /// In en, this message translates to:
+  /// **'Laboratory Tests'**
+  String get laboratoryTests;
+
+  /// No description provided for @requiredLabTests.
+  ///
+  /// In en, this message translates to:
+  /// **'Required lab tests (e.g., CBC, Lipid Profile, HbA1c)..'**
+  String get requiredLabTests;
+
+  /// No description provided for @radiologyTests.
+  ///
+  /// In en, this message translates to:
+  /// **'Radiology Tests'**
+  String get radiologyTests;
+
+  /// No description provided for @requiredRadiologyTests.
+  ///
+  /// In en, this message translates to:
+  /// **'Required radiology tests (e.g., X-Ray, CT Scan, MRI)..'**
+  String get requiredRadiologyTests;
+
+  /// No description provided for @followUpDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow-up Date'**
+  String get followUpDate;
+
+  /// No description provided for @saveDraft.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Draft'**
+  String get saveDraft;
+
+  /// No description provided for @completeBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete'**
+  String get completeBtn;
 }
 
 class _AppLocalizationsDelegate
