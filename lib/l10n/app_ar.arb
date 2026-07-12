@@ -386,5 +386,16 @@
   "vacationsAndUnavailable": "الإجازات والأيام غير المتاحة",
   "scheduleManagement": "إدارة الجدول الزمني",
   "noDataFound": "لا توجد بيانات",
-  "errorOccurred": "حدث خطأ"
+  "errorOccurred": "حدث خطأ",
+  "doctors": "الأطباء",
+  "addSpecialty": "إضافة تخصص",
+  "addNewSpecialty": "إضافة تخصص جديد",
+  "addDoctor": "إضافة طبيب",
+  "addNewDoctor": "إضافة طبيب جديد",
+  "viewEarnings": "عرض الأرباح",
+  "depts": "الأقسام",
+  "medicalServicesManagement": "إدارة الخدمات الطبية",
+  "manageMedicalServices": "إدارة الخدمات الطبية",
+  "medicalServicesDesc": "إضافة تخصصات جديدة وتحديث معلومات الأطباء وطاقم التمريض لتحسين تجربة المريض.",
+  "welcomeBackHospital": "مرحباً بعودتك!"
 }

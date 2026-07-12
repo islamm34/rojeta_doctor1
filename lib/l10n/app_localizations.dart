@@ -2377,6 +2377,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error Occurred'**
   String get errorOccurred;
+
+  /// No description provided for @doctors.
+  ///
+  /// In en, this message translates to:
+  /// **'Doctors'**
+  String get doctors;
+
+  /// No description provided for @addSpecialty.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Specialty'**
+  String get addSpecialty;
+
+  /// No description provided for @addNewSpecialty.
+  ///
+  /// In en, this message translates to:
+  /// **'Add new specialty'**
+  String get addNewSpecialty;
+
+  /// No description provided for @addDoctor.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Doctor'**
+  String get addDoctor;
+
+  /// No description provided for @addNewDoctor.
+  ///
+  /// In en, this message translates to:
+  /// **'Add new Doctor'**
+  String get addNewDoctor;
+
+  /// No description provided for @viewEarnings.
+  ///
+  /// In en, this message translates to:
+  /// **'View Earnings'**
+  String get viewEarnings;
+
+  /// No description provided for @depts.
+  ///
+  /// In en, this message translates to:
+  /// **'Depts'**
+  String get depts;
+
+  /// No description provided for @medicalServicesManagement.
+  ///
+  /// In en, this message translates to:
+  /// **'Medical Services Management'**
+  String get medicalServicesManagement;
+
+  /// No description provided for @manageMedicalServices.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Medical Services'**
+  String get manageMedicalServices;
+
+  /// No description provided for @medicalServicesDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Add new specialties and update doctors\' and nursing staff information to improve the patient experience.'**
+  String get medicalServicesDesc;
+
+  /// No description provided for @welcomeBackHospital.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back!'**
+  String get welcomeBackHospital;
 }
 
 class _AppLocalizationsDelegate

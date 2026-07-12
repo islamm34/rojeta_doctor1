@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../core/di/injector.dart';
 import '../bloc/financial_cubit.dart';
 import '../bloc/financial_state.dart';
 import '../widgets/period_toggle_buttons.dart';
@@ -15,7 +16,7 @@ class FinancialManagementPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => FinancialCubit()..getFinancialData(),
+      create: (context) => injector<FinancialCubit>()..getFinancialData(),
       child: Scaffold(
         backgroundColor: const Color(
           0xFFF5F9FC,

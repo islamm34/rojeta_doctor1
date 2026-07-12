@@ -1,20 +1,47 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'financial_state.dart';
-import '../../data/mocks/financial_mock_data.dart';
+import '../../domain/usecases/get_financial_summary_usecase.dart';
+import '../../domain/usecases/get_transactions_usecase.dart';
 
 class FinancialCubit extends Cubit<FinancialState> {
-  FinancialCubit() : super(const FinancialState());
+  final GetFinancialSummaryUseCase getFinancialSummary;
+  final GetTransactionsUseCase getTransactions;
+
+  FinancialCubit({
+    required this.getFinancialSummary,
+    required this.getTransactions,
+  }) : super(const FinancialState());
 
   void getFinancialData() async {
     emit(state.copyWith(status: FinancialStatus.loading, errorMessage: null));
     
-    // Simulate network delay
-    await Future.delayed(const Duration(milliseconds: 500));
-    
-    emit(state.copyWith(
-      status: FinancialStatus.success,
-      summary: FinancialMockData.summary,
-      transactions: FinancialMockData.transactions,
-    ));
+    final summaryResult = await getFinancialSummary();
+    final transactionsResult = await getTransactions();
+
+    summaryResult.fold(
+      (failure) {
+        emit(state.copyWith(
+          status: FinancialStatus.failure,
+          errorMessage: 'Failed to load financial summary',
+        ));
+      },
+      (summary) {
+        transactionsResult.fold(
+          (failure) {
+            emit(state.copyWith(
+              status: FinancialStatus.failure,
+              errorMessage: 'Failed to load transactions',
+            ));
+          },
+          (transactions) {
+            emit(state.copyWith(
+              status: FinancialStatus.success,
+              summary: summary,
+              transactions: transactions,
+            ));
+          },
+        );
+      },
+    );
   }
 }

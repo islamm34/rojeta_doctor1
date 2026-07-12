@@ -386,5 +386,16 @@
   "vacationsAndUnavailable": "Vacations and Unavailable Days",
   "scheduleManagement": "Schedule Management",
   "noDataFound": "No Data Found",
-  "errorOccurred": "Error Occurred"
+  "errorOccurred": "Error Occurred",
+  "doctors": "Doctors",
+  "addSpecialty": "Add Specialty",
+  "addNewSpecialty": "Add new specialty",
+  "addDoctor": "Add Doctor",
+  "addNewDoctor": "Add new Doctor",
+  "viewEarnings": "View Earnings",
+  "depts": "Depts",
+  "medicalServicesManagement": "Medical Services Management",
+  "manageMedicalServices": "Manage Medical Services",
+  "medicalServicesDesc": "Add new specialties and update doctors' and nursing staff information to improve the patient experience.",
+  "welcomeBackHospital": "Welcome back!"
 }

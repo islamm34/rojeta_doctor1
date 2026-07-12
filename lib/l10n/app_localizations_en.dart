@@ -1176,4 +1176,38 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorOccurred => 'Error Occurred';
+
+  @override
+  String get doctors => 'Doctors';
+
+  @override
+  String get addSpecialty => 'Add Specialty';
+
+  @override
+  String get addNewSpecialty => 'Add new specialty';
+
+  @override
+  String get addDoctor => 'Add Doctor';
+
+  @override
+  String get addNewDoctor => 'Add new Doctor';
+
+  @override
+  String get viewEarnings => 'View Earnings';
+
+  @override
+  String get depts => 'Depts';
+
+  @override
+  String get medicalServicesManagement => 'Medical Services Management';
+
+  @override
+  String get manageMedicalServices => 'Manage Medical Services';
+
+  @override
+  String get medicalServicesDesc =>
+      'Add new specialties and update doctors\' and nursing staff information to improve the patient experience.';
+
+  @override
+  String get welcomeBackHospital => 'Welcome back!';
 }

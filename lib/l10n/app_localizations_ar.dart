@@ -1165,4 +1165,38 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get errorOccurred => 'حدث خطأ';
+
+  @override
+  String get doctors => 'الأطباء';
+
+  @override
+  String get addSpecialty => 'إضافة تخصص';
+
+  @override
+  String get addNewSpecialty => 'إضافة تخصص جديد';
+
+  @override
+  String get addDoctor => 'إضافة طبيب';
+
+  @override
+  String get addNewDoctor => 'إضافة طبيب جديد';
+
+  @override
+  String get viewEarnings => 'عرض الأرباح';
+
+  @override
+  String get depts => 'الأقسام';
+
+  @override
+  String get medicalServicesManagement => 'إدارة الخدمات الطبية';
+
+  @override
+  String get manageMedicalServices => 'إدارة الخدمات الطبية';
+
+  @override
+  String get medicalServicesDesc =>
+      'إضافة تخصصات جديدة وتحديث معلومات الأطباء وطاقم التمريض لتحسين تجربة المريض.';
+
+  @override
+  String get welcomeBackHospital => 'مرحباً بعودتك!';
 }

@@ -3,6 +3,7 @@ import 'package:rojeta_doctor/features/auth/presentation/pages/professional_info
 import 'package:rojeta_doctor/features/doctor/profile/presentation/pages/marketing_packages_page.dart';
 import 'package:rojeta_doctor/features/financial/presentation/pages/financial_management_page.dart';
 import '../../features/doctor/homelayout/presentation/pages/homelayout.dart';
+import '../../features/hospital/homelayout/presentation/pages/hospital_homelayout_page.dart';
 import '../../features/auth/presentation/pages/splash_screen.dart';
 import '../../features/auth/presentation/pages/user_type_selection_page.dart';
 import '../../features/auth/presentation/pages/basic_information_page.dart';
@@ -49,6 +50,7 @@ class AppRoutes {
   static const String myPatients = '/my-patients';
   static const String patientDetails = '/patient-details';
   static const String scheduleManagement = '/schedule-management';
+  static const String hospitalHomeLayout = '/hospital-home-layout';
 }
 
 class AppRouter {
@@ -83,6 +85,8 @@ class AppRouter {
         );
       case AppRoutes.home:
         return RightRouting(const HomeLayoutPage());
+      case AppRoutes.hospitalHomeLayout:
+        return RightRouting(const HospitalHomeLayoutPage());
       case AppRoutes.profile:
         return MaterialPageRoute(builder: (_) => const ProfilePage());
       case AppRoutes.marketingPackages:
