@@ -1,9 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:rojeta_doctor/features/auth/presentation/widgets/registeraion_steps_app_bar.dart';
 import '../../../../config/routes/app_router.dart';
-import '../../../../core/constants/app_constants.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../core/utils/screen_util_like.dart';
 import '../../../../shared/widgets/custom_elevated_button.dart';
@@ -11,6 +10,7 @@ import '../../../../core/di/injector.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_state.dart';
 import '../widgets/professional_information/professional_info_form.dart';
+import '../widgets/registeration_steps_indicator.dart';
 
 class ProfessionalInformationPage extends StatelessWidget {
   const ProfessionalInformationPage({super.key});
@@ -33,69 +33,21 @@ class _ProfessionalInformationView extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8FCFF),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black87),
-          onPressed: () {
-            if (context.canPop) {
-              context.pop();
-            }
-          },
-        ),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              context.strings.createAccount,
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Colors.black87,
-                fontSize: 18.sp,
-              ),
-            ),
-            Text(
-              context.strings.step3Of5,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: Colors.grey.shade500,
-                fontSize: 12.sp,
-              ),
-            ),
-          ],
-        ),
-        centerTitle: false,
-        actions: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Image.asset(
-              AppConstants.rLogo,
-              height: 32.h,
-              fit: BoxFit.contain,
-            ),
-          ),
-        ],
-      ),
+      appBar: RegisteraionStepsAppBar(stepText: context.strings.step3Of5),
       body: SafeArea(
         child: Column(
           children: [
             // Progress Bar
-            LinearProgressIndicator(
-              value: 0.6, // Step 3 of 5
-              backgroundColor: Colors.grey.shade200,
-              valueColor: AlwaysStoppedAnimation<Color>(theme.colorScheme.primary),
-              minHeight: 4.h,
-            ),
-            
+            RegisterationStepsIndicator(progress: 0.6),
             Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
                 child: Column(
                   children: [
                     const ProfessionalInfoForm(),
-                    
+
                     SizedBox(height: 32.h),
-                    
+
                     // Buttons Row
                     Row(
                       children: [
@@ -105,9 +57,9 @@ class _ProfessionalInformationView extends StatelessWidget {
                             backgroundColor: Colors.white,
                             foregroundColor: Colors.black87,
                             textStyle: theme.textTheme.titleMedium?.copyWith(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16.sp,
-                                color: Colors.black87,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.sp,
+                              color: Colors.black87,
                             ),
                             onPressed: () {
                               if (context.canPop) {
@@ -124,22 +76,29 @@ class _ProfessionalInformationView extends StatelessWidget {
                               return Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(30.r),
-                                  gradient: isValid 
-                                    ? const LinearGradient(
-                                        colors: [Color(0xFF005BEA), Color(0xFF00C6FB)],
-                                        begin: Alignment.centerLeft,
-                                        end: Alignment.centerRight,
-                                      )
-                                    : null,
+                                  gradient: isValid
+                                      ? const LinearGradient(
+                                          colors: [
+                                            Color(0xFF005BEA),
+                                            Color(0xFF00C6FB),
+                                          ],
+                                          begin: Alignment.centerLeft,
+                                          end: Alignment.centerRight,
+                                        )
+                                      : null,
                                   color: isValid ? null : Colors.grey.shade300,
                                 ),
                                 child: CustomElevatedButton(
                                   text: context.strings.next,
                                   backgroundColor: Colors.transparent,
-                                  foregroundColor: isValid ? Colors.white : Colors.grey.shade500,
+                                  foregroundColor: isValid
+                                      ? Colors.white
+                                      : Colors.grey.shade500,
                                   onPressed: isValid
                                       ? () {
-                                          context.pushNamed(AppRoutes.documentUpload);
+                                          context.pushNamed(
+                                            AppRoutes.documentUpload,
+                                          );
                                         }
                                       : () {}, // Do nothing if not valid
                                 ),
@@ -149,9 +108,9 @@ class _ProfessionalInformationView extends StatelessWidget {
                         ),
                       ],
                     ),
-                    
+
                     SizedBox(height: 32.h),
-                    
+
                     // Footer Login
                     RichText(
                       text: TextSpan(

@@ -1,9 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:rojeta_doctor/features/auth/presentation/widgets/registeration_steps_indicator.dart';
 import '../../../../config/routes/app_router.dart';
-import '../../../../core/constants/app_constants.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../core/utils/screen_util_like.dart';
 import '../../../../shared/widgets/custom_elevated_button.dart';
@@ -15,6 +14,7 @@ import '../widgets/document_upload/upload_item_card.dart';
 import '../widgets/document_upload/terms_card.dart';
 import '../widgets/document_upload/next_steps_card.dart';
 import '../../../../core/utils/file_picker_helper.dart';
+import '../widgets/registeraion_steps_app_bar.dart';
 
 class DocumentUploadPage extends StatelessWidget {
   const DocumentUploadPage({super.key});
@@ -37,62 +37,11 @@ class _DocumentUploadView extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8FCFF),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black87),
-          onPressed: () {
-            if (context.canPop) {
-              context.pop();
-            }
-          },
-        ),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              context.strings.createAccount,
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Colors.black87,
-                fontSize: 18.sp,
-              ),
-            ),
-            Text(
-              context.strings.step4Of5,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: Colors.grey.shade500,
-                fontSize: 12.sp,
-              ),
-            ),
-          ],
-        ),
-        centerTitle: false,
-        actions: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Image.asset(
-              AppConstants.rLogo,
-              height: 32.h,
-              fit: BoxFit.contain,
-            ),
-          ),
-        ],
-      ),
+      appBar: RegisteraionStepsAppBar(stepText: context.strings.step4Of5),
       body: SafeArea(
         child: Column(
           children: [
-            // Progress Bar
-            LinearProgressIndicator(
-              value: 0.8, // Step 4 of 5
-              backgroundColor: Colors.grey.shade200,
-              valueColor: AlwaysStoppedAnimation<Color>(
-                theme.colorScheme.primary,
-              ),
-              minHeight: 4.h,
-            ),
-
+            RegisterationStepsIndicator(progress: 0.8),
             Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
@@ -106,7 +55,7 @@ class _DocumentUploadView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(16.r),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
+                            color: Colors.black.withValues(alpha: 0.05),
                             blurRadius: 10,
                             offset: const Offset(0, 4),
                           ),

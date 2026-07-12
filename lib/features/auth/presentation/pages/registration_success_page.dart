@@ -14,7 +14,7 @@ class RegistrationSuccessPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Scaffold(
       backgroundColor: const Color(0xFFF8FCFF),
       body: SafeArea(
@@ -38,7 +38,10 @@ class RegistrationSuccessPage extends StatelessWidget {
                     SizedBox(height: 32.h),
                     OutlinedButton.icon(
                       onPressed: () {
-                        context.pushNamedAndRemoveUntil(AppRoutes.login, predicate: (route) => false);
+                        context.pushNamedAndRemoveUntil(
+                          AppRoutes.login,
+                          predicate: (route) => false,
+                        );
                       },
                       icon: const Icon(Icons.home_outlined),
                       label: Text(context.strings.returnToLoginPage),
@@ -70,7 +73,9 @@ class RegistrationSuccessPage extends StatelessWidget {
                         Text(
                           context.strings.lookForwardToWorkingWithYou,
                           style: theme.textTheme.bodySmall?.copyWith(
-                            color: const Color(0xFF10B981).withOpacity(0.8),
+                            color: const Color(
+                              0xFF10B981,
+                            ).withValues(alpha: 0.8),
                           ),
                           textAlign: TextAlign.center,
                         ),

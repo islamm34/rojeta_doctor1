@@ -359,5 +359,22 @@
   "requiredRadiologyTests": "فحوصات الأشعة المطلوبة (مثل: X-Ray، الخ)..",
   "followUpDate": "تاريخ المتابعة",
   "saveDraft": "حفظ كمسودة",
-  "completeBtn": "إكمال"
+  "completeBtn": "إكمال",
+  "location": "الموقع",
+  "chooseOnMap": "اختر من الخريطة",
+  "organizationName": "اسم المنظمة *",
+  "organizationNameHint": "مثال: المركز الطبي القاهرة",
+  "organizationType": "نوع المنظمة *",
+  "organizationTypeHint": "مثال: عيادة خاصة، مستشفى عام",
+  "organizationNumber": "رقم المنظمة *",
+  "organizationNumberHint": "مثال: 01X XXXXXXXX",
+  "licenseNumber": "رقم الترخيص *",
+  "licenseNumberHint": "مثال: ORG-12345",
+  "organizationAboutHint": "وصف مختصر عن مؤسستك وخدماتها...",
+  "organizationLogo": "شعار المنظمة",
+  "organizationImages": "صور المنظمة",
+  "expiryDate": "تاريخ الانتهاء",
+  "cvv": "CVV",
+  "yourPaymentDetailsAreSecure": "بيانات الدفع الخاصة بك آمنة",
+  "taxId": "الرقم الضريبي"
 }

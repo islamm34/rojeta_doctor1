@@ -2221,6 +2221,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Complete'**
   String get completeBtn;
+
+  /// No description provided for @location.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get location;
+
+  /// No description provided for @chooseOnMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose on map'**
+  String get chooseOnMap;
+
+  /// No description provided for @organizationName.
+  ///
+  /// In en, this message translates to:
+  /// **'Organization Name *'**
+  String get organizationName;
+
+  /// No description provided for @organizationNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., Cairo Medical Center'**
+  String get organizationNameHint;
+
+  /// No description provided for @organizationType.
+  ///
+  /// In en, this message translates to:
+  /// **'Organization Type *'**
+  String get organizationType;
+
+  /// No description provided for @organizationTypeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., Private Clinic, General Hospital'**
+  String get organizationTypeHint;
+
+  /// No description provided for @organizationNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Organization Number *'**
+  String get organizationNumber;
+
+  /// No description provided for @organizationNumberHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., 01X XXXXXXXX'**
+  String get organizationNumberHint;
+
+  /// No description provided for @licenseNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'License Number *'**
+  String get licenseNumber;
+
+  /// No description provided for @licenseNumberHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., ORG-12345'**
+  String get licenseNumberHint;
+
+  /// No description provided for @organizationAboutHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Brief description about your organization and services...'**
+  String get organizationAboutHint;
+
+  /// No description provided for @organizationLogo.
+  ///
+  /// In en, this message translates to:
+  /// **'Organization Logo'**
+  String get organizationLogo;
+
+  /// No description provided for @organizationImages.
+  ///
+  /// In en, this message translates to:
+  /// **'Organization Images'**
+  String get organizationImages;
+
+  /// No description provided for @expiryDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Expiry Date'**
+  String get expiryDate;
+
+  /// No description provided for @cvv.
+  ///
+  /// In en, this message translates to:
+  /// **'CVV'**
+  String get cvv;
+
+  /// No description provided for @yourPaymentDetailsAreSecure.
+  ///
+  /// In en, this message translates to:
+  /// **'Your payment details are secure'**
+  String get yourPaymentDetailsAreSecure;
+
+  /// No description provided for @taxId.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax ID'**
+  String get taxId;
 }
 
 class _AppLocalizationsDelegate

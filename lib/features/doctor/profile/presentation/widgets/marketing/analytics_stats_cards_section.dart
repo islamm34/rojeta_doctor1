@@ -54,8 +54,7 @@ class AnalyticsStatsCardsSection extends StatelessWidget {
                 value: _formatNumber(analytics.totalRevenue),
                 subtitle:
                     '${context.strings.expenses}: ${_formatNumber(analytics.expenses)}',
-                badge:
-                    '+${analytics.revenueGrowthPercent.toStringAsFixed(1)}%',
+                badge: '+${analytics.revenueGrowthPercent.toStringAsFixed(1)}%',
                 gradient: const LinearGradient(
                   colors: [Color(0xFF00B050), Color(0xFF4CD98A)],
                   begin: Alignment.topLeft,
@@ -86,7 +85,9 @@ class AnalyticsStatsCardsSection extends StatelessWidget {
 
   String _formatNumber(double value) {
     if (value >= 1000) {
-      return value.toStringAsFixed(0).replaceAllMapped(
+      return value
+          .toStringAsFixed(0)
+          .replaceAllMapped(
             RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
             (m) => '${m[1]},',
           );
@@ -133,10 +134,12 @@ class _StatCard extends StatelessWidget {
               const Spacer(),
               if (badge != null)
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 7,
+                    vertical: 3,
+                  ),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.25),
+                    color: Colors.white.withValues(alpha: 0.25),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
@@ -162,10 +165,7 @@ class _StatCard extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             title,
-            style: const TextStyle(
-              color: Colors.white70,
-              fontSize: 11,
-            ),
+            style: const TextStyle(color: Colors.white70, fontSize: 11),
           ),
           if (subtitle != null) ...[
             const SizedBox(height: 6),
@@ -179,8 +179,11 @@ class _StatCard extends StatelessWidget {
             const SizedBox(height: 6),
             Row(
               children: [
-                Icon(Icons.check_circle_outline,
-                    color: Colors.white70, size: 13),
+                Icon(
+                  Icons.check_circle_outline,
+                  color: Colors.white70,
+                  size: 13,
+                ),
                 const SizedBox(width: 3),
                 Text(
                   '$completedCount',

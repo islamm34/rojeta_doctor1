@@ -16,7 +16,7 @@ class TermsCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -38,9 +38,7 @@ class TermsCard extends StatelessWidget {
               ),
               recognizer: TapGestureRecognizer()..onTap = () {},
             ),
-            TextSpan(
-              text: context.strings.and,
-            ),
+            TextSpan(text: context.strings.and),
             TextSpan(
               text: context.strings.privacyPolicy,
               style: theme.textTheme.bodyMedium?.copyWith(
@@ -49,9 +47,7 @@ class TermsCard extends StatelessWidget {
               ),
               recognizer: TapGestureRecognizer()..onTap = () {},
             ),
-            TextSpan(
-              text: context.strings.termsNotice,
-            ),
+            TextSpan(text: context.strings.termsNotice),
           ],
         ),
       ),

@@ -17,7 +17,7 @@ class RegistrationStatusHeader extends StatelessWidget {
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.black.withValues(alpha: 0.05),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
@@ -30,10 +30,7 @@ class RegistrationStatusHeader extends StatelessWidget {
           ),
         ),
         SizedBox(height: 16.h),
-        Text(
-          '🎉',
-          style: TextStyle(fontSize: 24.sp),
-        ),
+        Text('🎉', style: TextStyle(fontSize: 24.sp)),
         SizedBox(height: 8.h),
         Text(
           context.strings.yourRequestIsUnderReview,

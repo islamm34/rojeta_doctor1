@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rojeta_doctor/features/auth/presentation/pages/professional_information_page.dart';
+import 'package:rojeta_doctor/features/auth/presentation/pages/hospital_registeration_flow_pages/hospital_professional_info_page.dart';
+import 'package:rojeta_doctor/features/auth/presentation/pages/hospital_registeration_flow_pages/hospital_location_payment_page.dart';
+import 'package:rojeta_doctor/features/auth/presentation/pages/hospital_registeration_flow_pages/hospital_document_upload_page.dart';
 import 'package:rojeta_doctor/features/doctor/profile/presentation/pages/marketing_packages_page.dart';
 import 'package:rojeta_doctor/features/doctor/financial/presentation/pages/financial_management_page.dart';
 import '../../features/doctor/homelayout/presentation/pages/homelayout.dart';
@@ -37,6 +40,10 @@ class AppRoutes {
   static const String financialManagement = '/financial-management';
   static const String addClinic = '/add-clinic';
   static const String medicalConsultation = '/medical-consultation';
+  // Hospital registration flow
+  static const String hospitalProfessionalInfo = '/hospital-professional-info';
+  static const String hospitalLocationPayment = '/hospital-location-payment';
+  static const String hospitalDocumentUpload = '/hospital-document-upload';
 }
 
 class AppRouter {
@@ -83,6 +90,19 @@ class AppRouter {
         final appointment = settings.arguments as DoctorAppointmentModel;
         return MaterialPageRoute(
           builder: (_) => MedicalConsultationPage(appointment: appointment),
+        );
+      // Hospital registration flow
+      case AppRoutes.hospitalProfessionalInfo:
+        return MaterialPageRoute(
+          builder: (_) => const HospitalProfessionalInfoPage(),
+        );
+      case AppRoutes.hospitalLocationPayment:
+        return MaterialPageRoute(
+          builder: (_) => const HospitalLocationPaymentPage(),
+        );
+      case AppRoutes.hospitalDocumentUpload:
+        return MaterialPageRoute(
+          builder: (_) => const HospitalDocumentUploadPage(),
         );
       default:
         return MaterialPageRoute(

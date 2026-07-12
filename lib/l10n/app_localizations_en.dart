@@ -1098,4 +1098,56 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get completeBtn => 'Complete';
+
+  @override
+  String get location => 'Location';
+
+  @override
+  String get chooseOnMap => 'Choose on map';
+
+  @override
+  String get organizationName => 'Organization Name *';
+
+  @override
+  String get organizationNameHint => 'e.g., Cairo Medical Center';
+
+  @override
+  String get organizationType => 'Organization Type *';
+
+  @override
+  String get organizationTypeHint => 'e.g., Private Clinic, General Hospital';
+
+  @override
+  String get organizationNumber => 'Organization Number *';
+
+  @override
+  String get organizationNumberHint => 'e.g., 01X XXXXXXXX';
+
+  @override
+  String get licenseNumber => 'License Number *';
+
+  @override
+  String get licenseNumberHint => 'e.g., ORG-12345';
+
+  @override
+  String get organizationAboutHint =>
+      'Brief description about your organization and services...';
+
+  @override
+  String get organizationLogo => 'Organization Logo';
+
+  @override
+  String get organizationImages => 'Organization Images';
+
+  @override
+  String get expiryDate => 'Expiry Date';
+
+  @override
+  String get cvv => 'CVV';
+
+  @override
+  String get yourPaymentDetailsAreSecure => 'Your payment details are secure';
+
+  @override
+  String get taxId => 'Tax ID';
 }

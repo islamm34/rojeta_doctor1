@@ -359,5 +359,22 @@
   "requiredRadiologyTests": "Required radiology tests (e.g., X-Ray, CT Scan, MRI)..",
   "followUpDate": "Follow-up Date",
   "saveDraft": "Save Draft",
-  "completeBtn": "Complete"
+  "completeBtn": "Complete",
+  "location": "Location",
+  "chooseOnMap": "Choose on map",
+  "organizationName": "Organization Name *",
+  "organizationNameHint": "e.g., Cairo Medical Center",
+  "organizationType": "Organization Type *",
+  "organizationTypeHint": "e.g., Private Clinic, General Hospital",
+  "organizationNumber": "Organization Number *",
+  "organizationNumberHint": "e.g., 01X XXXXXXXX",
+  "licenseNumber": "License Number *",
+  "licenseNumberHint": "e.g., ORG-12345",
+  "organizationAboutHint": "Brief description about your organization and services...",
+  "organizationLogo": "Organization Logo",
+  "organizationImages": "Organization Images",
+  "expiryDate": "Expiry Date",
+  "cvv": "CVV",
+  "yourPaymentDetailsAreSecure": "Your payment details are secure",
+  "taxId": "Tax ID"
 }

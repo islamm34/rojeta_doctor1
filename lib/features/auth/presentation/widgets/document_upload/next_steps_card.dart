@@ -13,14 +13,19 @@ class NextStepsCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: const Color(0xFFF2F8FF), // Very light blue
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: theme.colorScheme.primary.withOpacity(0.1)),
+        border: Border.all(
+          color: theme.colorScheme.primary.withValues(alpha: 0.1),
+        ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(Icons.check_circle_outline, color: theme.colorScheme.primary),
+              Icon(
+                Icons.check_circle_outline,
+                color: theme.colorScheme.primary,
+              ),
               SizedBox(width: 8.w),
               Text(
                 context.strings.whatHappensNext,

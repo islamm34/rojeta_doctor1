@@ -1087,4 +1087,55 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get completeBtn => 'إكمال';
+
+  @override
+  String get location => 'الموقع';
+
+  @override
+  String get chooseOnMap => 'اختر من الخريطة';
+
+  @override
+  String get organizationName => 'اسم المنظمة *';
+
+  @override
+  String get organizationNameHint => 'مثال: المركز الطبي القاهرة';
+
+  @override
+  String get organizationType => 'نوع المنظمة *';
+
+  @override
+  String get organizationTypeHint => 'مثال: عيادة خاصة، مستشفى عام';
+
+  @override
+  String get organizationNumber => 'رقم المنظمة *';
+
+  @override
+  String get organizationNumberHint => 'مثال: 01X XXXXXXXX';
+
+  @override
+  String get licenseNumber => 'رقم الترخيص *';
+
+  @override
+  String get licenseNumberHint => 'مثال: ORG-12345';
+
+  @override
+  String get organizationAboutHint => 'وصف مختصر عن مؤسستك وخدماتها...';
+
+  @override
+  String get organizationLogo => 'شعار المنظمة';
+
+  @override
+  String get organizationImages => 'صور المنظمة';
+
+  @override
+  String get expiryDate => 'تاريخ الانتهاء';
+
+  @override
+  String get cvv => 'CVV';
+
+  @override
+  String get yourPaymentDetailsAreSecure => 'بيانات الدفع الخاصة بك آمنة';
+
+  @override
+  String get taxId => 'الرقم الضريبي';
 }

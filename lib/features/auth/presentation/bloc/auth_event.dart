@@ -131,3 +131,96 @@ class OtpChangedEvent extends AuthEvent {
   @override
   List<Object?> get props => [otp];
 }
+
+// ─── Hospital Registration Events ────────────────────────────────────────────
+
+class OrganizationNameChangedEvent extends AuthEvent {
+  final String name;
+  const OrganizationNameChangedEvent(this.name);
+  @override
+  List<Object?> get props => [name];
+}
+
+class OrganizationTypeChangedEvent extends AuthEvent {
+  final String type;
+  const OrganizationTypeChangedEvent(this.type);
+  @override
+  List<Object?> get props => [type];
+}
+
+class OrganizationNumberChangedEvent extends AuthEvent {
+  final String number;
+  const OrganizationNumberChangedEvent(this.number);
+  @override
+  List<Object?> get props => [number];
+}
+
+class PickOrganizationImageEvent extends AuthEvent {
+  final String path;
+  const PickOrganizationImageEvent(this.path);
+  @override
+  List<Object?> get props => [path];
+}
+
+class GovernorateChangedEvent extends AuthEvent {
+  final String governorate;
+  const GovernorateChangedEvent(this.governorate);
+  @override
+  List<Object?> get props => [governorate];
+}
+
+class CityChangedEvent extends AuthEvent {
+  final String city;
+  const CityChangedEvent(this.city);
+  @override
+  List<Object?> get props => [city];
+}
+
+class FullAddressChangedEvent extends AuthEvent {
+  final String address;
+  const FullAddressChangedEvent(this.address);
+  @override
+  List<Object?> get props => [address];
+}
+
+class PaymentMethodChangedEvent extends AuthEvent {
+  final String method; // 'bank' | 'wallet'
+  const PaymentMethodChangedEvent(this.method);
+  @override
+  List<Object?> get props => [method];
+}
+
+class AccountHolderNameChangedEvent extends AuthEvent {
+  final String name;
+  const AccountHolderNameChangedEvent(this.name);
+  @override
+  List<Object?> get props => [name];
+}
+
+class BankNameChangedEvent extends AuthEvent {
+  final String bankName;
+  const BankNameChangedEvent(this.bankName);
+  @override
+  List<Object?> get props => [bankName];
+}
+
+class AccountNumberChangedEvent extends AuthEvent {
+  final String number;
+  const AccountNumberChangedEvent(this.number);
+  @override
+  List<Object?> get props => [number];
+}
+
+class ExpiryDateChangedEvent extends AuthEvent {
+  final String date;
+  const ExpiryDateChangedEvent(this.date);
+  @override
+  List<Object?> get props => [date];
+}
+
+class CvvChangedEvent extends AuthEvent {
+  final String cvv;
+  const CvvChangedEvent(this.cvv);
+  @override
+  List<Object?> get props => [cvv];
+}
