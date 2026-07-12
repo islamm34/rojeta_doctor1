@@ -33,6 +33,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<PickCertificatesEvent>((event, emit) => emit(state.copyWith(certificatesPath: event.path)));
     on<PickNationalIdEvent>((event, emit) => emit(state.copyWith(nationalIdPath: event.path)));
     on<OtpChangedEvent>((event, emit) => emit(state.copyWith(otpCode: event.otp)));
+
+    // Hospital Registration Events
+    on<OrganizationNameChangedEvent>((event, emit) => emit(state.copyWith(organizationName: event.name)));
+    on<OrganizationTypeChangedEvent>((event, emit) => emit(state.copyWith(organizationType: event.type)));
+    on<OrganizationNumberChangedEvent>((event, emit) => emit(state.copyWith(organizationNumber: event.number)));
+    on<PickOrganizationImageEvent>((event, emit) => emit(state.copyWith(organizationImagePath: event.path)));
+    on<GovernorateChangedEvent>((event, emit) => emit(state.copyWith(governorate: event.governorate)));
+    on<CityChangedEvent>((event, emit) => emit(state.copyWith(city: event.city)));
+    on<FullAddressChangedEvent>((event, emit) => emit(state.copyWith(fullAddress: event.address)));
+    on<PaymentMethodChangedEvent>((event, emit) => emit(state.copyWith(paymentMethod: event.method)));
+    on<AccountHolderNameChangedEvent>((event, emit) => emit(state.copyWith(accountHolderName: event.name)));
+    on<BankNameChangedEvent>((event, emit) => emit(state.copyWith(bankName: event.bankName)));
+    on<AccountNumberChangedEvent>((event, emit) => emit(state.copyWith(accountNumber: event.number)));
+    on<ExpiryDateChangedEvent>((event, emit) => emit(state.copyWith(expiryDate: event.date)));
+    on<CvvChangedEvent>((event, emit) => emit(state.copyWith(cvv: event.cvv)));
   }
 
   FutureOr<void> _onLoad(

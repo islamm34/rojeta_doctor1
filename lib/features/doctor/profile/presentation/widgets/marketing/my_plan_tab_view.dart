@@ -37,7 +37,9 @@ class MyPlanTabView extends StatelessWidget {
     }
 
     final double progress = activePlan.postsUsed / activePlan.totalPosts;
-    final int daysRemaining = activePlan.endDate.difference(DateTime.now()).inDays;
+    final int daysRemaining = activePlan.endDate
+        .difference(DateTime.now())
+        .inDays;
     final dateFormat = DateFormat('dd MMM, yyyy');
 
     return ListView(
@@ -58,7 +60,7 @@ class MyPlanTabView extends StatelessWidget {
             border: Border.all(color: Colors.grey.shade200),
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.05),
+                color: Colors.grey.withValues(alpha: 0.05),
                 spreadRadius: 2,
                 blurRadius: 8,
                 offset: const Offset(0, 4),
@@ -78,9 +80,14 @@ class MyPlanTabView extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
-                      color: AppColors.offerGradientStart.withOpacity(0.1),
+                      color: AppColors.offerGradientStart.withValues(
+                        alpha: 0.1,
+                      ),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
@@ -219,10 +226,7 @@ class MyPlanTabView extends StatelessWidget {
                 Icon(Icons.check_circle, color: AppColors.primary, size: 20),
                 const SizedBox(width: 12),
                 Expanded(
-                  child: Text(
-                    benefitText,
-                    style: context.textTheme.bodyMedium,
-                  ),
+                  child: Text(benefitText, style: context.textTheme.bodyMedium),
                 ),
               ],
             ),
@@ -266,9 +270,7 @@ class MyPlanTabView extends StatelessWidget {
               ),
               TextButton(
                 onPressed: () {},
-                style: TextButton.styleFrom(
-                  foregroundColor: AppColors.primary,
-                ),
+                style: TextButton.styleFrom(foregroundColor: AppColors.primary),
                 child: Text(context.strings.seeDetails),
               ),
             ],

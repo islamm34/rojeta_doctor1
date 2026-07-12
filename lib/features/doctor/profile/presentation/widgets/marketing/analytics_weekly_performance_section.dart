@@ -12,7 +12,9 @@ class AnalyticsWeeklyPerformanceSection extends StatelessWidget {
   });
 
   String _formatRevenue(double revenue) {
-    return revenue.toStringAsFixed(0).replaceAllMapped(
+    return revenue
+        .toStringAsFixed(0)
+        .replaceAllMapped(
           RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
           (m) => '${m[1]},',
         );
@@ -31,8 +33,11 @@ class AnalyticsWeeklyPerformanceSection extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(Icons.show_chart_rounded,
-                  size: 18, color: Color(0xFF00B050)),
+              const Icon(
+                Icons.show_chart_rounded,
+                size: 18,
+                color: Color(0xFF00B050),
+              ),
               const SizedBox(width: 6),
               Text(
                 context.strings.weeklyPerformance,
@@ -102,8 +107,11 @@ class _WeekRow extends StatelessWidget {
                 ),
               ),
             ),
-            Icon(Icons.people_alt_outlined,
-                size: 14, color: Colors.grey.shade500),
+            Icon(
+              Icons.people_alt_outlined,
+              size: 14,
+              color: Colors.grey.shade500,
+            ),
             const SizedBox(width: 3),
             Text(
               '$patients',
@@ -113,8 +121,11 @@ class _WeekRow extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 12),
-            Icon(Icons.attach_money_rounded,
-                size: 14, color: Colors.grey.shade500),
+            Icon(
+              Icons.attach_money_rounded,
+              size: 14,
+              color: Colors.grey.shade500,
+            ),
             Text(
               revenue,
               style: context.textTheme.bodySmall?.copyWith(
@@ -134,9 +145,8 @@ class _WeekRow extends StatelessWidget {
           borderRadius: BorderRadius.circular(4),
           child: LinearProgressIndicator(
             value: patientsPercent,
-            backgroundColor: const Color(0xFF00B050).withOpacity(0.12),
-            valueColor:
-                const AlwaysStoppedAnimation<Color>(Color(0xFF00B050)),
+            backgroundColor: const Color(0xFF00B050).withValues(alpha: 0.12),
+            valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF00B050)),
             minHeight: 5,
           ),
         ),
@@ -150,7 +160,7 @@ class _WeekRow extends StatelessWidget {
           borderRadius: BorderRadius.circular(4),
           child: LinearProgressIndicator(
             value: revenuePercent,
-            backgroundColor: AppColors.primary.withOpacity(0.12),
+            backgroundColor: AppColors.primary.withValues(alpha: 0.12),
             valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
             minHeight: 5,
           ),

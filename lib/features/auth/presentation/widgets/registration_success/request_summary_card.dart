@@ -88,7 +88,7 @@ class RequestSummaryCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: backgroundColor.withOpacity(0.5)),
+        border: Border.all(color: backgroundColor.withValues(alpha: 0.5)),
       ),
       child: Row(
         children: [
@@ -98,9 +98,9 @@ class RequestSummaryCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: iconColor,
-                  ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall?.copyWith(color: iconColor),
                 ),
                 SizedBox(height: 4.h),
                 Row(
@@ -111,10 +111,7 @@ class RequestSummaryCard extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    if (trailing != null) ...[
-                      SizedBox(width: 8.w),
-                      trailing,
-                    ],
+                    if (trailing != null) ...[SizedBox(width: 8.w), trailing],
                   ],
                 ),
               ],
@@ -122,10 +119,7 @@ class RequestSummaryCard extends StatelessWidget {
           ),
           Container(
             padding: EdgeInsets.all(8.w),
-            decoration: BoxDecoration(
-              color: iconColor,
-              shape: BoxShape.circle,
-            ),
+            decoration: BoxDecoration(color: iconColor, shape: BoxShape.circle),
             child: Icon(icon, color: Colors.white, size: 20.w),
           ),
         ],
@@ -148,26 +142,29 @@ class RequestSummaryCard extends StatelessWidget {
               children: [
                 Text(
                   context.strings.uploadedDocuments,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Colors.purple,
-                  ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodySmall?.copyWith(color: Colors.purple),
                 ),
                 SizedBox(height: 8.h),
-                ...docs.map((doc) => Padding(
-                  padding: EdgeInsets.only(bottom: 4.h),
-                  child: Row(
-                    children: [
-                      Icon(Icons.check, color: Colors.purple, size: 16.w),
-                      SizedBox(width: 4.w),
-                      Text(
-                        doc,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
+                ...docs
+                    .map(
+                      (doc) => Padding(
+                        padding: EdgeInsets.only(bottom: 4.h),
+                        child: Row(
+                          children: [
+                            Icon(Icons.check, color: Colors.purple, size: 16.w),
+                            SizedBox(width: 4.w),
+                            Text(
+                              doc,
+                              style: Theme.of(context).textTheme.bodyMedium
+                                  ?.copyWith(fontWeight: FontWeight.bold),
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                )).toList(),
+                    )
+                    .toList(),
               ],
             ),
           ),

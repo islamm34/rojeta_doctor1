@@ -33,7 +33,9 @@ class AnalyticsAppointmentsTypeSection extends StatelessWidget {
   }
 
   String _formatRevenue(double revenue) {
-    return revenue.toStringAsFixed(0).replaceAllMapped(
+    return revenue
+        .toStringAsFixed(0)
+        .replaceAllMapped(
           RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
           (m) => '${m[1]},',
         );
@@ -52,8 +54,11 @@ class AnalyticsAppointmentsTypeSection extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(Icons.bar_chart_rounded,
-                  size: 18, color: Color(0xFF1B9ED9)),
+              const Icon(
+                Icons.bar_chart_rounded,
+                size: 18,
+                color: Color(0xFF1B9ED9),
+              ),
               const SizedBox(width: 6),
               Text(
                 context.strings.appointmentsByType,
@@ -143,7 +148,7 @@ class _AppointmentTypeRow extends StatelessWidget {
           borderRadius: BorderRadius.circular(4),
           child: LinearProgressIndicator(
             value: percentage / 100,
-            backgroundColor: color.withOpacity(0.12),
+            backgroundColor: color.withValues(alpha: 0.12),
             valueColor: AlwaysStoppedAnimation<Color>(color),
             minHeight: 5,
           ),

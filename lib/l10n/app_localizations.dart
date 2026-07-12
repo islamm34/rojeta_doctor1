@@ -2443,6 +2443,221 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Welcome back!'**
   String get welcomeBackHospital;
+  /// No description provided for @location.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get location;
+
+  /// No description provided for @chooseOnMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose on map'**
+  String get chooseOnMap;
+
+  /// No description provided for @organizationName.
+  ///
+  /// In en, this message translates to:
+  /// **'Organization Name *'**
+  String get organizationName;
+
+  /// No description provided for @organizationNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., Cairo Medical Center'**
+  String get organizationNameHint;
+
+  /// No description provided for @organizationType.
+  ///
+  /// In en, this message translates to:
+  /// **'Organization Type *'**
+  String get organizationType;
+
+  /// No description provided for @organizationTypeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., Private Clinic, General Hospital'**
+  String get organizationTypeHint;
+
+  /// No description provided for @organizationNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Organization Number *'**
+  String get organizationNumber;
+
+  /// No description provided for @organizationNumberHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., 01X XXXXXXXX'**
+  String get organizationNumberHint;
+
+  /// No description provided for @licenseNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'License Number *'**
+  String get licenseNumber;
+
+  /// No description provided for @licenseNumberHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., ORG-12345'**
+  String get licenseNumberHint;
+
+  /// No description provided for @organizationAboutHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Brief description about your organization and services...'**
+  String get organizationAboutHint;
+
+  /// No description provided for @organizationLogo.
+  ///
+  /// In en, this message translates to:
+  /// **'Organization Logo'**
+  String get organizationLogo;
+
+  /// No description provided for @organizationImages.
+  ///
+  /// In en, this message translates to:
+  /// **'Organization Images'**
+  String get organizationImages;
+
+  /// No description provided for @expiryDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Expiry Date'**
+  String get expiryDate;
+
+  /// No description provided for @cvv.
+  ///
+  /// In en, this message translates to:
+  /// **'CVV'**
+  String get cvv;
+
+  /// No description provided for @yourPaymentDetailsAreSecure.
+  ///
+  /// In en, this message translates to:
+  /// **'Your payment details are secure'**
+  String get yourPaymentDetailsAreSecure;
+
+  /// No description provided for @taxId.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax ID'**
+  String get taxId;
+
+  /// No description provided for @basicRadiologyInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic Radiology Information'**
+  String get basicRadiologyInformation;
+
+  /// No description provided for @basicLaboratoryInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic Laboratory Information'**
+  String get basicLaboratoryInformation;
+
+  /// No description provided for @basicNursingCareInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic Nursing Care Information'**
+  String get basicNursingCareInformation;
+
+  /// No description provided for @radiologyName.
+  ///
+  /// In en, this message translates to:
+  /// **'Radiology Name *'**
+  String get radiologyName;
+
+  /// No description provided for @laboratoryName.
+  ///
+  /// In en, this message translates to:
+  /// **'Laboratory Name *'**
+  String get laboratoryName;
+
+  /// No description provided for @nursingCareName.
+  ///
+  /// In en, this message translates to:
+  /// **'Nursing Care Name *'**
+  String get nursingCareName;
+
+  /// No description provided for @homeSampleCollection.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Sample Collection'**
+  String get homeSampleCollection;
+
+  /// No description provided for @availableForHomeSampleCollection.
+  ///
+  /// In en, this message translates to:
+  /// **'Available for Home Sample Collection'**
+  String get availableForHomeSampleCollection;
+
+  /// No description provided for @homeSampleCollectionFee.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Sample Collection Fee (EGP) *'**
+  String get homeSampleCollectionFee;
+
+  /// No description provided for @homeSampleCollectionFeeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., 50'**
+  String get homeSampleCollectionFeeHint;
+
+  /// No description provided for @serviceAreaRadius.
+  ///
+  /// In en, this message translates to:
+  /// **'Service Area Radius (km) *'**
+  String get serviceAreaRadius;
+
+  /// No description provided for @serviceAreaRadiusHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., 20'**
+  String get serviceAreaRadiusHint;
+
+  /// No description provided for @nursingLogo.
+  ///
+  /// In en, this message translates to:
+  /// **'Nursing Logo'**
+  String get nursingLogo;
+
+  /// No description provided for @radiologyLogo.
+  ///
+  /// In en, this message translates to:
+  /// **'Radiology Logo'**
+  String get radiologyLogo;
+
+  /// No description provided for @laboratoryLogo.
+  ///
+  /// In en, this message translates to:
+  /// **'Laboratory Logo'**
+  String get laboratoryLogo;
+
+  /// No description provided for @centerImages.
+  ///
+  /// In en, this message translates to:
+  /// **'Center Images'**
+  String get centerImages;
+
+  /// No description provided for @workingHoursTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Working Hours *'**
+  String get workingHoursTitle;
+
+  /// No description provided for @open24_7.
+  ///
+  /// In en, this message translates to:
+  /// **'Open 24/7'**
+  String get open24_7;
+
+  /// No description provided for @addAnotherWorkingDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Add another working day'**
+  String get addAnotherWorkingDay;
 }
 
 class _AppLocalizationsDelegate

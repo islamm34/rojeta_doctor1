@@ -282,14 +282,16 @@ class CustomTextField extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          label!,
-          style:
-              labelStyle ??
-              theme.textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: theme.colorScheme.onSurface,
-              ),
+        Expanded(
+          child: Text(
+            label!,
+            style:
+                labelStyle ??
+                theme.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: theme.colorScheme.onSurface,
+                ),
+          ),
         ),
         if (isRequired) ...[
           const SizedBox(width: 4),

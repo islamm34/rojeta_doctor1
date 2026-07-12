@@ -24,7 +24,9 @@ class VerifyPhoneCard extends StatelessWidget {
         fontWeight: FontWeight.w600,
       ),
       decoration: BoxDecoration(
-        border: Border.all(color: context.theme.colorScheme.outline.withOpacity(0.5)),
+        border: Border.all(
+          color: context.theme.colorScheme.outline.withValues(alpha: 0.5),
+        ),
         borderRadius: BorderRadius.circular(8.r),
       ),
     );
@@ -42,7 +44,7 @@ class VerifyPhoneCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10.r,
             offset: const Offset(0, 4),
           ),
@@ -54,7 +56,7 @@ class VerifyPhoneCard extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(16.w),
             decoration: BoxDecoration(
-              color: context.theme.colorScheme.primary.withOpacity(0.1),
+              color: context.theme.colorScheme.primary.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -115,18 +117,26 @@ class VerifyPhoneCard extends StatelessWidget {
           ),
           SizedBox(height: 32.h),
           BlocBuilder<AuthBloc, AuthState>(
-            buildWhen: (previous, current) => previous.otpCode != current.otpCode,
+            buildWhen: (previous, current) =>
+                previous.otpCode != current.otpCode,
             builder: (context, state) {
               final isValid = state.otpCode.length == 6;
               return CustomElevatedButton(
                 text: context.strings.verifyAndCompleteRegistration,
-                onPressed: isValid ? () {
-                  if (comefrom == 'forgotPassword') {
-                    context.pushNamedAndRemoveUntil(AppRoutes.resetPassword);
-                  } else {
-                    context.pushNamedAndRemoveUntil(AppRoutes.registrationSuccess);
-                  }
-                } : null,
+
+                onPressed: isValid
+                    ? () {
+                        if (comefrom == 'forgotPassword') {
+                          context.pushNamedAndRemoveUntil(
+                            AppRoutes.resetPassword,
+                          );
+                        } else {
+                          context.pushNamedAndRemoveUntil(
+                            AppRoutes.registrationSuccess,
+                          );
+                        }
+                      }
+                    : null,
               );
             },
           ),
