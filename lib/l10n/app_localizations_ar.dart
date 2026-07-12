@@ -1087,4 +1087,82 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get completeBtn => 'إكمال';
+
+  @override
+  String get myPatients => 'مرضاي';
+
+  @override
+  String get searchByNameOrPhone => 'البحث بالاسم أو رقم الهاتف...';
+
+  @override
+  String get visits => 'زيارات';
+
+  @override
+  String get age => 'العمر';
+
+  @override
+  String get gender => 'الجنس';
+
+  @override
+  String get lastVisit => 'الزيارة الأخيرة';
+
+  @override
+  String get lastDiagnosis => 'التشخيص الأخير';
+
+  @override
+  String get patientDetails => 'تفاصيل المريض';
+
+  @override
+  String get medicalInformation => 'المعلومات الطبية';
+
+  @override
+  String get allergies => 'الحساسية';
+
+  @override
+  String get chronicConditions => 'الأمراض المزمنة';
+
+  @override
+  String get visitHistory => 'تاريخ الزيارات';
+
+  @override
+  String get laboratoryResults => 'نتائج المختبر';
+
+  @override
+  String get testsPerformed => 'الاختبارات التي أجريت';
+
+  @override
+  String get results => 'النتائج';
+
+  @override
+  String get notes => 'ملاحظات';
+
+  @override
+  String get years => 'سنوات';
+
+  @override
+  String get male => 'ذكر';
+
+  @override
+  String get female => 'أنثى';
+
+  @override
+  String get addSlot => 'إضافة فترة';
+
+  @override
+  String get saveWorkingHours => 'حفظ ساعات العمل';
+
+  @override
+  String get to => 'إلى';
+
+  @override
+  String get vacationsAndUnavailable => 'الإجازات والأيام غير المتاحة';
+
+  @override
+  String get scheduleManagement => 'إدارة الجدول الزمني';
+
+  @override
+  String get noDataFound => 'لا توجد بيانات';
+
+  @override
+  String get errorOccurred => 'حدث خطأ';
 }

@@ -2221,6 +2221,162 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Complete'**
   String get completeBtn;
+
+  /// No description provided for @myPatients.
+  ///
+  /// In en, this message translates to:
+  /// **'My Patients'**
+  String get myPatients;
+
+  /// No description provided for @searchByNameOrPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by name or phone...'**
+  String get searchByNameOrPhone;
+
+  /// No description provided for @visits.
+  ///
+  /// In en, this message translates to:
+  /// **'visits'**
+  String get visits;
+
+  /// No description provided for @age.
+  ///
+  /// In en, this message translates to:
+  /// **'Age'**
+  String get age;
+
+  /// No description provided for @gender.
+  ///
+  /// In en, this message translates to:
+  /// **'Gender'**
+  String get gender;
+
+  /// No description provided for @lastVisit.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Visit'**
+  String get lastVisit;
+
+  /// No description provided for @lastDiagnosis.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Diagnosis'**
+  String get lastDiagnosis;
+
+  /// No description provided for @patientDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient Details'**
+  String get patientDetails;
+
+  /// No description provided for @medicalInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Medical Information'**
+  String get medicalInformation;
+
+  /// No description provided for @allergies.
+  ///
+  /// In en, this message translates to:
+  /// **'Allergies'**
+  String get allergies;
+
+  /// No description provided for @chronicConditions.
+  ///
+  /// In en, this message translates to:
+  /// **'Chronic Conditions'**
+  String get chronicConditions;
+
+  /// No description provided for @visitHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Visit History'**
+  String get visitHistory;
+
+  /// No description provided for @laboratoryResults.
+  ///
+  /// In en, this message translates to:
+  /// **'Laboratory Results'**
+  String get laboratoryResults;
+
+  /// No description provided for @testsPerformed.
+  ///
+  /// In en, this message translates to:
+  /// **'Tests Performed'**
+  String get testsPerformed;
+
+  /// No description provided for @results.
+  ///
+  /// In en, this message translates to:
+  /// **'Results'**
+  String get results;
+
+  /// No description provided for @notes.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get notes;
+
+  /// No description provided for @years.
+  ///
+  /// In en, this message translates to:
+  /// **'years'**
+  String get years;
+
+  /// No description provided for @male.
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get male;
+
+  /// No description provided for @female.
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get female;
+
+  /// No description provided for @addSlot.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Slot'**
+  String get addSlot;
+
+  /// No description provided for @saveWorkingHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Working Hours'**
+  String get saveWorkingHours;
+
+  /// No description provided for @to.
+  ///
+  /// In en, this message translates to:
+  /// **'To'**
+  String get to;
+
+  /// No description provided for @vacationsAndUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Vacations and Unavailable Days'**
+  String get vacationsAndUnavailable;
+
+  /// No description provided for @scheduleManagement.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule Management'**
+  String get scheduleManagement;
+
+  /// No description provided for @noDataFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No Data Found'**
+  String get noDataFound;
+
+  /// No description provided for @errorOccurred.
+  ///
+  /// In en, this message translates to:
+  /// **'Error Occurred'**
+  String get errorOccurred;
 }
 
 class _AppLocalizationsDelegate

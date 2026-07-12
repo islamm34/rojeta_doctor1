@@ -1098,4 +1098,82 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get completeBtn => 'Complete';
+
+  @override
+  String get myPatients => 'My Patients';
+
+  @override
+  String get searchByNameOrPhone => 'Search by name or phone...';
+
+  @override
+  String get visits => 'visits';
+
+  @override
+  String get age => 'Age';
+
+  @override
+  String get gender => 'Gender';
+
+  @override
+  String get lastVisit => 'Last Visit';
+
+  @override
+  String get lastDiagnosis => 'Last Diagnosis';
+
+  @override
+  String get patientDetails => 'Patient Details';
+
+  @override
+  String get medicalInformation => 'Medical Information';
+
+  @override
+  String get allergies => 'Allergies';
+
+  @override
+  String get chronicConditions => 'Chronic Conditions';
+
+  @override
+  String get visitHistory => 'Visit History';
+
+  @override
+  String get laboratoryResults => 'Laboratory Results';
+
+  @override
+  String get testsPerformed => 'Tests Performed';
+
+  @override
+  String get results => 'Results';
+
+  @override
+  String get notes => 'Notes';
+
+  @override
+  String get years => 'years';
+
+  @override
+  String get male => 'Male';
+
+  @override
+  String get female => 'Female';
+
+  @override
+  String get addSlot => 'Add Slot';
+
+  @override
+  String get saveWorkingHours => 'Save Working Hours';
+
+  @override
+  String get to => 'To';
+
+  @override
+  String get vacationsAndUnavailable => 'Vacations and Unavailable Days';
+
+  @override
+  String get scheduleManagement => 'Schedule Management';
+
+  @override
+  String get noDataFound => 'No Data Found';
+
+  @override
+  String get errorOccurred => 'Error Occurred';
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
 import '../../data/mocks/doctor_mock_data.dart';
-import 'upcoming_appointment_card.dart';
+import 'package:rojeta_doctor/shared/widgets/upcoming_appointment_card.dart';
 
 class UpcomingAppointmentsSection extends StatelessWidget {
   final VoidCallback? onViewAllTap;

@@ -8,4 +8,7 @@ class Endpoints {
   static const String getFinancialData = '/financial';
   static const String addClinic = '/clinics/add';
   static const String getMarketingAnalytics = '/marketing/analytics';
+  static const String submitConsultation = '/consultation/submit';
+  static const String getSchedule = '/schedule';
+  static const String updateSchedule = '/schedule/update';
 }

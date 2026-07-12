@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:rojeta_doctor/config/routes/app_router.dart';
 import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
-import 'quick_action_card.dart';
+import 'package:rojeta_doctor/shared/widgets/quick_action_card.dart';
 
 class QuickActionsGrid extends StatelessWidget {
   final VoidCallback? onTapAppointments;
