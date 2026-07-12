@@ -26,15 +26,21 @@ class UploadItemCard extends StatelessWidget {
         padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 16.w),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.r),
-          border: Border.all(color: isPicked ? theme.colorScheme.primary : Colors.grey.shade300),
-          color: isPicked ? theme.colorScheme.primary.withOpacity(0.05) : Colors.white,
+          border: Border.all(
+            color: isPicked ? theme.colorScheme.primary : Colors.grey.shade300,
+          ),
+          color: isPicked
+              ? theme.colorScheme.primary.withValues(alpha: 0.05)
+              : Colors.white,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
-              isPicked ? Icons.check_circle : Icons.file_upload_outlined, 
-              color: isPicked ? theme.colorScheme.primary : Colors.grey.shade600, 
+              isPicked ? Icons.check_circle : Icons.file_upload_outlined,
+              color: isPicked
+                  ? theme.colorScheme.primary
+                  : Colors.grey.shade600,
               size: 28.sp,
             ),
             SizedBox(height: 12.h),

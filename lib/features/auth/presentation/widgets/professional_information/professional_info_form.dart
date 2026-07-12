@@ -16,14 +16,14 @@ class ProfessionalInfoForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -36,7 +36,10 @@ class ProfessionalInfoForm extends StatelessWidget {
           // Header
           Row(
             children: [
-              Icon(Icons.workspace_premium_outlined, color: theme.colorScheme.primary),
+              Icon(
+                Icons.workspace_premium_outlined,
+                color: theme.colorScheme.primary,
+              ),
               SizedBox(width: 8.w),
               Text(
                 context.strings.professionalInformation,
@@ -47,13 +50,14 @@ class ProfessionalInfoForm extends StatelessWidget {
               ),
             ],
           ),
-          
+
           SizedBox(height: 24.h),
-          
+
           // Image Picker Placeholder
           Center(
             child: BlocBuilder<AuthBloc, AuthState>(
-              buildWhen: (previous, current) => previous.profileImagePath != current.profileImagePath,
+              buildWhen: (previous, current) =>
+                  previous.profileImagePath != current.profileImagePath,
               builder: (context, state) {
                 return GestureDetector(
                   onTap: () async {
@@ -72,7 +76,9 @@ class ProfessionalInfoForm extends StatelessWidget {
                           borderRadius: BorderRadius.circular(16.r),
                           image: state.profileImagePath != null
                               ? DecorationImage(
-                                  image: FileImage(File(state.profileImagePath!)),
+                                  image: FileImage(
+                                    File(state.profileImagePath!),
+                                  ),
                                   fit: BoxFit.cover,
                                 )
                               : null,
@@ -95,7 +101,7 @@ class ProfessionalInfoForm extends StatelessWidget {
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
+                                color: Colors.black.withValues(alpha: 0.1),
                                 blurRadius: 4,
                                 offset: const Offset(0, 2),
                               ),
@@ -114,84 +120,96 @@ class ProfessionalInfoForm extends StatelessWidget {
               },
             ),
           ),
-          
+
           SizedBox(height: 24.h),
-          
+
           // Specialty *
           BlocBuilder<AuthBloc, AuthState>(
-            buildWhen: (previous, current) => previous.specialty != current.specialty,
+            buildWhen: (previous, current) =>
+                previous.specialty != current.specialty,
             builder: (context, state) {
               return CustomTextField(
                 label: context.strings.specialty,
                 hintText: '',
                 isRequired: true,
-                onChanged: (val) => context.read<AuthBloc>().add(SpecialtyChangedEvent(val)),
+                onChanged: (val) =>
+                    context.read<AuthBloc>().add(SpecialtyChangedEvent(val)),
               );
             },
           ),
-          
+
           SizedBox(height: 16.h),
-          
+
           // Sub-Specialty
           BlocBuilder<AuthBloc, AuthState>(
-            buildWhen: (previous, current) => previous.subSpecialty != current.subSpecialty,
+            buildWhen: (previous, current) =>
+                previous.subSpecialty != current.subSpecialty,
             builder: (context, state) {
               return CustomTextField(
                 label: context.strings.subSpecialty,
                 hintText: context.strings.subSpecialtyHint,
-                onChanged: (val) => context.read<AuthBloc>().add(SubSpecialtyChangedEvent(val)),
+                onChanged: (val) =>
+                    context.read<AuthBloc>().add(SubSpecialtyChangedEvent(val)),
               );
             },
           ),
-          
+
           SizedBox(height: 16.h),
-          
+
           // Medical License Number
           BlocBuilder<AuthBloc, AuthState>(
-            buildWhen: (previous, current) => previous.medicalLicenseNumber != current.medicalLicenseNumber,
+            buildWhen: (previous, current) =>
+                previous.medicalLicenseNumber != current.medicalLicenseNumber,
             builder: (context, state) {
               return CustomTextField(
                 label: context.strings.medicalLicenseNumber,
                 hintText: context.strings.medicalLicenseHint,
-                onChanged: (val) => context.read<AuthBloc>().add(MedicalLicenseChangedEvent(val)),
+                onChanged: (val) => context.read<AuthBloc>().add(
+                  MedicalLicenseChangedEvent(val),
+                ),
               );
             },
           ),
-          
+
           SizedBox(height: 16.h),
-          
+
           // Years of Experience *
           BlocBuilder<AuthBloc, AuthState>(
-            buildWhen: (previous, current) => previous.yearsOfExperience != current.yearsOfExperience,
+            buildWhen: (previous, current) =>
+                previous.yearsOfExperience != current.yearsOfExperience,
             builder: (context, state) {
               return CustomTextField(
                 label: context.strings.yearsOfExperience,
                 hintText: context.strings.yearsOfExperienceHint,
                 isRequired: true,
                 keyboardType: TextInputType.number,
-                onChanged: (val) => context.read<AuthBloc>().add(YearsOfExperienceChangedEvent(val)),
+                onChanged: (val) => context.read<AuthBloc>().add(
+                  YearsOfExperienceChangedEvent(val),
+                ),
               );
             },
           ),
-          
+
           SizedBox(height: 16.h),
-          
+
           // Education & Certifications
           BlocBuilder<AuthBloc, AuthState>(
-            buildWhen: (previous, current) => previous.education != current.education,
+            buildWhen: (previous, current) =>
+                previous.education != current.education,
             builder: (context, state) {
               return CustomTextField(
                 label: context.strings.educationAndCertifications,
                 hintText: context.strings.educationHint,
                 minLines: 3,
                 maxLines: 5,
-                onChanged: (val) => context.read<AuthBloc>().add(EducationChangedEvent(val)),
+                onChanged: (val) =>
+                    context.read<AuthBloc>().add(EducationChangedEvent(val)),
               );
             },
           ),
-          
+
           SizedBox(height: 16.h),
-          
+
           // About
           BlocBuilder<AuthBloc, AuthState>(
             buildWhen: (previous, current) => previous.about != current.about,
@@ -201,7 +219,8 @@ class ProfessionalInfoForm extends StatelessWidget {
                 hintText: context.strings.aboutHint,
                 minLines: 3,
                 maxLines: 5,
-                onChanged: (val) => context.read<AuthBloc>().add(AboutChangedEvent(val)),
+                onChanged: (val) =>
+                    context.read<AuthBloc>().add(AboutChangedEvent(val)),
               );
             },
           ),

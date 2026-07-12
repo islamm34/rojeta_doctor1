@@ -15,14 +15,14 @@ class BasicInfoForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -46,24 +46,26 @@ class BasicInfoForm extends StatelessWidget {
               ),
             ],
           ),
-          
+
           SizedBox(height: 24.h),
-          
+
           // Full Name
           BlocBuilder<AuthBloc, AuthState>(
-            buildWhen: (previous, current) => previous.fullName != current.fullName,
+            buildWhen: (previous, current) =>
+                previous.fullName != current.fullName,
             builder: (context, state) {
               return CustomTextField(
                 label: context.strings.fullName,
                 hintText: context.strings.fullNameHint,
                 isRequired: true,
-                onChanged: (val) => context.read<AuthBloc>().add(FullNameChangedEvent(val)),
+                onChanged: (val) =>
+                    context.read<AuthBloc>().add(FullNameChangedEvent(val)),
               );
             },
           ),
-          
+
           SizedBox(height: 16.h),
-          
+
           // Email Address
           BlocBuilder<AuthBloc, AuthState>(
             buildWhen: (previous, current) => previous.email != current.email,
@@ -76,18 +78,21 @@ class BasicInfoForm extends StatelessWidget {
                 prefixIcon: const Icon(Icons.mail_outline, color: Colors.grey),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (val) {
-                  if (val != null && val.isNotEmpty && !Validators.isValidEmail(val.trim())) {
+                  if (val != null &&
+                      val.isNotEmpty &&
+                      !Validators.isValidEmail(val.trim())) {
                     return 'Please enter a valid email address'; // Ideally localized
                   }
                   return null;
                 },
-                onChanged: (val) => context.read<AuthBloc>().add(EmailChangedEvent(val)),
+                onChanged: (val) =>
+                    context.read<AuthBloc>().add(EmailChangedEvent(val)),
               );
             },
           ),
-          
+
           SizedBox(height: 16.h),
-          
+
           // Mobile Number
           BlocBuilder<AuthBloc, AuthState>(
             buildWhen: (previous, current) => previous.phone != current.phone,
@@ -97,28 +102,34 @@ class BasicInfoForm extends StatelessWidget {
                 hintText: context.strings.mobileHint,
                 isRequired: true,
                 keyboardType: TextInputType.phone,
-                prefixIcon: const Icon(Icons.phone_outlined, color: Colors.grey),
+                prefixIcon: const Icon(
+                  Icons.phone_outlined,
+                  color: Colors.grey,
+                ),
                 // the design does not show a country code prefix text, so we disable the default behavior if needed
                 // actually in custom_textfield `isPhoneField` adds the +234, so we leave it false and just use keyboardType
                 isPhoneField: false,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (val) {
-                  if (val != null && val.isNotEmpty && !Validators.isValidPhone(val.trim())) {
+                  if (val != null &&
+                      val.isNotEmpty &&
+                      !Validators.isValidPhone(val.trim())) {
                     return 'Please enter a valid phone number'; // Ideally localized
                   }
                   return null;
                 },
-                onChanged: (val) => context.read<AuthBloc>().add(PhoneChangedEvent(val)),
+                onChanged: (val) =>
+                    context.read<AuthBloc>().add(PhoneChangedEvent(val)),
               );
             },
           ),
-          
+
           SizedBox(height: 16.h),
-          
+
           // Password
           BlocBuilder<AuthBloc, AuthState>(
-            buildWhen: (previous, current) => 
-                previous.password != current.password || 
+            buildWhen: (previous, current) =>
+                previous.password != current.password ||
                 previous.isPasswordVisible != current.isPasswordVisible,
             builder: (context, state) {
               return CustomTextField(
@@ -128,23 +139,29 @@ class BasicInfoForm extends StatelessWidget {
                 obscureText: !state.isPasswordVisible,
                 suffixIcon: IconButton(
                   icon: Icon(
-                    state.isPasswordVisible ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                    state.isPasswordVisible
+                        ? Icons.visibility_outlined
+                        : Icons.visibility_off_outlined,
                     color: Colors.grey,
                   ),
-                  onPressed: () => context.read<AuthBloc>().add(TogglePasswordVisibilityEvent()),
+                  onPressed: () => context.read<AuthBloc>().add(
+                    TogglePasswordVisibilityEvent(),
+                  ),
                 ),
-                onChanged: (val) => context.read<AuthBloc>().add(PasswordChangedEvent(val)),
+                onChanged: (val) =>
+                    context.read<AuthBloc>().add(PasswordChangedEvent(val)),
               );
             },
           ),
-          
+
           SizedBox(height: 16.h),
-          
+
           // Confirm Password
           BlocBuilder<AuthBloc, AuthState>(
-            buildWhen: (previous, current) => 
-                previous.confirmPassword != current.confirmPassword || 
-                previous.isConfirmPasswordVisible != current.isConfirmPasswordVisible,
+            buildWhen: (previous, current) =>
+                previous.confirmPassword != current.confirmPassword ||
+                previous.isConfirmPasswordVisible !=
+                    current.isConfirmPasswordVisible,
             builder: (context, state) {
               return CustomTextField(
                 label: context.strings.confirmPassword,
@@ -153,12 +170,18 @@ class BasicInfoForm extends StatelessWidget {
                 obscureText: !state.isConfirmPasswordVisible,
                 suffixIcon: IconButton(
                   icon: Icon(
-                    state.isConfirmPasswordVisible ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                    state.isConfirmPasswordVisible
+                        ? Icons.visibility_outlined
+                        : Icons.visibility_off_outlined,
                     color: Colors.grey,
                   ),
-                  onPressed: () => context.read<AuthBloc>().add(ToggleConfirmPasswordVisibilityEvent()),
+                  onPressed: () => context.read<AuthBloc>().add(
+                    ToggleConfirmPasswordVisibilityEvent(),
+                  ),
                 ),
-                onChanged: (val) => context.read<AuthBloc>().add(ConfirmPasswordChangedEvent(val)),
+                onChanged: (val) => context.read<AuthBloc>().add(
+                  ConfirmPasswordChangedEvent(val),
+                ),
               );
             },
           ),

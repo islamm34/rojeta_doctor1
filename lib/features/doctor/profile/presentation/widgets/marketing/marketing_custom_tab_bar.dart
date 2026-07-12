@@ -54,7 +54,7 @@ class MarketingCustomTabBar extends StatelessWidget
                               boxShadow: [
                                 BoxShadow(
                                   color: AppColors.offerGradientStart
-                                      .withOpacity(0.30),
+                                      .withValues(alpha: 0.30),
                                   blurRadius: 8,
                                   offset: const Offset(0, 3),
                                 ),
@@ -72,8 +72,9 @@ class MarketingCustomTabBar extends StatelessWidget
                           fontWeight: isSelected
                               ? FontWeight.w600
                               : FontWeight.normal,
-                          color:
-                              isSelected ? Colors.white : Colors.grey.shade600,
+                          color: isSelected
+                              ? Colors.white
+                              : Colors.grey.shade600,
                         ),
                         child: Text(labels[index]),
                       ),

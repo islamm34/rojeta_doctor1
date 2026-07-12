@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rojeta_doctor/features/auth/data/models/user_type_model.dart';
-
+import 'package:rojeta_doctor/features/auth/presentation/widgets/registeraion_steps_app_bar.dart';
 import '../../../../config/routes/app_router.dart';
 import '../../../../core/constants/app_constants.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
@@ -12,6 +12,7 @@ import '../../../../core/di/injector.dart';
 import '../bloc/auth_bloc.dart';
 import '../bloc/auth_event.dart';
 import '../bloc/auth_state.dart';
+import '../widgets/registeration_steps_indicator.dart';
 import '../widgets/user_type_selection/user_type_card.dart';
 
 class UserTypeSelectionPage extends StatelessWidget {
@@ -64,50 +65,12 @@ class _UserTypeSelectionView extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black87),
-          onPressed: () {
-            if (context.canPop) {
-              context.pop();
-            }
-          },
-        ),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              context.strings.createAccount,
-              style: theme.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: Colors.black87,
-                fontSize: 18.sp,
-              ),
-            ),
-            Text(
-              context.strings.step1Of5,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: Colors.grey.shade500,
-                fontSize: 12.sp,
-              ),
-            ),
-          ],
-        ),
-        centerTitle: false,
-      ),
+      appBar: RegisteraionStepsAppBar(stepText: context.strings.step1Of5),
       body: SafeArea(
         child: Column(
           children: [
             // Progress Bar
-            LinearProgressIndicator(
-              value: 0.2, // Step 1 of 5
-              backgroundColor: Colors.grey.shade200,
-              valueColor: AlwaysStoppedAnimation<Color>(theme.colorScheme.primary),
-              minHeight: 4.h,
-            ),
-
+            RegisterationStepsIndicator(progress: 0.2),
             Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
@@ -115,10 +78,7 @@ class _UserTypeSelectionView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     // Logo and Headings
-                    Image.asset(
-                      AppConstants.rLogo,
-                      height: 50.h,
-                    ),
+                    Image.asset(AppConstants.rLogo, height: 50.h),
                     SizedBox(height: 12.h),
                     Text(
                       context.strings.joinRujeta,
@@ -160,7 +120,8 @@ class _UserTypeSelectionView extends StatelessWidget {
                           spacing: 16.w,
                           runSpacing: 16.h,
                           children: accountTypes.map((typeModel) {
-                            final isNursing = typeModel.type == UserType.nursingCareProviders;
+                            final isNursing =
+                                typeModel.type == UserType.nursingCareProviders;
                             final cardWidth = isNursing
                                 ? double.infinity
                                 : (ScreenUtil.screenWidth - 40.w - 16.w) / 2;
@@ -173,7 +134,9 @@ class _UserTypeSelectionView extends StatelessWidget {
                                 imagePath: typeModel.imagePath,
                                 isSelected: selectedType == typeModel.type,
                                 onTap: () {
-                                  context.read<AuthBloc>().add(SelectUserTypeEvent(typeModel.type));
+                                  context.read<AuthBloc>().add(
+                                    SelectUserTypeEvent(typeModel.type),
+                                  );
                                 },
                               ),
                             );
@@ -199,13 +162,37 @@ class _UserTypeSelectionView extends StatelessWidget {
                           ),
                           child: CustomElevatedButton(
                             text: context.strings.next,
-                            backgroundColor: Colors.transparent, // Let gradient show through
+                            backgroundColor:
+                                Colors.transparent, // Let gradient show through
                             onPressed: () {
                               if (selectedType != null) {
-                                context.pushNamed(AppRoutes.basicInformation);
+                                if (selectedType == UserType.doctor) {
+                                  context.pushNamed(AppRoutes.basicInformation);
+                                } else if (selectedType == UserType.hospital) {
+                                  context.pushNamed(
+                                    AppRoutes.hospitalProfessionalInfo,
+                                  );
+                                } else if (selectedType ==
+                                    UserType.radiologyCenter) {
+                                  context.pushNamed(
+                                    AppRoutes.radiologyBasicInfo,
+                                  );
+                                } else if (selectedType ==
+                                    UserType.laboratory) {
+                                  context.pushNamed(
+                                    AppRoutes.laboratoryBasicInfo,
+                                  );
+                                } else if (selectedType ==
+                                    UserType.nursingCareProviders) {
+                                  context.pushNamed(AppRoutes.nursingBasicInfo);
+                                }
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('Please select an account type')),
+                                  SnackBar(
+                                    content: Text(
+                                      'Please select an account type',
+                                    ),
+                                  ),
                                 );
                               }
                             },

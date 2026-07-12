@@ -4,8 +4,6 @@ enum UserType {
   radiologyCenter,
   laboratory,
   nursingCareProviders,
-  clinic,
-  nursingCare,
 }
 
 class UserTypeModel {

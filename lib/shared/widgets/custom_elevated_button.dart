@@ -21,7 +21,7 @@ class CustomElevatedButton extends StatelessWidget {
     this.height = 56.0,
     this.backgroundColor,
     this.foregroundColor,
-    this.borderRadius = 30.0,
+    this.borderRadius = 14.0,
     this.textStyle,
     this.icon,
   });
@@ -58,16 +58,12 @@ class CustomElevatedButton extends StatelessWidget {
                 ),
               )
             : (icon != null
-                ? Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      icon!,
-                      const SizedBox(width: 8),
-                      Text(text),
-                    ],
-                  )
-                : Text(text)),
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [icon!, const SizedBox(width: 8), Text(text)],
+                    )
+                  : Text(text, textAlign: TextAlign.center)),
       ),
     );
   }

@@ -1098,4 +1098,114 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get completeBtn => 'Complete';
+
+  @override
+  String get location => 'Location';
+
+  @override
+  String get chooseOnMap => 'Choose on map';
+
+  @override
+  String get organizationName => 'Organization Name *';
+
+  @override
+  String get organizationNameHint => 'e.g., Cairo Medical Center';
+
+  @override
+  String get organizationType => 'Organization Type *';
+
+  @override
+  String get organizationTypeHint => 'e.g., Private Clinic, General Hospital';
+
+  @override
+  String get organizationNumber => 'Organization Number *';
+
+  @override
+  String get organizationNumberHint => 'e.g., 01X XXXXXXXX';
+
+  @override
+  String get licenseNumber => 'License Number *';
+
+  @override
+  String get licenseNumberHint => 'e.g., ORG-12345';
+
+  @override
+  String get organizationAboutHint =>
+      'Brief description about your organization and services...';
+
+  @override
+  String get organizationLogo => 'Organization Logo';
+
+  @override
+  String get organizationImages => 'Organization Images';
+
+  @override
+  String get expiryDate => 'Expiry Date';
+
+  @override
+  String get cvv => 'CVV';
+
+  @override
+  String get yourPaymentDetailsAreSecure => 'Your payment details are secure';
+
+  @override
+  String get taxId => 'Tax ID';
+
+  @override
+  String get basicRadiologyInformation => 'Basic Radiology Information';
+
+  @override
+  String get basicLaboratoryInformation => 'Basic Laboratory Information';
+
+  @override
+  String get basicNursingCareInformation => 'Basic Nursing Care Information';
+
+  @override
+  String get radiologyName => 'Radiology Name *';
+
+  @override
+  String get laboratoryName => 'Laboratory Name *';
+
+  @override
+  String get nursingCareName => 'Nursing Care Name *';
+
+  @override
+  String get homeSampleCollection => 'Home Sample Collection';
+
+  @override
+  String get availableForHomeSampleCollection =>
+      'Available for Home Sample Collection';
+
+  @override
+  String get homeSampleCollectionFee => 'Home Sample Collection Fee (EGP) *';
+
+  @override
+  String get homeSampleCollectionFeeHint => 'e.g., 50';
+
+  @override
+  String get serviceAreaRadius => 'Service Area Radius (km) *';
+
+  @override
+  String get serviceAreaRadiusHint => 'e.g., 20';
+
+  @override
+  String get nursingLogo => 'Nursing Logo';
+
+  @override
+  String get radiologyLogo => 'Radiology Logo';
+
+  @override
+  String get laboratoryLogo => 'Laboratory Logo';
+
+  @override
+  String get centerImages => 'Center Images';
+
+  @override
+  String get workingHoursTitle => 'Working Hours *';
+
+  @override
+  String get open24_7 => 'Open 24/7';
+
+  @override
+  String get addAnotherWorkingDay => 'Add another working day';
 }

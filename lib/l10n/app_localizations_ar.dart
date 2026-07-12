@@ -1087,4 +1087,113 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get completeBtn => 'إكمال';
+
+  @override
+  String get location => 'الموقع';
+
+  @override
+  String get chooseOnMap => 'اختر من الخريطة';
+
+  @override
+  String get organizationName => 'اسم المنظمة *';
+
+  @override
+  String get organizationNameHint => 'مثال: المركز الطبي القاهرة';
+
+  @override
+  String get organizationType => 'نوع المنظمة *';
+
+  @override
+  String get organizationTypeHint => 'مثال: عيادة خاصة، مستشفى عام';
+
+  @override
+  String get organizationNumber => 'رقم المنظمة *';
+
+  @override
+  String get organizationNumberHint => 'مثال: 01X XXXXXXXX';
+
+  @override
+  String get licenseNumber => 'رقم الترخيص *';
+
+  @override
+  String get licenseNumberHint => 'مثال: ORG-12345';
+
+  @override
+  String get organizationAboutHint => 'وصف مختصر عن مؤسستك وخدماتها...';
+
+  @override
+  String get organizationLogo => 'شعار المنظمة';
+
+  @override
+  String get organizationImages => 'صور المنظمة';
+
+  @override
+  String get expiryDate => 'تاريخ الانتهاء';
+
+  @override
+  String get cvv => 'CVV';
+
+  @override
+  String get yourPaymentDetailsAreSecure => 'بيانات الدفع الخاصة بك آمنة';
+
+  @override
+  String get taxId => 'الرقم الضريبي';
+
+  @override
+  String get basicRadiologyInformation => 'بيانات مركز الأشعة الأساسية';
+
+  @override
+  String get basicLaboratoryInformation => 'بيانات المختبر الأساسية';
+
+  @override
+  String get basicNursingCareInformation => 'بيانات رعاية التمريض الأساسية';
+
+  @override
+  String get radiologyName => 'اسم مركز الأشعة *';
+
+  @override
+  String get laboratoryName => 'اسم المختبر *';
+
+  @override
+  String get nursingCareName => 'اسم مقدم الرعاية التمريضية *';
+
+  @override
+  String get homeSampleCollection => 'سحب العينات المنزلي';
+
+  @override
+  String get availableForHomeSampleCollection =>
+      'متاح لتقديم الخدمات وسحب العينات من موقع المريض';
+
+  @override
+  String get homeSampleCollectionFee => 'رسوم سحب العينات المنزلي (ج.م) *';
+
+  @override
+  String get homeSampleCollectionFeeHint => 'مثال: 50';
+
+  @override
+  String get serviceAreaRadius => 'نطاق الخدمة (كم) *';
+
+  @override
+  String get serviceAreaRadiusHint => 'مثال: 20';
+
+  @override
+  String get nursingLogo => 'شعار التمريض';
+
+  @override
+  String get radiologyLogo => 'شعار مركز الأشعة';
+
+  @override
+  String get laboratoryLogo => 'شعار المختبر';
+
+  @override
+  String get centerImages => 'صور المركز';
+
+  @override
+  String get workingHoursTitle => 'أوقات العمل *';
+
+  @override
+  String get open24_7 => 'مفتوح 24/7';
+
+  @override
+  String get addAnotherWorkingDay => 'إضافة يوم عمل آخر';
 }

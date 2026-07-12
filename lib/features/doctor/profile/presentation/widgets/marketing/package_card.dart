@@ -3,6 +3,7 @@ import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
 import 'package:rojeta_doctor/core/utils/app_colors.dart';
 import '../../../data/models/marketing_package_model.dart';
 import 'subscription_confirmation_dialog.dart';
+
 class PackageCard extends StatelessWidget {
   final MarketingPackageModel package;
   final bool isYearly;
@@ -45,7 +46,7 @@ class PackageCard extends StatelessWidget {
             : Border.all(color: Colors.grey.shade200),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.05),
+            color: Colors.grey.withValues(alpha: 0.05),
             spreadRadius: 2,
             blurRadius: 8,
             offset: const Offset(0, 4),
@@ -109,7 +110,10 @@ class PackageCard extends StatelessWidget {
                   runSpacing: 8,
                   children: package.platforms.map((platform) {
                     return Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.blue.shade50,
                         borderRadius: BorderRadius.circular(20),
@@ -169,24 +173,31 @@ class PackageCard extends StatelessWidget {
                         : () {
                             showDialog(
                               context: context,
-                              builder: (context) => SubscriptionConfirmationDialog(
-                                package: package,
-                                isYearly: isYearly,
-                              ),
+                              builder: (context) =>
+                                  SubscriptionConfirmationDialog(
+                                    package: package,
+                                    isYearly: isYearly,
+                                  ),
                             );
                           },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: isCurrentPlan
                           ? Colors.grey.shade300
-                          : (package.isMostPopular ? AppColors.offerGradientStart : AppColors.primary),
-                      foregroundColor: isCurrentPlan ? Colors.grey.shade700 : Colors.white,
+                          : (package.isMostPopular
+                                ? AppColors.offerGradientStart
+                                : AppColors.primary),
+                      foregroundColor: isCurrentPlan
+                          ? Colors.grey.shade700
+                          : Colors.white,
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
                     child: Text(
-                      isCurrentPlan ? context.strings.currentPlan : context.strings.subscribeNow,
+                      isCurrentPlan
+                          ? context.strings.currentPlan
+                          : context.strings.subscribeNow,
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),

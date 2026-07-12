@@ -61,7 +61,7 @@ class _PackagesTabViewState extends State<PackagesTabView> {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
             decoration: BoxDecoration(
-              color: AppColors.offerGradientStart.withOpacity(0.1),
+              color: AppColors.offerGradientStart.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
