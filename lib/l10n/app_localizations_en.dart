@@ -1150,4 +1150,62 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get taxId => 'Tax ID';
+
+  @override
+  String get basicRadiologyInformation => 'Basic Radiology Information';
+
+  @override
+  String get basicLaboratoryInformation => 'Basic Laboratory Information';
+
+  @override
+  String get basicNursingCareInformation => 'Basic Nursing Care Information';
+
+  @override
+  String get radiologyName => 'Radiology Name *';
+
+  @override
+  String get laboratoryName => 'Laboratory Name *';
+
+  @override
+  String get nursingCareName => 'Nursing Care Name *';
+
+  @override
+  String get homeSampleCollection => 'Home Sample Collection';
+
+  @override
+  String get availableForHomeSampleCollection =>
+      'Available for Home Sample Collection';
+
+  @override
+  String get homeSampleCollectionFee => 'Home Sample Collection Fee (EGP) *';
+
+  @override
+  String get homeSampleCollectionFeeHint => 'e.g., 50';
+
+  @override
+  String get serviceAreaRadius => 'Service Area Radius (km) *';
+
+  @override
+  String get serviceAreaRadiusHint => 'e.g., 20';
+
+  @override
+  String get nursingLogo => 'Nursing Logo';
+
+  @override
+  String get radiologyLogo => 'Radiology Logo';
+
+  @override
+  String get laboratoryLogo => 'Laboratory Logo';
+
+  @override
+  String get centerImages => 'Center Images';
+
+  @override
+  String get workingHoursTitle => 'Working Hours *';
+
+  @override
+  String get open24_7 => 'Open 24/7';
+
+  @override
+  String get addAnotherWorkingDay => 'Add another working day';
 }

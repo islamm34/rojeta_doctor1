@@ -2323,6 +2323,120 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tax ID'**
   String get taxId;
+
+  /// No description provided for @basicRadiologyInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic Radiology Information'**
+  String get basicRadiologyInformation;
+
+  /// No description provided for @basicLaboratoryInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic Laboratory Information'**
+  String get basicLaboratoryInformation;
+
+  /// No description provided for @basicNursingCareInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Basic Nursing Care Information'**
+  String get basicNursingCareInformation;
+
+  /// No description provided for @radiologyName.
+  ///
+  /// In en, this message translates to:
+  /// **'Radiology Name *'**
+  String get radiologyName;
+
+  /// No description provided for @laboratoryName.
+  ///
+  /// In en, this message translates to:
+  /// **'Laboratory Name *'**
+  String get laboratoryName;
+
+  /// No description provided for @nursingCareName.
+  ///
+  /// In en, this message translates to:
+  /// **'Nursing Care Name *'**
+  String get nursingCareName;
+
+  /// No description provided for @homeSampleCollection.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Sample Collection'**
+  String get homeSampleCollection;
+
+  /// No description provided for @availableForHomeSampleCollection.
+  ///
+  /// In en, this message translates to:
+  /// **'Available for Home Sample Collection'**
+  String get availableForHomeSampleCollection;
+
+  /// No description provided for @homeSampleCollectionFee.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Sample Collection Fee (EGP) *'**
+  String get homeSampleCollectionFee;
+
+  /// No description provided for @homeSampleCollectionFeeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., 50'**
+  String get homeSampleCollectionFeeHint;
+
+  /// No description provided for @serviceAreaRadius.
+  ///
+  /// In en, this message translates to:
+  /// **'Service Area Radius (km) *'**
+  String get serviceAreaRadius;
+
+  /// No description provided for @serviceAreaRadiusHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., 20'**
+  String get serviceAreaRadiusHint;
+
+  /// No description provided for @nursingLogo.
+  ///
+  /// In en, this message translates to:
+  /// **'Nursing Logo'**
+  String get nursingLogo;
+
+  /// No description provided for @radiologyLogo.
+  ///
+  /// In en, this message translates to:
+  /// **'Radiology Logo'**
+  String get radiologyLogo;
+
+  /// No description provided for @laboratoryLogo.
+  ///
+  /// In en, this message translates to:
+  /// **'Laboratory Logo'**
+  String get laboratoryLogo;
+
+  /// No description provided for @centerImages.
+  ///
+  /// In en, this message translates to:
+  /// **'Center Images'**
+  String get centerImages;
+
+  /// No description provided for @workingHoursTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Working Hours *'**
+  String get workingHoursTitle;
+
+  /// No description provided for @open24_7.
+  ///
+  /// In en, this message translates to:
+  /// **'Open 24/7'**
+  String get open24_7;
+
+  /// No description provided for @addAnotherWorkingDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Add another working day'**
+  String get addAnotherWorkingDay;
 }
 
 class _AppLocalizationsDelegate

@@ -3,6 +3,24 @@ import 'package:rojeta_doctor/features/auth/presentation/pages/professional_info
 import 'package:rojeta_doctor/features/auth/presentation/pages/hospital_registeration_flow_pages/hospital_professional_info_page.dart';
 import 'package:rojeta_doctor/features/auth/presentation/pages/hospital_registeration_flow_pages/hospital_location_payment_page.dart';
 import 'package:rojeta_doctor/features/auth/presentation/pages/hospital_registeration_flow_pages/hospital_document_upload_page.dart';
+// Radiology registration flow
+import 'package:rojeta_doctor/features/auth/presentation/pages/radiology_registeration_flow_pages/radiology_basic_info_page.dart';
+import 'package:rojeta_doctor/features/auth/presentation/pages/radiology_registeration_flow_pages/radiology_professional_info_page.dart';
+import 'package:rojeta_doctor/features/auth/presentation/pages/radiology_registeration_flow_pages/radiology_home_sample_collection_page.dart';
+import 'package:rojeta_doctor/features/auth/presentation/pages/radiology_registeration_flow_pages/radiology_location_page.dart';
+import 'package:rojeta_doctor/features/auth/presentation/pages/radiology_registeration_flow_pages/radiology_document_upload_page.dart';
+// Laboratory registration flow
+import 'package:rojeta_doctor/features/auth/presentation/pages/laboratory_registeration_flow_pages/laboratory_basic_info_page.dart';
+import 'package:rojeta_doctor/features/auth/presentation/pages/laboratory_registeration_flow_pages/laboratory_professional_info_page.dart';
+import 'package:rojeta_doctor/features/auth/presentation/pages/laboratory_registeration_flow_pages/laboratory_home_sample_collection_page.dart';
+import 'package:rojeta_doctor/features/auth/presentation/pages/laboratory_registeration_flow_pages/laboratory_location_page.dart';
+import 'package:rojeta_doctor/features/auth/presentation/pages/laboratory_registeration_flow_pages/laboratory_document_upload_page.dart';
+// Nursing registration flow
+import 'package:rojeta_doctor/features/auth/presentation/pages/nursing_care_registerartion_flow_pages/nursing_basic_info_page.dart';
+import 'package:rojeta_doctor/features/auth/presentation/pages/nursing_care_registerartion_flow_pages/nursing_professional_info_page.dart';
+import 'package:rojeta_doctor/features/auth/presentation/pages/nursing_care_registerartion_flow_pages/nursing_home_sample_collection_page.dart';
+import 'package:rojeta_doctor/features/auth/presentation/pages/nursing_care_registerartion_flow_pages/nursing_location_page.dart';
+import 'package:rojeta_doctor/features/auth/presentation/pages/nursing_care_registerartion_flow_pages/nursing_document_upload_page.dart';
 import 'package:rojeta_doctor/features/doctor/profile/presentation/pages/marketing_packages_page.dart';
 import 'package:rojeta_doctor/features/doctor/financial/presentation/pages/financial_management_page.dart';
 import '../../features/doctor/homelayout/presentation/pages/homelayout.dart';
@@ -44,6 +62,24 @@ class AppRoutes {
   static const String hospitalProfessionalInfo = '/hospital-professional-info';
   static const String hospitalLocationPayment = '/hospital-location-payment';
   static const String hospitalDocumentUpload = '/hospital-document-upload';
+  // Radiology registration flow
+  static const String radiologyBasicInfo = '/radiology-basic-info';
+  static const String radiologyProfessionalInfo = '/radiology-professional-info';
+  static const String radiologyHomeSampleCollection = '/radiology-home-sample-collection';
+  static const String radiologyLocation = '/radiology-location';
+  static const String radiologyDocumentUpload = '/radiology-document-upload';
+  // Laboratory registration flow
+  static const String laboratoryBasicInfo = '/laboratory-basic-info';
+  static const String laboratoryProfessionalInfo = '/laboratory-professional-info';
+  static const String laboratoryHomeSampleCollection = '/laboratory-home-sample-collection';
+  static const String laboratoryLocation = '/laboratory-location';
+  static const String laboratoryDocumentUpload = '/laboratory-document-upload';
+  // Nursing registration flow
+  static const String nursingBasicInfo = '/nursing-basic-info';
+  static const String nursingProfessionalInfo = '/nursing-professional-info';
+  static const String nursingHomeSampleCollection = '/nursing-home-sample-collection';
+  static const String nursingLocation = '/nursing-location';
+  static const String nursingDocumentUpload = '/nursing-document-upload';
 }
 
 class AppRouter {
@@ -103,6 +139,69 @@ class AppRouter {
       case AppRoutes.hospitalDocumentUpload:
         return MaterialPageRoute(
           builder: (_) => const HospitalDocumentUploadPage(),
+        );
+      // Radiology registration flow
+      case AppRoutes.radiologyBasicInfo:
+        return MaterialPageRoute(
+          builder: (_) => const RadiologyBasicInfoPage(),
+        );
+      case AppRoutes.radiologyProfessionalInfo:
+        return MaterialPageRoute(
+          builder: (_) => const RadiologyProfessionalInfoPage(),
+        );
+      case AppRoutes.radiologyHomeSampleCollection:
+        return MaterialPageRoute(
+          builder: (_) => const RadiologyHomeSampleCollectionPage(),
+        );
+      case AppRoutes.radiologyLocation:
+        return MaterialPageRoute(
+          builder: (_) => const RadiologyLocationPage(),
+        );
+      case AppRoutes.radiologyDocumentUpload:
+        return MaterialPageRoute(
+          builder: (_) => const RadiologyDocumentUploadPage(),
+        );
+      // Laboratory registration flow
+      case AppRoutes.laboratoryBasicInfo:
+        return MaterialPageRoute(
+          builder: (_) => const LaboratoryBasicInfoPage(),
+        );
+      case AppRoutes.laboratoryProfessionalInfo:
+        return MaterialPageRoute(
+          builder: (_) => const LaboratoryProfessionalInfoPage(),
+        );
+      case AppRoutes.laboratoryHomeSampleCollection:
+        return MaterialPageRoute(
+          builder: (_) => const LaboratoryHomeSampleCollectionPage(),
+        );
+      case AppRoutes.laboratoryLocation:
+        return MaterialPageRoute(
+          builder: (_) => const LaboratoryLocationPage(),
+        );
+      case AppRoutes.laboratoryDocumentUpload:
+        return MaterialPageRoute(
+          builder: (_) => const LaboratoryDocumentUploadPage(),
+        );
+      // Nursing registration flow
+      case AppRoutes.nursingBasicInfo:
+        return MaterialPageRoute(
+          builder: (_) => const NursingBasicInfoPage(),
+        );
+      case AppRoutes.nursingProfessionalInfo:
+        return MaterialPageRoute(
+          builder: (_) => const NursingProfessionalInfoPage(),
+        );
+      case AppRoutes.nursingHomeSampleCollection:
+        return MaterialPageRoute(
+          builder: (_) => const NursingHomeSampleCollectionPage(),
+        );
+      case AppRoutes.nursingLocation:
+        return MaterialPageRoute(
+          builder: (_) => const NursingLocationPage(),
+        );
+      case AppRoutes.nursingDocumentUpload:
+        return MaterialPageRoute(
+          builder: (_) => const NursingDocumentUploadPage(),
         );
       default:
         return MaterialPageRoute(

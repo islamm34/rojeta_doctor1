@@ -172,8 +172,19 @@ class _UserTypeSelectionView extends StatelessWidget {
                                   context.pushNamed(
                                     AppRoutes.hospitalProfessionalInfo,
                                   );
-                                } else {
-                                  context.pushNamed(AppRoutes.basicInformation);
+                                } else if (selectedType ==
+                                    UserType.radiologyCenter) {
+                                  context.pushNamed(
+                                    AppRoutes.radiologyBasicInfo,
+                                  );
+                                } else if (selectedType ==
+                                    UserType.laboratory) {
+                                  context.pushNamed(
+                                    AppRoutes.laboratoryBasicInfo,
+                                  );
+                                } else if (selectedType ==
+                                    UserType.nursingCareProviders) {
+                                  context.pushNamed(AppRoutes.nursingBasicInfo);
                                 }
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(

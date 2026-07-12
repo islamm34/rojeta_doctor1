@@ -77,7 +77,7 @@ class HospitalLocationForm extends StatelessWidget {
               return CustomTextField(
                 label: context.strings.governorate,
                 hintText: '',
-                isRequired: true,
+
                 onChanged: (val) =>
                     context.read<AuthBloc>().add(GovernorateChangedEvent(val)),
               );
@@ -93,7 +93,7 @@ class HospitalLocationForm extends StatelessWidget {
               return CustomTextField(
                 label: context.strings.city,
                 hintText: 'nasr',
-                isRequired: true,
+
                 onChanged: (val) =>
                     context.read<AuthBloc>().add(CityChangedEvent(val)),
               );
@@ -109,7 +109,7 @@ class HospitalLocationForm extends StatelessWidget {
               return CustomTextField(
                 label: context.strings.fullAddress,
                 hintText: context.strings.fullAddressHint,
-                isRequired: true,
+
                 minLines: 2,
                 maxLines: 3,
                 onChanged: (val) =>
