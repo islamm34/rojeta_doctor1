@@ -22,8 +22,9 @@ import 'package:rojeta_doctor/features/auth/presentation/pages/nursing_care_regi
 import 'package:rojeta_doctor/features/auth/presentation/pages/nursing_care_registerartion_flow_pages/nursing_location_page.dart';
 import 'package:rojeta_doctor/features/auth/presentation/pages/nursing_care_registerartion_flow_pages/nursing_document_upload_page.dart';
 import 'package:rojeta_doctor/features/doctor/profile/presentation/pages/marketing_packages_page.dart';
-import 'package:rojeta_doctor/features/doctor/financial/presentation/pages/financial_management_page.dart';
+import 'package:rojeta_doctor/features/financial/presentation/pages/financial_management_page.dart';
 import '../../features/doctor/homelayout/presentation/pages/homelayout.dart';
+import '../../features/hospital/homelayout/presentation/pages/hospital_homelayout_page.dart';
 import '../../features/auth/presentation/pages/splash_screen.dart';
 import '../../features/auth/presentation/pages/user_type_selection_page.dart';
 import '../../features/auth/presentation/pages/basic_information_page.dart';
@@ -35,8 +36,17 @@ import '../../features/auth/presentation/pages/forgot_password_page.dart';
 import '../../features/auth/presentation/pages/reset_password_page.dart';
 import '../../features/doctor/profile/presentation/pages/profile_page.dart';
 import '../../features/doctor/profile/presentation/pages/add_clinic_page.dart';
-import '../../features/doctor/medical_consultation/presentation/pages/medical_consultation_page.dart';
+import '../../features/doctor/homelayout/presentation/pages/medical_consultation_page.dart';
 import '../../features/doctor/homelayout/data/models/doctor_appointment_model.dart';
+import '../../features/doctor/homelayout/presentation/pages/my_patients_page.dart';
+import '../../features/doctor/homelayout/presentation/pages/patient_details_page.dart';
+import '../../features/doctor/homelayout/presentation/bloc/patients/patients_bloc.dart';
+import '../../features/doctor/homelayout/presentation/bloc/medical_consultation/medical_consultation_bloc.dart';
+import '../../features/doctor/homelayout/presentation/pages/schedule_management_page.dart';
+import '../../features/doctor/homelayout/presentation/bloc/schedule/schedule_bloc.dart';
+import '../../features/doctor/homelayout/presentation/bloc/schedule/schedule_event.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../core/di/injector.dart';
 import 'custom_routes.dart';
 
 class AppRoutes {
@@ -58,6 +68,10 @@ class AppRoutes {
   static const String financialManagement = '/financial-management';
   static const String addClinic = '/add-clinic';
   static const String medicalConsultation = '/medical-consultation';
+  static const String myPatients = '/my-patients';
+  static const String patientDetails = '/patient-details';
+  static const String scheduleManagement = '/schedule-management';
+  static const String hospitalHomeLayout = '/hospital-home-layout';
   // Hospital registration flow
   static const String hospitalProfessionalInfo = '/hospital-professional-info';
   static const String hospitalLocationPayment = '/hospital-location-payment';
@@ -114,6 +128,8 @@ class AppRouter {
         );
       case AppRoutes.home:
         return RightRouting(const HomeLayoutPage());
+      case AppRoutes.hospitalHomeLayout:
+        return RightRouting(const HospitalHomeLayoutPage());
       case AppRoutes.profile:
         return MaterialPageRoute(builder: (_) => const ProfilePage());
       case AppRoutes.marketingPackages:
@@ -125,7 +141,32 @@ class AppRouter {
       case AppRoutes.medicalConsultation:
         final appointment = settings.arguments as DoctorAppointmentModel;
         return MaterialPageRoute(
-          builder: (_) => MedicalConsultationPage(appointment: appointment),
+          builder: (_) => BlocProvider(
+            create: (_) => injector<MedicalConsultationBloc>(),
+            child: MedicalConsultationPage(appointment: appointment),
+          ),
+        );
+      case AppRoutes.myPatients:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (_) => injector<PatientsBloc>(),
+            child: const MyPatientsPage(),
+          ),
+        );
+      case AppRoutes.patientDetails:
+        final patientId = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (_) => injector<PatientsBloc>(),
+            child: PatientDetailsPage(patientId: patientId),
+          ),
+        );
+      case AppRoutes.scheduleManagement:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (_) => injector<ScheduleBloc>()..add(FetchScheduleEvent()),
+            child: const ScheduleManagementPage(),
+          ),
         );
       // Hospital registration flow
       case AppRoutes.hospitalProfessionalInfo:

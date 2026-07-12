@@ -1089,6 +1089,116 @@ class AppLocalizationsAr extends AppLocalizations {
   String get completeBtn => 'إكمال';
 
   @override
+  String get myPatients => 'مرضاي';
+
+  @override
+  String get searchByNameOrPhone => 'البحث بالاسم أو رقم الهاتف...';
+
+  @override
+  String get visits => 'زيارات';
+
+  @override
+  String get age => 'العمر';
+
+  @override
+  String get gender => 'الجنس';
+
+  @override
+  String get lastVisit => 'الزيارة الأخيرة';
+
+  @override
+  String get lastDiagnosis => 'التشخيص الأخير';
+
+  @override
+  String get patientDetails => 'تفاصيل المريض';
+
+  @override
+  String get medicalInformation => 'المعلومات الطبية';
+
+  @override
+  String get allergies => 'الحساسية';
+
+  @override
+  String get chronicConditions => 'الأمراض المزمنة';
+
+  @override
+  String get visitHistory => 'تاريخ الزيارات';
+
+  @override
+  String get laboratoryResults => 'نتائج المختبر';
+
+  @override
+  String get testsPerformed => 'الاختبارات التي أجريت';
+
+  @override
+  String get results => 'النتائج';
+
+  @override
+  String get notes => 'ملاحظات';
+
+  @override
+  String get years => 'سنوات';
+
+  @override
+  String get male => 'ذكر';
+
+  @override
+  String get female => 'أنثى';
+
+  @override
+  String get addSlot => 'إضافة فترة';
+
+  @override
+  String get saveWorkingHours => 'حفظ ساعات العمل';
+
+  @override
+  String get to => 'إلى';
+
+  @override
+  String get vacationsAndUnavailable => 'الإجازات والأيام غير المتاحة';
+
+  @override
+  String get scheduleManagement => 'إدارة الجدول الزمني';
+
+  @override
+  String get noDataFound => 'لا توجد بيانات';
+
+  @override
+  String get errorOccurred => 'حدث خطأ';
+
+  @override
+  String get doctors => 'الأطباء';
+
+  @override
+  String get addSpecialty => 'إضافة تخصص';
+
+  @override
+  String get addNewSpecialty => 'إضافة تخصص جديد';
+
+  @override
+  String get addDoctor => 'إضافة طبيب';
+
+  @override
+  String get addNewDoctor => 'إضافة طبيب جديد';
+
+  @override
+  String get viewEarnings => 'عرض الأرباح';
+
+  @override
+  String get depts => 'الأقسام';
+
+  @override
+  String get medicalServicesManagement => 'إدارة الخدمات الطبية';
+
+  @override
+  String get manageMedicalServices => 'إدارة الخدمات الطبية';
+
+  @override
+  String get medicalServicesDesc =>
+      'إضافة تخصصات جديدة وتحديث معلومات الأطباء وطاقم التمريض لتحسين تجربة المريض.';
+
+  @override
+  String get welcomeBackHospital => 'مرحباً بعودتك!';
   String get location => 'الموقع';
 
   @override

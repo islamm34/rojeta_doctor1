@@ -193,7 +193,7 @@ class NotificationItemCard extends StatelessWidget {
               Expanded(
                 child: ElevatedButton(
                   onPressed: () {
-                    context.pushNamed(AppRoutes.financialManagement);
+                  
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: theme.colorScheme.primary,

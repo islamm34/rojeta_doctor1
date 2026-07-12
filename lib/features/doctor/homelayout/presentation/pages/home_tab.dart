@@ -6,14 +6,13 @@ import '../widgets/home_stats_grid.dart';
 import '../widgets/quick_actions_grid.dart';
 import '../widgets/special_offers_section.dart';
 import '../widgets/upcoming_appointments_section.dart';
+import '../../../../../../config/routes/app_router.dart';
+import '../../../../../../core/utils/extensions/context_extensions.dart';
 
 class HomeTab extends StatelessWidget {
   final VoidCallback? onViewAllAppointments;
 
-  const HomeTab({
-    super.key,
-    this.onViewAllAppointments,
-  });
+  const HomeTab({super.key, this.onViewAllAppointments});
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +31,12 @@ class HomeTab extends StatelessWidget {
                   SizedBox(height: 28.h),
                   QuickActionsGrid(
                     onTapAppointments: onViewAllAppointments,
+                    onTapSchedule: () =>
+                        context.pushNamed(AppRoutes.scheduleManagement),
+                    onTapPatients: () =>
+                        context.pushNamed(AppRoutes.myPatients),
+                    onTapFinancial: () =>
+                        context.pushNamed(AppRoutes.financialManagement),
                   ),
                   SizedBox(height: 28.h),
                   const SpecialOffersSection(),
