@@ -11,37 +11,27 @@ class HospitalHomeStatsGrid extends StatelessWidget {
     final stats = HospitalMockData.stats;
 
     return Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 20.h),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 15,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 12.w),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _buildStatColumn(
+          _buildStatCard(
             context,
+            icon: Icons.medical_services_outlined,
             title: context.strings.doctors,
             value: stats.doctors,
           ),
-          _buildDivider(),
-          _buildStatColumn(
+          SizedBox(width: 8.w),
+          _buildStatCard(
             context,
+            icon: Icons.payments_outlined,
             title: context.strings.todaysIncome,
             value: stats.todaysIncome,
-            valueColor: Colors.orange,
           ),
-          _buildDivider(),
-          _buildStatColumn(
+          SizedBox(width: 8.w),
+          _buildStatCard(
             context,
+            icon: Icons.calendar_month_outlined,
             title: context.strings.appointments,
             value: stats.appointments,
           ),
@@ -50,40 +40,56 @@ class HospitalHomeStatsGrid extends StatelessWidget {
     );
   }
 
-  Widget _buildStatColumn(
+  Widget _buildStatCard(
     BuildContext context, {
+    required IconData icon,
     required String title,
     required String value,
-    Color? valueColor,
   }) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          title,
-          style: context.textTheme.bodyMedium?.copyWith(
-            color: Colors.grey.shade500,
-            fontSize: 12.sp,
-          ),
+    return Expanded(
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 8.w),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16.r),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
-        SizedBox(height: 8.h),
-        Text(
-          value,
-          style: context.textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: valueColor ?? Colors.black87,
-            fontSize: 18.sp,
-          ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, color: const Color(0xFF1F5C67), size: 28.sp),
+            SizedBox(height: 12.h),
+            Text(
+              title,
+              style: context.textTheme.bodySmall?.copyWith(
+                color: Colors.grey.shade500,
+                fontSize: 11.sp,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 8.h),
+            Text(
+              value,
+              style: context.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: const Color(0xFF1A1D1E),
+                fontSize: 14.sp,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
-      ],
-    );
-  }
-
-  Widget _buildDivider() {
-    return Container(
-      height: 40.h,
-      width: 1.w,
-      color: Colors.grey.shade200,
+      ),
     );
   }
 }

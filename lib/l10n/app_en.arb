@@ -397,7 +397,7 @@
   "medicalServicesManagement": "Medical Services Management",
   "manageMedicalServices": "Manage Medical Services",
   "medicalServicesDesc": "Add new specialties and update doctors' and nursing staff information to improve the patient experience.",
-  "welcomeBackHospital": "Welcome back!"
+  "welcomeBackHospital": "Welcome back!",
   "location": "Location",
   "chooseOnMap": "Choose on map",
   "organizationName": "Organization Name *",

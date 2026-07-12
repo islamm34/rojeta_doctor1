@@ -1210,6 +1210,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get welcomeBackHospital => 'Welcome back!';
+
+  @override
   String get location => 'Location';
 
   @override

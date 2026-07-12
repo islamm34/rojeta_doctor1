@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rojeta_doctor/features/doctor/homelayout/presentation/pages/appointments_tab.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../widgets/hospital_bottom_nav_bar.dart';
 import 'hospital_home_tab.dart';
@@ -18,10 +19,8 @@ class _HospitalHomeLayoutPageState extends State<HospitalHomeLayoutPage> {
   void initState() {
     super.initState();
     _pages = [
-      HospitalHomeTab(
-        onViewAllAppointments: () => _onItemTapped(1),
-      ),
-      const Scaffold(body: Center(child: Text("Appointments Placeholder"))),
+      HospitalHomeTab(onViewAllAppointments: () => _onItemTapped(1)),
+      const AppointmentsTab(),
       const Scaffold(body: Center(child: Text("Depts Placeholder"))),
       const Scaffold(body: Center(child: Text("Settings Placeholder"))),
     ];

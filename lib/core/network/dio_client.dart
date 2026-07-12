@@ -122,7 +122,7 @@ class DioClient implements ApiConsumer {
               final String location = context.currentRouteName.toString();
               final authRoutes = [
                 AppRoutes.login,
-                AppRoutes.home, // wait, should authRoutes contain home? Normally not, let's keep it general
+                AppRoutes.homeDoctor, // wait, should authRoutes contain home? Normally not, let's keep it general
               ];
 
               if (location != AppRoutes.login) {

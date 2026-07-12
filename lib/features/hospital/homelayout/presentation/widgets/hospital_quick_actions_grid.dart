@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rojeta_doctor/core/utils/app_colors.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
 import '../../../../../../shared/widgets/quick_action_card.dart';
@@ -31,28 +32,28 @@ class HospitalQuickActionsGrid extends StatelessWidget {
               title: context.strings.appointments,
               subtitle: 'Manage bookings', // Not localized strictly for mock
               icon: Icons.calendar_today_outlined,
-              backgroundColor: const Color(0xFFEFF5FF),
+              backgroundColor: AppColors.actionAppointments,
               onTap: () {},
             ),
             QuickActionCard(
               title: context.strings.addSpecialty,
               subtitle: context.strings.addNewSpecialty,
               icon: Icons.add_circle_outline,
-              backgroundColor: const Color(0xFFF6EFFF),
+              backgroundColor: AppColors.actionSchedule,
               onTap: () {},
             ),
             QuickActionCard(
               title: context.strings.addDoctor,
               subtitle: context.strings.addNewDoctor,
               icon: Icons.person_add_alt_1_outlined,
-              backgroundColor: const Color(0xFFEFFFFA),
+              backgroundColor: AppColors.actionPatients,
               onTap: () {},
             ),
             QuickActionCard(
               title: context.strings.viewEarnings,
               subtitle: context.strings.viewEarnings,
               icon: Icons.account_balance_wallet_outlined,
-              backgroundColor: const Color(0xFFFFF7EF),
+              backgroundColor: AppColors.actionFinancial,
               onTap: () {},
             ),
           ],

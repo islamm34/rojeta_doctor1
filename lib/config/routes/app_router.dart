@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rojeta_doctor/features/auth/presentation/pages/professional_information_page.dart';
+import 'package:rojeta_doctor/features/auth/presentation/pages/doctor_registration_flow_pages/professional_information_page.dart';
 import 'package:rojeta_doctor/features/auth/presentation/pages/hospital_registeration_flow_pages/hospital_professional_info_page.dart';
 import 'package:rojeta_doctor/features/auth/presentation/pages/hospital_registeration_flow_pages/hospital_location_payment_page.dart';
 import 'package:rojeta_doctor/features/auth/presentation/pages/hospital_registeration_flow_pages/hospital_document_upload_page.dart';
@@ -27,13 +27,13 @@ import '../../features/doctor/homelayout/presentation/pages/homelayout.dart';
 import '../../features/hospital/homelayout/presentation/pages/hospital_homelayout_page.dart';
 import '../../features/auth/presentation/pages/splash_screen.dart';
 import '../../features/auth/presentation/pages/user_type_selection_page.dart';
-import '../../features/auth/presentation/pages/basic_information_page.dart';
-import '../../features/auth/presentation/pages/document_upload_page.dart';
-import '../../features/auth/presentation/pages/verify_phone_page.dart';
-import '../../features/auth/presentation/pages/registration_success_page.dart';
-import '../../features/auth/presentation/pages/login_page.dart';
-import '../../features/auth/presentation/pages/forgot_password_page.dart';
-import '../../features/auth/presentation/pages/reset_password_page.dart';
+import '../../features/auth/presentation/pages/doctor_registration_flow_pages/basic_information_page.dart';
+import '../../features/auth/presentation/pages/doctor_registration_flow_pages/document_upload_page.dart';
+import '../../features/auth/presentation/pages/doctor_registration_flow_pages/verify_phone_page.dart';
+import '../../features/auth/presentation/pages/doctor_registration_flow_pages/registration_success_page.dart';
+import '../../features/auth/presentation/pages/doctor_registration_flow_pages/login_page.dart';
+import '../../features/auth/presentation/pages/doctor_registration_flow_pages/forgot_password_page.dart';
+import '../../features/auth/presentation/pages/doctor_registration_flow_pages/reset_password_page.dart';
 import '../../features/doctor/profile/presentation/pages/profile_page.dart';
 import '../../features/doctor/profile/presentation/pages/add_clinic_page.dart';
 import '../../features/doctor/homelayout/presentation/pages/medical_consultation_page.dart';
@@ -62,7 +62,7 @@ class AppRoutes {
   static const String registrationSuccess = '/registration-success';
   static const String forgotPassword = '/forgot-password';
   static const String resetPassword = '/reset-password';
-  static const String home = '/home';
+  static const String homeDoctor = '/home';
   static const String profile = '/profile';
   static const String marketingPackages = '/marketing-packages';
   static const String financialManagement = '/financial-management';
@@ -71,7 +71,7 @@ class AppRoutes {
   static const String myPatients = '/my-patients';
   static const String patientDetails = '/patient-details';
   static const String scheduleManagement = '/schedule-management';
-  static const String hospitalHomeLayout = '/hospital-home-layout';
+  static const String hospitalHome = '/hospital-home-layout';
   // Hospital registration flow
   static const String hospitalProfessionalInfo = '/hospital-professional-info';
   static const String hospitalLocationPayment = '/hospital-location-payment';
@@ -126,9 +126,9 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const RegistrationSuccessPage(),
         );
-      case AppRoutes.home:
+      case AppRoutes.homeDoctor:
         return RightRouting(const HomeLayoutPage());
-      case AppRoutes.hospitalHomeLayout:
+      case AppRoutes.hospitalHome:
         return RightRouting(const HospitalHomeLayoutPage());
       case AppRoutes.profile:
         return MaterialPageRoute(builder: (_) => const ProfilePage());

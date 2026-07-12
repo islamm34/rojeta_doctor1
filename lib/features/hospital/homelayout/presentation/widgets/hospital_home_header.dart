@@ -12,12 +12,6 @@ class HospitalHomeHeader extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: EdgeInsets.only(
-        top: paddingTop + 16.h,
-        left: 20.w,
-        right: 20.w,
-        bottom: 44.h, // Provide space for overlapping stats card
-      ),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
@@ -31,91 +25,124 @@ class HospitalHomeHeader extends StatelessWidget {
           bottom: Radius.circular(24.r),
         ),
       ),
-      child: Row(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Hospital Avatar
-          CircleAvatar(
-            radius: 26.r,
-            backgroundColor: Colors.white.withValues(alpha: 0.2),
-            child: Icon(Icons.local_hospital, color: Colors.white, size: 28.sp),
-          ),
-          SizedBox(width: 12.w),
-          // Hospital Info
-          Expanded(
-            child: Column(
+          Padding(
+            padding: EdgeInsets.only(
+              top: paddingTop + 16.h,
+              left: 20.w,
+              right: 20.w,
+              bottom: 24.h,
+            ),
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  context.strings.welcomeBackHospital,
-                  style: context.textTheme.titleMedium?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.sp,
+                // Hospital Avatar
+                Container(
+                  width: 52.r,
+                  height: 52.r,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.5),
+                      width: 2.w,
+                    ),
+                    image: const DecorationImage(
+                      image: AssetImage('assets/images/doctor.png'),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-                SizedBox(height: 2.h),
-                Text(
-                  'As-Salam International Hospital',
-                  style: context.textTheme.bodyMedium?.copyWith(
-                    color: Colors.white70,
-                    fontSize: 13.sp,
+                SizedBox(width: 12.w),
+                // Hospital Info
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 4.h),
+                      Text(
+                        context.strings.welcomeBackHospital,
+                        style: context.textTheme.titleMedium?.copyWith(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.sp,
+                        ),
+                      ),
+                      SizedBox(height: 2.h),
+                      Text(
+                        'As-Salam International Hospital',
+                        style: context.textTheme.bodyMedium?.copyWith(
+                          color: Colors.white70,
+                          fontSize: 12.sp,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(width: 10.w),
+                // Notification Icon
+                Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Container(
+                      width: 40.w,
+                      height: 40.h,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.15),
+                        borderRadius: BorderRadius.circular(12.r),
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.1),
+                        ),
+                      ),
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        icon: const Icon(
+                          Icons.notifications_none_outlined,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {},
+                      ),
+                    ),
+                    Positioned(
+                      top: -4.h,
+                      right: -4.w,
+                      child: Container(
+                        padding: EdgeInsets.all(4.w),
+                        decoration: const BoxDecoration(
+                          color: Colors.red,
+                          shape: BoxShape.circle,
+                        ),
+                        constraints: BoxConstraints(
+                          minWidth: 16.w,
+                          minHeight: 16.h,
+                        ),
+                        child: Text(
+                          '4',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 9.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
-          SizedBox(width: 10.w),
-          // Notification Icon
-          Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Container(
-                width: 40.w,
-                height: 40.h,
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(12.r),
-                  border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.1),
-                  ),
-                ),
-                child: IconButton(
-                  padding: EdgeInsets.zero,
-                  icon: const Icon(
-                    Icons.notifications_none_outlined,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {},
-                ),
-              ),
-              Positioned(
-                top: -4.h,
-                right: -4.w,
-                child: Container(
-                  padding: EdgeInsets.all(4.w),
-                  decoration: const BoxDecoration(
-                    color: Colors.red,
-                    shape: BoxShape.circle,
-                  ),
-                  constraints: BoxConstraints(
-                    minWidth: 16.w,
-                    minHeight: 16.h,
-                  ),
-                  child: Text(
-                    '6',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 9.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-            ],
+          Container(
+            height: 60.h,
+            margin: EdgeInsets.symmetric(horizontal: 12.w),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.15),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
+            ),
           ),
         ],
       ),

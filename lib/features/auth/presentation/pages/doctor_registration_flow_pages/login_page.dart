@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../widgets/forgot_password/forgot_password_header.dart';
-import '../widgets/forgot_password/forgot_password_form.dart';
+import '../../../../../core/utils/screen_util_like.dart';
+import '../../widgets/login/login_header.dart';
+import '../../widgets/login/login_form.dart';
+import '../../widgets/login/login_footer.dart';
 
-class ForgotPasswordPage extends StatelessWidget {
-  const ForgotPasswordPage({super.key});
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +19,12 @@ class ForgotPasswordPage extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 32.h),
           child: Column(
             children: [
-              const ForgotPasswordHeader(),
+              SizedBox(height: 24.h),
+              const LoginHeader(),
               SizedBox(height: 32.h),
-              const ForgotPasswordForm(),
+              const LoginForm(),
+              SizedBox(height: 32.h),
+              const LoginFooter(),
             ],
           ),
         ),

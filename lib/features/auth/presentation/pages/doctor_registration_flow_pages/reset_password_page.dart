@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../widgets/reset_password/reset_password_header.dart';
-import '../widgets/reset_password/reset_password_form.dart';
+import '../../../../../core/utils/screen_util_like.dart';
+import '../../widgets/reset_password/reset_password_header.dart';
+import '../../widgets/reset_password/reset_password_form.dart';
 
 class ResetPasswordPage extends StatelessWidget {
   const ResetPasswordPage({super.key});

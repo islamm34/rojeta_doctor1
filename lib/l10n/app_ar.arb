@@ -397,8 +397,8 @@
   "medicalServicesManagement": "إدارة الخدمات الطبية",
   "manageMedicalServices": "إدارة الخدمات الطبية",
   "medicalServicesDesc": "إضافة تخصصات جديدة وتحديث معلومات الأطباء وطاقم التمريض لتحسين تجربة المريض.",
-  "welcomeBackHospital": "مرحباً بعودتك!"
-}
+  "welcomeBackHospital": "مرحباً بعودتك!",
+
   "location": "الموقع",
   "chooseOnMap": "اختر من الخريطة",
   "organizationName": "اسم المنظمة *",

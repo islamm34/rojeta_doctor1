@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rojeta_doctor/features/auth/data/models/user_type_model.dart';
-import '../bloc/auth_bloc.dart';
-import '../bloc/auth_state.dart';
+import '../../bloc/auth_bloc.dart';
+import '../../bloc/auth_state.dart';
 import 'package:rojeta_doctor/features/auth/presentation/widgets/registeraion_steps_app_bar.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../widgets/registeration_steps_indicator.dart';
-import '../widgets/verify_phone/verify_phone_card.dart';
+import '../../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../../core/utils/screen_util_like.dart';
+import '../../widgets/registeration_steps_indicator.dart';
+import '../../widgets/verify_phone/verify_phone_card.dart';
 
 class VerifyPhonePage extends StatelessWidget {
   final String? comefrom;

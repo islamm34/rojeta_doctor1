@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../widgets/registration_success/registration_status_header.dart';
-import '../widgets/registration_success/request_summary_card.dart';
-import '../widgets/registration_success/whats_next_card.dart';
-import '../widgets/registration_success/request_number_section.dart';
-import '../widgets/registration_success/contact_us_section.dart';
-import '../../../../config/routes/app_router.dart';
+import '../../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../../core/utils/screen_util_like.dart';
+import '../../widgets/registration_success/registration_status_header.dart';
+import '../../widgets/registration_success/request_summary_card.dart';
+import '../../widgets/registration_success/whats_next_card.dart';
+import '../../widgets/registration_success/request_number_section.dart';
+import '../../widgets/registration_success/contact_us_section.dart';
+import '../../../../../config/routes/app_router.dart';
 
 class RegistrationSuccessPage extends StatelessWidget {
   const RegistrationSuccessPage({super.key});

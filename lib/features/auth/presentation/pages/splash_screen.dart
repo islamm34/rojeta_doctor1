@@ -28,7 +28,7 @@ class _SplashPageState extends State<SplashPage> {
     if (mounted) {
       if (UserHiveHelper.getUser()?.onBoardingCompleted == true) {
         if (await FlutterSecureStorageHelper.getToken() != null) {
-          context.pushReplacementNamed(AppRoutes.home);
+          context.pushReplacementNamed(AppRoutes.homeDoctor);
         } else {
           context.pushReplacementNamed(AppRoutes.login);
         }

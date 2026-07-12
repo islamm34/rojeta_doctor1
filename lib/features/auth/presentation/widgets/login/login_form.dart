@@ -73,7 +73,9 @@ class _LoginFormState extends State<LoginForm> {
             // Password Field
             CustomTextField(
               label: context.strings.password, // "Password"
-              hintText: context.strings.enterYourPasswordHint, // "Enter your password"
+              hintText: context
+                  .strings
+                  .enterYourPasswordHint, // "Enter your password"
               controller: _passwordController,
               obscureText: _obscurePassword,
               prefixIcon: Icon(
@@ -137,8 +139,7 @@ class _LoginFormState extends State<LoginForm> {
               icon: Icon(Icons.login, color: Colors.white, size: 20.w),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  // Navigate to Home layout Page on successful credentials check
-                  context.pushReplacementNamed(AppRoutes.home);
+                  context.pushReplacementNamed(AppRoutes.hospitalHome);
                 }
               },
             ),
@@ -147,7 +148,9 @@ class _LoginFormState extends State<LoginForm> {
             // OR Divider
             Row(
               children: [
-                Expanded(child: Divider(color: Colors.grey.shade300, thickness: 1)),
+                Expanded(
+                  child: Divider(color: Colors.grey.shade300, thickness: 1),
+                ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: Text(
@@ -158,7 +161,9 @@ class _LoginFormState extends State<LoginForm> {
                     ),
                   ),
                 ),
-                Expanded(child: Divider(color: Colors.grey.shade300, thickness: 1)),
+                Expanded(
+                  child: Divider(color: Colors.grey.shade300, thickness: 1),
+                ),
               ],
             ),
             SizedBox(height: 20.h),

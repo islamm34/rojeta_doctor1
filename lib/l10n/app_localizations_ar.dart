@@ -1199,6 +1199,8 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get welcomeBackHospital => 'مرحباً بعودتك!';
+
+  @override
   String get location => 'الموقع';
 
   @override

@@ -2443,6 +2443,7 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Welcome back!'**
   String get welcomeBackHospital;
+
   /// No description provided for @location.
   ///
   /// In en, this message translates to:

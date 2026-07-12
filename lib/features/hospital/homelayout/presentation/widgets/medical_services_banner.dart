@@ -6,10 +6,7 @@ import '../../../../../../shared/widgets/custom_elevated_button.dart';
 class MedicalServicesBanner extends StatelessWidget {
   final VoidCallback? onManageTap;
 
-  const MedicalServicesBanner({
-    super.key,
-    this.onManageTap,
-  });
+  const MedicalServicesBanner({super.key, this.onManageTap});
 
   @override
   Widget build(BuildContext context) {
@@ -48,12 +45,20 @@ class MedicalServicesBanner extends StatelessWidget {
             ),
           ),
           SizedBox(height: 20.h),
-          CustomElevatedButton(
-            text: context.strings.manageMedicalServices,
-            onPressed: onManageTap ?? () {},
-            backgroundColor: const Color(0xFF28B563),
-            borderRadius: 12.r,
-            height: 48.h,
+          Align(
+            alignment: Alignment.centerRight,
+            child: CustomElevatedButton(
+              text: context.strings.manageMedicalServices,
+              onPressed: onManageTap ?? () {},
+              backgroundColor: const Color(0xFF28B563),
+              borderRadius: 24.r,
+              height: 40.h,
+              width: null,
+              textStyle: context.textTheme.labelLarge?.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ),
         ],
       ),

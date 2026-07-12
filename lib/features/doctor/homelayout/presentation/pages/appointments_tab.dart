@@ -3,7 +3,7 @@ import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
 import '../../data/mocks/doctor_mock_data.dart';
 import '../../data/models/doctor_appointment_model.dart';
-import '../widgets/appointments_tab_card.dart';
+import '../widgets/appointment/appointments_tab_card.dart';
 
 class AppointmentsTab extends StatefulWidget {
   const AppointmentsTab({super.key});

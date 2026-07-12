@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../../core/utils/screen_util_like.dart';
-import '../../data/models/doctor_appointment_model.dart';
+import '../../../../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../../../../core/utils/screen_util_like.dart';
+import '../../../data/models/doctor_appointment_model.dart';
 
 class AppointmentsTabCard extends StatelessWidget {
   final DoctorAppointmentModel appointment;
@@ -191,7 +191,7 @@ class AppointmentsTabCard extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 16.h),
-                
+
                 // Date & Time
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -226,9 +226,9 @@ class AppointmentsTabCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                
+
                 SizedBox(height: 16.h),
-                
+
                 // Fee
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -253,9 +253,9 @@ class AppointmentsTabCard extends StatelessWidget {
               ],
             ),
           ),
-          
+
           SizedBox(height: 16.h),
-          
+
           // Action Buttons
           _buildActionButtons(theme),
         ],
@@ -274,7 +274,7 @@ class AppointmentsTabCard extends StatelessWidget {
 
   Widget _buildActionButtons(ThemeData theme) {
     final status = appointment.status.toLowerCase();
-    
+
     if (status == 'pending') {
       if (appointment.isOnline) {
         // Only Reject button for pending video call
@@ -388,7 +388,7 @@ class AppointmentsTabCard extends StatelessWidget {
         ),
       );
     }
-    
+
     return const SizedBox.shrink();
   }
 }

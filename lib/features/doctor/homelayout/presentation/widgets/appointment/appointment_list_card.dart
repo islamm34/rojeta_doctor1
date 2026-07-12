@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../../../core/utils/screen_util_like.dart';
-import '../../data/models/doctor_appointment_model.dart';
+import '../../../../../../../core/utils/screen_util_like.dart';
+import '../../../data/models/doctor_appointment_model.dart';
 
 class AppointmentListCard extends StatelessWidget {
   final DoctorAppointmentModel appointment;

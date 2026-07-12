@@ -2,30 +2,30 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rojeta_doctor/features/auth/presentation/widgets/registeraion_steps_app_bar.dart';
-import 'package:rojeta_doctor/features/auth/presentation/widgets/registeration_steps_indicator.dart';
-import '../../../../config/routes/app_router.dart';
-import '../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../core/utils/screen_util_like.dart';
-import '../../../../shared/widgets/custom_elevated_button.dart';
-import '../../../../core/di/injector.dart';
-import '../bloc/auth_bloc.dart';
-import '../bloc/auth_state.dart';
-import '../widgets/basic_information/basic_info_form.dart';
+import '../../../../../config/routes/app_router.dart';
+import '../../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../../core/utils/screen_util_like.dart';
+import '../../../../../shared/widgets/custom_elevated_button.dart';
+import '../../../../../core/di/injector.dart';
+import '../../bloc/auth_bloc.dart';
+import '../../bloc/auth_state.dart';
+import '../../widgets/professional_information/professional_info_form.dart';
+import '../../widgets/registeration_steps_indicator.dart';
 
-class BasicInformationPage extends StatelessWidget {
-  const BasicInformationPage({super.key});
+class ProfessionalInformationPage extends StatelessWidget {
+  const ProfessionalInformationPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => injector<AuthBloc>(),
-      child: const _BasicInformationView(),
+    return BlocProvider.value(
+      value: injector<AuthBloc>(),
+      child: const _ProfessionalInformationView(),
     );
   }
 }
 
-class _BasicInformationView extends StatelessWidget {
-  const _BasicInformationView();
+class _ProfessionalInformationView extends StatelessWidget {
+  const _ProfessionalInformationView();
 
   @override
   Widget build(BuildContext context) {
@@ -33,17 +33,18 @@ class _BasicInformationView extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8FCFF),
-      appBar: RegisteraionStepsAppBar(stepText: context.strings.step2Of5),
+      appBar: RegisteraionStepsAppBar(stepText: context.strings.step3Of5),
       body: SafeArea(
         child: Column(
           children: [
-            RegisterationStepsIndicator(progress: 0.4),
+            // Progress Bar
+            RegisterationStepsIndicator(progress: 0.6),
             Expanded(
               child: SingleChildScrollView(
                 padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
                 child: Column(
                   children: [
-                    const BasicInfoForm(),
+                    const ProfessionalInfoForm(),
 
                     SizedBox(height: 32.h),
 
@@ -71,7 +72,7 @@ class _BasicInformationView extends StatelessWidget {
                         Expanded(
                           child: BlocBuilder<AuthBloc, AuthState>(
                             builder: (context, state) {
-                              final isValid = state.isBasicInfoFormValid;
+                              final isValid = state.isProfessionalInfoValid;
                               return Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(30.r),
@@ -96,7 +97,7 @@ class _BasicInformationView extends StatelessWidget {
                                   onPressed: isValid
                                       ? () {
                                           context.pushNamed(
-                                            AppRoutes.professionalInformation,
+                                            AppRoutes.documentUpload,
                                           );
                                         }
                                       : () {}, // Do nothing if not valid
