@@ -69,7 +69,10 @@ class NursingServicesTab extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton.icon(
               onPressed: () {
-                context.pushNamed(AppRoutes.nursingAddService);
+                context.pushNamed(
+                  AppRoutes.nursingAddService,
+                  extra: context.read<NursingBloc>(),
+                );
               },
               icon: const Icon(Icons.add, color: Colors.white),
               label: const Text(
@@ -114,7 +117,10 @@ class NursingServicesTab extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    context.pushNamed(AppRoutes.nursingAddService);
+                    context.pushNamed(
+                      AppRoutes.nursingAddService,
+                      extra: context.read<NursingBloc>(),
+                    );
                   },
                   icon: const Icon(Icons.add, color: Colors.white),
                   label: const Text(

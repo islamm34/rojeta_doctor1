@@ -27,7 +27,9 @@ class NursingHomeLayout extends StatelessWidget {
                 const NursingHomeTab(),
                 const NursingServicesTab(),
                 const NursingStaffTab(),
-                const BookingManagementPage(userType: UserType.nursingCareProviders),
+                const BookingManagementPage(
+                  userType: UserType.nursingCareProviders,
+                ),
                 const NursingProfileTab(),
               ],
             ),
@@ -40,7 +42,9 @@ class NursingHomeLayout extends StatelessWidget {
               selectedItemColor: const Color(0xFF1877F2),
               unselectedItemColor: const Color(0xFF64748B),
               showUnselectedLabels: true,
-              selectedLabelStyle: context.textTheme.labelSmall?.copyWith(fontWeight: FontWeight.bold),
+              selectedLabelStyle: context.textTheme.labelSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
               unselectedLabelStyle: context.textTheme.labelSmall,
               items: const [
                 BottomNavigationBarItem(
@@ -75,5 +79,4 @@ class NursingHomeLayout extends StatelessWidget {
       ),
     );
   }
-
 }

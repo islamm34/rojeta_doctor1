@@ -343,11 +343,17 @@ class AppRouter {
         );
       case AppRoutes.nursingAddService:
         return MaterialPageRoute(
-          builder: (_) => const NursingAddServicePage(),
+          builder: (_) => BlocProvider.value(
+            value: settings.arguments as NursingBloc,
+            child: const NursingAddServicePage(),
+          ),
         );
       case AppRoutes.nursingAddNurse:
         return MaterialPageRoute(
-          builder: (_) => const NursingAddStaffPage(),
+          builder: (_) => BlocProvider.value(
+            value: settings.arguments as NursingBloc,
+            child: const NursingAddStaffPage(),
+          ),
         );
       case AppRoutes.nursingSettings:
         return MaterialPageRoute(

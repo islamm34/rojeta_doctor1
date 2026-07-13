@@ -186,7 +186,7 @@ class _NursingStaffTabState extends State<NursingStaffTab> with SingleTickerProv
                 right: 16.w,
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    context.pushNamed(AppRoutes.nursingAddNurse);
+                    context.pushNamed(AppRoutes.nursingAddNurse, extra: context.read<NursingBloc>());
                   },
                   icon: const Icon(Icons.add, color: Colors.white),
                   label: const Text(

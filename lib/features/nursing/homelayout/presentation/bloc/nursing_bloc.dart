@@ -22,7 +22,7 @@ class NursingBloc extends Bloc<NursingEvent, NursingState> {
 
   void _onChangeTab(ChangeNursingTabEvent event, Emitter<NursingState> emit) {
     emit(state.copyWith(currentTabIndex: event.index));
-    
+
     // Automatically load data based on the tab selected
     if (event.index == 0 && state.dashboardData == null) {
       add(LoadNursingDashboardData());
@@ -40,7 +40,7 @@ class NursingBloc extends Bloc<NursingEvent, NursingState> {
     Emitter<NursingState> emit,
   ) async {
     emit(state.copyWith(status: NursingStatus.loading));
-    
+
     // Mocking a network delay
     await Future.delayed(const Duration(milliseconds: 600));
 
@@ -87,7 +87,7 @@ class NursingBloc extends Bloc<NursingEvent, NursingState> {
     Emitter<NursingState> emit,
   ) async {
     emit(state.copyWith(status: NursingStatus.loading));
-    
+
     // Mocking network delay
     await Future.delayed(const Duration(milliseconds: 600));
 
@@ -102,8 +102,8 @@ class NursingBloc extends Bloc<NursingEvent, NursingState> {
           'Medication management',
           'Basic medical care'
         ],
-        iconColorCode: 0xFF3B82F6, // Blue
-        iconCodePoint: 0xe03a, // Icons.access_time
+        // iconColorCode: 0xFF3B82F6, // Blue
+        // iconCodePoint: 0xe03a, // Icons.access_time
       ),
       const NursingServiceModel(
         title: '24-Hour Nursing',
@@ -115,8 +115,8 @@ class NursingBloc extends Bloc<NursingEvent, NursingState> {
           'Emergency response',
           'Family support'
         ],
-        iconColorCode: 0xFFEC4899, // Pink
-        iconCodePoint: 0xe25c, // Icons.favorite_border
+        // iconColorCode: 0xFFEC4899, // Pink
+        // iconCodePoint: 0xe25c, // Icons.favorite_border
       ),
       const NursingServiceModel(
         title: 'Medication Administration',
@@ -128,8 +128,8 @@ class NursingBloc extends Bloc<NursingEvent, NursingState> {
           'Wound dressing',
           'Home visits'
         ],
-        iconColorCode: 0xFF10B981, // Green
-        iconCodePoint: 0xf028c, // Icons.vaccines
+        // iconColorCode: 0xFF10B981, // Green
+        // iconCodePoint: 0xf028c, // Icons.vaccines
       ),
       const NursingServiceModel(
         title: 'Newborn Baby Care',
@@ -141,8 +141,8 @@ class NursingBloc extends Bloc<NursingEvent, NursingState> {
           'Health monitoring',
           'Mother support'
         ],
-        iconColorCode: 0xFFA855F7, // Purple
-        iconCodePoint: 0xf05a1, // Icons.child_friendly
+        // iconColorCode: 0xFFA855F7, // Purple
+        // iconCodePoint: 0xf05a1, // Icons.child_friendly
       ),
       const NursingServiceModel(
         title: 'Elderly Care',
@@ -154,8 +154,8 @@ class NursingBloc extends Bloc<NursingEvent, NursingState> {
           'Companionship',
           'Health monitoring'
         ],
-        iconColorCode: 0xFF059669, // Dark Green
-        iconCodePoint: 0xe491, // Icons.person_outline
+        // iconColorCode: 0xFF059669, // Dark Green
+        // iconCodePoint: 0xe491, // Icons.person_outline
       ),
     ];
 
@@ -170,11 +170,11 @@ class NursingBloc extends Bloc<NursingEvent, NursingState> {
     Emitter<NursingState> emit,
   ) async {
     emit(state.copyWith(status: NursingStatus.loading));
-    
+
     await Future.delayed(const Duration(milliseconds: 600));
 
     final updatedServices = List<NursingServiceModel>.from(state.services)..insert(0, event.service);
-    
+
     emit(state.copyWith(
       status: NursingStatus.success,
       services: updatedServices,
@@ -186,7 +186,7 @@ class NursingBloc extends Bloc<NursingEvent, NursingState> {
     Emitter<NursingState> emit,
   ) async {
     emit(state.copyWith(status: NursingStatus.loading));
-    
+
     await Future.delayed(const Duration(milliseconds: 600));
 
     final mockStats = NursingStaffStatsModel(
@@ -238,7 +238,7 @@ class NursingBloc extends Bloc<NursingEvent, NursingState> {
     Emitter<NursingState> emit,
   ) async {
     emit(state.copyWith(status: NursingStatus.loading));
-    
+
     await Future.delayed(const Duration(milliseconds: 600));
 
     final updatedStaff = List<NursingStaffModel>.from(state.staff)..insert(0, event.staff);
@@ -248,7 +248,7 @@ class NursingBloc extends Bloc<NursingEvent, NursingState> {
       onDuty: state.staffStats?.onDuty ?? 0,
       onLeave: state.staffStats?.onLeave ?? 0,
     );
-    
+
     emit(state.copyWith(
       status: NursingStatus.success,
       staff: updatedStaff,
@@ -261,7 +261,7 @@ class NursingBloc extends Bloc<NursingEvent, NursingState> {
     Emitter<NursingState> emit,
   ) async {
     emit(state.copyWith(status: NursingStatus.loading));
-    
+
     await Future.delayed(const Duration(milliseconds: 600));
 
     const mockProfile = NursingProfileModel(

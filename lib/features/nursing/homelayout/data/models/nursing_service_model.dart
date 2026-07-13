@@ -5,16 +5,16 @@ class NursingServiceModel extends Equatable {
   final String subtitle;
   final String durationTag; // e.g. "12 Hours", "Per Visit", "Flexible"
   final List<String> bulletPoints;
-  final int iconColorCode;
-  final int iconCodePoint; // Using code point to map to an icon
+  // final int iconColorCode;
+  // final int iconCodePoint; // Using code point to map to an icon
 
   const NursingServiceModel({
     required this.title,
     required this.subtitle,
     required this.durationTag,
     required this.bulletPoints,
-    required this.iconColorCode,
-    required this.iconCodePoint,
+    // required this.iconColorCode,
+    // required this.iconCodePoint,
   });
 
   factory NursingServiceModel.fromJson(Map<String, dynamic> json) {
@@ -23,8 +23,8 @@ class NursingServiceModel extends Equatable {
       subtitle: json['subtitle'] ?? '',
       durationTag: json['durationTag'] ?? '',
       bulletPoints: List<String>.from(json['bulletPoints'] ?? []),
-      iconColorCode: json['iconColorCode'] ?? 0xFF000000,
-      iconCodePoint: json['iconCodePoint'] ?? 0,
+      // iconColorCode: json['iconColorCode'] ?? 0xFF000000,
+      // iconCodePoint: json['iconCodePoint'] ?? 0,
     );
   }
 
@@ -34,8 +34,8 @@ class NursingServiceModel extends Equatable {
       'subtitle': subtitle,
       'durationTag': durationTag,
       'bulletPoints': bulletPoints,
-      'iconColorCode': iconColorCode,
-      'iconCodePoint': iconCodePoint,
+      // 'iconColorCode': iconColorCode,
+      // 'iconCodePoint': iconCodePoint,
     };
   }
 
@@ -45,7 +45,7 @@ class NursingServiceModel extends Equatable {
         subtitle,
         durationTag,
         bulletPoints,
-        iconColorCode,
-        iconCodePoint,
+        // iconColorCode,
+        // iconCodePoint,
       ];
 }

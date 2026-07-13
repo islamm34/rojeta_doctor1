@@ -10,8 +10,8 @@ class NursingServiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final iconColor = Color(service.iconColorCode);
-    final bgColor = iconColor.withOpacity(0.1);
+    // final iconColor = Color(service.iconColorCode);
+    // final bgColor = iconColor.withOpacity(0.1);
 
     return Container(
       decoration: BoxDecoration(
@@ -37,12 +37,13 @@ class NursingServiceCard extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.all(12.w),
                   decoration: BoxDecoration(
-                    color: bgColor,
+                    // color: bgColor,
                     borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Icon(
-                    IconData(service.iconCodePoint, fontFamily: 'MaterialIcons'),
-                    color: iconColor,
+                    Icons.accessibility_new,
+                    // IconData(service.iconCodePoint, fontFamily: 'MaterialIcons'),
+                    // color: iconColor,
                     size: 28.r,
                   ),
                 ),
@@ -64,7 +65,10 @@ class NursingServiceCard extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 12.w,
+                              vertical: 4.h,
+                            ),
                             decoration: BoxDecoration(
                               color: const Color(0xFFF1F5F9),
                               borderRadius: BorderRadius.circular(16.r),
@@ -101,9 +105,19 @@ class NursingServiceCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildBulletPoint(context, service.bulletPoints.isNotEmpty ? service.bulletPoints[0] : ''),
+                      _buildBulletPoint(
+                        context,
+                        service.bulletPoints.isNotEmpty
+                            ? service.bulletPoints[0]
+                            : '',
+                      ),
                       SizedBox(height: 8.h),
-                      _buildBulletPoint(context, service.bulletPoints.length > 1 ? service.bulletPoints[1] : ''),
+                      _buildBulletPoint(
+                        context,
+                        service.bulletPoints.length > 1
+                            ? service.bulletPoints[1]
+                            : '',
+                      ),
                     ],
                   ),
                 ),
@@ -111,9 +125,19 @@ class NursingServiceCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildBulletPoint(context, service.bulletPoints.length > 2 ? service.bulletPoints[2] : ''),
+                      _buildBulletPoint(
+                        context,
+                        service.bulletPoints.length > 2
+                            ? service.bulletPoints[2]
+                            : '',
+                      ),
                       SizedBox(height: 8.h),
-                      _buildBulletPoint(context, service.bulletPoints.length > 3 ? service.bulletPoints[3] : ''),
+                      _buildBulletPoint(
+                        context,
+                        service.bulletPoints.length > 3
+                            ? service.bulletPoints[3]
+                            : '',
+                      ),
                     ],
                   ),
                 ),

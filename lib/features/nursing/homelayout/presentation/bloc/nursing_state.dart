@@ -23,7 +23,9 @@ class NursingState extends Equatable {
     this.status = NursingStatus.initial,
     this.currentTabIndex = 0,
     this.dashboardData,
-    this.services = const [],
+    this.services = const [
+      
+    ],
     this.staff = const [],
     this.staffStats,
     this.profile,
@@ -57,22 +59,24 @@ class NursingState extends Equatable {
       officeInfo: officeInfo ?? this.officeInfo,
       workingHours: workingHours ?? this.workingHours,
       settings: settings ?? this.settings,
-      errorMessage: status == NursingStatus.failure ? errorMessage : (status == NursingStatus.loading ? null : this.errorMessage),
+      errorMessage: status == NursingStatus.failure
+          ? errorMessage
+          : (status == NursingStatus.loading ? null : this.errorMessage),
     );
   }
 
   @override
   List<Object?> get props => [
-        status,
-        currentTabIndex,
-        dashboardData,
-        services,
-        staff,
-        staffStats,
-        profile,
-        officeInfo,
-        workingHours,
-        settings,
-        errorMessage,
-      ];
+    status,
+    currentTabIndex,
+    dashboardData,
+    services,
+    staff,
+    staffStats,
+    profile,
+    officeInfo,
+    workingHours,
+    settings,
+    errorMessage,
+  ];
 }
