@@ -251,7 +251,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get yearsOfExperience => 'Years of Experience *';
 
   @override
-  String get yearsOfExperienceHint => '11';
+  String get yearsOfExperienceHint => '10';
 
   @override
   String get education => 'Education';
@@ -508,7 +508,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appointmentReminders => 'Appointment Reminders';
 
   @override
-  String get appointmentRemindersDesc => 'Get reminders before appointments';
+  String get appointmentRemindersDesc => 'Daily summary of scheduled visits';
 
   @override
   String get marketingEmails => 'Marketing Emails';
@@ -1187,7 +1187,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addNewSpecialty => 'Add new specialty';
 
   @override
-  String get addDoctor => 'Add Doctor';
+  String get addDoctor => '+ ADD DOCTOR';
 
   @override
   String get addNewDoctor => 'Add new Doctor';
@@ -1320,4 +1320,605 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get addAnotherWorkingDay => 'Add another working day';
+
+  @override
+  String get medicalServicesTitle => 'Medical Services';
+
+  @override
+  String get manageSpecialtiesSubtitle =>
+      'Manage specialties, doctors, and nursing staff.';
+
+  @override
+  String get activeSpecialties => 'ACTIVE SPECIALTIES';
+
+  @override
+  String get totalStaff => 'TOTAL STAFF';
+
+  @override
+  String get hospitalSetupProgress => 'Hospital Setup Progress';
+
+  @override
+  String get addYourFirstSpecialty => 'Add your first specialty';
+
+  @override
+  String get addDoctorsProgress => 'Add doctors';
+
+  @override
+  String get startReceivingBookings => 'Start receiving bookings';
+
+  @override
+  String get servicesNotSetupTitle =>
+      'Your medical services are not set up yet';
+
+  @override
+  String get servicesNotSetupDesc =>
+      'Add specialties, doctors, and nursing staff to make your hospital visible to patients.';
+
+  @override
+  String get addYourFirstSpecialtyBtn => '+ Add Your First Specialty';
+
+  @override
+  String get enableServicesTitle =>
+      'Enable the services available in your hospital.';
+
+  @override
+  String get serviceLaboratory => 'Laboratory';
+
+  @override
+  String get serviceLaboratoryDesc =>
+      'Provide lab tests and sample collection.';
+
+  @override
+  String get serviceClinics => 'Clinics';
+
+  @override
+  String get serviceClinicsDesc => 'Variety of Clinics for all services';
+
+  @override
+  String get serviceRadiology => 'Radiology';
+
+  @override
+  String get serviceRadiologyDesc => 'Imaging and scan services.';
+
+  @override
+  String get serviceAmbulance => 'Ambulance';
+
+  @override
+  String get serviceAmbulanceDesc => 'Emergency transportation services.';
+
+  @override
+  String get serviceICU => 'ICU';
+
+  @override
+  String get serviceICUDesc => 'Intensive care unit availability.';
+
+  @override
+  String get totalIcuBeds => 'Total ICU Beds';
+
+  @override
+  String get serviceIncubators => 'Incubators';
+
+  @override
+  String get serviceIncubatorsDesc => 'Neonatal Incubator services.';
+
+  @override
+  String get serviceHomeCare => 'Home Care';
+
+  @override
+  String get serviceHomeCareDesc => 'At home healthcare services.';
+
+  @override
+  String get addSpecialtyTitle => 'Add Specialty';
+
+  @override
+  String get specialtyDetailsTitle => 'Specialty Details';
+
+  @override
+  String get specialtyNameLabel => 'Specialty Name';
+
+  @override
+  String get shortDescriptionLabel => 'Short Description (optional)';
+
+  @override
+  String get shortDescriptionHint =>
+      'Briefly describe the services offered within this specialty...';
+
+  @override
+  String get emergencyServicesAvailable => 'Emergency Services Available';
+
+  @override
+  String get emergencyServicesDesc =>
+      'Check if this department handles urgent care';
+
+  @override
+  String get addSpecialtyInfoBox =>
+      'Adding a specialty will allow you to assign specific doctors and consultation hours to this department in the next step.';
+
+  @override
+  String get saveAndAddDoctors => 'Save & Add Doctors ->';
+
+  @override
+  String get addAnotherSpecialty => 'Add Another Specialty';
+
+  @override
+  String get nurses => 'Nurses';
+
+  @override
+  String get showAll => 'Show All';
+
+  @override
+  String get addSpecialtyBtn => '+ ADD SPECIALTY';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get addDoctorTitle => 'Add Doctor';
+
+  @override
+  String get uploadPhoto => 'UPLOAD PHOTO';
+
+  @override
+  String get fullNameLabel => 'FULL NAME';
+
+  @override
+  String get professionalTitleLabel => 'PROFESSIONAL TITLE';
+
+  @override
+  String get professionalTitleHint => 'Consultant Cardiologist';
+
+  @override
+  String get medicalLicenseNumberLabel => 'MEDICAL LICENSE NUMBER';
+
+  @override
+  String get medicalLicenseNumberHint => 'MD-12345678';
+
+  @override
+  String get yearsOfExperienceLabel => 'YEARS OF EXPERIENCE';
+
+  @override
+  String get consultationFeeLabel => 'Consultation Fee';
+
+  @override
+  String get consultationFeeHint => '130';
+
+  @override
+  String get availableDaysLabel => 'Available Days';
+
+  @override
+  String get availableDaysHint => 'Sat , Mon';
+
+  @override
+  String get consultationDurationLabel => 'Consultation Duration';
+
+  @override
+  String get consultationDurationHint => '30 min';
+
+  @override
+  String get shortBioLabel => 'SHORT BIO';
+
+  @override
+  String get shortBioHint =>
+      'Brief professional background and achievements...';
+
+  @override
+  String get doctorDirectoryNotice =>
+      'This information will be visible to patients and other staff members in the medical directory once verified.';
+
+  @override
+  String get saveBtn => 'Save';
+
+  @override
+  String get addAnotherDoctorBtn => 'Add Another Doctor';
+
+  @override
+  String get doctorAddedSuccessfully => 'Doctor added successfully';
+
+  @override
+  String get laboratoryManagementTitle => 'Laboratory Management';
+
+  @override
+  String get laboratoryServiceDesc =>
+      'Add lab tests, prices, and home collection options for your patients.';
+
+  @override
+  String get addTestBtn => '+ Add Test';
+
+  @override
+  String get addNewTestTitle => 'Add New Test';
+
+  @override
+  String get testNameLabel => 'TEST NAME';
+
+  @override
+  String get testNameHint => 'e.g. Complete Blood Count';
+
+  @override
+  String get categoryLabel => 'CATEGORY';
+
+  @override
+  String get priceEgpLabel => 'PRICE (EGP)';
+
+  @override
+  String get homeCollectionAvailable => 'Home Collection Available';
+
+  @override
+  String get technicianVisitAddress => 'Technician can visit patient address';
+
+  @override
+  String get preparationInstructionsOptional =>
+      'PREPARATION INSTRUCTIONS (OPTIONAL)';
+
+  @override
+  String get preparationInstructionsVisibleToPatient =>
+      'These instructions will be visible to the patient during booking.';
+
+  @override
+  String get estimatedResultTimeLabel => 'ESTIMATED RESULT TIME';
+
+  @override
+  String get saveTestBtn => 'Save Test';
+
+  @override
+  String get activeLabTestsTitle => 'Active Lab Tests';
+
+  @override
+  String get radiologyManagementTitle => 'Radiology Management';
+
+  @override
+  String get radiologyServiceDesc =>
+      'Manage scans, X-rays, and imaging services for your patients with high precision and clinical clarity.';
+
+  @override
+  String get addRadiologyServiceBtn => '+ ADD RADIOLOGY SERVICE';
+
+  @override
+  String get addNewServiceTitle => 'Add New Service';
+
+  @override
+  String get serviceNameLabel => 'SERVICE NAME';
+
+  @override
+  String get serviceNameHint => 'e.g. MRI, X-Ray';
+
+  @override
+  String get contrastAgentRequired => 'Contrast Agent Required';
+
+  @override
+  String get requiresContrastDesc => 'Does this test require contrast?';
+
+  @override
+  String get preparationInstructionsLabel => 'PREPARATION INSTRUCTIONS';
+
+  @override
+  String get estimatedDurationLabel => 'ESTIMATED DURATION';
+
+  @override
+  String get saveServiceBtn => 'SAVE SERVICE';
+
+  @override
+  String get activeServicesTitle => 'ACTIVE SERVICES';
+
+  @override
+  String get noContrast => 'NO CONTRAST';
+
+  @override
+  String get contrastAvailable => 'CONTRAST AVAILABLE';
+
+  @override
+  String get icuManagementTitle => 'ICU Management';
+
+  @override
+  String get icuServiceDesc => 'Monitor ICU room status and bed availability.';
+
+  @override
+  String get addRoomBedBtn => '+ Add Room/Bed';
+
+  @override
+  String get totalUnits => 'TOTAL UNITS';
+
+  @override
+  String get inUse => 'IN USE';
+
+  @override
+  String get addNewIcuRoomTitle => 'Add New ICU Room';
+
+  @override
+  String get roomNumberLabel => 'Room Number';
+
+  @override
+  String get roomNumberHint => 'e.g. ICU-402';
+
+  @override
+  String get bedIdLabel => 'Bed ID';
+
+  @override
+  String get bedIdHint => 'e.g. B-12';
+
+  @override
+  String get floorWingLabel => 'Floor / Wing';
+
+  @override
+  String get selectLocationHint => 'Select Location';
+
+  @override
+  String get equipmentListLabel => 'Equipment List';
+
+  @override
+  String get ventilator => 'Ventilator';
+
+  @override
+  String get infusionPump => 'Infusion Pump';
+
+  @override
+  String get vitalsMonitor => 'Vitals Monitor';
+
+  @override
+  String get defibrillator => 'Defibrillator';
+
+  @override
+  String get registerRoomBtn => 'Register Room';
+
+  @override
+  String get activeIcuRoomsTitle => 'Active ICU Rooms';
+
+  @override
+  String get available => 'Available';
+
+  @override
+  String get occupied => 'Occupied';
+
+  @override
+  String get cleaning => 'Cleaning';
+
+  @override
+  String get noPatientAssigned => 'No patient assigned';
+
+  @override
+  String get incubatorManagementTitle => 'Incubator Management';
+
+  @override
+  String get incubatorServiceDesc =>
+      'Manage NICU equipment and monitoring units.';
+
+  @override
+  String get addNewIncubatorTitle => 'Add New Incubator';
+
+  @override
+  String get unitIdLabel => 'Unit ID';
+
+  @override
+  String get unitIdHint => 'e.g. NICU-001';
+
+  @override
+  String get modelLabel => 'Model';
+
+  @override
+  String get wingSectionLabel => 'Wing / Section';
+
+  @override
+  String get monitoringTypeLabel => 'Monitoring Type';
+
+  @override
+  String get vitals => 'Vitals';
+
+  @override
+  String get environment => 'Environment';
+
+  @override
+  String get registerUnitBtn => 'Register Unit';
+
+  @override
+  String get activeUnitsTitle => 'Active Units';
+
+  @override
+  String get ready => 'READY';
+
+  @override
+  String get temp => 'TEMP';
+
+  @override
+  String get hum => 'HUM';
+
+  @override
+  String get preferences => 'Preferences';
+
+  @override
+  String get account => 'Account';
+
+  @override
+  String get logOut => 'Log Out';
+
+  @override
+  String get hospitalInformation => 'Hospital Information';
+
+  @override
+  String get workingHoursSettings => 'Working Hours';
+
+  @override
+  String get newBookings => 'New Bookings';
+
+  @override
+  String get newBookingsDesc => 'Notify me of incoming patient appointments';
+
+  @override
+  String get emergencyRequests => 'Emergency Requests';
+
+  @override
+  String get emergencyRequestsDesc =>
+      'Immediate alerts for urgent patient care';
+
+  @override
+  String get paymentNotifications => 'Payment Notifications';
+
+  @override
+  String get paymentNotificationsDesc => 'Alerts for completed transactions';
+
+  @override
+  String get reportAProblem => 'Report a Problem';
+
+  @override
+  String get deactivateAccount => 'Deactivate Account';
+
+  @override
+  String get alertPreferences => 'Alert Preferences';
+
+  @override
+  String get dangerZone => 'Danger Zone';
+
+  @override
+  String get marketingContactText =>
+      'For marketing services contact us via our ';
+
+  @override
+  String get supportTeam => 'support team';
+
+  @override
+  String get editProfile => 'Edit Profile';
+
+  @override
+  String get marketing => 'Marketing';
+
+  @override
+  String get tests => 'Tests';
+
+  @override
+  String get booking => 'Booking';
+
+  @override
+  String get cityScan => 'City Scan';
+
+  @override
+  String get welcomeCityScan => 'Welcome, City Scan';
+
+  @override
+  String get addScan => 'Add Scan';
+
+  @override
+  String get scans => 'Scans';
+
+  @override
+  String get services => 'Services';
+
+  @override
+  String get cityLab => 'City Lab';
+
+  @override
+  String get welcomeCityLab => 'Welcome, City Lab';
+
+  @override
+  String get radiologyScanTabTitle => 'Radiology Scan';
+
+  @override
+  String get laboratoryTestsTabTitle => 'Laboratory Tests';
+
+  @override
+  String get manageTestMenu =>
+      'Manage your test menu, pricing, and availability.';
+
+  @override
+  String get manageServiceMenu =>
+      'Manage your service menu, pricing, and availability.';
+
+  @override
+  String get totalActiveTests => 'TOTAL ACTIVE TESTS';
+
+  @override
+  String get totalActiveScans => 'TOTAL ACTIVE Scans';
+
+  @override
+  String get activeLabTests => 'Active Lab Tests';
+
+  @override
+  String get activeRadiologyScan => 'Active Radiology Scan';
+
+  @override
+  String get homeCollection => 'Home Collection';
+
+  @override
+  String get addNewTest => 'Add New Test';
+
+  @override
+  String get addNewScan => 'Add New Scan';
+
+  @override
+  String get testName => 'Test Name';
+
+  @override
+  String get scanName => 'Scan Name';
+
+  @override
+  String get category => 'Category';
+
+  @override
+  String get priceEgp => 'Price (EGP)';
+
+  @override
+  String get turnaroundTimeLabel => 'Turnaround Time (e.g., 24 hours)';
+
+  @override
+  String get preparationsOptional => 'Preparations (Optional)';
+
+  @override
+  String get saveService => 'Save Service';
+
+  @override
+  String get bookingManagement => 'Booking Management';
+
+  @override
+  String get todaySummary => 'TODAY\'S SUMMARY';
+
+  @override
+  String get pendingBookings => 'Pending';
+
+  @override
+  String get homeVisitsCount => 'Home Visits';
+
+  @override
+  String get filterAll => 'All';
+
+  @override
+  String get filterPending => 'Pending';
+
+  @override
+  String get filterConfirmed => 'Confirmed';
+
+  @override
+  String get filterCompleted => 'Completed';
+
+  @override
+  String get filterRejected => 'Rejected';
+
+  @override
+  String get tagBranchVisit => 'BRANCH VISIT';
+
+  @override
+  String get tagHomeVisit => 'HOME Visit';
+
+  @override
+  String get scanTypeLabel => 'Scan Type';
+
+  @override
+  String get paymentStatusLabel => 'PAYMENT STATUS';
+
+  @override
+  String get paymentPaid => 'Paid';
+
+  @override
+  String get paymentPending => 'Pending';
+
+  @override
+  String get feeLabel => 'Fee';
+
+  @override
+  String get acceptBtn => 'Accept';
+
+  @override
+  String get rejectBtn => 'Reject';
+
+  @override
+  String get viewDetailsBtn => 'View Details';
 }

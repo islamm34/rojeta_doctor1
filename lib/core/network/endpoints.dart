@@ -11,4 +11,23 @@ class Endpoints {
   static const String submitConsultation = '/consultation/submit';
   static const String getSchedule = '/schedule';
   static const String updateSchedule = '/schedule/update';
+  static const String laboratoryAddTest = '/lab/test/add';
+  static const String addLabService = '/lab/service/add';
+  static const String getBookings = '/lab/bookings';
+  static const String updateBookingStatus = '/lab/bookings/update-status';
+  static const String getBranches = '/lab/branches';
+  static const String addBranch = '/lab/branches/add';
+  static const String getHomeVisitConfig = '/lab/home-visits/config';
+  static const String updateHomeVisitConfig = '/lab/home-visits/config/update';
+  static const String getLabProfile = '/lab/profile';
+  static const String updateLabProfile = '/lab/profile/update';
+  static const String getGeneralSettings = '/lab/settings';
+  static const String updateGeneralSettings = '/lab/settings/update';
+  static const String getWorkingHours = '/lab/working-hours';
+  static const String updateWorkingHours = '/lab/working-hours/update';
+  static const String getNursingDashboard = '/nursing/dashboard';
+  static const String getNursingServices = '/nursing/services';
+  static const String addNursingService = '/nursing/services/add';
+  static const String getNursingStaff = '/nursing/staff';
+  static const String addNursingStaff = '/nursing/staff/add';
 }

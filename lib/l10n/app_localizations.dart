@@ -575,7 +575,7 @@ abstract class AppLocalizations {
   /// No description provided for @yearsOfExperienceHint.
   ///
   /// In en, this message translates to:
-  /// **'11'**
+  /// **'10'**
   String get yearsOfExperienceHint;
 
   /// No description provided for @education.
@@ -1061,7 +1061,7 @@ abstract class AppLocalizations {
   /// No description provided for @appointmentRemindersDesc.
   ///
   /// In en, this message translates to:
-  /// **'Get reminders before appointments'**
+  /// **'Daily summary of scheduled visits'**
   String get appointmentRemindersDesc;
 
   /// No description provided for @marketingEmails.
@@ -2399,7 +2399,7 @@ abstract class AppLocalizations {
   /// No description provided for @addDoctor.
   ///
   /// In en, this message translates to:
-  /// **'Add Doctor'**
+  /// **'+ ADD DOCTOR'**
   String get addDoctor;
 
   /// No description provided for @addNewDoctor.
@@ -2659,6 +2659,1170 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add another working day'**
   String get addAnotherWorkingDay;
+
+  /// No description provided for @medicalServicesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Medical Services'**
+  String get medicalServicesTitle;
+
+  /// No description provided for @manageSpecialtiesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage specialties, doctors, and nursing staff.'**
+  String get manageSpecialtiesSubtitle;
+
+  /// No description provided for @activeSpecialties.
+  ///
+  /// In en, this message translates to:
+  /// **'ACTIVE SPECIALTIES'**
+  String get activeSpecialties;
+
+  /// No description provided for @totalStaff.
+  ///
+  /// In en, this message translates to:
+  /// **'TOTAL STAFF'**
+  String get totalStaff;
+
+  /// No description provided for @hospitalSetupProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Hospital Setup Progress'**
+  String get hospitalSetupProgress;
+
+  /// No description provided for @addYourFirstSpecialty.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your first specialty'**
+  String get addYourFirstSpecialty;
+
+  /// No description provided for @addDoctorsProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Add doctors'**
+  String get addDoctorsProgress;
+
+  /// No description provided for @startReceivingBookings.
+  ///
+  /// In en, this message translates to:
+  /// **'Start receiving bookings'**
+  String get startReceivingBookings;
+
+  /// No description provided for @servicesNotSetupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your medical services are not set up yet'**
+  String get servicesNotSetupTitle;
+
+  /// No description provided for @servicesNotSetupDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Add specialties, doctors, and nursing staff to make your hospital visible to patients.'**
+  String get servicesNotSetupDesc;
+
+  /// No description provided for @addYourFirstSpecialtyBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'+ Add Your First Specialty'**
+  String get addYourFirstSpecialtyBtn;
+
+  /// No description provided for @enableServicesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enable the services available in your hospital.'**
+  String get enableServicesTitle;
+
+  /// No description provided for @serviceLaboratory.
+  ///
+  /// In en, this message translates to:
+  /// **'Laboratory'**
+  String get serviceLaboratory;
+
+  /// No description provided for @serviceLaboratoryDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Provide lab tests and sample collection.'**
+  String get serviceLaboratoryDesc;
+
+  /// No description provided for @serviceClinics.
+  ///
+  /// In en, this message translates to:
+  /// **'Clinics'**
+  String get serviceClinics;
+
+  /// No description provided for @serviceClinicsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Variety of Clinics for all services'**
+  String get serviceClinicsDesc;
+
+  /// No description provided for @serviceRadiology.
+  ///
+  /// In en, this message translates to:
+  /// **'Radiology'**
+  String get serviceRadiology;
+
+  /// No description provided for @serviceRadiologyDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Imaging and scan services.'**
+  String get serviceRadiologyDesc;
+
+  /// No description provided for @serviceAmbulance.
+  ///
+  /// In en, this message translates to:
+  /// **'Ambulance'**
+  String get serviceAmbulance;
+
+  /// No description provided for @serviceAmbulanceDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency transportation services.'**
+  String get serviceAmbulanceDesc;
+
+  /// No description provided for @serviceICU.
+  ///
+  /// In en, this message translates to:
+  /// **'ICU'**
+  String get serviceICU;
+
+  /// No description provided for @serviceICUDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Intensive care unit availability.'**
+  String get serviceICUDesc;
+
+  /// No description provided for @totalIcuBeds.
+  ///
+  /// In en, this message translates to:
+  /// **'Total ICU Beds'**
+  String get totalIcuBeds;
+
+  /// No description provided for @serviceIncubators.
+  ///
+  /// In en, this message translates to:
+  /// **'Incubators'**
+  String get serviceIncubators;
+
+  /// No description provided for @serviceIncubatorsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Neonatal Incubator services.'**
+  String get serviceIncubatorsDesc;
+
+  /// No description provided for @serviceHomeCare.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Care'**
+  String get serviceHomeCare;
+
+  /// No description provided for @serviceHomeCareDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'At home healthcare services.'**
+  String get serviceHomeCareDesc;
+
+  /// No description provided for @addSpecialtyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Specialty'**
+  String get addSpecialtyTitle;
+
+  /// No description provided for @specialtyDetailsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Specialty Details'**
+  String get specialtyDetailsTitle;
+
+  /// No description provided for @specialtyNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Specialty Name'**
+  String get specialtyNameLabel;
+
+  /// No description provided for @shortDescriptionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Short Description (optional)'**
+  String get shortDescriptionLabel;
+
+  /// No description provided for @shortDescriptionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Briefly describe the services offered within this specialty...'**
+  String get shortDescriptionHint;
+
+  /// No description provided for @emergencyServicesAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency Services Available'**
+  String get emergencyServicesAvailable;
+
+  /// No description provided for @emergencyServicesDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Check if this department handles urgent care'**
+  String get emergencyServicesDesc;
+
+  /// No description provided for @addSpecialtyInfoBox.
+  ///
+  /// In en, this message translates to:
+  /// **'Adding a specialty will allow you to assign specific doctors and consultation hours to this department in the next step.'**
+  String get addSpecialtyInfoBox;
+
+  /// No description provided for @saveAndAddDoctors.
+  ///
+  /// In en, this message translates to:
+  /// **'Save & Add Doctors ->'**
+  String get saveAndAddDoctors;
+
+  /// No description provided for @addAnotherSpecialty.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Another Specialty'**
+  String get addAnotherSpecialty;
+
+  /// No description provided for @nurses.
+  ///
+  /// In en, this message translates to:
+  /// **'Nurses'**
+  String get nurses;
+
+  /// No description provided for @showAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Show All'**
+  String get showAll;
+
+  /// No description provided for @addSpecialtyBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'+ ADD SPECIALTY'**
+  String get addSpecialtyBtn;
+
+  /// No description provided for @edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// No description provided for @addDoctorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Doctor'**
+  String get addDoctorTitle;
+
+  /// No description provided for @uploadPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'UPLOAD PHOTO'**
+  String get uploadPhoto;
+
+  /// No description provided for @fullNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'FULL NAME'**
+  String get fullNameLabel;
+
+  /// No description provided for @professionalTitleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'PROFESSIONAL TITLE'**
+  String get professionalTitleLabel;
+
+  /// No description provided for @professionalTitleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Consultant Cardiologist'**
+  String get professionalTitleHint;
+
+  /// No description provided for @medicalLicenseNumberLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'MEDICAL LICENSE NUMBER'**
+  String get medicalLicenseNumberLabel;
+
+  /// No description provided for @medicalLicenseNumberHint.
+  ///
+  /// In en, this message translates to:
+  /// **'MD-12345678'**
+  String get medicalLicenseNumberHint;
+
+  /// No description provided for @yearsOfExperienceLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'YEARS OF EXPERIENCE'**
+  String get yearsOfExperienceLabel;
+
+  /// No description provided for @consultationFeeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Consultation Fee'**
+  String get consultationFeeLabel;
+
+  /// No description provided for @consultationFeeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'130'**
+  String get consultationFeeHint;
+
+  /// No description provided for @availableDaysLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Available Days'**
+  String get availableDaysLabel;
+
+  /// No description provided for @availableDaysHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Sat , Mon'**
+  String get availableDaysHint;
+
+  /// No description provided for @consultationDurationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Consultation Duration'**
+  String get consultationDurationLabel;
+
+  /// No description provided for @consultationDurationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'30 min'**
+  String get consultationDurationHint;
+
+  /// No description provided for @shortBioLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'SHORT BIO'**
+  String get shortBioLabel;
+
+  /// No description provided for @shortBioHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Brief professional background and achievements...'**
+  String get shortBioHint;
+
+  /// No description provided for @doctorDirectoryNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'This information will be visible to patients and other staff members in the medical directory once verified.'**
+  String get doctorDirectoryNotice;
+
+  /// No description provided for @saveBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get saveBtn;
+
+  /// No description provided for @addAnotherDoctorBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Another Doctor'**
+  String get addAnotherDoctorBtn;
+
+  /// No description provided for @doctorAddedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Doctor added successfully'**
+  String get doctorAddedSuccessfully;
+
+  /// No description provided for @laboratoryManagementTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Laboratory Management'**
+  String get laboratoryManagementTitle;
+
+  /// No description provided for @laboratoryServiceDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Add lab tests, prices, and home collection options for your patients.'**
+  String get laboratoryServiceDesc;
+
+  /// No description provided for @addTestBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'+ Add Test'**
+  String get addTestBtn;
+
+  /// No description provided for @addNewTestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add New Test'**
+  String get addNewTestTitle;
+
+  /// No description provided for @testNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'TEST NAME'**
+  String get testNameLabel;
+
+  /// No description provided for @testNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Complete Blood Count'**
+  String get testNameHint;
+
+  /// No description provided for @categoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'CATEGORY'**
+  String get categoryLabel;
+
+  /// No description provided for @priceEgpLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'PRICE (EGP)'**
+  String get priceEgpLabel;
+
+  /// No description provided for @homeCollectionAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Collection Available'**
+  String get homeCollectionAvailable;
+
+  /// No description provided for @technicianVisitAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Technician can visit patient address'**
+  String get technicianVisitAddress;
+
+  /// No description provided for @preparationInstructionsOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'PREPARATION INSTRUCTIONS (OPTIONAL)'**
+  String get preparationInstructionsOptional;
+
+  /// No description provided for @preparationInstructionsVisibleToPatient.
+  ///
+  /// In en, this message translates to:
+  /// **'These instructions will be visible to the patient during booking.'**
+  String get preparationInstructionsVisibleToPatient;
+
+  /// No description provided for @estimatedResultTimeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'ESTIMATED RESULT TIME'**
+  String get estimatedResultTimeLabel;
+
+  /// No description provided for @saveTestBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Test'**
+  String get saveTestBtn;
+
+  /// No description provided for @activeLabTestsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Lab Tests'**
+  String get activeLabTestsTitle;
+
+  /// No description provided for @radiologyManagementTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Radiology Management'**
+  String get radiologyManagementTitle;
+
+  /// No description provided for @radiologyServiceDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage scans, X-rays, and imaging services for your patients with high precision and clinical clarity.'**
+  String get radiologyServiceDesc;
+
+  /// No description provided for @addRadiologyServiceBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'+ ADD RADIOLOGY SERVICE'**
+  String get addRadiologyServiceBtn;
+
+  /// No description provided for @addNewServiceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add New Service'**
+  String get addNewServiceTitle;
+
+  /// No description provided for @serviceNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'SERVICE NAME'**
+  String get serviceNameLabel;
+
+  /// No description provided for @serviceNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. MRI, X-Ray'**
+  String get serviceNameHint;
+
+  /// No description provided for @contrastAgentRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Contrast Agent Required'**
+  String get contrastAgentRequired;
+
+  /// No description provided for @requiresContrastDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Does this test require contrast?'**
+  String get requiresContrastDesc;
+
+  /// No description provided for @preparationInstructionsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'PREPARATION INSTRUCTIONS'**
+  String get preparationInstructionsLabel;
+
+  /// No description provided for @estimatedDurationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'ESTIMATED DURATION'**
+  String get estimatedDurationLabel;
+
+  /// No description provided for @saveServiceBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'SAVE SERVICE'**
+  String get saveServiceBtn;
+
+  /// No description provided for @activeServicesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'ACTIVE SERVICES'**
+  String get activeServicesTitle;
+
+  /// No description provided for @noContrast.
+  ///
+  /// In en, this message translates to:
+  /// **'NO CONTRAST'**
+  String get noContrast;
+
+  /// No description provided for @contrastAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'CONTRAST AVAILABLE'**
+  String get contrastAvailable;
+
+  /// No description provided for @icuManagementTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'ICU Management'**
+  String get icuManagementTitle;
+
+  /// No description provided for @icuServiceDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Monitor ICU room status and bed availability.'**
+  String get icuServiceDesc;
+
+  /// No description provided for @addRoomBedBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'+ Add Room/Bed'**
+  String get addRoomBedBtn;
+
+  /// No description provided for @totalUnits.
+  ///
+  /// In en, this message translates to:
+  /// **'TOTAL UNITS'**
+  String get totalUnits;
+
+  /// No description provided for @inUse.
+  ///
+  /// In en, this message translates to:
+  /// **'IN USE'**
+  String get inUse;
+
+  /// No description provided for @addNewIcuRoomTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add New ICU Room'**
+  String get addNewIcuRoomTitle;
+
+  /// No description provided for @roomNumberLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Room Number'**
+  String get roomNumberLabel;
+
+  /// No description provided for @roomNumberHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. ICU-402'**
+  String get roomNumberHint;
+
+  /// No description provided for @bedIdLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Bed ID'**
+  String get bedIdLabel;
+
+  /// No description provided for @bedIdHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. B-12'**
+  String get bedIdHint;
+
+  /// No description provided for @floorWingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Floor / Wing'**
+  String get floorWingLabel;
+
+  /// No description provided for @selectLocationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Location'**
+  String get selectLocationHint;
+
+  /// No description provided for @equipmentListLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Equipment List'**
+  String get equipmentListLabel;
+
+  /// No description provided for @ventilator.
+  ///
+  /// In en, this message translates to:
+  /// **'Ventilator'**
+  String get ventilator;
+
+  /// No description provided for @infusionPump.
+  ///
+  /// In en, this message translates to:
+  /// **'Infusion Pump'**
+  String get infusionPump;
+
+  /// No description provided for @vitalsMonitor.
+  ///
+  /// In en, this message translates to:
+  /// **'Vitals Monitor'**
+  String get vitalsMonitor;
+
+  /// No description provided for @defibrillator.
+  ///
+  /// In en, this message translates to:
+  /// **'Defibrillator'**
+  String get defibrillator;
+
+  /// No description provided for @registerRoomBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Register Room'**
+  String get registerRoomBtn;
+
+  /// No description provided for @activeIcuRoomsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Active ICU Rooms'**
+  String get activeIcuRoomsTitle;
+
+  /// No description provided for @available.
+  ///
+  /// In en, this message translates to:
+  /// **'Available'**
+  String get available;
+
+  /// No description provided for @occupied.
+  ///
+  /// In en, this message translates to:
+  /// **'Occupied'**
+  String get occupied;
+
+  /// No description provided for @cleaning.
+  ///
+  /// In en, this message translates to:
+  /// **'Cleaning'**
+  String get cleaning;
+
+  /// No description provided for @noPatientAssigned.
+  ///
+  /// In en, this message translates to:
+  /// **'No patient assigned'**
+  String get noPatientAssigned;
+
+  /// No description provided for @incubatorManagementTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Incubator Management'**
+  String get incubatorManagementTitle;
+
+  /// No description provided for @incubatorServiceDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage NICU equipment and monitoring units.'**
+  String get incubatorServiceDesc;
+
+  /// No description provided for @addNewIncubatorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add New Incubator'**
+  String get addNewIncubatorTitle;
+
+  /// No description provided for @unitIdLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Unit ID'**
+  String get unitIdLabel;
+
+  /// No description provided for @unitIdHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. NICU-001'**
+  String get unitIdHint;
+
+  /// No description provided for @modelLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Model'**
+  String get modelLabel;
+
+  /// No description provided for @wingSectionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Wing / Section'**
+  String get wingSectionLabel;
+
+  /// No description provided for @monitoringTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Monitoring Type'**
+  String get monitoringTypeLabel;
+
+  /// No description provided for @vitals.
+  ///
+  /// In en, this message translates to:
+  /// **'Vitals'**
+  String get vitals;
+
+  /// No description provided for @environment.
+  ///
+  /// In en, this message translates to:
+  /// **'Environment'**
+  String get environment;
+
+  /// No description provided for @registerUnitBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Register Unit'**
+  String get registerUnitBtn;
+
+  /// No description provided for @activeUnitsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Units'**
+  String get activeUnitsTitle;
+
+  /// No description provided for @ready.
+  ///
+  /// In en, this message translates to:
+  /// **'READY'**
+  String get ready;
+
+  /// No description provided for @temp.
+  ///
+  /// In en, this message translates to:
+  /// **'TEMP'**
+  String get temp;
+
+  /// No description provided for @hum.
+  ///
+  /// In en, this message translates to:
+  /// **'HUM'**
+  String get hum;
+
+  /// No description provided for @preferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get preferences;
+
+  /// No description provided for @account.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get account;
+
+  /// No description provided for @logOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Log Out'**
+  String get logOut;
+
+  /// No description provided for @hospitalInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Hospital Information'**
+  String get hospitalInformation;
+
+  /// No description provided for @workingHoursSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Working Hours'**
+  String get workingHoursSettings;
+
+  /// No description provided for @newBookings.
+  ///
+  /// In en, this message translates to:
+  /// **'New Bookings'**
+  String get newBookings;
+
+  /// No description provided for @newBookingsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Notify me of incoming patient appointments'**
+  String get newBookingsDesc;
+
+  /// No description provided for @emergencyRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency Requests'**
+  String get emergencyRequests;
+
+  /// No description provided for @emergencyRequestsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Immediate alerts for urgent patient care'**
+  String get emergencyRequestsDesc;
+
+  /// No description provided for @paymentNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Notifications'**
+  String get paymentNotifications;
+
+  /// No description provided for @paymentNotificationsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Alerts for completed transactions'**
+  String get paymentNotificationsDesc;
+
+  /// No description provided for @reportAProblem.
+  ///
+  /// In en, this message translates to:
+  /// **'Report a Problem'**
+  String get reportAProblem;
+
+  /// No description provided for @deactivateAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Deactivate Account'**
+  String get deactivateAccount;
+
+  /// No description provided for @alertPreferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Alert Preferences'**
+  String get alertPreferences;
+
+  /// No description provided for @dangerZone.
+  ///
+  /// In en, this message translates to:
+  /// **'Danger Zone'**
+  String get dangerZone;
+
+  /// No description provided for @marketingContactText.
+  ///
+  /// In en, this message translates to:
+  /// **'For marketing services contact us via our '**
+  String get marketingContactText;
+
+  /// No description provided for @supportTeam.
+  ///
+  /// In en, this message translates to:
+  /// **'support team'**
+  String get supportTeam;
+
+  /// No description provided for @editProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Profile'**
+  String get editProfile;
+
+  /// No description provided for @marketing.
+  ///
+  /// In en, this message translates to:
+  /// **'Marketing'**
+  String get marketing;
+
+  /// No description provided for @tests.
+  ///
+  /// In en, this message translates to:
+  /// **'Tests'**
+  String get tests;
+
+  /// No description provided for @booking.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking'**
+  String get booking;
+
+  /// No description provided for @cityScan.
+  ///
+  /// In en, this message translates to:
+  /// **'City Scan'**
+  String get cityScan;
+
+  /// No description provided for @welcomeCityScan.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome, City Scan'**
+  String get welcomeCityScan;
+
+  /// No description provided for @addScan.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Scan'**
+  String get addScan;
+
+  /// No description provided for @scans.
+  ///
+  /// In en, this message translates to:
+  /// **'Scans'**
+  String get scans;
+
+  /// No description provided for @services.
+  ///
+  /// In en, this message translates to:
+  /// **'Services'**
+  String get services;
+
+  /// No description provided for @cityLab.
+  ///
+  /// In en, this message translates to:
+  /// **'City Lab'**
+  String get cityLab;
+
+  /// No description provided for @welcomeCityLab.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome, City Lab'**
+  String get welcomeCityLab;
+
+  /// No description provided for @radiologyScanTabTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Radiology Scan'**
+  String get radiologyScanTabTitle;
+
+  /// No description provided for @laboratoryTestsTabTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Laboratory Tests'**
+  String get laboratoryTestsTabTitle;
+
+  /// No description provided for @manageTestMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your test menu, pricing, and availability.'**
+  String get manageTestMenu;
+
+  /// No description provided for @manageServiceMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your service menu, pricing, and availability.'**
+  String get manageServiceMenu;
+
+  /// No description provided for @totalActiveTests.
+  ///
+  /// In en, this message translates to:
+  /// **'TOTAL ACTIVE TESTS'**
+  String get totalActiveTests;
+
+  /// No description provided for @totalActiveScans.
+  ///
+  /// In en, this message translates to:
+  /// **'TOTAL ACTIVE Scans'**
+  String get totalActiveScans;
+
+  /// No description provided for @activeLabTests.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Lab Tests'**
+  String get activeLabTests;
+
+  /// No description provided for @activeRadiologyScan.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Radiology Scan'**
+  String get activeRadiologyScan;
+
+  /// No description provided for @homeCollection.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Collection'**
+  String get homeCollection;
+
+  /// No description provided for @addNewTest.
+  ///
+  /// In en, this message translates to:
+  /// **'Add New Test'**
+  String get addNewTest;
+
+  /// No description provided for @addNewScan.
+  ///
+  /// In en, this message translates to:
+  /// **'Add New Scan'**
+  String get addNewScan;
+
+  /// No description provided for @testName.
+  ///
+  /// In en, this message translates to:
+  /// **'Test Name'**
+  String get testName;
+
+  /// No description provided for @scanName.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan Name'**
+  String get scanName;
+
+  /// No description provided for @category.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get category;
+
+  /// No description provided for @priceEgp.
+  ///
+  /// In en, this message translates to:
+  /// **'Price (EGP)'**
+  String get priceEgp;
+
+  /// No description provided for @turnaroundTimeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Turnaround Time (e.g., 24 hours)'**
+  String get turnaroundTimeLabel;
+
+  /// No description provided for @preparationsOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparations (Optional)'**
+  String get preparationsOptional;
+
+  /// No description provided for @saveService.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Service'**
+  String get saveService;
+
+  /// No description provided for @bookingManagement.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking Management'**
+  String get bookingManagement;
+
+  /// No description provided for @todaySummary.
+  ///
+  /// In en, this message translates to:
+  /// **'TODAY\'S SUMMARY'**
+  String get todaySummary;
+
+  /// No description provided for @pendingBookings.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get pendingBookings;
+
+  /// No description provided for @homeVisitsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Visits'**
+  String get homeVisitsCount;
+
+  /// No description provided for @filterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get filterAll;
+
+  /// No description provided for @filterPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get filterPending;
+
+  /// No description provided for @filterConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmed'**
+  String get filterConfirmed;
+
+  /// No description provided for @filterCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get filterCompleted;
+
+  /// No description provided for @filterRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected'**
+  String get filterRejected;
+
+  /// No description provided for @tagBranchVisit.
+  ///
+  /// In en, this message translates to:
+  /// **'BRANCH VISIT'**
+  String get tagBranchVisit;
+
+  /// No description provided for @tagHomeVisit.
+  ///
+  /// In en, this message translates to:
+  /// **'HOME Visit'**
+  String get tagHomeVisit;
+
+  /// No description provided for @scanTypeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan Type'**
+  String get scanTypeLabel;
+
+  /// No description provided for @paymentStatusLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'PAYMENT STATUS'**
+  String get paymentStatusLabel;
+
+  /// No description provided for @paymentPaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid'**
+  String get paymentPaid;
+
+  /// No description provided for @paymentPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get paymentPending;
+
+  /// No description provided for @feeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Fee'**
+  String get feeLabel;
+
+  /// No description provided for @acceptBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get acceptBtn;
+
+  /// No description provided for @rejectBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject'**
+  String get rejectBtn;
+
+  /// No description provided for @viewDetailsBtn.
+  ///
+  /// In en, this message translates to:
+  /// **'View Details'**
+  String get viewDetailsBtn;
 }
 
 class _AppLocalizationsDelegate

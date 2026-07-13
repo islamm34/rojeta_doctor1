@@ -139,7 +139,7 @@ class _LoginFormState extends State<LoginForm> {
               icon: Icon(Icons.login, color: Colors.white, size: 20.w),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  context.pushReplacementNamed(AppRoutes.hospitalHome);
+                  context.pushReplacementNamed(AppRoutes.nursingHomeLayout);
                 }
               },
             ),

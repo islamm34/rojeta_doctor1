@@ -250,7 +250,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get yearsOfExperience => 'سنوات الخبرة *';
 
   @override
-  String get yearsOfExperienceHint => '11';
+  String get yearsOfExperienceHint => '10';
 
   @override
   String get education => 'التعليم';
@@ -499,7 +499,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get appointmentReminders => 'تذكيرات المواعيد';
 
   @override
-  String get appointmentRemindersDesc => 'احصل على تذكيرات قبل المواعيد';
+  String get appointmentRemindersDesc => 'ملخص يومي للزيارات المجدولة';
 
   @override
   String get marketingEmails => 'رسائل تسويقية';
@@ -1308,4 +1308,599 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get addAnotherWorkingDay => 'إضافة يوم عمل آخر';
+
+  @override
+  String get medicalServicesTitle => 'Medical Services';
+
+  @override
+  String get manageSpecialtiesSubtitle =>
+      'Manage specialties, doctors, and nursing staff.';
+
+  @override
+  String get activeSpecialties => 'ACTIVE SPECIALTIES';
+
+  @override
+  String get totalStaff => 'TOTAL STAFF';
+
+  @override
+  String get hospitalSetupProgress => 'Hospital Setup Progress';
+
+  @override
+  String get addYourFirstSpecialty => 'Add your first specialty';
+
+  @override
+  String get addDoctorsProgress => 'Add doctors';
+
+  @override
+  String get startReceivingBookings => 'Start receiving bookings';
+
+  @override
+  String get servicesNotSetupTitle =>
+      'Your medical services are not set up yet';
+
+  @override
+  String get servicesNotSetupDesc =>
+      'Add specialties, doctors, and nursing staff to make your hospital visible to patients.';
+
+  @override
+  String get addYourFirstSpecialtyBtn => '+ Add Your First Specialty';
+
+  @override
+  String get enableServicesTitle =>
+      'Enable the services available in your hospital.';
+
+  @override
+  String get serviceLaboratory => 'Laboratory';
+
+  @override
+  String get serviceLaboratoryDesc =>
+      'Provide lab tests and sample collection.';
+
+  @override
+  String get serviceClinics => 'Clinics';
+
+  @override
+  String get serviceClinicsDesc => 'Variety of Clinics for all services';
+
+  @override
+  String get serviceRadiology => 'Radiology';
+
+  @override
+  String get serviceRadiologyDesc => 'Imaging and scan services.';
+
+  @override
+  String get serviceAmbulance => 'Ambulance';
+
+  @override
+  String get serviceAmbulanceDesc => 'Emergency transportation services.';
+
+  @override
+  String get serviceICU => 'ICU';
+
+  @override
+  String get serviceICUDesc => 'Intensive care unit availability.';
+
+  @override
+  String get totalIcuBeds => 'Total ICU Beds';
+
+  @override
+  String get serviceIncubators => 'Incubators';
+
+  @override
+  String get serviceIncubatorsDesc => 'Neonatal Incubator services.';
+
+  @override
+  String get serviceHomeCare => 'Home Care';
+
+  @override
+  String get serviceHomeCareDesc => 'At home healthcare services.';
+
+  @override
+  String get addSpecialtyTitle => 'Add Specialty';
+
+  @override
+  String get specialtyDetailsTitle => 'Specialty Details';
+
+  @override
+  String get specialtyNameLabel => 'Specialty Name';
+
+  @override
+  String get shortDescriptionLabel => 'Short Description (optional)';
+
+  @override
+  String get shortDescriptionHint =>
+      'Briefly describe the services offered within this specialty...';
+
+  @override
+  String get emergencyServicesAvailable => 'Emergency Services Available';
+
+  @override
+  String get emergencyServicesDesc =>
+      'Check if this department handles urgent care';
+
+  @override
+  String get addSpecialtyInfoBox =>
+      'Adding a specialty will allow you to assign specific doctors and consultation hours to this department in the next step.';
+
+  @override
+  String get saveAndAddDoctors => 'Save & Add Doctors ->';
+
+  @override
+  String get addAnotherSpecialty => 'Add Another Specialty';
+
+  @override
+  String get nurses => 'Nurses';
+
+  @override
+  String get showAll => 'Show All';
+
+  @override
+  String get addSpecialtyBtn => '+ ADD SPECIALTY';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get addDoctorTitle => 'إضافة طبيب';
+
+  @override
+  String get uploadPhoto => 'رفع صورة';
+
+  @override
+  String get fullNameLabel => 'الاسم بالكامل';
+
+  @override
+  String get professionalTitleLabel => 'المسمى المهني';
+
+  @override
+  String get professionalTitleHint => 'استشاري أمراض القلب';
+
+  @override
+  String get medicalLicenseNumberLabel => 'رقم الترخيص الطبي';
+
+  @override
+  String get medicalLicenseNumberHint => 'MD-12345678';
+
+  @override
+  String get yearsOfExperienceLabel => 'سنوات الخبرة';
+
+  @override
+  String get consultationFeeLabel => 'رسوم الاستشارة';
+
+  @override
+  String get consultationFeeHint => '130';
+
+  @override
+  String get availableDaysLabel => 'الأيام المتاحة';
+
+  @override
+  String get availableDaysHint => 'السبت ، الاثنين';
+
+  @override
+  String get consultationDurationLabel => 'مدة الاستشارة';
+
+  @override
+  String get consultationDurationHint => '30 دقيقة';
+
+  @override
+  String get shortBioLabel => 'نبذة قصيرة';
+
+  @override
+  String get shortBioHint => 'خلفية مهنية موجزة وإنجازات...';
+
+  @override
+  String get doctorDirectoryNotice =>
+      'ستكون هذه المعلومات مرئية للمرضى والموظفين الآخرين في الدليل الطبي بمجرد التحقق منها.';
+
+  @override
+  String get saveBtn => 'حفظ';
+
+  @override
+  String get addAnotherDoctorBtn => 'إضافة طبيب آخر';
+
+  @override
+  String get doctorAddedSuccessfully => 'تم إضافة الطبيب بنجاح';
+
+  @override
+  String get laboratoryManagementTitle => 'إدارة المختبر';
+
+  @override
+  String get laboratoryServiceDesc =>
+      'إضافة الفحوصات المخبرية، الأسعار، وخيارات السحب المنزلي للمرضى.';
+
+  @override
+  String get addTestBtn => '+ إضافة فحص';
+
+  @override
+  String get addNewTestTitle => 'إضافة فحص جديد';
+
+  @override
+  String get testNameLabel => 'اسم الفحص';
+
+  @override
+  String get testNameHint => 'مثال: صورة دم كاملة';
+
+  @override
+  String get categoryLabel => 'الفئة';
+
+  @override
+  String get priceEgpLabel => 'السعر (جنيه مصري)';
+
+  @override
+  String get homeCollectionAvailable => 'متاح سحب عينة من المنزل';
+
+  @override
+  String get technicianVisitAddress => 'يمكن للفني زيارة عنوان المريض';
+
+  @override
+  String get preparationInstructionsOptional => 'تعليمات التحضير (اختياري)';
+
+  @override
+  String get preparationInstructionsVisibleToPatient =>
+      'ستكون هذه التعليمات مرئية للمريض أثناء الحجز.';
+
+  @override
+  String get estimatedResultTimeLabel => 'الوقت المتوقع للنتيجة';
+
+  @override
+  String get saveTestBtn => 'حفظ الفحص';
+
+  @override
+  String get activeLabTestsTitle => 'الفحوصات النشطة';
+
+  @override
+  String get radiologyManagementTitle => 'إدارة الأشعة';
+
+  @override
+  String get radiologyServiceDesc =>
+      'إدارة الأشعة السينية، الرنين المغناطيسي، وخدمات التصوير.';
+
+  @override
+  String get addRadiologyServiceBtn => '+ إضافة خدمة أشعة';
+
+  @override
+  String get addNewServiceTitle => 'إضافة خدمة جديدة';
+
+  @override
+  String get serviceNameLabel => 'اسم الخدمة';
+
+  @override
+  String get serviceNameHint => 'مثال: رنين مغناطيسي';
+
+  @override
+  String get contrastAgentRequired => 'يتطلب صبغة';
+
+  @override
+  String get requiresContrastDesc => 'هل يتطلب هذا الفحص صبغة التباين؟';
+
+  @override
+  String get preparationInstructionsLabel => 'تعليمات التحضير';
+
+  @override
+  String get estimatedDurationLabel => 'المدة المتوقعة';
+
+  @override
+  String get saveServiceBtn => 'حفظ الخدمة';
+
+  @override
+  String get activeServicesTitle => 'الخدمات النشطة';
+
+  @override
+  String get noContrast => 'بدون صبغة';
+
+  @override
+  String get contrastAvailable => 'متاح بصبغة';
+
+  @override
+  String get icuManagementTitle => 'إدارة العناية المركزة';
+
+  @override
+  String get icuServiceDesc => 'مراقبة حالة غرف وأسرة العناية المركزة.';
+
+  @override
+  String get addRoomBedBtn => '+ إضافة غرفة/سرير';
+
+  @override
+  String get totalUnits => 'إجمالي الوحدات';
+
+  @override
+  String get inUse => 'قيد الاستخدام';
+
+  @override
+  String get addNewIcuRoomTitle => 'إضافة غرفة عناية مركزة جديدة';
+
+  @override
+  String get roomNumberLabel => 'رقم الغرفة';
+
+  @override
+  String get roomNumberHint => 'مثال: ICU-402';
+
+  @override
+  String get bedIdLabel => 'رقم السرير';
+
+  @override
+  String get bedIdHint => 'مثال: B-12';
+
+  @override
+  String get floorWingLabel => 'الطابق / الجناح';
+
+  @override
+  String get selectLocationHint => 'اختر الموقع';
+
+  @override
+  String get equipmentListLabel => 'قائمة المعدات';
+
+  @override
+  String get ventilator => 'جهاز تنفس صناعي';
+
+  @override
+  String get infusionPump => 'مضخة تسريب';
+
+  @override
+  String get vitalsMonitor => 'شاشة العلامات الحيوية';
+
+  @override
+  String get defibrillator => 'جهاز صدمات القلب';
+
+  @override
+  String get registerRoomBtn => 'تسجيل الغرفة';
+
+  @override
+  String get activeIcuRoomsTitle => 'غرف العناية النشطة';
+
+  @override
+  String get available => 'متاح';
+
+  @override
+  String get occupied => 'مشغول';
+
+  @override
+  String get cleaning => 'تنظيف';
+
+  @override
+  String get noPatientAssigned => 'لم يتم تعيين مريض';
+
+  @override
+  String get incubatorManagementTitle => 'إدارة الحضانات';
+
+  @override
+  String get incubatorServiceDesc =>
+      'إدارة حضانات الأطفال المبتسرين والمعدات الخاصة بها.';
+
+  @override
+  String get addNewIncubatorTitle => 'إضافة حضانة جديدة';
+
+  @override
+  String get unitIdLabel => 'رقم الوحدة';
+
+  @override
+  String get unitIdHint => 'مثال: NICU-001';
+
+  @override
+  String get modelLabel => 'الموديل';
+
+  @override
+  String get wingSectionLabel => 'الجناح / القسم';
+
+  @override
+  String get monitoringTypeLabel => 'نوع المراقبة';
+
+  @override
+  String get vitals => 'العلامات الحيوية';
+
+  @override
+  String get environment => 'البيئة';
+
+  @override
+  String get registerUnitBtn => 'تسجيل الوحدة';
+
+  @override
+  String get activeUnitsTitle => 'الوحدات النشطة';
+
+  @override
+  String get ready => 'جاهز';
+
+  @override
+  String get temp => 'الحرارة';
+
+  @override
+  String get hum => 'الرطوبة';
+
+  @override
+  String get preferences => 'التفضيلات';
+
+  @override
+  String get account => 'الحساب';
+
+  @override
+  String get logOut => 'تسجيل الخروج';
+
+  @override
+  String get hospitalInformation => 'معلومات المستشفى';
+
+  @override
+  String get workingHoursSettings => 'ساعات العمل';
+
+  @override
+  String get newBookings => 'الحجوزات الجديدة';
+
+  @override
+  String get newBookingsDesc => 'تنبيهي عند وجود حجوزات مرضى جديدة';
+
+  @override
+  String get emergencyRequests => 'طلبات الطوارئ';
+
+  @override
+  String get emergencyRequestsDesc => 'تنبيهات فورية لرعاية المرضى العاجلة';
+
+  @override
+  String get paymentNotifications => 'إشعارات الدفع';
+
+  @override
+  String get paymentNotificationsDesc => 'تنبيهات بالعمليات المالية المكتملة';
+
+  @override
+  String get reportAProblem => 'الإبلاغ عن مشكلة';
+
+  @override
+  String get deactivateAccount => 'تعطيل الحساب';
+
+  @override
+  String get alertPreferences => 'تفضيلات التنبيهات';
+
+  @override
+  String get dangerZone => 'منطقة الخطر';
+
+  @override
+  String get marketingContactText => 'للخدمات التسويقية تواصل معنا عبر ';
+
+  @override
+  String get supportTeam => 'فريق الدعم';
+
+  @override
+  String get editProfile => 'تعديل الملف الشخصي';
+
+  @override
+  String get marketing => 'التسويق';
+
+  @override
+  String get tests => 'الفحوصات';
+
+  @override
+  String get booking => 'الحجوزات';
+
+  @override
+  String get cityScan => 'سيتي سكان';
+
+  @override
+  String get welcomeCityScan => 'مرحباً، سيتي سكان';
+
+  @override
+  String get addScan => 'إضافة أشعة';
+
+  @override
+  String get scans => 'الأشعة';
+
+  @override
+  String get services => 'الخدمات';
+
+  @override
+  String get cityLab => 'سيتي لاب';
+
+  @override
+  String get welcomeCityLab => 'مرحباً، سيتي لاب';
+
+  @override
+  String get radiologyScanTabTitle => 'فحوصات الأشعة';
+
+  @override
+  String get laboratoryTestsTabTitle => 'التحاليل المخبرية';
+
+  @override
+  String get manageTestMenu => 'إدارة قائمة التحاليل والأسعار والتوافر.';
+
+  @override
+  String get manageServiceMenu => 'إدارة قائمة الخدمات والأسعار والتوافر.';
+
+  @override
+  String get totalActiveTests => 'إجمالي التحاليل النشطة';
+
+  @override
+  String get totalActiveScans => 'إجمالي الأشعة النشطة';
+
+  @override
+  String get activeLabTests => 'التحاليل المخبرية النشطة';
+
+  @override
+  String get activeRadiologyScan => 'فحوصات الأشعة النشطة';
+
+  @override
+  String get homeCollection => 'سحب منزلي';
+
+  @override
+  String get addNewTest => 'إضافة تحليل جديد';
+
+  @override
+  String get addNewScan => 'إضافة أشعة جديدة';
+
+  @override
+  String get testName => 'اسم التحليل';
+
+  @override
+  String get scanName => 'اسم الأشعة';
+
+  @override
+  String get category => 'الفئة';
+
+  @override
+  String get priceEgp => 'السعر (جنيه)';
+
+  @override
+  String get turnaroundTimeLabel => 'مدة الظهور (مثال: 24 ساعة)';
+
+  @override
+  String get preparationsOptional => 'الاستعدادات (اختياري)';
+
+  @override
+  String get saveService => 'حفظ الخدمة';
+
+  @override
+  String get bookingManagement => 'إدارة الحجوزات';
+
+  @override
+  String get todaySummary => 'ملخص اليوم';
+
+  @override
+  String get pendingBookings => 'قيد الانتظار';
+
+  @override
+  String get homeVisitsCount => 'زيارات منزلية';
+
+  @override
+  String get filterAll => 'الكل';
+
+  @override
+  String get filterPending => 'قيد الانتظار';
+
+  @override
+  String get filterConfirmed => 'مؤكد';
+
+  @override
+  String get filterCompleted => 'مكتمل';
+
+  @override
+  String get filterRejected => 'مرفوض';
+
+  @override
+  String get tagBranchVisit => 'زيارة فرع';
+
+  @override
+  String get tagHomeVisit => 'زيارة منزلية';
+
+  @override
+  String get scanTypeLabel => 'نوع الأشعة';
+
+  @override
+  String get paymentStatusLabel => 'حالة الدفع';
+
+  @override
+  String get paymentPaid => 'مدفوع';
+
+  @override
+  String get paymentPending => 'قيد الانتظار';
+
+  @override
+  String get feeLabel => 'الرسوم';
+
+  @override
+  String get acceptBtn => 'قبول';
+
+  @override
+  String get rejectBtn => 'رفض';
+
+  @override
+  String get viewDetailsBtn => 'عرض التفاصيل';
 }

@@ -47,6 +47,25 @@ import '../../features/doctor/homelayout/presentation/bloc/schedule/schedule_blo
 import '../../features/doctor/homelayout/presentation/bloc/schedule/schedule_event.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/di/injector.dart';
+import '../../features/hospital/settings/presentation/pages/settings_page.dart';
+import '../../features/lab&radiology/homelayout/presentation/pages/lab_home_layout_page.dart';
+import '../../features/lab&radiology/homelayout/presentation/pages/add_service/add_lab_service_page.dart';
+import '../../features/booking/presentation/pages/booking_management_page.dart';
+import '../../features/lab&radiology/homelayout/presentation/pages/manage_branch/manage_branch_page.dart';
+import '../../features/lab&radiology/homelayout/presentation/pages/manage_branch/add_branch_page.dart';
+import '../../features/lab&radiology/homelayout/presentation/pages/home_visits/home_visits_page.dart';
+import '../../features/lab&radiology/settings/presentation/pages/general_settings_page.dart';
+import '../../features/lab&radiology/settings/presentation/pages/lab_info_page.dart';
+import '../../features/lab&radiology/settings/presentation/pages/working_hours_page.dart';
+import '../../features/lab&radiology/settings/presentation/bloc/settings_bloc.dart';
+import '../../features/nursing/homelayout/presentation/pages/nursing_home_layout.dart';
+import '../../features/nursing/homelayout/presentation/pages/nursing_add_service_page.dart';
+import '../../features/nursing/homelayout/presentation/pages/nursing_add_staff_page.dart';
+import '../../features/nursing/homelayout/presentation/pages/profile/nursing_settings_page.dart';
+import '../../features/nursing/homelayout/presentation/pages/profile/nursing_office_info_page.dart';
+import '../../features/nursing/homelayout/presentation/pages/profile/nursing_working_hours_page.dart';
+import '../../features/nursing/homelayout/presentation/bloc/nursing_bloc.dart';
+import '../../features/auth/data/models/user_type_model.dart';
 import 'custom_routes.dart';
 
 class AppRoutes {
@@ -72,6 +91,12 @@ class AppRoutes {
   static const String patientDetails = '/patient-details';
   static const String scheduleManagement = '/schedule-management';
   static const String hospitalHome = '/hospital-home-layout';
+  static const String addSpecialty = '/add-specialty';
+  static const String addDoctor = '/add-doctor';
+  static const String laboratoryManagement = '/laboratory-management';
+  static const String radiologyManagement = '/radiology-management';
+  static const String icuManagement = '/icu-management';
+  static const String incubatorManagement = '/incubator-management';
   // Hospital registration flow
   static const String hospitalProfessionalInfo = '/hospital-professional-info';
   static const String hospitalLocationPayment = '/hospital-location-payment';
@@ -92,8 +117,24 @@ class AppRoutes {
   static const String nursingBasicInfo = '/nursing-basic-info';
   static const String nursingProfessionalInfo = '/nursing-professional-info';
   static const String nursingHomeSampleCollection = '/nursing-home-sample-collection';
+  static const String nursingSettings = '/nursing-settings';
+  static const String nursingOfficeInfo = '/nursing-office-info';
+  static const String nursingWorkingHours = '/nursing-working-hours';
   static const String nursingLocation = '/nursing-location';
   static const String nursingDocumentUpload = '/nursing-document-upload';
+  static const String settings = '/settings';
+  static const String labHome = '/lab-home';
+  static const String addLabService = '/add-lab-service';
+  static const String bookingManagement = '/booking-management';
+  static const String manageBranch = '/manage-branch';
+  static const String addBranch = '/add-branch';
+  static const String homeVisits = '/home-visits';
+  static const String generalSettings = '/general-settings';
+  static const String labInfo = '/lab-info';
+  static const String workingHours = '/working-hours';
+  static const String nursingHomeLayout = '/nursing-home-layout';
+  static const String nursingAddService = '/nursing-add-service';
+  static const String nursingAddNurse = '/nursing-add-nurse';
 }
 
 class AppRouter {
@@ -243,6 +284,91 @@ class AppRouter {
       case AppRoutes.nursingDocumentUpload:
         return MaterialPageRoute(
           builder: (_) => const NursingDocumentUploadPage(),
+        );
+      case AppRoutes.settings:
+        return MaterialPageRoute(builder: (_) => const SettingsPage());
+      case AppRoutes.labHome:
+        final userType = settings.arguments as UserType? ?? UserType.radiologyCenter;
+        return MaterialPageRoute(
+          builder: (_) => LabHomeLayoutPage(userType: userType),
+        );
+      case AppRoutes.addLabService:
+        final userType = settings.arguments as UserType? ?? UserType.radiologyCenter;
+        return MaterialPageRoute(
+          builder: (_) => AddLabServicePage(userType: userType),
+        );
+      case AppRoutes.bookingManagement:
+        final isRadiology = settings.arguments as bool? ?? false;
+        return MaterialPageRoute(
+          builder: (_) => BookingManagementPage( userType:UserType.radiologyCenter,),
+        );
+      case AppRoutes.manageBranch:
+        final userType = settings.arguments as UserType? ?? UserType.radiologyCenter;
+        return MaterialPageRoute(
+          builder: (_) => ManageBranchPage(userType: userType),
+        );
+      case AppRoutes.addBranch:
+        final userType = settings.arguments as UserType? ?? UserType.radiologyCenter;
+        return MaterialPageRoute(
+          builder: (_) => AddBranchPage(userType: userType),
+        );
+      case AppRoutes.homeVisits:
+        final userType = settings.arguments as UserType? ?? UserType.radiologyCenter;
+        return MaterialPageRoute(
+          builder: (_) => HomeVisitsPage(userType: userType),
+        );
+      case AppRoutes.generalSettings:
+        final userType = settings.arguments as UserType? ?? UserType.radiologyCenter;
+        return MaterialPageRoute(
+          builder: (_) => GeneralSettingsPage(userType: userType),
+        );
+      case AppRoutes.labInfo:
+        final isRadiology = settings.arguments as bool? ?? false;
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: injector<SettingsBloc>(),
+            child: LabInfoPage(isRadiology: isRadiology),
+          ),
+        );
+      case AppRoutes.workingHours:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: injector<SettingsBloc>(),
+            child: const WorkingHoursPage(),
+          ),
+        );
+      case AppRoutes.nursingHomeLayout:
+        return MaterialPageRoute(
+          builder: (_) => const NursingHomeLayout(),
+        );
+      case AppRoutes.nursingAddService:
+        return MaterialPageRoute(
+          builder: (_) => const NursingAddServicePage(),
+        );
+      case AppRoutes.nursingAddNurse:
+        return MaterialPageRoute(
+          builder: (_) => const NursingAddStaffPage(),
+        );
+      case AppRoutes.nursingSettings:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: settings.arguments as NursingBloc,
+            child: const NursingSettingsPage(),
+          ),
+        );
+      case AppRoutes.nursingOfficeInfo:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: settings.arguments as NursingBloc,
+            child: const NursingOfficeInfoPage(),
+          ),
+        );
+      case AppRoutes.nursingWorkingHours:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: settings.arguments as NursingBloc,
+            child: const NursingWorkingHoursPage(),
+          ),
         );
       default:
         return MaterialPageRoute(
