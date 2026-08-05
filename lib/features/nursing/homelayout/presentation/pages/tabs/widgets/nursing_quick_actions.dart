@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rojeta_doctor/config/routes/app_router.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
 import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
+
+import '../../../bloc/nursing_bloc.dart';
 
 class NursingQuickActions extends StatelessWidget {
   const NursingQuickActions({super.key});
@@ -17,7 +20,10 @@ class NursingQuickActions extends StatelessWidget {
           icon: Icons.medical_services_outlined,
           color: const Color(0xFF3B82F6), // Blue
           onTap: () {
-            context.pushNamed(AppRoutes.nursingAddService);
+            context.pushNamed(AppRoutes.nursingAddService
+          ,extra: context.read<NursingBloc>(),
+  
+          );
           },
         ),
         SizedBox(width: 12.w),
