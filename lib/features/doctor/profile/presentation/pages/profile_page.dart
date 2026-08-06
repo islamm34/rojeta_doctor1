@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rojeta_doctor/core/di/injector.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
 import '../../../../../../shared/widgets/custom_elevated_button.dart';
 import '../bloc/profile/profile_bloc.dart';
@@ -21,7 +22,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProfileBloc()..add(const LoadProfileEvent()),
+      create: (context) => injector<ProfileBloc>()..add(const LoadProfileEvent()),
       child: const ProfileView(),
     );
   }
@@ -93,7 +94,6 @@ class ProfileView extends StatelessWidget {
                   CustomElevatedButton(
                     text: context.strings.saveProfile,
                     onPressed: () {
-                      // Handle save
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Profile saved successfully'),

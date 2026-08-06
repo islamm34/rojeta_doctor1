@@ -4,7 +4,7 @@ import '../../models/authmodel.dart';
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   // final FlutterSecureStorage storage;
   // AuthLocalDataSourceImpl({required this.storage});
-  
+
   AuthModel? _cache;
 
   @override

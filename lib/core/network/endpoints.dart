@@ -1,10 +1,18 @@
 class Endpoints {
   static const String baseUrl = 'https://jsonplaceholder.typicode.com';
   static const String authTokenKey = '/login';
-  static const String register = '/register';
+  static const String register = '/api/v1/auth/register';
+  static const String verifyOtp = '/api/v1/auth/verify-otp';
+  static const String resendOtp = '/api/v1/auth/resend-otp';
+  static const String login = '/api/v1/auth/login';
+
+
+  static const String profile = '/api/v1/auth/profile';
+
+
+
   static const String registrationStatus = '/registration-status';
   static const String notifications = '/notifications';
-  static const String profile = '/profile';
   static const String getFinancialData = '/financial';
   static const String addClinic = '/clinics/add';
   static const String getMarketingAnalytics = '/marketing/analytics';

@@ -1,11 +1,14 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rojeta_doctor/features/doctor/profile/data/models/settings_model.dart';
 import '../../../data/mocks/profile_mock_data.dart';
+import '../../../domain/usecases/get_profile_use_case.dart';
 import 'profile_event.dart';
 import 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  ProfileBloc() : super(const ProfileState()) {
+  final GetProfileUseCase getProfileUseCase;
+
+  ProfileBloc({required this.getProfileUseCase}) : super(const ProfileState()) {
     on<LoadProfileEvent>(_onLoadProfile);
     on<SwitchTabEvent>(_onSwitchTab);
     on<ToggleServiceEvent>(_onToggleService);
@@ -21,16 +24,25 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ) async {
     emit(state.copyWith(status: ProfileStatus.loading));
 
-    // Simulate network delay
-    await Future.delayed(const Duration(seconds: 1));
-
-    emit(
-      state.copyWith(
-        status: ProfileStatus.success,
-        profile: ProfileMockData.mockProfile,
-        errorMessage: null,
-      ),
-    );
+    try {
+      final response = await getProfileUseCase();
+      final profileModel = response.toProfileModel();
+      emit(
+        state.copyWith(
+          status: ProfileStatus.success,
+          profile: profileModel,
+          errorMessage: null,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: ProfileStatus.failure,
+          errorMessage: e.toString(),
+          profile: ProfileMockData.mockProfile,
+        ),
+      );
+    }
   }
 
   void _onSwitchTab(SwitchTabEvent event, Emitter<ProfileState> emit) {

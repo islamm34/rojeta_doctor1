@@ -4,6 +4,10 @@ import '../data/datasources/remote/auth_remote_data_source_impl.dart';
 import '../data/repositories/auth_repository_impl.dart';
 import '../domain/repositories/auth_repository.dart';
 import '../domain/usecases/get_auth.dart';
+import '../domain/usecases/login_use_case.dart';
+import '../domain/usecases/register_use_case.dart';
+import '../domain/usecases/resend_otp_use_case.dart';
+import '../domain/usecases/verify_otp_use_case.dart';
 import '../presentation/bloc/auth_bloc.dart';
 import '../../auth/domain/datasources/auth_local_data_source.dart' as local_ds;
 import '../../auth/domain/datasources/auth_remote_data_source.dart' as remote_ds;
@@ -12,10 +16,18 @@ Future<void> initAuthInjector() async {
   // BLoC
   injector.registerFactory(() => AuthBloc(
         getAuth: injector(),
+        registerUseCase: injector(),
+        verifyOtpUseCase: injector(),
+        loginUseCase: injector(),
+        resendOtpUseCase: injector(),
       ));
 
   // UseCases
   injector.registerLazySingleton(() => GetAuthUseCase(injector()));
+  injector.registerLazySingleton(() => RegisterUseCase(injector()));
+  injector.registerLazySingleton(() => VerifyOtpUseCase(injector()));
+  injector.registerLazySingleton(() => LoginUseCase(injector()));
+  injector.registerLazySingleton(() => ResendOtpUseCase(injector()));
 
   // Repositories
   injector.registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(
@@ -24,9 +36,8 @@ Future<void> initAuthInjector() async {
       ));
 
   // DataSources
-  // Register implementations for the interfaces
   injector.registerLazySingleton<remote_ds.AuthRemoteDataSource>(
-      () => AuthRemoteDataSourceImpl());
+      () => AuthRemoteDataSourceImpl(apiConsumer: injector()));
   injector.registerLazySingleton<local_ds.AuthLocalDataSource>(
       () => AuthLocalDataSourceImpl());
 }

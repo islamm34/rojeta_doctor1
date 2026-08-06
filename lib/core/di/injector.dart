@@ -12,6 +12,8 @@ import '../../features/lab&radiology/settings/di/settings_di.dart';
 import '../network/api_consumer.dart';
 import '../network/dio_client.dart';
 
+import '../../features/doctor/profile/di/profile_injector.dart';
+
 final injector = GetIt.instance;
 
 Future<void> setupInjector() async {
@@ -25,6 +27,7 @@ Future<void> setupInjector() async {
   // Features
   await initAuthInjector();
   await initHomelayoutInjector();
+  await initDoctorProfileInjector();
   await initFinancialInjector();
   await initMedicalServicesInjector();
   await initSettingsInjector();

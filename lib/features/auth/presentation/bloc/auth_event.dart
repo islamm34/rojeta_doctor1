@@ -224,3 +224,25 @@ class CvvChangedEvent extends AuthEvent {
   @override
   List<Object?> get props => [cvv];
 }
+
+class SubmitRegistrationEvent extends AuthEvent {
+  const SubmitRegistrationEvent();
+}
+
+class VerifyOtpSubmittedEvent extends AuthEvent {
+  const VerifyOtpSubmittedEvent();
+}
+
+class LoginSubmittedEvent extends AuthEvent {
+  final String phone;
+  final String password;
+
+  const LoginSubmittedEvent({required this.phone, required this.password});
+
+  @override
+  List<Object?> get props => [phone, password];
+}
+
+class ResendOtpSubmittedEvent extends AuthEvent {
+  const ResendOtpSubmittedEvent();
+}

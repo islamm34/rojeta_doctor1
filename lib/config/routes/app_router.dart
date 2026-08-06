@@ -103,20 +103,25 @@ class AppRoutes {
   static const String hospitalDocumentUpload = '/hospital-document-upload';
   // Radiology registration flow
   static const String radiologyBasicInfo = '/radiology-basic-info';
-  static const String radiologyProfessionalInfo = '/radiology-professional-info';
-  static const String radiologyHomeSampleCollection = '/radiology-home-sample-collection';
+  static const String radiologyProfessionalInfo =
+      '/radiology-professional-info';
+  static const String radiologyHomeSampleCollection =
+      '/radiology-home-sample-collection';
   static const String radiologyLocation = '/radiology-location';
   static const String radiologyDocumentUpload = '/radiology-document-upload';
   // Laboratory registration flow
   static const String laboratoryBasicInfo = '/laboratory-basic-info';
-  static const String laboratoryProfessionalInfo = '/laboratory-professional-info';
-  static const String laboratoryHomeSampleCollection = '/laboratory-home-sample-collection';
+  static const String laboratoryProfessionalInfo =
+      '/laboratory-professional-info';
+  static const String laboratoryHomeSampleCollection =
+      '/laboratory-home-sample-collection';
   static const String laboratoryLocation = '/laboratory-location';
   static const String laboratoryDocumentUpload = '/laboratory-document-upload';
   // Nursing registration flow
   static const String nursingBasicInfo = '/nursing-basic-info';
   static const String nursingProfessionalInfo = '/nursing-professional-info';
-  static const String nursingHomeSampleCollection = '/nursing-home-sample-collection';
+  static const String nursingHomeSampleCollection =
+      '/nursing-home-sample-collection';
   static const String nursingSettings = '/nursing-settings';
   static const String nursingOfficeInfo = '/nursing-office-info';
   static const String nursingWorkingHours = '/nursing-working-hours';
@@ -176,7 +181,9 @@ class AppRouter {
       case AppRoutes.marketingPackages:
         return MaterialPageRoute(builder: (_) => const MarketingPackagesPage());
       case AppRoutes.financialManagement:
-        return MaterialPageRoute(builder: (_) => const FinancialManagementPage());
+        return MaterialPageRoute(
+          builder: (_) => const FinancialManagementPage(),
+        );
       case AppRoutes.addClinic:
         return MaterialPageRoute(builder: (_) => const AddClinicPage());
       case AppRoutes.medicalConsultation:
@@ -236,9 +243,7 @@ class AppRouter {
           builder: (_) => const RadiologyHomeSampleCollectionPage(),
         );
       case AppRoutes.radiologyLocation:
-        return MaterialPageRoute(
-          builder: (_) => const RadiologyLocationPage(),
-        );
+        return MaterialPageRoute(builder: (_) => const RadiologyLocationPage());
       case AppRoutes.radiologyDocumentUpload:
         return MaterialPageRoute(
           builder: (_) => const RadiologyDocumentUploadPage(),
@@ -266,9 +271,7 @@ class AppRouter {
         );
       // Nursing registration flow
       case AppRoutes.nursingBasicInfo:
-        return MaterialPageRoute(
-          builder: (_) => const NursingBasicInfoPage(),
-        );
+        return MaterialPageRoute(builder: (_) => const NursingBasicInfoPage());
       case AppRoutes.nursingProfessionalInfo:
         return MaterialPageRoute(
           builder: (_) => const NursingProfessionalInfoPage(),
@@ -278,9 +281,7 @@ class AppRouter {
           builder: (_) => const NursingHomeSampleCollectionPage(),
         );
       case AppRoutes.nursingLocation:
-        return MaterialPageRoute(
-          builder: (_) => const NursingLocationPage(),
-        );
+        return MaterialPageRoute(builder: (_) => const NursingLocationPage());
       case AppRoutes.nursingDocumentUpload:
         return MaterialPageRoute(
           builder: (_) => const NursingDocumentUploadPage(),
@@ -288,37 +289,44 @@ class AppRouter {
       case AppRoutes.settings:
         return MaterialPageRoute(builder: (_) => const SettingsPage());
       case AppRoutes.labHome:
-        final userType = settings.arguments as UserType? ?? UserType.radiologyCenter;
+        final userType =
+            settings.arguments as UserType? ?? UserType.radiologyCenter;
         return MaterialPageRoute(
           builder: (_) => LabHomeLayoutPage(userType: userType),
         );
       case AppRoutes.addLabService:
-        final userType = settings.arguments as UserType? ?? UserType.radiologyCenter;
+        final userType =
+            settings.arguments as UserType? ?? UserType.radiologyCenter;
         return MaterialPageRoute(
           builder: (_) => AddLabServicePage(userType: userType),
         );
       case AppRoutes.bookingManagement:
         final isRadiology = settings.arguments as bool? ?? false;
         return MaterialPageRoute(
-          builder: (_) => BookingManagementPage( userType:UserType.radiologyCenter,),
+          builder: (_) =>
+              BookingManagementPage(userType: UserType.radiologyCenter),
         );
       case AppRoutes.manageBranch:
-        final userType = settings.arguments as UserType? ?? UserType.radiologyCenter;
+        final userType =
+            settings.arguments as UserType? ?? UserType.radiologyCenter;
         return MaterialPageRoute(
           builder: (_) => ManageBranchPage(userType: userType),
         );
       case AppRoutes.addBranch:
-        final userType = settings.arguments as UserType? ?? UserType.radiologyCenter;
+        final userType =
+            settings.arguments as UserType? ?? UserType.radiologyCenter;
         return MaterialPageRoute(
           builder: (_) => AddBranchPage(userType: userType),
         );
       case AppRoutes.homeVisits:
-        final userType = settings.arguments as UserType? ?? UserType.radiologyCenter;
+        final userType =
+            settings.arguments as UserType? ?? UserType.radiologyCenter;
         return MaterialPageRoute(
           builder: (_) => HomeVisitsPage(userType: userType),
         );
       case AppRoutes.generalSettings:
-        final userType = settings.arguments as UserType? ?? UserType.radiologyCenter;
+        final userType =
+            settings.arguments as UserType? ?? UserType.radiologyCenter;
         return MaterialPageRoute(
           builder: (_) => GeneralSettingsPage(userType: userType),
         );
@@ -338,9 +346,7 @@ class AppRouter {
           ),
         );
       case AppRoutes.nursingHomeLayout:
-        return MaterialPageRoute(
-          builder: (_) => const NursingHomeLayout(),
-        );
+        return MaterialPageRoute(builder: (_) => const NursingHomeLayout());
       case AppRoutes.nursingAddService:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(

@@ -238,7 +238,9 @@ class NursingProfileTab extends StatelessWidget {
                         icon: Icons.monetization_on_outlined,
                         title: 'Earning',
                         subtitle: 'Financial Management',
-                        onTap: () {},
+                        onTap: () {
+                          context.pushNamed(AppRoutes.financialManagement);
+                        },
                       ),
                       _buildDivider(),
                       _buildListItem(

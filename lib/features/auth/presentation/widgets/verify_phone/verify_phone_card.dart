@@ -116,14 +116,33 @@ class VerifyPhoneCard extends StatelessWidget {
             },
           ),
           SizedBox(height: 32.h),
-          BlocBuilder<AuthBloc, AuthState>(
-            buildWhen: (previous, current) =>
-                previous.otpCode != current.otpCode,
+          BlocConsumer<AuthBloc, AuthState>(
+            listenWhen: (previous, current) => previous.status != current.status,
+            listener: (context, state) {
+              if (state.status == AuthStatus.loaded) {
+                if (comefrom == 'forgotPassword') {
+                  context.pushNamedAndRemoveUntil(
+                    AppRoutes.resetPassword,
+                  );
+                } else {
+                  context.pushNamedAndRemoveUntil(
+                    AppRoutes.registrationSuccess,
+                  );
+                }
+              }
+            },
             builder: (context, state) {
-              final isValid = state.otpCode.length == 6;
+              final isLoading = state.status == AuthStatus.loading;
+              final isValid = state.otpCode.length == 6 && !isLoading;
+
+              if (isLoading) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
               return CustomElevatedButton(
                 text: context.strings.verifyAndCompleteRegistration,
-
                 onPressed: isValid
                     ? () {
                         if (comefrom == 'forgotPassword') {
@@ -131,9 +150,9 @@ class VerifyPhoneCard extends StatelessWidget {
                             AppRoutes.resetPassword,
                           );
                         } else {
-                          context.pushNamedAndRemoveUntil(
-                            AppRoutes.registrationSuccess,
-                          );
+                          context
+                              .read<AuthBloc>()
+                              .add(const VerifyOtpSubmittedEvent());
                         }
                       }
                     : null,
@@ -143,7 +162,7 @@ class VerifyPhoneCard extends StatelessWidget {
           SizedBox(height: 16.h),
           TextButton(
             onPressed: () {
-              // TODO: implement resend code action
+              context.read<AuthBloc>().add(const ResendOtpSubmittedEvent());
             },
             child: Text(
               context.strings.resendCode,

@@ -1,10 +1,15 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../config/routes/app_router.dart';
+import '../../../../../core/local/user_hive_helper.dart';
 import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
 import '../../../../../shared/widgets/custom_elevated_button.dart';
 import '../../../../../shared/widgets/custom_textfield.dart';
+import '../../bloc/auth_bloc.dart';
+import '../../bloc/auth_event.dart';
+import '../../bloc/auth_state.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -24,6 +29,21 @@ class _LoginFormState extends State<LoginForm> {
     _phoneController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  void _navigateBasedOnRole(BuildContext context) {
+    final user = UserHiveHelper.getUser();
+    final role = user?.role?.toLowerCase() ?? '';
+
+    if (role == 'doctor') {
+      context.pushReplacementNamed(AppRoutes.homeDoctor);
+    } else if (role == 'hospital') {
+      context.pushReplacementNamed(AppRoutes.hospitalHome);
+    } else if (role == 'nursing') {
+      context.pushReplacementNamed(AppRoutes.nursingHomeLayout);
+    } else {
+      context.pushReplacementNamed(AppRoutes.labHome);
+    }
   }
 
   @override
@@ -51,8 +71,8 @@ class _LoginFormState extends State<LoginForm> {
           children: [
             // Phone Number Field
             CustomTextField(
-              label: context.strings.phone, // "Phone Number"
-              hintText: context.strings.phoneHint, // "01234567890"
+              label: context.strings.phone,
+              hintText: context.strings.phoneHint,
               controller: _phoneController,
               keyboardType: TextInputType.phone,
               prefixIcon: Icon(
@@ -72,10 +92,8 @@ class _LoginFormState extends State<LoginForm> {
 
             // Password Field
             CustomTextField(
-              label: context.strings.password, // "Password"
-              hintText: context
-                  .strings
-                  .enterYourPasswordHint, // "Enter your password"
+              label: context.strings.password,
+              hintText: context.strings.enterYourPasswordHint,
               controller: _passwordController,
               obscureText: _obscurePassword,
               prefixIcon: Icon(
@@ -122,7 +140,7 @@ class _LoginFormState extends State<LoginForm> {
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
                 child: Text(
-                  context.strings.forgotPassword, // "Forgot Password?"
+                  context.strings.forgotPassword,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: theme.colorScheme.primary,
                     fontWeight: FontWeight.w600,
@@ -133,14 +151,38 @@ class _LoginFormState extends State<LoginForm> {
             ),
             SizedBox(height: 24.h),
 
-            // Sign In Button
-            CustomElevatedButton(
-              text: context.strings.signIn, // "Sign In"
-              icon: Icon(Icons.login, color: Colors.white, size: 20.w),
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  context.pushReplacementNamed(AppRoutes.nursingHomeLayout);
+            // Sign In Button with BlocConsumer
+            BlocConsumer<AuthBloc, AuthState>(
+              listenWhen: (previous, current) =>
+                  previous.status != current.status,
+              listener: (context, state) {
+                if (state.status == AuthStatus.loaded) {
+                  _navigateBasedOnRole(context);
                 }
+              },
+              builder: (context, state) {
+                final isLoading = state.status == AuthStatus.loading;
+
+                if (isLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+
+                return CustomElevatedButton(
+                  text: context.strings.signIn,
+                  icon: Icon(Icons.login, color: Colors.white, size: 20.w),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      context.read<AuthBloc>().add(
+                            LoginSubmittedEvent(
+                              phone: _phoneController.text.trim(),
+                              password: _passwordController.text.trim(),
+                            ),
+                          );
+                    }
+                  },
+                );
               },
             ),
             SizedBox(height: 20.h),
@@ -187,7 +229,6 @@ class _LoginFormState extends State<LoginForm> {
                       ),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          // Navigate to user type selection to start registration
                           context.pushNamed(AppRoutes.userTypeSelection);
                         },
                     ),

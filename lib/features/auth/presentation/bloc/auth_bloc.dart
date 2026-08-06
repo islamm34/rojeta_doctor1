@@ -1,15 +1,37 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rojeta_doctor/features/auth/data/models/login/login_request_model.dart';
+import 'package:rojeta_doctor/features/auth/data/models/otp/resend_otp_request_model.dart';
+import 'package:rojeta_doctor/features/auth/data/models/otp/verify_otp_request_model.dart';
+import 'package:rojeta_doctor/features/auth/data/models/register/register_request_model.dart';
+import '../../data/models/user_type_model.dart';
 import '../../domain/usecases/get_auth.dart';
+import '../../domain/usecases/login_use_case.dart';
+import '../../domain/usecases/register_use_case.dart';
+import '../../domain/usecases/resend_otp_use_case.dart';
+import '../../domain/usecases/verify_otp_use_case.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final GetAuthUseCase getAuth;
+  final RegisterUseCase registerUseCase;
+  final VerifyOtpUseCase verifyOtpUseCase;
+  final LoginUseCase loginUseCase;
+  final ResendOtpUseCase resendOtpUseCase;
 
-  AuthBloc({required this.getAuth})
-      : super(const AuthState()) {
+  AuthBloc({
+    required this.getAuth,
+    required this.registerUseCase,
+    required this.verifyOtpUseCase,
+    required this.loginUseCase,
+    required this.resendOtpUseCase,
+  }) : super(const AuthState()) {
     on<LoadAuthEvent>(_onLoad);
+    on<SubmitRegistrationEvent>(_onSubmitRegistration);
+    on<VerifyOtpSubmittedEvent>(_onVerifyOtpSubmitted);
+    on<LoginSubmittedEvent>(_onLoginSubmitted);
+    on<ResendOtpSubmittedEvent>(_onResendOtpSubmitted);
     on<SelectUserTypeEvent>((event, emit) => emit(state.copyWith(selectedType: event.type)));
     on<FullNameChangedEvent>((event, emit) => emit(state.copyWith(fullName: event.fullName)));
     on<EmailChangedEvent>((event, emit) => emit(state.copyWith(email: event.email)));
@@ -18,7 +40,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<ConfirmPasswordChangedEvent>((event, emit) => emit(state.copyWith(confirmPassword: event.confirmPassword)));
     on<TogglePasswordVisibilityEvent>((event, emit) => emit(state.copyWith(isPasswordVisible: !state.isPasswordVisible)));
     on<ToggleConfirmPasswordVisibilityEvent>((event, emit) => emit(state.copyWith(isConfirmPasswordVisible: !state.isConfirmPasswordVisible)));
-    
+
     // Professional Information Events
     on<SpecialtyChangedEvent>((event, emit) => emit(state.copyWith(specialty: event.specialty)));
     on<SubSpecialtyChangedEvent>((event, emit) => emit(state.copyWith(subSpecialty: event.subSpecialty)));
@@ -26,7 +48,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<YearsOfExperienceChangedEvent>((event, emit) => emit(state.copyWith(yearsOfExperience: event.years)));
     on<EducationChangedEvent>((event, emit) => emit(state.copyWith(education: event.education)));
     on<AboutChangedEvent>((event, emit) => emit(state.copyWith(about: event.about)));
-    
+
     // File Picking Events
     on<PickProfileImageEvent>((event, emit) => emit(state.copyWith(profileImagePath: event.path)));
     on<PickMedicalLicenseEvent>((event, emit) => emit(state.copyWith(medicalLicensePath: event.path)));
@@ -54,10 +76,151 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       LoadAuthEvent event, Emitter<AuthState> emit) async {
     emit(state.copyWith(status: AuthStatus.loading));
     try {
-      await getAuth(); // simple version
+      await getAuth();
       emit(state.copyWith(status: AuthStatus.loaded));
     } catch (e) {
       emit(state.copyWith(status: AuthStatus.error, message: e.toString()));
+    }
+  }
+
+  FutureOr<void> _onSubmitRegistration(
+      SubmitRegistrationEvent event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(status: AuthStatus.loading));
+    try {
+      final roleString = _getRoleString(state.selectedType);
+      final names = state.fullName.trim().split(' ');
+      final firstName = names.isNotEmpty ? names.first : state.fullName;
+      final lastName = names.length > 1 ? names.sublist(1).join(' ') : '';
+
+      final requestModel = RegisterRequestModel(
+        userType: state.selectedType,
+        role: roleString,
+        name: state.fullName.isNotEmpty
+            ? state.fullName
+            : (state.organizationName.isNotEmpty
+                ? state.organizationName
+                : 'User'),
+        firstName: firstName,
+        lastName: lastName,
+        email: state.email,
+        phoneNumber: state.phone,
+        password: state.password,
+        passwordConfirmation:
+            state.confirmPassword.isNotEmpty ? state.confirmPassword : state.password,
+        governorate: state.governorate,
+        city: state.city,
+        area: state.city.isNotEmpty ? state.city : state.governorate,
+        fullAddress: state.fullAddress,
+        about: state.about,
+        licenseNumber: state.medicalLicenseNumber,
+        medicalLicense: state.medicalLicensePath,
+        certificates:
+            state.certificatesPath != null ? [state.certificatesPath!] : null,
+        images: state.organizationImagePath != null
+            ? [state.organizationImagePath!]
+            : null,
+        logo: state.profileImagePath ?? state.organizationImagePath,
+        specialty: state.specialty,
+        subSpecialty: state.subSpecialty,
+        experienceYears: state.yearsOfExperience,
+        education: state.education,
+        organizationName: state.organizationName,
+        organizationType: state.organizationType,
+        organizationNumber: state.organizationNumber,
+      );
+
+      final response = await registerUseCase(requestModel);
+      emit(state.copyWith(
+        status: AuthStatus.loaded,
+        message: response.message ?? 'Registration successful',
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        status: AuthStatus.error,
+        message: e.toString(),
+      ));
+    }
+  }
+
+  FutureOr<void> _onVerifyOtpSubmitted(
+      VerifyOtpSubmittedEvent event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(status: AuthStatus.loading));
+    try {
+      final requestModel = VerifyOtpRequestModel(
+        phone: state.phone,
+        code: state.otpCode,
+      );
+
+      final response = await verifyOtpUseCase(requestModel);
+      emit(state.copyWith(
+        status: AuthStatus.loaded,
+        message: response.message ?? 'Phone verified successfully',
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        status: AuthStatus.error,
+        message: e.toString(),
+      ));
+    }
+  }
+
+  FutureOr<void> _onLoginSubmitted(
+      LoginSubmittedEvent event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(status: AuthStatus.loading));
+    try {
+      final requestModel = LoginRequestModel(
+        phone: event.phone,
+        password: event.password,
+      );
+
+      final response = await loginUseCase(requestModel);
+      emit(state.copyWith(
+        status: AuthStatus.loaded,
+        message: response.message ?? 'Login successful',
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        status: AuthStatus.error,
+        message: e.toString(),
+      ));
+    }
+  }
+
+  FutureOr<void> _onResendOtpSubmitted(
+      ResendOtpSubmittedEvent event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(status: AuthStatus.loading));
+    try {
+      final requestModel = ResendOtpRequestModel(
+        phone: state.phone,
+      );
+
+      final response = await resendOtpUseCase(requestModel);
+      emit(state.copyWith(
+        status: AuthStatus.initial,
+        message: response.message ?? 'OTP resent successfully',
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        status: AuthStatus.error,
+        message: e.toString(),
+      ));
+    }
+  }
+
+  String _getRoleString(UserType? userType) {
+    switch (userType) {
+      case UserType.doctor:
+        return 'doctor';
+      case UserType.hospital:
+        return 'hospital';
+      case UserType.laboratory:
+        return 'laboratory';
+      case UserType.nursingCareProviders:
+        return 'nursing';
+      case UserType.radiologyCenter:
+        return 'radiology';
+      default:
+        return 'doctor';
     }
   }
 }
