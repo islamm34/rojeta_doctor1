@@ -4,12 +4,14 @@ import 'package:rojeta_doctor/features/auth/data/models/login/login_request_mode
 import 'package:rojeta_doctor/features/auth/data/models/otp/resend_otp_request_model.dart';
 import 'package:rojeta_doctor/features/auth/data/models/otp/verify_otp_request_model.dart';
 import 'package:rojeta_doctor/features/auth/data/models/register/register_request_model.dart';
+import 'package:rojeta_doctor/features/auth/data/models/check_phone/check_phone_request_model.dart';
 import '../../data/models/user_type_model.dart';
 import '../../domain/usecases/get_auth.dart';
 import '../../domain/usecases/login_use_case.dart';
 import '../../domain/usecases/register_use_case.dart';
 import '../../domain/usecases/resend_otp_use_case.dart';
 import '../../domain/usecases/verify_otp_use_case.dart';
+import '../../domain/usecases/check_phone_use_case.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
 
@@ -19,6 +21,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final VerifyOtpUseCase verifyOtpUseCase;
   final LoginUseCase loginUseCase;
   final ResendOtpUseCase resendOtpUseCase;
+  final CheckPhoneUseCase checkPhoneUseCase;
 
   AuthBloc({
     required this.getAuth,
@@ -26,16 +29,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required this.verifyOtpUseCase,
     required this.loginUseCase,
     required this.resendOtpUseCase,
+    required this.checkPhoneUseCase,
   }) : super(const AuthState()) {
     on<LoadAuthEvent>(_onLoad);
     on<SubmitRegistrationEvent>(_onSubmitRegistration);
     on<VerifyOtpSubmittedEvent>(_onVerifyOtpSubmitted);
     on<LoginSubmittedEvent>(_onLoginSubmitted);
     on<ResendOtpSubmittedEvent>(_onResendOtpSubmitted);
+    on<CheckPhoneSubmittedEvent>(_onCheckPhoneSubmitted);
     on<SelectUserTypeEvent>((event, emit) => emit(state.copyWith(selectedType: event.type)));
     on<FullNameChangedEvent>((event, emit) => emit(state.copyWith(fullName: event.fullName)));
     on<EmailChangedEvent>((event, emit) => emit(state.copyWith(email: event.email)));
-    on<PhoneChangedEvent>((event, emit) => emit(state.copyWith(phone: event.phone)));
+    on<PhoneChangedEvent>((event, emit) => emit(state.copyWith(phone: event.phone, isPhoneExists: null)));
     on<PasswordChangedEvent>((event, emit) => emit(state.copyWith(password: event.password)));
     on<ConfirmPasswordChangedEvent>((event, emit) => emit(state.copyWith(confirmPassword: event.confirmPassword)));
     on<TogglePasswordVisibilityEvent>((event, emit) => emit(state.copyWith(isPasswordVisible: !state.isPasswordVisible)));
@@ -202,6 +207,32 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } catch (e) {
       emit(state.copyWith(
         status: AuthStatus.error,
+        message: e.toString(),
+      ));
+    }
+  }
+
+  FutureOr<void> _onCheckPhoneSubmitted(
+      CheckPhoneSubmittedEvent event, Emitter<AuthState> emit) async {
+    final phoneToCheck = event.phone ?? state.phone;
+    if (phoneToCheck.trim().isEmpty) return;
+
+    emit(state.copyWith(status: AuthStatus.loading, isPhoneExists: null));
+    try {
+      final requestModel = CheckPhoneRequestModel(phone: phoneToCheck.trim());
+      final response = await checkPhoneUseCase(requestModel);
+      emit(state.copyWith(
+        status: AuthStatus.loaded,
+        isPhoneExists: response.exists,
+        message: response.message ??
+            (response.exists
+                ? 'Phone number already registered'
+                : 'Phone number available'),
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        status: AuthStatus.error,
+        isPhoneExists: null,
         message: e.toString(),
       ));
     }

@@ -11,6 +11,8 @@ import '../../models/otp/verify_otp_request_model.dart';
 import '../../models/otp/verify_otp_response_model.dart';
 import '../../models/otp/resend_otp_request_model.dart';
 import '../../models/otp/resend_otp_response_model.dart';
+import '../../models/check_phone/check_phone_request_model.dart';
+import '../../models/check_phone/check_phone_response_model.dart';
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final ApiConsumer apiConsumer;
@@ -61,5 +63,15 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       data: requestModel.toJson(),
     );
     return ResendOtpResponseModel.fromJson(response);
+  }
+
+  @override
+  Future<CheckPhoneResponseModel> checkPhone(
+      CheckPhoneRequestModel requestModel) async {
+    final response = await apiConsumer.post(
+      Endpoints.checkPhone,
+      data: requestModel.toJson(),
+    );
+    return CheckPhoneResponseModel.fromJson(response);
   }
 }

@@ -8,6 +8,8 @@ import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
 import '../../../../../shared/widgets/custom_elevated_button.dart';
 import '../../../../../core/di/injector.dart';
+import '../../../../../core/utils/snackbar_helper.dart';
+import '../../bloc/auth_event.dart';
 import '../../bloc/auth_bloc.dart';
 import '../../bloc/auth_state.dart';
 import '../../widgets/basic_information/custom_role_basic_info_form.dart';
@@ -78,9 +80,37 @@ class _RadiologyBasicInfoView extends StatelessWidget {
                         ),
                         SizedBox(width: 16.w),
                         Expanded(
-                          child: BlocBuilder<AuthBloc, AuthState>(
+                          child: BlocConsumer<AuthBloc, AuthState>(
+                            listenWhen: (previous, current) =>
+                                previous.status != current.status ||
+                                previous.isPhoneExists != current.isPhoneExists,
+                            listener: (context, state) {
+                              if (state.status == AuthStatus.loaded &&
+                                  state.isPhoneExists != null) {
+                                if (state.isPhoneExists == true) {
+                                  SnackbarHelper.showError(
+                                    context,
+                                    message: state.message.isNotEmpty
+                                        ? state.message
+                                        : 'Phone number already registered',
+                                  );
+                                } else {
+                                  context.pushNamed(
+                                    AppRoutes.radiologyProfessionalInfo,
+                                  );
+                                }
+                              } else if (state.status == AuthStatus.error) {
+                                SnackbarHelper.showError(
+                                  context,
+                                  message: state.message,
+                                );
+                              }
+                            },
                             builder: (context, state) {
-                              final isValid = true;
+                              final isLoading = state.status == AuthStatus.loading;
+                              final isValid = state.isBasicInfoFormValid &&
+                                  state.isHospitalLocationValid &&
+                                  !isLoading;
                               return Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(14.r),
@@ -96,20 +126,29 @@ class _RadiologyBasicInfoView extends StatelessWidget {
                                       : null,
                                   color: isValid ? null : Colors.grey.shade300,
                                 ),
-                                child: CustomElevatedButton(
-                                  text: context.strings.next,
-                                  backgroundColor: Colors.transparent,
-                                  foregroundColor: isValid
-                                      ? Colors.white
-                                      : Colors.grey.shade500,
-                                  onPressed: isValid
-                                      ? () {
-                                          context.pushNamed(
-                                            AppRoutes.radiologyProfessionalInfo,
-                                          );
-                                        }
-                                      : () {},
-                                ),
+                                child: isLoading
+                                    ? SizedBox(
+                                        height: 48.h,
+                                        child: const Center(
+                                          child: CircularProgressIndicator(
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      )
+                                    : CustomElevatedButton(
+                                        text: context.strings.next,
+                                        backgroundColor: Colors.transparent,
+                                        foregroundColor: isValid
+                                            ? Colors.white
+                                            : Colors.grey.shade500,
+                                        onPressed: isValid
+                                            ? () {
+                                                context.read<AuthBloc>().add(
+                                                      const CheckPhoneSubmittedEvent(),
+                                                    );
+                                              }
+                                            : null,
+                                      ),
                               );
                             },
                           ),

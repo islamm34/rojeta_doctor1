@@ -5,6 +5,7 @@ class Endpoints {
   static const String verifyOtp = '/api/v1/auth/verify-otp';
   static const String resendOtp = '/api/v1/auth/resend-otp';
   static const String login = '/api/v1/auth/login';
+  static const String checkPhone = '/api/v1/auth/check-phone';
 
 
   static const String profile = '/api/v1/auth/profile';

@@ -41,6 +41,7 @@ class AuthState extends Equatable {
     this.accountNumber = '',
     this.expiryDate = '',
     this.cvv = '',
+    this.isPhoneExists,
   });
 
   final AuthStatus status;
@@ -53,7 +54,8 @@ class AuthState extends Equatable {
   final String confirmPassword;
   final bool isPasswordVisible;
   final bool isConfirmPasswordVisible;
-  
+  final bool? isPhoneExists;
+
   // Professional Information
   final String specialty;
   final String subSpecialty;
@@ -139,6 +141,7 @@ class AuthState extends Equatable {
     String? accountNumber,
     String? expiryDate,
     String? cvv,
+    bool? isPhoneExists,
   }) {
     return AuthState(
       status: status ?? this.status,
@@ -151,6 +154,7 @@ class AuthState extends Equatable {
       confirmPassword: confirmPassword ?? this.confirmPassword,
       isPasswordVisible: isPasswordVisible ?? this.isPasswordVisible,
       isConfirmPasswordVisible: isConfirmPasswordVisible ?? this.isConfirmPasswordVisible,
+      isPhoneExists: isPhoneExists ?? this.isPhoneExists,
       specialty: specialty ?? this.specialty,
       subSpecialty: subSpecialty ?? this.subSpecialty,
       medicalLicenseNumber: medicalLicenseNumber ?? this.medicalLicenseNumber,
@@ -191,6 +195,7 @@ class AuthState extends Equatable {
         confirmPassword,
         isPasswordVisible,
         isConfirmPasswordVisible,
+        isPhoneExists,
         specialty,
         subSpecialty,
         medicalLicenseNumber,

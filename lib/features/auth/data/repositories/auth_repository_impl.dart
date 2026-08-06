@@ -12,6 +12,8 @@ import '../models/otp/verify_otp_request_model.dart';
 import '../models/otp/verify_otp_response_model.dart';
 import '../models/otp/resend_otp_request_model.dart';
 import '../models/otp/resend_otp_response_model.dart';
+import '../models/check_phone/check_phone_request_model.dart';
+import '../models/check_phone/check_phone_response_model.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remote;
@@ -83,5 +85,11 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<ResendOtpResponseModel> resendOtp(
       ResendOtpRequestModel requestModel) async {
     return await remote.resendOtp(requestModel);
+  }
+
+  @override
+  Future<CheckPhoneResponseModel> checkPhone(
+      CheckPhoneRequestModel requestModel) async {
+    return await remote.checkPhone(requestModel);
   }
 }

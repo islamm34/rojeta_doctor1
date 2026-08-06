@@ -1,3 +1,5 @@
+import 'package:rojeta_doctor/features/auth/data/models/otp/resend_otp_response_model.dart';
+
 import '../../data/models/authmodel.dart';
 import '../../data/models/login/login_request_model.dart';
 import '../../data/models/login/login_response_model.dart';
@@ -6,7 +8,8 @@ import '../../data/models/register/register_response_model.dart';
 import '../../data/models/otp/verify_otp_request_model.dart';
 import '../../data/models/otp/verify_otp_response_model.dart';
 import '../../data/models/otp/resend_otp_request_model.dart';
-import '../../data/models/otp/resend_otp_response_model.dart';
+import '../../data/models/check_phone/check_phone_request_model.dart';
+import '../../data/models/check_phone/check_phone_response_model.dart';
 
 abstract class AuthRepository {
   Future<AuthModel> getAuth();
@@ -14,4 +17,5 @@ abstract class AuthRepository {
   Future<VerifyOtpResponseModel> verifyOtp(VerifyOtpRequestModel requestModel);
   Future<LoginResponseModel> login(LoginRequestModel requestModel);
   Future<ResendOtpResponseModel> resendOtp(ResendOtpRequestModel requestModel);
+  Future<CheckPhoneResponseModel> checkPhone(CheckPhoneRequestModel requestModel);
 }

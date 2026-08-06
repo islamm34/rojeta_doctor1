@@ -246,3 +246,12 @@ class LoginSubmittedEvent extends AuthEvent {
 class ResendOtpSubmittedEvent extends AuthEvent {
   const ResendOtpSubmittedEvent();
 }
+
+class CheckPhoneSubmittedEvent extends AuthEvent {
+  final String? phone;
+
+  const CheckPhoneSubmittedEvent({this.phone});
+
+  @override
+  List<Object?> get props => [phone];
+}
