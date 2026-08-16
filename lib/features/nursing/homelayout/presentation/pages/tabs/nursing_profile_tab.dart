@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rojeta_doctor/config/routes/app_router.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
 import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
+import 'package:rojeta_doctor/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:rojeta_doctor/features/auth/presentation/bloc/auth_event.dart';
 import '../../bloc/nursing_bloc.dart';
 import '../../bloc/nursing_state.dart';
 
@@ -320,10 +322,13 @@ class NursingProfileTab extends StatelessWidget {
 
                 // Logout Button
                 OutlinedButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<AuthBloc>().add(const LogoutSubmittedEvent());
+                    context.pushNamedAndRemoveUntil(AppRoutes.login);
+                  },
                   icon: const Icon(Icons.logout, color: Color(0xFFEF4444)),
                   label: Text(
-                    'Logout',
+                    context.strings.logOut,
                     style: TextStyle(
                       color: const Color(0xFFEF4444),
                       fontWeight: FontWeight.bold,

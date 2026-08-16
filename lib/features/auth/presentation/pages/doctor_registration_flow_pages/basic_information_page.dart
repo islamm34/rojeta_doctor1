@@ -19,8 +19,8 @@ class BasicInformationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => injector<AuthBloc>(),
+    return BlocProvider.value(
+      value: injector<AuthBloc>(),
       child: const _BasicInformationView(),
     );
   }
@@ -73,24 +73,34 @@ class _BasicInformationView extends StatelessWidget {
                         Expanded(
                           child: BlocConsumer<AuthBloc, AuthState>(
                             listenWhen: (previous, current) =>
-                                previous.status != current.status ||
+                                previous.checkPhoneStatus !=
+                                    current.checkPhoneStatus ||
                                 previous.isPhoneExists != current.isPhoneExists,
                             listener: (context, state) {
-                              if (state.status == AuthStatus.loaded &&
+                              if (state.checkPhoneStatus == AuthStatus.loaded &&
                                   state.isPhoneExists != null) {
                                 if (state.isPhoneExists == true) {
                                   SnackbarHelper.showError(
                                     context,
                                     message: state.message.isNotEmpty
                                         ? state.message
-                                        : 'Phone number already registered',
+                                        : context
+                                              .strings
+                                              .phoneNumberAlreadyRegistered,
                                   );
                                 } else {
+                                  SnackbarHelper.showSuccess(
+                                    context,
+                                    message: state.message.isNotEmpty
+                                        ? state.message
+                                        : context.strings.phoneNumberAvailable,
+                                  );
                                   context.pushNamed(
                                     AppRoutes.professionalInformation,
                                   );
                                 }
-                              } else if (state.status == AuthStatus.error) {
+                              } else if (state.checkPhoneStatus ==
+                                  AuthStatus.error) {
                                 SnackbarHelper.showError(
                                   context,
                                   message: state.message,
@@ -98,8 +108,10 @@ class _BasicInformationView extends StatelessWidget {
                               }
                             },
                             builder: (context, state) {
-                              final isLoading = state.status == AuthStatus.loading;
-                              final isValid = state.isBasicInfoFormValid && !isLoading;
+                              final isLoading =
+                                  state.checkPhoneStatus == AuthStatus.loading;
+                              final isValid =
+                                  state.isBasicInfoFormValid && !isLoading;
                               return Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(30.r),
@@ -133,8 +145,8 @@ class _BasicInformationView extends StatelessWidget {
                                         onPressed: isValid
                                             ? () {
                                                 context.read<AuthBloc>().add(
-                                                      const CheckPhoneSubmittedEvent(),
-                                                    );
+                                                  const CheckPhoneSubmittedEvent(),
+                                                );
                                               }
                                             : null,
                                       ),

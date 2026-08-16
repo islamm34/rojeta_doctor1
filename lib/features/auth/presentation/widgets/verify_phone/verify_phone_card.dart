@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinput/pinput.dart';
+import 'package:rojeta_doctor/core/local/user_hive_helper.dart';
+import 'package:rojeta_doctor/features/auth/data/models/user_type_model.dart';
+import 'package:rojeta_doctor/core/utils/role_navigation_helper.dart';
 import '../../../../../config/routes/app_router.dart';
 import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
@@ -12,6 +15,14 @@ import '../../bloc/auth_state.dart';
 class VerifyPhoneCard extends StatelessWidget {
   final String? comefrom;
   const VerifyPhoneCard({super.key, this.comefrom});
+
+  void _navigateBasedOnRole(BuildContext context, AuthState state) {
+    RoleNavigationHelper.navigateToRoleDashboard(
+      context,
+      fallbackType: state.selectedType,
+      clearStack: true,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,9 +86,15 @@ class VerifyPhoneCard extends StatelessWidget {
           ),
           SizedBox(height: 8.h),
           BlocBuilder<AuthBloc, AuthState>(
-            buildWhen: (previous, current) => previous.phone != current.phone,
+            buildWhen: (previous, current) =>
+                previous.phone != current.phone ||
+                previous.organizationNumber != current.organizationNumber,
             builder: (context, state) {
-              final phone = state.phone.isNotEmpty ? state.phone : '1111111111';
+              final phone = state.phone.isNotEmpty
+                  ? state.phone
+                  : (state.organizationNumber.isNotEmpty
+                      ? state.organizationNumber
+                      : '');
               return Column(
                 children: [
                   Text(
@@ -117,60 +134,77 @@ class VerifyPhoneCard extends StatelessWidget {
           ),
           SizedBox(height: 32.h),
           BlocConsumer<AuthBloc, AuthState>(
-            listenWhen: (previous, current) => previous.status != current.status,
+            listenWhen: (previous, current) =>
+                previous.status != current.status ||
+                previous.message != current.message,
             listener: (context, state) {
               if (state.status == AuthStatus.loaded) {
                 if (comefrom == 'forgotPassword') {
                   context.pushNamedAndRemoveUntil(
                     AppRoutes.resetPassword,
+                    predicate: (route) => false,
                   );
                 } else {
-                  context.pushNamedAndRemoveUntil(
-                    AppRoutes.registrationSuccess,
+                  _navigateBasedOnRole(context, state);
+                }
+              } else if (state.status == AuthStatus.error) {
+                if (state.message.isNotEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.message),
+                      backgroundColor: Colors.red,
+                    ),
                   );
                 }
+              } else if (state.status == AuthStatus.initial &&
+                  state.message.isNotEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.message),
+                    backgroundColor: Colors.green,
+                  ),
+                );
               }
             },
             builder: (context, state) {
               final isLoading = state.status == AuthStatus.loading;
               final isValid = state.otpCode.length == 6 && !isLoading;
 
-              if (isLoading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-
-              return CustomElevatedButton(
-                text: context.strings.verifyAndCompleteRegistration,
-                onPressed: isValid
-                    ? () {
-                        if (comefrom == 'forgotPassword') {
-                          context.pushNamedAndRemoveUntil(
-                            AppRoutes.resetPassword,
-                          );
-                        } else {
-                          context
-                              .read<AuthBloc>()
-                              .add(const VerifyOtpSubmittedEvent());
-                        }
-                      }
-                    : null,
+              return Column(
+                children: [
+                  CustomElevatedButton(
+                    text: context.strings.verifyAndCompleteRegistration,
+                    isLoading: isLoading,
+                    onPressed: isValid
+                        ? () {
+                            context.read<AuthBloc>().add(
+                                  const VerifyOtpSubmittedEvent(),
+                                );
+                          }
+                        : null,
+                  ),
+                  SizedBox(height: 16.h),
+                  TextButton(
+                    onPressed: isLoading
+                        ? null
+                        : () {
+                            context.read<AuthBloc>().add(
+                                  const ResendOtpSubmittedEvent(),
+                                );
+                          },
+                    child: Text(
+                      context.strings.resendCode,
+                      style: context.textTheme.bodyMedium?.copyWith(
+                        color: isLoading
+                            ? Colors.grey
+                            : context.theme.colorScheme.primary,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ],
               );
             },
-          ),
-          SizedBox(height: 16.h),
-          TextButton(
-            onPressed: () {
-              context.read<AuthBloc>().add(const ResendOtpSubmittedEvent());
-            },
-            child: Text(
-              context.strings.resendCode,
-              style: context.textTheme.bodyMedium?.copyWith(
-                color: context.theme.colorScheme.primary,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
           ),
         ],
       ),

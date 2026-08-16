@@ -7,6 +7,7 @@ enum AuthStatus { initial, loading, loaded, error }
 class AuthState extends Equatable {
   const AuthState({
     this.status = AuthStatus.initial,
+    this.checkPhoneStatus = AuthStatus.initial,
     this.message = '',
     this.selectedType,
     this.fullName = '',
@@ -45,6 +46,7 @@ class AuthState extends Equatable {
   });
 
   final AuthStatus status;
+  final AuthStatus checkPhoneStatus;
   final String message;
   final UserType? selectedType;
   final String fullName;
@@ -98,7 +100,9 @@ class AuthState extends Equatable {
       organizationName.trim().isNotEmpty &&
       organizationType.trim().isNotEmpty &&
       organizationNumber.trim().isNotEmpty &&
-      medicalLicenseNumber.trim().isNotEmpty;
+      medicalLicenseNumber.trim().isNotEmpty &&
+      password.length >= 6 &&
+      confirmPassword == password;
 
   bool get isHospitalLocationValid =>
       governorate.trim().isNotEmpty &&
@@ -107,6 +111,7 @@ class AuthState extends Equatable {
 
   AuthState copyWith({
     AuthStatus? status,
+    AuthStatus? checkPhoneStatus,
     String? message,
     UserType? selectedType,
     String? fullName,
@@ -145,6 +150,7 @@ class AuthState extends Equatable {
   }) {
     return AuthState(
       status: status ?? this.status,
+      checkPhoneStatus: checkPhoneStatus ?? this.checkPhoneStatus,
       message: message ?? this.message,
       selectedType: selectedType ?? this.selectedType,
       fullName: fullName ?? this.fullName,
@@ -186,6 +192,7 @@ class AuthState extends Equatable {
   @override
   List<Object?> get props => [
         status,
+        checkPhoneStatus,
         message,
         selectedType,
         fullName,

@@ -28,10 +28,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<RegisterResponseModel> register(
       RegisterRequestModel requestModel) async {
-    final formData = await requestModel.toFormData();
     final response = await apiConsumer.post(
       Endpoints.register,
-      data: formData,
+      data: requestModel.toJson(),
     );
     return RegisterResponseModel.fromJson(response);
   }

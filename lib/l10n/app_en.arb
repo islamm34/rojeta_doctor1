@@ -634,5 +634,8 @@
   "feeLabel": "Fee",
   "acceptBtn": "Accept",
   "rejectBtn": "Reject",
-  "viewDetailsBtn": "View Details"
+  "viewDetailsBtn": "View Details",
+  "phoneNumberAlreadyRegistered": "Phone number already registered",
+  "phoneNumberAvailable": "Phone number available",
+  "unsupportedRoleMessage": "This account type is not supported on this application. Please log in with a healthcare provider account."
 }

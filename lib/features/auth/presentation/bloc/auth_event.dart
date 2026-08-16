@@ -229,6 +229,10 @@ class SubmitRegistrationEvent extends AuthEvent {
   const SubmitRegistrationEvent();
 }
 
+class ResetAuthStatusEvent extends AuthEvent {
+  const ResetAuthStatusEvent();
+}
+
 class VerifyOtpSubmittedEvent extends AuthEvent {
   const VerifyOtpSubmittedEvent();
 }
@@ -254,4 +258,8 @@ class CheckPhoneSubmittedEvent extends AuthEvent {
 
   @override
   List<Object?> get props => [phone];
+}
+
+class LogoutSubmittedEvent extends AuthEvent {
+  const LogoutSubmittedEvent();
 }

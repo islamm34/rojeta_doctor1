@@ -44,6 +44,13 @@ class AuthRepositoryImpl implements AuthRepository {
     }
 
     if (response.user != null) {
+      if ((response.user!.role == null || response.user!.role!.isEmpty) &&
+          requestModel.role != null) {
+        response.user!.role = requestModel.role;
+      }
+      if (response.user!.token == null && response.token != null) {
+        response.user!.token = response.token;
+      }
       UserHiveHelper.saveUser(response.user!);
     }
 
@@ -60,6 +67,9 @@ class AuthRepositoryImpl implements AuthRepository {
     }
 
     if (response.user != null) {
+      if (response.user!.token == null && response.token != null) {
+        response.user!.token = response.token;
+      }
       UserHiveHelper.saveUser(response.user!);
     }
 
@@ -75,6 +85,9 @@ class AuthRepositoryImpl implements AuthRepository {
     }
 
     if (response.user != null) {
+      if (response.user!.token == null && response.token != null) {
+        response.user!.token = response.token;
+      }
       UserHiveHelper.saveUser(response.user!);
     }
 
@@ -91,5 +104,11 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<CheckPhoneResponseModel> checkPhone(
       CheckPhoneRequestModel requestModel) async {
     return await remote.checkPhone(requestModel);
+  }
+
+  @override
+  Future<void> logout() async {
+    await FlutterSecureStorageHelper.clearAll();
+    UserHiveHelper.clearSession();
   }
 }

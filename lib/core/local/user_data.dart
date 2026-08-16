@@ -5,7 +5,7 @@ part 'user_data.g.dart';
 @HiveType(typeId: 0)
 class UserData extends HiveObject {
   @HiveField(0)
-  int? id;
+  dynamic id;
 
   @HiveField(1)
   String? phone;
@@ -84,7 +84,7 @@ class UserData extends HiveObject {
   });
 
   UserData copyWith({
-    int? id,
+    dynamic id,
     String? phone,
     String? firstName,
     String? secondName,
@@ -182,28 +182,59 @@ class UserData extends HiveObject {
     save();
   }
 
-  /// ✅ Factory: From JSON (Mapped to your Dwanza API response)
+  /// ✅ Factory: From JSON (Mapped to API response)
   factory UserData.fromJson(Map<String, dynamic> json, {String? token}) {
-    final user = json['user'] ?? json;
+    final user = (json['user'] is Map<String, dynamic>)
+        ? json['user'] as Map<String, dynamic>
+        : json;
+
+    String? extractRole(dynamic roleData) {
+      if (roleData is String && roleData.trim().isNotEmpty) return roleData.trim();
+      if (roleData is Map && roleData['name'] != null) {
+        return roleData['name'].toString().trim();
+      }
+      return null;
+    }
+
+    final roleStr = extractRole(user['role']) ??
+        extractRole(user['user_type']) ??
+        extractRole(user['type']) ??
+        (user['roles'] is List && (user['roles'] as List).isNotEmpty
+            ? extractRole((user['roles'] as List).first)
+            : null);
+
     return UserData(
       id: user['id'],
-      phone: user['phone'],
-      firstName: user['first_name'],
-      secondName: user['second_name'],
-      name: user['name'],
-      email: user['email'],
-      role: user['role'],
-      createdAt: user['created_at'],
-      token: token ?? json['token'],
-      image: user['image_link'],
-      onBoardingCompleted: user['on_boarding_completed'],
-      isVerified: user['is_verified']==1,
-      countryId: user['country_id'],
-      cityId: user['city_id'],
-      placeRequestsCount: user['place_requests_count'],
-      approvedRequestsCount: user['approved_requests_count'],
-      rejectedRequestsCount: user['rejected_requests_count'],
-      pendingRequestsCount: user['pending_requests_count'],
+      phone: user['phone']?.toString() ?? user['phone_number']?.toString(),
+      firstName: user['first_name']?.toString(),
+      secondName: user['second_name']?.toString(),
+      name: user['name']?.toString(),
+      email: user['email']?.toString(),
+      role: roleStr,
+      createdAt: user['created_at']?.toString(),
+      token: token ?? user['token']?.toString() ?? json['token']?.toString(),
+      image: user['image_link']?.toString() ?? user['image']?.toString(),
+      onBoardingCompleted: user['on_boarding_completed'] == true ||
+          user['on_boarding_completed'] == 1,
+      isVerified: user['is_verified'] == true || user['is_verified'] == 1,
+      countryId: user['country_id'] is int
+          ? user['country_id'] as int
+          : int.tryParse(user['country_id']?.toString() ?? ''),
+      cityId: user['city_id'] is int
+          ? user['city_id'] as int
+          : int.tryParse(user['city_id']?.toString() ?? ''),
+      placeRequestsCount: user['place_requests_count'] is int
+          ? user['place_requests_count'] as int
+          : int.tryParse(user['place_requests_count']?.toString() ?? ''),
+      approvedRequestsCount: user['approved_requests_count'] is int
+          ? user['approved_requests_count'] as int
+          : int.tryParse(user['approved_requests_count']?.toString() ?? ''),
+      rejectedRequestsCount: user['rejected_requests_count'] is int
+          ? user['rejected_requests_count'] as int
+          : int.tryParse(user['rejected_requests_count']?.toString() ?? ''),
+      pendingRequestsCount: user['pending_requests_count'] is int
+          ? user['pending_requests_count'] as int
+          : int.tryParse(user['pending_requests_count']?.toString() ?? ''),
     );
   }
 

@@ -88,7 +88,7 @@ class RegisterRequestModel {
       'name': name,
       if (firstName != null) 'first_name': firstName,
       if (lastName != null) 'last_name': lastName,
-      'email': email,
+      if (email.isNotEmpty) 'email': email,
       'phone_number': phoneNumber,
       'password': password,
       'password_confirmation': passwordConfirmation ?? password,

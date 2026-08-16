@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rojeta_doctor/core/error/exceptions.dart';
 import 'package:rojeta_doctor/features/doctor/profile/data/models/settings_model.dart';
 import '../../../data/mocks/profile_mock_data.dart';
 import '../../../domain/usecases/get_profile_use_case.dart';
@@ -35,10 +36,13 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         ),
       );
     } catch (e) {
+      final errorMessage = e is ServerException
+          ? e.message
+          : (e is NetworkException ? e.message : e.toString());
       emit(
         state.copyWith(
           status: ProfileStatus.failure,
-          errorMessage: e.toString(),
+          errorMessage: errorMessage,
           profile: ProfileMockData.mockProfile,
         ),
       );

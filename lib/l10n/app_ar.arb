@@ -786,5 +786,8 @@
   "feeLabel": "الرسوم",
   "acceptBtn": "قبول",
   "rejectBtn": "رفض",
-  "viewDetailsBtn": "عرض التفاصيل"
+  "viewDetailsBtn": "عرض التفاصيل",
+  "phoneNumberAlreadyRegistered": "رقم الهاتف مسجل بالفعل",
+  "phoneNumberAvailable": "رقم الهاتف متاح",
+  "unsupportedRoleMessage": "نوع هذا الحساب غير مصرح له بالدخول إلى هذا التطبيق. يرجى تسجيل الدخول بحساب مزود خدمة معتمد."
 }

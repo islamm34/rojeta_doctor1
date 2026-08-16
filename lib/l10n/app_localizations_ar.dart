@@ -1903,4 +1903,14 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get viewDetailsBtn => 'عرض التفاصيل';
+
+  @override
+  String get phoneNumberAlreadyRegistered => 'رقم الهاتف مسجل بالفعل';
+
+  @override
+  String get phoneNumberAvailable => 'رقم الهاتف متاح';
+
+  @override
+  String get unsupportedRoleMessage =>
+      'نوع هذا الحساب غير مصرح له بالدخول إلى هذا التطبيق. يرجى تسجيل الدخول بحساب مزود خدمة معتمد.';
 }

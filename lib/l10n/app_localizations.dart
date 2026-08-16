@@ -3823,6 +3823,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'View Details'**
   String get viewDetailsBtn;
+
+  /// No description provided for @phoneNumberAlreadyRegistered.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number already registered'**
+  String get phoneNumberAlreadyRegistered;
+
+  /// No description provided for @phoneNumberAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number available'**
+  String get phoneNumberAvailable;
+
+  /// No description provided for @unsupportedRoleMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This account type is not supported on this application. Please log in with a healthcare provider account.'**
+  String get unsupportedRoleMessage;
 }
 
 class _AppLocalizationsDelegate

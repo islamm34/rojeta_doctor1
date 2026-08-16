@@ -35,7 +35,26 @@ class _DocumentUploadView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Scaffold(
+    return BlocListener<AuthBloc, AuthState>(
+      listenWhen: (previous, current) => previous.status != current.status,
+      listener: (context, state) {
+        if (state.status == AuthStatus.loaded) {
+          context.pushNamed(
+            AppRoutes.verifyPhone,
+          );
+          context.read<AuthBloc>().add(const ResetAuthStatusEvent());
+        } else if (state.status == AuthStatus.error) {
+          if (state.message != null && state.message!.isNotEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message!),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        }
+      },
+      child: Scaffold(
       backgroundColor: const Color(0xFFF8FCFF),
       appBar: RegisteraionStepsAppBar(stepText: context.strings.step4Of5),
       body: SafeArea(
@@ -194,6 +213,8 @@ class _DocumentUploadView extends StatelessWidget {
                           child: BlocBuilder<AuthBloc, AuthState>(
                             builder: (context, state) {
                               final isValid = true;
+                              final isLoading =
+                                  state.status == AuthStatus.loading;
                               return Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(30.r),
@@ -210,12 +231,13 @@ class _DocumentUploadView extends StatelessWidget {
                                   color: isValid ? null : Colors.grey.shade300,
                                 ),
                                 child: CustomElevatedButton(
-                                  text: context.strings.next,
-                                  onPressed: isValid
+                                  text: context.strings.completeRegistration,
+                                  isLoading: isLoading,
+                                  onPressed: (isValid && !isLoading)
                                       ? () {
-                                          context.pushNamed(
-                                            AppRoutes.verifyPhone,
-                                          );
+                                          context.read<AuthBloc>().add(
+                                                const SubmitRegistrationEvent(),
+                                              );
                                         }
                                       : null,
                                 ),
@@ -259,6 +281,7 @@ class _DocumentUploadView extends StatelessWidget {
           ],
         ),
       ),
+    ),
     );
   }
 }

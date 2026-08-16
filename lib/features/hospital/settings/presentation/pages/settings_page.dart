@@ -11,6 +11,8 @@ import '../bloc/settings_state.dart';
 import '../widgets/settings_section.dart';
 import '../widgets/settings_switch_tile.dart';
 import '../widgets/settings_action_tile.dart';
+import '../../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../../auth/presentation/bloc/auth_event.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -526,7 +528,8 @@ class SettingsPage extends StatelessWidget {
                         backgroundColor: const Color(0xFFFFF5F5),
                       ),
                       onPressed: () {
-                        context.go(AppRoutes.login);
+                        context.read<AuthBloc>().add(const LogoutSubmittedEvent());
+                        context.pushNamedAndRemoveUntil(AppRoutes.login);
                       },
                       icon: Icon(Icons.logout_rounded, color: Colors.red[700]),
                       label: Text(

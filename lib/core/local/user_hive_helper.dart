@@ -32,32 +32,23 @@ class UserHiveHelper {
     }
 
     try {
-      await Hive.openBox<UserData>(_userBoxName);
+      if (!Hive.isBoxOpen(_userBoxName)) {
+        await Hive.openBox<UserData>(_userBoxName);
+      }
     } catch (e, st) {
       log('Error opening Hive box: $e\n$st');
     }
+  }
 
-    try {
-      if (UserHiveHelper.getUser() == null) {
-        UserHiveHelper.saveUser(
-          UserData(
-            id: null,
-            name: null,
-            firstName: null,
-            secondName: null,
-            email: null,
-            phone: null,
-            createdAt: DateTime.now().toIso8601String(),
-            language: 'en',
-            role: null,
-            token: null,
-            onBoardingCompleted: false,
-          ),
-        );
-      }
-    } catch (e, st) {
-      log('Error setting default user: $e\n$st');
-    }
+  /// Checks if a valid user session is stored in Hive
+  static bool isLoggedIn() {
+    final user = getUser();
+    return user != null && user.id != null;
+  }
+
+  /// Clears active user session data completely
+  static void clearSession() {
+    clearAllUsers();
   }
 
   // --------------------- User CRUD Operations ---------------------

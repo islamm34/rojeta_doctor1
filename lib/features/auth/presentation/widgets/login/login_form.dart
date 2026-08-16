@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../config/routes/app_router.dart';
 import '../../../../../core/local/user_hive_helper.dart';
+import '../../../../../core/utils/role_navigation_helper.dart';
 import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
 import '../../../../../shared/widgets/custom_elevated_button.dart';
@@ -32,18 +33,7 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   void _navigateBasedOnRole(BuildContext context) {
-    final user = UserHiveHelper.getUser();
-    final role = user?.role?.toLowerCase() ?? '';
-
-    if (role == 'doctor') {
-      context.pushReplacementNamed(AppRoutes.homeDoctor);
-    } else if (role == 'hospital') {
-      context.pushReplacementNamed(AppRoutes.hospitalHome);
-    } else if (role == 'nursing') {
-      context.pushReplacementNamed(AppRoutes.nursingHomeLayout);
-    } else {
-      context.pushReplacementNamed(AppRoutes.labHome);
-    }
+    RoleNavigationHelper.navigateToRoleDashboard(context, clearStack: true);
   }
 
   @override
@@ -158,6 +148,15 @@ class _LoginFormState extends State<LoginForm> {
               listener: (context, state) {
                 if (state.status == AuthStatus.loaded) {
                   _navigateBasedOnRole(context);
+                } else if (state.status == AuthStatus.error) {
+                  if (state.message != null && state.message!.isNotEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(state.message!),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
                 }
               },
               builder: (context, state) {

@@ -1921,4 +1921,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get viewDetailsBtn => 'View Details';
+
+  @override
+  String get phoneNumberAlreadyRegistered => 'Phone number already registered';
+
+  @override
+  String get phoneNumberAvailable => 'Phone number available';
+
+  @override
+  String get unsupportedRoleMessage =>
+      'This account type is not supported on this application. Please log in with a healthcare provider account.';
 }

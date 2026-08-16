@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
+import 'package:rojeta_doctor/features/doctor/profile/presentation/bloc/profile/profile_state.dart';
 import '../../../../../../config/routes/app_router.dart';
 import '../bloc/profile/profile_bloc.dart';
 import '../bloc/profile/profile_event.dart';
-import '../bloc/profile/profile_state.dart';
 import '../../../../../../core/local/user_hive_helper.dart';
+import '../../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../../auth/presentation/bloc/auth_event.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
@@ -16,7 +18,6 @@ class SettingsView extends StatelessWidget {
       builder: (context, state) {
         final settings = state.settings;
         final theme = Theme.of(context);
-
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -193,6 +194,32 @@ class SettingsView extends StatelessWidget {
                   onTap: () {},
                 ),
               ],
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: () {
+                  context.read<AuthBloc>().add(const LogoutSubmittedEvent());
+                  context.pushNamedAndRemoveUntil(AppRoutes.login);
+                },
+                icon: const Icon(Icons.logout, color: Color(0xFFDC2626)),
+                label: Text(
+                  context.strings.logOut,
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    color: const Color(0xFFDC2626),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  side: const BorderSide(color: Color(0xFFDC2626)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  backgroundColor: const Color(0xFFFFF5F5),
+                ),
+              ),
             ),
             const SizedBox(height: 24),
             _buildFooter(context),

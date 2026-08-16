@@ -7,7 +7,6 @@ import '../utils/extensions/context_extensions.dart';
 import '../utils/flutter_secure_storage_helper.dart';
 import 'api_consumer.dart';
 import '../error/exceptions.dart';
-import '../constants/app_constants.dart';
 import '../utils/snackbar_helper.dart';
 import '../local/user_hive_helper.dart';
 
@@ -113,21 +112,16 @@ class DioClient implements ApiConsumer {
           }
 
           if (e.response?.statusCode == 401 || e.response?.statusCode == 403) {
-            log(
-              '🚫 [AUTH] 401 Unauthorized - Consider triggering logout here.',
-            );
-            final context = RojetaDoctorApp.navigatorKey.currentContext;
+            log('🚫 [AUTH] 401/403 Unauthorized - Triggering session clear.');
+            FlutterSecureStorageHelper.clearAll();
+            UserHiveHelper.clearSession();
 
+            final context = RojetaDoctorApp.navigatorKey.currentContext;
             if (context != null) {
               final String location = context.currentRouteName.toString();
-              final authRoutes = [
-                AppRoutes.login,
-                AppRoutes.homeDoctor, // wait, should authRoutes contain home? Normally not, let's keep it general
-              ];
-
               if (location != AppRoutes.login) {
                 log('🚀 Redirecting to Login from $location');
-                context.go(AppRoutes.login);
+                context.pushNamedAndRemoveUntil(AppRoutes.login);
               }
             }
           }

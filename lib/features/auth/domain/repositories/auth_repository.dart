@@ -18,4 +18,5 @@ abstract class AuthRepository {
   Future<LoginResponseModel> login(LoginRequestModel requestModel);
   Future<ResendOtpResponseModel> resendOtp(ResendOtpRequestModel requestModel);
   Future<CheckPhoneResponseModel> checkPhone(CheckPhoneRequestModel requestModel);
+  Future<void> logout();
 }

@@ -35,7 +35,24 @@ class _RadiologyDocumentUploadView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Scaffold(
+    return BlocListener<AuthBloc, AuthState>(
+      listenWhen: (previous, current) => previous.status != current.status,
+      listener: (context, state) {
+        if (state.status == AuthStatus.loaded) {
+          context.pushNamed(AppRoutes.verifyPhone);
+          context.read<AuthBloc>().add(const ResetAuthStatusEvent());
+        } else if (state.status == AuthStatus.error) {
+          if (state.message != null && state.message!.isNotEmpty) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message!),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        }
+      },
+      child: Scaffold(
       backgroundColor: const Color(0xFFF8FCFF),
       appBar: RegisteraionStepsAppBar(stepText: 'Step 5 of 6'),
       body: SafeArea(
@@ -171,22 +188,36 @@ class _RadiologyDocumentUploadView extends StatelessWidget {
                         ),
                         SizedBox(width: 16.w),
                         Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(14.r),
-                              gradient: const LinearGradient(
-                                colors: [Color(0xFF005BEA), Color(0xFF00C6FB)],
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                              ),
-                            ),
-                            child: CustomElevatedButton(
-                              text: context.strings.completeRegistration,
-                              backgroundColor: Colors.transparent,
-                              onPressed: () {
-                                context.pushNamed(AppRoutes.verifyPhone);
-                              },
-                            ),
+                          child: BlocBuilder<AuthBloc, AuthState>(
+                            builder: (context, state) {
+                              final isLoading =
+                                  state.status == AuthStatus.loading;
+                              return Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(14.r),
+                                  gradient: const LinearGradient(
+                                    colors: [
+                                      Color(0xFF005BEA),
+                                      Color(0xFF00C6FB)
+                                    ],
+                                    begin: Alignment.centerLeft,
+                                    end: Alignment.centerRight,
+                                  ),
+                                ),
+                                child: CustomElevatedButton(
+                                  text: context.strings.completeRegistration,
+                                  backgroundColor: Colors.transparent,
+                                  isLoading: isLoading,
+                                  onPressed: isLoading
+                                      ? null
+                                      : () {
+                                          context.read<AuthBloc>().add(
+                                                const SubmitRegistrationEvent(),
+                                              );
+                                        },
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ],
@@ -222,6 +253,7 @@ class _RadiologyDocumentUploadView extends StatelessWidget {
           ],
         ),
       ),
+    ),
     );
   }
 }

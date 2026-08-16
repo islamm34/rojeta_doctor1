@@ -7,6 +7,7 @@ import '../../../../config/routes/app_router.dart';
 import '../../../../core/local/user_hive_helper.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../core/utils/flutter_secure_storage_helper.dart';
+import '../../../../core/utils/role_navigation_helper.dart';
 import '../../../../core/utils/screen_util_like.dart';
 
 class SplashPage extends StatefulWidget {
@@ -24,17 +25,23 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   Future<void> _navigateToHome() async {
-    await Future.delayed(const Duration(seconds: 3));
-    if (mounted) {
-      if (UserHiveHelper.getUser()?.onBoardingCompleted == true) {
-        if (await FlutterSecureStorageHelper.getToken() != null) {
-          context.pushReplacementNamed(AppRoutes.homeDoctor);
-        } else {
-          context.pushReplacementNamed(AppRoutes.login);
-        }
-      } else {
-        context.pushReplacementNamed(AppRoutes.login);
-      }
+    await Future.delayed(const Duration(seconds: 2));
+    if (!mounted) return;
+
+    final token = await FlutterSecureStorageHelper.getToken();
+    final user = UserHiveHelper.getUser();
+
+    if (token != null &&
+        token.trim().isNotEmpty &&
+        user != null &&
+        user.id != null) {
+      RoleNavigationHelper.navigateToRoleDashboard(
+        context,
+        user: user,
+        clearStack: false,
+      );
+    } else {
+      context.pushReplacementNamed(AppRoutes.login);
     }
   }
 

@@ -15,11 +15,17 @@ class UserProfileResponseModel {
   });
 
   factory UserProfileResponseModel.fromJson(Map<String, dynamic> json) {
-    final userJson = json['user'] as Map<String, dynamic>?;
+    final dataMap = (json['data'] is Map<String, dynamic>)
+        ? json['data'] as Map<String, dynamic>
+        : json;
+    final userJson = (dataMap['user'] is Map<String, dynamic>)
+        ? dataMap['user'] as Map<String, dynamic>
+        : dataMap;
+
     UserData? userData;
     UserProfileDetailModel? profileDetail;
 
-    if (userJson != null) {
+    if (userJson.isNotEmpty) {
       userData = UserData.fromJson(userJson);
       final profileJson = userJson['profile'] as Map<String, dynamic>?;
       if (profileJson != null) {

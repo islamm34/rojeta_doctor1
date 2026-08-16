@@ -13,7 +13,16 @@ class FlutterSecureStorageHelper {
     return await _storage.read(key: Endpoints.authTokenKey);
   }
 
+  static Future<bool> hasToken() async {
+    final token = await getToken();
+    return token != null && token.trim().isNotEmpty;
+  }
+
   static Future<void> deleteToken() async {
     await _storage.delete(key: Endpoints.authTokenKey);
+  }
+
+  static Future<void> clearAll() async {
+    await _storage.deleteAll();
   }
 }

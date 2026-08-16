@@ -10,6 +10,8 @@ import '../bloc/settings_state.dart';
 import 'widgets/settings_section.dart';
 import 'widgets/profile_header_card.dart';
 import '../../../../../../core/di/injector.dart';
+import '../../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../../auth/presentation/bloc/auth_event.dart';
 
 class ProfileTab extends StatelessWidget {
   final UserType userType;
@@ -214,10 +216,13 @@ class ProfileTab extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton.icon(
-                      onPressed: () {},
+                      onPressed: () {
+                        context.read<AuthBloc>().add(const LogoutSubmittedEvent());
+                        context.pushNamedAndRemoveUntil(AppRoutes.login);
+                      },
                       icon: const Icon(Icons.logout, color: Color(0xFFDC2626)),
                       label: Text(
-                        'Logout',
+                        context.strings.logOut,
                         style: context.textTheme.titleSmall?.copyWith(
                           color: const Color(0xFFDC2626),
                           fontWeight: FontWeight.bold,

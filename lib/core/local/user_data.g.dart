@@ -17,7 +17,7 @@ class UserDataAdapter extends TypeAdapter<UserData> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return UserData(
-      id: fields[0] as int?,
+      id: fields[0],
       phone: fields[1] as String?,
       firstName: fields[2] as String?,
       secondName: fields[3] as String?,
@@ -30,12 +30,24 @@ class UserDataAdapter extends TypeAdapter<UserData> {
       image: fields[10] as String?,
       onBoardingCompleted: fields[11] as bool?,
       isVerified: fields[12] as bool?,
-      countryId: fields[13] as int?,
-      cityId: fields[14] as int?,
-      placeRequestsCount: fields[15] as int?,
-      approvedRequestsCount: fields[16] as int?,
-      rejectedRequestsCount: fields[17] as int?,
-      pendingRequestsCount: fields[18] as int?,
+      countryId: fields[13] is int
+          ? fields[13] as int
+          : (fields[13] != null ? int.tryParse(fields[13].toString()) : null),
+      cityId: fields[14] is int
+          ? fields[14] as int
+          : (fields[14] != null ? int.tryParse(fields[14].toString()) : null),
+      placeRequestsCount: fields[15] is int
+          ? fields[15] as int
+          : (fields[15] != null ? int.tryParse(fields[15].toString()) : null),
+      approvedRequestsCount: fields[16] is int
+          ? fields[16] as int
+          : (fields[16] != null ? int.tryParse(fields[16].toString()) : null),
+      rejectedRequestsCount: fields[17] is int
+          ? fields[17] as int
+          : (fields[17] != null ? int.tryParse(fields[17].toString()) : null),
+      pendingRequestsCount: fields[18] is int
+          ? fields[18] as int
+          : (fields[18] != null ? int.tryParse(fields[18].toString()) : null),
     );
   }
 

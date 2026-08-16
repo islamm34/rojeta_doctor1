@@ -1,14 +1,14 @@
 class Endpoints {
-  static const String baseUrl = 'https://jsonplaceholder.typicode.com';
-  static const String authTokenKey = '/login';
-  static const String register = '/api/v1/auth/register';
-  static const String verifyOtp = '/api/v1/auth/verify-otp';
-  static const String resendOtp = '/api/v1/auth/resend-otp';
-  static const String login = '/api/v1/auth/login';
-  static const String checkPhone = '/api/v1/auth/check-phone';
+  static const String baseUrl = 'https://rojeta.fassla.net/api/v1';
+  static const String authTokenKey = 'auth_token';
+  static const String register = '/auth/register';
+  static const String verifyOtp = '/auth/verify-otp';
+  static const String resendOtp = '/auth/resend-otp';
+  static const String login = '/auth/login';
+  static const String checkPhone = '/auth/check-phone';
 
 
-  static const String profile = '/api/v1/auth/profile';
+  static const String profile = '/auth/profile';
 
 
 

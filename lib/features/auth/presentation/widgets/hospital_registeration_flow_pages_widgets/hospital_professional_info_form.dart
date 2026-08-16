@@ -120,6 +120,67 @@ class HospitalProfessionalInfoForm extends StatelessWidget {
 
           SizedBox(height: 16.h),
 
+          // Password *
+          BlocBuilder<AuthBloc, AuthState>(
+            buildWhen: (p, c) =>
+                p.password != c.password ||
+                p.isPasswordVisible != c.isPasswordVisible,
+            builder: (context, state) {
+              return CustomTextField(
+                label: context.strings.password,
+                hintText: context.strings.passwordHint,
+                isRequired: true,
+                obscureText: !state.isPasswordVisible,
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    state.isPasswordVisible
+                        ? Icons.visibility_outlined
+                        : Icons.visibility_off_outlined,
+                    color: Colors.grey,
+                  ),
+                  onPressed: () => context.read<AuthBloc>().add(
+                    TogglePasswordVisibilityEvent(),
+                  ),
+                ),
+                onChanged: (val) =>
+                    context.read<AuthBloc>().add(PasswordChangedEvent(val)),
+              );
+            },
+          ),
+
+          SizedBox(height: 16.h),
+
+          // Confirm Password *
+          BlocBuilder<AuthBloc, AuthState>(
+            buildWhen: (p, c) =>
+                p.confirmPassword != c.confirmPassword ||
+                p.isConfirmPasswordVisible != c.isConfirmPasswordVisible,
+            builder: (context, state) {
+              return CustomTextField(
+                label: context.strings.confirmPassword,
+                hintText: context.strings.confirmPasswordHint,
+                isRequired: true,
+                obscureText: !state.isConfirmPasswordVisible,
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    state.isConfirmPasswordVisible
+                        ? Icons.visibility_outlined
+                        : Icons.visibility_off_outlined,
+                    color: Colors.grey,
+                  ),
+                  onPressed: () => context.read<AuthBloc>().add(
+                    ToggleConfirmPasswordVisibilityEvent(),
+                  ),
+                ),
+                onChanged: (val) => context.read<AuthBloc>().add(
+                  ConfirmPasswordChangedEvent(val),
+                ),
+              );
+            },
+          ),
+
+          SizedBox(height: 16.h),
+
           // About
           BlocBuilder<AuthBloc, AuthState>(
             buildWhen: (p, c) => p.about != c.about,
