@@ -43,11 +43,13 @@ class AuthState extends Equatable {
     this.expiryDate = '',
     this.cvv = '',
     this.isPhoneExists,
+    this.token,
   });
 
   final AuthStatus status;
   final AuthStatus checkPhoneStatus;
   final String message;
+  final String? token;
   final UserType? selectedType;
   final String fullName;
   final String email;
@@ -147,11 +149,13 @@ class AuthState extends Equatable {
     String? expiryDate,
     String? cvv,
     bool? isPhoneExists,
+    String? token,
   }) {
     return AuthState(
       status: status ?? this.status,
       checkPhoneStatus: checkPhoneStatus ?? this.checkPhoneStatus,
       message: message ?? this.message,
+      token: token ?? this.token,
       selectedType: selectedType ?? this.selectedType,
       fullName: fullName ?? this.fullName,
       email: email ?? this.email,
@@ -194,6 +198,7 @@ class AuthState extends Equatable {
         status,
         checkPhoneStatus,
         message,
+        token,
         selectedType,
         fullName,
         email,

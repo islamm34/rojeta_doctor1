@@ -5,12 +5,26 @@ import '../models/user_profile_response_model.dart';
 
 class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   final ApiConsumer apiConsumer;
+  Future<UserProfileResponseModel>? _inFlightProfileRequest;
 
   ProfileRemoteDataSourceImpl({required this.apiConsumer});
 
   @override
   Future<UserProfileResponseModel> getProfile() async {
-    final response = await apiConsumer.get(Endpoints.profile);
-    return UserProfileResponseModel.fromJson(response);
+    if (_inFlightProfileRequest != null) {
+      return _inFlightProfileRequest!;
+    }
+
+    final future = () async {
+      try {
+        final response = await apiConsumer.get(Endpoints.profile);
+        return UserProfileResponseModel.fromJson(response);
+      } finally {
+        _inFlightProfileRequest = null;
+      }
+    }();
+
+    _inFlightProfileRequest = future;
+    return future;
   }
 }

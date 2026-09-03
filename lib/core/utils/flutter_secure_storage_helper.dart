@@ -1,6 +1,5 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:rojeta_doctor/core/network/endpoints.dart';
-import '../constants/app_constants.dart';
 
 class FlutterSecureStorageHelper {
   static const _storage = FlutterSecureStorage();

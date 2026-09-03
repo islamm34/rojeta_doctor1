@@ -14,6 +14,7 @@ import '../../domain/usecases/resend_otp_use_case.dart';
 import '../../domain/usecases/verify_otp_use_case.dart';
 import '../../domain/usecases/check_phone_use_case.dart';
 import '../../domain/usecases/logout_use_case.dart';
+import '../../../../core/local/user_hive_helper.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
 
@@ -52,11 +53,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (event, emit) => emit(state.copyWith(email: event.email)),
     );
     on<PhoneChangedEvent>(
-      (event, emit) => emit(state.copyWith(
-        phone: event.phone,
-        isPhoneExists: null,
-        checkPhoneStatus: AuthStatus.initial,
-      )),
+      (event, emit) => emit(
+        state.copyWith(
+          phone: event.phone,
+          isPhoneExists: null,
+          checkPhoneStatus: AuthStatus.initial,
+        ),
+      ),
     );
     on<PasswordChangedEvent>(
       (event, emit) => emit(state.copyWith(password: event.password)),
@@ -116,10 +119,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(state.copyWith(status: AuthStatus.initial, message: '')),
     );
     on<OtpChangedEvent>(
-      (event, emit) => emit(state.copyWith(
-        otpCode: event.otp,
-        status: AuthStatus.initial,
-      )),
+      (event, emit) =>
+          emit(state.copyWith(otpCode: event.otp, status: AuthStatus.initial)),
     );
 
     // Hospital Registration Events
@@ -130,10 +131,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (event, emit) => emit(state.copyWith(organizationType: event.type)),
     );
     on<OrganizationNumberChangedEvent>(
-      (event, emit) => emit(state.copyWith(
-        organizationNumber: event.number,
-        phone: event.number,
-      )),
+      (event, emit) => emit(
+        state.copyWith(organizationNumber: event.number, phone: event.number),
+      ),
     );
     on<PickOrganizationImageEvent>(
       (event, emit) => emit(state.copyWith(organizationImagePath: event.path)),
@@ -257,6 +257,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(
         state.copyWith(
           status: AuthStatus.loaded,
+          token: response.token,
           message: response.message ?? 'Registration successful',
         ),
       );
@@ -279,9 +280,30 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     emit(state.copyWith(status: AuthStatus.loading));
     try {
-      final phone = state.phone.trim().isNotEmpty
-          ? state.phone.trim()
-          : state.organizationNumber.trim();
+      var phone = (event.phone != null && event.phone!.trim().isNotEmpty)
+          ? event.phone!.trim()
+          : (state.phone.trim().isNotEmpty
+                ? state.phone.trim()
+                : state.organizationNumber.trim());
+
+      if (phone.isEmpty) {
+        final savedUser = UserHiveHelper.getUser();
+        if (savedUser?.phone != null && savedUser!.phone!.trim().isNotEmpty) {
+          phone = savedUser.phone!.trim();
+        }
+      }
+
+      if (phone.isEmpty) {
+        emit(
+          state.copyWith(
+            status: AuthStatus.error,
+            message:
+                'Phone number is missing. Please go back and re-enter your phone number.',
+          ),
+        );
+        return;
+      }
+
       final requestModel = VerifyOtpRequestModel(
         phone: phone,
         code: state.otpCode,
@@ -291,6 +313,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(
         state.copyWith(
           status: AuthStatus.loaded,
+          token: response.token,
           message: response.message ?? 'Phone verified successfully',
         ),
       );
@@ -317,6 +340,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(
         state.copyWith(
           status: AuthStatus.loaded,
+          token: response.token,
           message: response.message ?? 'Login successful',
         ),
       );
@@ -331,9 +355,30 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   ) async {
     emit(state.copyWith(status: AuthStatus.loading));
     try {
-      final phone = state.phone.trim().isNotEmpty
-          ? state.phone.trim()
-          : state.organizationNumber.trim();
+      var phone = (event.phone != null && event.phone!.trim().isNotEmpty)
+          ? event.phone!.trim()
+          : (state.phone.trim().isNotEmpty
+                ? state.phone.trim()
+                : state.organizationNumber.trim());
+
+      if (phone.isEmpty) {
+        final savedUser = UserHiveHelper.getUser();
+        if (savedUser?.phone != null && savedUser!.phone!.trim().isNotEmpty) {
+          phone = savedUser.phone!.trim();
+        }
+      }
+
+      if (phone.isEmpty) {
+        emit(
+          state.copyWith(
+            status: AuthStatus.error,
+            message:
+                'Phone number is missing. Please go back and re-enter your phone number.',
+          ),
+        );
+        return;
+      }
+
       final requestModel = ResendOtpRequestModel(phone: phone);
 
       final response = await resendOtpUseCase(requestModel);
@@ -352,16 +397,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     CheckPhoneSubmittedEvent event,
     Emitter<AuthState> emit,
   ) async {
-    final phoneToCheck = event.phone?.trim() ??
+    final phoneToCheck =
+        event.phone?.trim() ??
         (state.phone.trim().isNotEmpty
             ? state.phone.trim()
             : state.organizationNumber.trim());
     if (phoneToCheck.trim().isEmpty) return;
 
-    emit(state.copyWith(
-      checkPhoneStatus: AuthStatus.loading,
-      isPhoneExists: null,
-    ));
+    emit(
+      state.copyWith(checkPhoneStatus: AuthStatus.loading, isPhoneExists: null),
+    );
     try {
       final requestModel = CheckPhoneRequestModel(phone: phoneToCheck.trim());
       final response = await checkPhoneUseCase(requestModel);

@@ -12,19 +12,48 @@ import 'l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Bloc.observer = AppBlocObserver();
+  // Bloc.observer = AppBlocObserver();
   await UserHiveHelper.init(); // Initialize Hive and default user
   // Initialize dependencies
   await setupInjector();
   runApp(const RojetaDoctorApp());
 }
 
-class RojetaDoctorApp extends StatelessWidget {
+class RojetaDoctorApp extends StatefulWidget {
   // Static navigator key
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
 
   const RojetaDoctorApp({super.key});
+
+  @override
+  State<RojetaDoctorApp> createState() => _RojetaDoctorAppState();
+}
+
+class _RojetaDoctorAppState extends State<RojetaDoctorApp> {
+  late String _currentLocale;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentLocale = UserHiveHelper.getUser()?.language ?? 'ar';
+    UserHiveHelper.getBoxListenable().addListener(_onBoxChanged);
+  }
+
+  @override
+  void dispose() {
+    UserHiveHelper.getBoxListenable().removeListener(_onBoxChanged);
+    super.dispose();
+  }
+
+  void _onBoxChanged() {
+    final newLocale = UserHiveHelper.getUser()?.language ?? 'ar';
+    if (newLocale != _currentLocale) {
+      setState(() {
+        _currentLocale = newLocale;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,35 +66,27 @@ class RojetaDoctorApp extends StatelessWidget {
         // BlocProvider(create: (_) => injector<ChatBloc>()),
         // Add other global BLoCs here
       ],
-      child: ValueListenableBuilder(
-        valueListenable: UserHiveHelper.getBoxListenable(),
-        builder: (context, box, child) {
-          final user = UserHiveHelper.getUser();
-          final locale = user?.language ?? 'ar';
-
-          return SafeArea(
-            top: false,
-            child: MaterialApp(
-              navigatorKey: RojetaDoctorApp.navigatorKey, // Assign the key
-              title: 'RojetaDoctor',
-              debugShowCheckedModeBanner: false,
-              theme: AppTheme.lightTheme,
-              darkTheme: AppTheme.darkTheme,
-              localizationsDelegates: AppLocalizations.localizationsDelegates,
-              supportedLocales: AppLocalizations.supportedLocales,
-              initialRoute: AppRoutes.splash,
-              locale: Locale(locale),
-              themeMode: ThemeMode.light, // Or control this with a BLoC
-              onGenerateRoute: AppRouter.onGenerateRoute,
-              builder: (context, child) {
-                if (child != null) {
-                  ScreenUtil.init(context: context);
-                }
-                return child!;
-              },
-            ),
-          );
-        },
+      child: SafeArea(
+        top: false,
+        child: MaterialApp(
+          navigatorKey: RojetaDoctorApp.navigatorKey, // Assign the key
+          title: 'RojetaDoctor',
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          initialRoute: AppRoutes.splash,
+          locale: Locale(_currentLocale),
+          themeMode: ThemeMode.light, // Or control this with a BLoC
+          onGenerateRoute: AppRouter.onGenerateRoute,
+          builder: (context, child) {
+            if (child != null) {
+              ScreenUtil.init(context: context);
+            }
+            return child!;
+          },
+        ),
       ),
     );
   }

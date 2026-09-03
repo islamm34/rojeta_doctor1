@@ -4,7 +4,6 @@ import 'package:rojeta_doctor/core/local/user_data.dart';
 import 'package:rojeta_doctor/core/local/user_hive_helper.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
 import 'package:rojeta_doctor/core/utils/flutter_secure_storage_helper.dart';
-import 'package:rojeta_doctor/core/utils/snackbar_helper.dart';
 import 'package:rojeta_doctor/features/auth/data/models/user_type_model.dart';
 
 class RoleNavigationHelper {
@@ -15,8 +14,19 @@ class RoleNavigationHelper {
     bool clearStack = true,
   }) {
     final currentUser = user ?? UserHiveHelper.getUser();
-    final role = (currentUser?.role != null && currentUser!.role!.isNotEmpty)
-        ? currentUser.role!.toLowerCase().trim()
+    final token = currentUser?.token;
+    if (token == null || token.trim().isEmpty) {
+      if (clearStack) {
+        context.pushNamedAndRemoveUntil(AppRoutes.login);
+      } else {
+        context.pushReplacementNamed(AppRoutes.login);
+      }
+      return;
+    }
+
+    final userRole = currentUser?.role?.toLowerCase().trim() ?? '';
+    final String role = userRole.isNotEmpty
+        ? userRole
         : _roleFromUserType(fallbackType);
 
     if (role == 'hospital') {
@@ -66,10 +76,10 @@ class RoleNavigationHelper {
       FlutterSecureStorageHelper.clearAll();
       UserHiveHelper.clearSession();
 
-      SnackbarHelper.showError(
-        context,
-        message: context.strings.unsupportedRoleMessage,
-      );
+      // SnackbarHelper.showError(
+      //   context,
+      //   message: context.strings.unsupportedRoleMessage,
+      // );
 
       context.pushNamedAndRemoveUntil(AppRoutes.login);
     }

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,13 +41,16 @@ class _HospitalDocumentUploadView extends StatelessWidget {
       listenWhen: (previous, current) => previous.status != current.status,
       listener: (context, state) {
         if (state.status == AuthStatus.loaded) {
-          context.pushNamed(AppRoutes.verifyPhone);
+          final phone = state.organizationNumber.isNotEmpty
+              ? state.organizationNumber
+              : state.phone;
+          context.pushNamed(AppRoutes.verifyPhone, extra: {'phone': phone});
           context.read<AuthBloc>().add(const ResetAuthStatusEvent());
         } else if (state.status == AuthStatus.error) {
-          if (state.message != null && state.message!.isNotEmpty) {
+          if (state.message.isNotEmpty) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(state.message!),
+                content: Text(state.message),
                 backgroundColor: Colors.red,
               ),
             );
@@ -53,195 +58,198 @@ class _HospitalDocumentUploadView extends StatelessWidget {
         }
       },
       child: Scaffold(
-      backgroundColor: const Color(0xFFF8FCFF),
-      appBar: RegisteraionStepsAppBar(stepText: context.strings.step4Of5),
-      body: SafeArea(
-        child: Column(
-          children: [
-            RegisterationStepsIndicator(progress: 0.8),
-            Expanded(
-              child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
-                child: Column(
-                  children: [
-                    // Upload Section Card
-                    Container(
-                      padding: EdgeInsets.all(20.w),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(16.r),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.05),
-                            blurRadius: 10,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.upload_file,
-                                color: theme.colorScheme.primary,
-                              ),
-                              SizedBox(width: 8.w),
-                              Text(
-                                context.strings.documentUpload,
-                                style: theme.textTheme.titleMedium?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black87,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: 24.h),
-
-                          BlocBuilder<AuthBloc, AuthState>(
-                            builder: (context, state) {
-                              return HospitalUploadSection(
-                                medicalLicensePicked:
-                                    state.medicalLicensePath != null,
-                                certificatesPicked:
-                                    state.certificatesPath != null,
-                                taxIdPicked: state.nationalIdPath != null,
-                                onMedicalLicenseTap: () async {
-                                  final file =
-                                      await FilePickerHelper.pickFile();
-                                  final path = file?.path;
-                                  if (path != null) {
-                                    context.read<AuthBloc>().add(
-                                      PickMedicalLicenseEvent(path),
-                                    );
-                                  }
-                                },
-                                onCertificatesTap: () async {
-                                  final file =
-                                      await FilePickerHelper.pickFile();
-                                  final path = file?.path;
-                                  if (path != null) {
-                                    context.read<AuthBloc>().add(
-                                      PickCertificatesEvent(path),
-                                    );
-                                  }
-                                },
-                                onTaxIdTap: () async {
-                                  final file =
-                                      await FilePickerHelper.pickFile();
-                                  final path = file?.path;
-                                  if (path != null) {
-                                    context.read<AuthBloc>().add(
-                                      PickNationalIdEvent(path),
-                                    );
-                                  }
-                                },
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    SizedBox(height: 24.h),
-
-                    const TermsCard(),
-
-                    SizedBox(height: 24.h),
-
-                    const NextStepsCard(),
-
-                    SizedBox(height: 32.h),
-
-                    // Buttons Row
-                    Row(
-                      children: [
-                        Expanded(
-                          child: CustomElevatedButton(
-                            text: context.strings.back,
-                            backgroundColor: Colors.white,
-                            foregroundColor: Colors.black87,
-                            textStyle: theme.textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.sp,
-                              color: Colors.black87,
+        backgroundColor: const Color(0xFFF8FCFF),
+        appBar: RegisteraionStepsAppBar(stepText: context.strings.step4Of5),
+        body: SafeArea(
+          child: Column(
+            children: [
+              RegisterationStepsIndicator(progress: 0.8),
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 24.h,
+                  ),
+                  child: Column(
+                    children: [
+                      // Upload Section Card
+                      Container(
+                        padding: EdgeInsets.all(20.w),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16.r),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.05),
+                              blurRadius: 10,
+                              offset: const Offset(0, 4),
                             ),
-                            onPressed: () {
-                              if (context.canPop) context.pop();
-                            },
-                          ),
+                          ],
                         ),
-                        SizedBox(width: 16.w),
-                        Expanded(
-                          child: BlocBuilder<AuthBloc, AuthState>(
-                            builder: (context, state) {
-                              final isLoading =
-                                  state.status == AuthStatus.loading;
-                              return Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(14.r),
-                                  gradient: const LinearGradient(
-                                    colors: [
-                                      Color(0xFF005BEA),
-                                      Color(0xFF00C6FB)
-                                    ],
-                                    begin: Alignment.centerLeft,
-                                    end: Alignment.centerRight,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.upload_file,
+                                  color: theme.colorScheme.primary,
+                                ),
+                                SizedBox(width: 8.w),
+                                Text(
+                                  context.strings.documentUpload,
+                                  style: theme.textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black87,
                                   ),
                                 ),
-                                child: CustomElevatedButton(
-                                  text: context.strings.completeRegistration,
-                                  backgroundColor: Colors.transparent,
-                                  isLoading: isLoading,
-                                  onPressed: isLoading
-                                      ? null
-                                      : () {
-                                          context.read<AuthBloc>().add(
-                                                const SubmitRegistrationEvent(),
-                                              );
-                                        },
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    SizedBox(height: 32.h),
-
-                    RichText(
-                      text: TextSpan(
-                        text: '${context.strings.alreadyHaveAccount} ',
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          color: Colors.grey.shade600,
-                          fontSize: 14.sp,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: context.strings.loginHere,
-                            style: theme.textTheme.bodyMedium?.copyWith(
-                              color: theme.colorScheme.primary,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14.sp,
+                              ],
                             ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                context.pushReplacementNamed(AppRoutes.login);
+                            SizedBox(height: 24.h),
+
+                            BlocBuilder<AuthBloc, AuthState>(
+                              builder: (context, state) {
+                                return HospitalUploadSection(
+                                  medicalLicensePicked:
+                                      state.medicalLicensePath != null,
+                                  certificatesPicked:
+                                      state.certificatesPath != null,
+                                  taxIdPicked: state.nationalIdPath != null,
+                                  onMedicalLicenseTap: () async {
+                                    final file =
+                                        await FilePickerHelper.pickFile();
+                                    final path = file?.path;
+                                    if (path != null) {
+                                      context.read<AuthBloc>().add(
+                                        PickMedicalLicenseEvent(path),
+                                      );
+                                    }
+                                  },
+                                  onCertificatesTap: () async {
+                                    final file =
+                                        await FilePickerHelper.pickFile();
+                                    final path = file?.path;
+                                    if (path != null) {
+                                      context.read<AuthBloc>().add(
+                                        PickCertificatesEvent(path),
+                                      );
+                                    }
+                                  },
+                                  onTaxIdTap: () async {
+                                    final file =
+                                        await FilePickerHelper.pickFile();
+                                    final path = file?.path;
+                                    if (path != null) {
+                                      context.read<AuthBloc>().add(
+                                        PickNationalIdEvent(path),
+                                      );
+                                    }
+                                  },
+                                );
                               },
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      SizedBox(height: 24.h),
+
+                      const TermsCard(),
+
+                      SizedBox(height: 24.h),
+
+                      const NextStepsCard(),
+
+                      SizedBox(height: 32.h),
+
+                      // Buttons Row
+                      Row(
+                        children: [
+                          Expanded(
+                            child: CustomElevatedButton(
+                              text: context.strings.back,
+                              backgroundColor: Colors.white,
+                              foregroundColor: Colors.black87,
+                              textStyle: theme.textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16.sp,
+                                color: Colors.black87,
+                              ),
+                              onPressed: () {
+                                if (context.canPop) context.pop();
+                              },
+                            ),
+                          ),
+                          SizedBox(width: 16.w),
+                          Expanded(
+                            child: BlocBuilder<AuthBloc, AuthState>(
+                              builder: (context, state) {
+                                final isLoading =
+                                    state.status == AuthStatus.loading;
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(14.r),
+                                    gradient: const LinearGradient(
+                                      colors: [
+                                        Color(0xFF005BEA),
+                                        Color(0xFF00C6FB),
+                                      ],
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                    ),
+                                  ),
+                                  child: CustomElevatedButton(
+                                    text: context.strings.completeRegistration,
+                                    backgroundColor: Colors.transparent,
+                                    isLoading: isLoading,
+                                    onPressed: isLoading
+                                        ? null
+                                        : () {
+                                            context.read<AuthBloc>().add(
+                                              const SubmitRegistrationEvent(),
+                                            );
+                                          },
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                  ],
+
+                      SizedBox(height: 32.h),
+
+                      RichText(
+                        text: TextSpan(
+                          text: '${context.strings.alreadyHaveAccount} ',
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            color: Colors.grey.shade600,
+                            fontSize: 14.sp,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: context.strings.loginHere,
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                color: theme.colorScheme.primary,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14.sp,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  context.pushReplacementNamed(AppRoutes.login);
+                                },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-    ),
     );
   }
 }

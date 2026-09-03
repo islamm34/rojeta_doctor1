@@ -15,19 +15,23 @@ import '../../bloc/auth_state.dart';
 import '../../widgets/basic_information/basic_info_form.dart';
 
 class BasicInformationPage extends StatelessWidget {
-  const BasicInformationPage({super.key});
+  final bool isFinalStep;
+
+  const BasicInformationPage({super.key, this.isFinalStep = false});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: injector<AuthBloc>(),
-      child: const _BasicInformationView(),
+      child: _BasicInformationView(isFinalStep: isFinalStep),
     );
   }
 }
 
 class _BasicInformationView extends StatelessWidget {
-  const _BasicInformationView();
+  final bool isFinalStep;
+
+  const _BasicInformationView({this.isFinalStep = false});
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +141,11 @@ class _BasicInformationView extends StatelessWidget {
                                         ),
                                       )
                                     : CustomElevatedButton(
-                                        text: context.strings.next,
+                                        text: isFinalStep
+                                            ? context
+                                                  .strings
+                                                  .completeRegistration
+                                            : context.strings.next,
                                         backgroundColor: Colors.transparent,
                                         foregroundColor: isValid
                                             ? Colors.white

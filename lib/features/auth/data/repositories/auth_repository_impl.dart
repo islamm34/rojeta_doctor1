@@ -19,10 +19,7 @@ class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remote;
   final AuthLocalDataSource local;
 
-  AuthRepositoryImpl({
-    required this.remote,
-    required this.local,
-  });
+  AuthRepositoryImpl({required this.remote, required this.local});
 
   @override
   Future<AuthModel> getAuth() async {
@@ -36,16 +33,18 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<RegisterResponseModel> register(
-      RegisterRequestModel requestModel) async {
+    RegisterRequestModel requestModel,
+  ) async {
     final response = await remote.register(requestModel);
 
     if (response.token != null && response.token!.isNotEmpty) {
       await FlutterSecureStorageHelper.saveToken(response.token!);
+    } else {
+      await FlutterSecureStorageHelper.deleteToken();
     }
 
     if (response.user != null) {
-      if ((response.user!.role == null || response.user!.role!.isEmpty) &&
-          requestModel.role != null) {
+      if ((response.user!.role == null || response.user!.role!.isEmpty)) {
         response.user!.role = requestModel.role;
       }
       if (response.user!.token == null && response.token != null) {
@@ -59,11 +58,14 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<VerifyOtpResponseModel> verifyOtp(
-      VerifyOtpRequestModel requestModel) async {
+    VerifyOtpRequestModel requestModel,
+  ) async {
     final response = await remote.verifyOtp(requestModel);
 
     if (response.token != null && response.token!.isNotEmpty) {
       await FlutterSecureStorageHelper.saveToken(response.token!);
+    } else {
+      await FlutterSecureStorageHelper.deleteToken();
     }
 
     if (response.user != null) {
@@ -96,13 +98,15 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<ResendOtpResponseModel> resendOtp(
-      ResendOtpRequestModel requestModel) async {
+    ResendOtpRequestModel requestModel,
+  ) async {
     return await remote.resendOtp(requestModel);
   }
 
   @override
   Future<CheckPhoneResponseModel> checkPhone(
-      CheckPhoneRequestModel requestModel) async {
+    CheckPhoneRequestModel requestModel,
+  ) async {
     return await remote.checkPhone(requestModel);
   }
 

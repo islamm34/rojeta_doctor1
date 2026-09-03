@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import '../../../../../config/routes/app_router.dart';
 import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../shared/widgets/custom_elevated_button.dart';
 import '../../../../../shared/widgets/custom_textfield.dart';
+import '../../bloc/auth_bloc.dart';
+import '../../bloc/auth_event.dart';
 
 class ForgotPasswordForm extends StatefulWidget {
   const ForgotPasswordForm({super.key});
@@ -73,6 +76,11 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
               icon: const Icon(Icons.arrow_forward, color: Colors.white, size: 20),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
+                  final phone = _phoneController.text.trim();
+                  final authBloc = context.read<AuthBloc>();
+                  if (!authBloc.isClosed) {
+                    authBloc.add(PhoneChangedEvent(phone));
+                  }
                   // Navigate to Verify Phone Page and pass 'forgotPassword' as argument
                   context.pushNamed(AppRoutes.verifyPhone, extra: 'forgotPassword');
                 }

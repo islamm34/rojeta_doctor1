@@ -15,8 +15,8 @@ class LoginPage extends StatelessWidget {
     ScreenUtil.init(context: context);
     final theme = Theme.of(context);
 
-    return BlocProvider(
-      create: (_) => injector<AuthBloc>(),
+    return BlocProvider.value(
+      value: injector<AuthBloc>(),
       child: Scaffold(
         backgroundColor: theme.colorScheme.primary,
         body: SafeArea(

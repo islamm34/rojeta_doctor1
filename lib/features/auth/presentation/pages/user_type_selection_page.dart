@@ -20,8 +20,8 @@ class UserTypeSelectionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => injector<AuthBloc>(),
+    return BlocProvider.value(
+      value: injector<AuthBloc>(),
       child: const _UserTypeSelectionView(),
     );
   }

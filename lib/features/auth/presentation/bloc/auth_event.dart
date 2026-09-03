@@ -234,7 +234,11 @@ class ResetAuthStatusEvent extends AuthEvent {
 }
 
 class VerifyOtpSubmittedEvent extends AuthEvent {
-  const VerifyOtpSubmittedEvent();
+  final String? phone;
+  const VerifyOtpSubmittedEvent([this.phone]);
+
+  @override
+  List<Object?> get props => [phone];
 }
 
 class LoginSubmittedEvent extends AuthEvent {
@@ -248,7 +252,11 @@ class LoginSubmittedEvent extends AuthEvent {
 }
 
 class ResendOtpSubmittedEvent extends AuthEvent {
-  const ResendOtpSubmittedEvent();
+  final String? phone;
+  const ResendOtpSubmittedEvent([this.phone]);
+
+  @override
+  List<Object?> get props => [phone];
 }
 
 class CheckPhoneSubmittedEvent extends AuthEvent {

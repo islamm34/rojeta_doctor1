@@ -16,13 +16,32 @@ import '../widgets/services_pricing_section.dart';
 import '../widgets/payment_details_section.dart';
 import '../widgets/settings_view.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
   @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  late final ProfileBloc _profileBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _profileBloc = injector<ProfileBloc>()..add(const LoadProfileEvent());
+  }
+
+  @override
+  void dispose() {
+    _profileBloc.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => injector<ProfileBloc>()..add(const LoadProfileEvent()),
+    return BlocProvider.value(
+      value: _profileBloc,
       child: const ProfileView(),
     );
   }

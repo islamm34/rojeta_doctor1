@@ -23,7 +23,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     LoadProfileEvent event,
     Emitter<ProfileState> emit,
   ) async {
-    emit(state.copyWith(status: ProfileStatus.loading));
+    if (state.status == ProfileStatus.loading ||
+        (state.status == ProfileStatus.success && state.profile != null)) {
+      return;
+    }
+
+    emit(state.copyWith(status: ProfileStatus.loading, errorMessage: null));
 
     try {
       final response = await getProfileUseCase();

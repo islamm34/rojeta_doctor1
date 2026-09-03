@@ -6,18 +6,25 @@ import '../../bloc/auth_state.dart';
 import 'package:rojeta_doctor/features/auth/presentation/widgets/registeraion_steps_app_bar.dart';
 import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
+import '../../../../../core/di/injector.dart';
 import '../../widgets/registeration_steps_indicator.dart';
 import '../../widgets/verify_phone/verify_phone_card.dart';
 
 class VerifyPhonePage extends StatelessWidget {
   final String? comefrom;
+  final String? phone;
 
-  const VerifyPhonePage({super.key, this.comefrom});
+  const VerifyPhonePage({super.key, this.comefrom, this.phone});
 
   @override
   Widget build(BuildContext context) {
+    var authBloc = context.read<AuthBloc>();
+    if (authBloc.isClosed) {
+      injector.resetLazySingleton<AuthBloc>();
+      authBloc = injector<AuthBloc>();
+    }
     return BlocProvider.value(
-      value: context.read<AuthBloc>(),
+      value: authBloc,
       child: Scaffold(
         backgroundColor: const Color(0xFFF8FCFF),
         appBar: PreferredSize(
@@ -48,7 +55,7 @@ class VerifyPhonePage extends StatelessWidget {
                   child: Column(
                     children: [
                       SizedBox(height: 24.h),
-                      VerifyPhoneCard(comefrom: comefrom),
+                      VerifyPhoneCard(comefrom: comefrom, phone: phone),
                     ],
                   ),
                 ),

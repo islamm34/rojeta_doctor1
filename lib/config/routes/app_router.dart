@@ -150,7 +150,15 @@ class AppRouter {
       case AppRoutes.userTypeSelection:
         return MaterialPageRoute(builder: (_) => const UserTypeSelectionPage());
       case AppRoutes.basicInformation:
-        return MaterialPageRoute(builder: (_) => const BasicInformationPage());
+        final args = settings.arguments;
+        final isFinalStep = args is bool
+            ? args
+            : (args is Map<String, dynamic>
+                  ? (args['isFinalStep'] as bool? ?? false)
+                  : false);
+        return MaterialPageRoute(
+          builder: (_) => BasicInformationPage(isFinalStep: isFinalStep),
+        );
       case AppRoutes.professionalInformation:
         return MaterialPageRoute(
           builder: (_) => const ProfessionalInformationPage(),
@@ -158,9 +166,17 @@ class AppRouter {
       case AppRoutes.documentUpload:
         return MaterialPageRoute(builder: (_) => const DocumentUploadPage());
       case AppRoutes.verifyPhone:
-        final comefrom = settings.arguments as String?;
+        String? comefrom;
+        String? phone;
+        if (settings.arguments is String) {
+          comefrom = settings.arguments as String;
+        } else if (settings.arguments is Map) {
+          final args = settings.arguments as Map;
+          comefrom = args['comefrom'] as String?;
+          phone = args['phone'] as String?;
+        }
         return MaterialPageRoute(
-          builder: (_) => VerifyPhonePage(comefrom: comefrom),
+          builder: (_) => VerifyPhonePage(comefrom: comefrom, phone: phone),
         );
       case AppRoutes.login:
         return MaterialPageRoute(builder: (_) => const LoginPage());
@@ -301,7 +317,6 @@ class AppRouter {
           builder: (_) => AddLabServicePage(userType: userType),
         );
       case AppRoutes.bookingManagement:
-        final isRadiology = settings.arguments as bool? ?? false;
         return MaterialPageRoute(
           builder: (_) =>
               BookingManagementPage(userType: UserType.radiologyCenter),
