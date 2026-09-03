@@ -4,7 +4,6 @@ import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/notifications/notifications_cubit.dart';
-import '../../../../../../config/routes/app_router.dart';
 
 class NotificationItemCard extends StatelessWidget {
   final DoctorNotificationModel notification;
@@ -192,9 +191,7 @@ class NotificationItemCard extends StatelessWidget {
             children: [
               Expanded(
                 child: ElevatedButton(
-                  onPressed: () {
-                  
-                  },
+                  onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     backgroundColor: theme.colorScheme.primary,
                     foregroundColor: Colors.white,

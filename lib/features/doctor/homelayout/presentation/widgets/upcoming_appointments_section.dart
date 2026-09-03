@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
-import '../../data/mocks/doctor_mock_data.dart';
 import 'package:rojeta_doctor/shared/widgets/upcoming_appointment_card.dart';
+import '../bloc/homelayout_bloc.dart';
 
 class UpcomingAppointmentsSection extends StatelessWidget {
   final VoidCallback? onViewAllTap;
@@ -14,8 +15,12 @@ class UpcomingAppointmentsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Take up to 3 upcoming appointments for the preview
-    final upcomingAppointments = DoctorMockData.appointments.take(3).toList();
+    final upcomingAppointments = context
+        .watch<HomelayoutBloc>()
+        .state
+        .upcomingAppointments
+        .take(3)
+        .toList();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -44,22 +49,42 @@ class UpcomingAppointmentsSection extends StatelessWidget {
           ],
         ),
         SizedBox(height: 12.h),
-        ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: upcomingAppointments.length,
-          separatorBuilder: (context, index) => SizedBox(height: 12.h),
-          itemBuilder: (context, index) {
-            final appointment = upcomingAppointments[index];
-            return UpcomingAppointmentCard(
-              appointment: appointment,
-              isActive: index == 0,
-              onTap: () {
-                // Navigate to appointment details if needed
-              },
-            );
-          },
-        ),
+        if (upcomingAppointments.isEmpty)
+          Container(
+            width: double.infinity,
+            padding: EdgeInsets.all(20.w),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16.r),
+              border: Border.all(color: Colors.grey.shade200),
+            ),
+            child: Center(
+              child: Text(
+                context.strings.noDataAvailable,
+                style: TextStyle(
+                  color: Colors.grey.shade500,
+                  fontSize: 14.sp,
+                ),
+              ),
+            ),
+          )
+        else
+          ListView.separated(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: upcomingAppointments.length,
+            separatorBuilder: (context, index) => SizedBox(height: 12.h),
+            itemBuilder: (context, index) {
+              final appointment = upcomingAppointments[index];
+              return UpcomingAppointmentCard(
+                appointment: appointment,
+                isActive: index == 0,
+                onTap: () {
+                  // Navigate to appointment details if needed
+                },
+              );
+            },
+          ),
       ],
     );
   }

@@ -37,8 +37,8 @@ class WorkingHoursSection extends StatelessWidget {
           final index = entry.key;
           final day = entry.value;
           return DayScheduleCard(
-            workingDay: day,
-            onToggleActive: (val) => onToggleDay(index, val),
+            day: day,
+            onToggle: (val) => onToggleDay(index, val),
             onAddSlot: () => onAddSlot(index),
           );
         }),

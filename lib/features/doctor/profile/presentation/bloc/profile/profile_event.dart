@@ -1,4 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:rojeta_doctor/features/doctor/profile/data/models/clinic_model.dart';
+import 'package:rojeta_doctor/features/doctor/profile/data/models/payment_details_model.dart';
+import 'package:rojeta_doctor/features/doctor/profile/data/models/settings_model.dart';
 
 abstract class ProfileEvent extends Equatable {
   const ProfileEvent();
@@ -40,6 +43,10 @@ class UpdateServicePriceEvent extends ProfileEvent {
   List<Object?> get props => [serviceId, newPrice];
 }
 
+class SaveServicesEvent extends ProfileEvent {
+  const SaveServicesEvent();
+}
+
 class SwitchPaymentTypeEvent extends ProfileEvent {
   final String type;
 
@@ -47,6 +54,15 @@ class SwitchPaymentTypeEvent extends ProfileEvent {
 
   @override
   List<Object?> get props => [type];
+}
+
+class SavePaymentDetailsEvent extends ProfileEvent {
+  final PaymentDetailsModel paymentDetails;
+
+  const SavePaymentDetailsEvent(this.paymentDetails);
+
+  @override
+  List<Object?> get props => [paymentDetails];
 }
 
 class DeleteClinicEvent extends ProfileEvent {
@@ -58,6 +74,38 @@ class DeleteClinicEvent extends ProfileEvent {
   List<Object?> get props => [clinicId];
 }
 
+class AddClinicSubmittedEvent extends ProfileEvent {
+  final ClinicModel clinic;
+
+  const AddClinicSubmittedEvent(this.clinic);
+
+  @override
+  List<Object?> get props => [clinic];
+}
+
+class UpdateClinicSubmittedEvent extends ProfileEvent {
+  final String clinicId;
+  final Map<String, dynamic> data;
+
+  const UpdateClinicSubmittedEvent(this.clinicId, this.data);
+
+  @override
+  List<Object?> get props => [clinicId, data];
+}
+
+class UpdateProfileDetailsEvent extends ProfileEvent {
+  final Map<String, dynamic> data;
+
+  const UpdateProfileDetailsEvent(this.data);
+
+  @override
+  List<Object?> get props => [data];
+}
+
+class LoadSettingsEvent extends ProfileEvent {
+  const LoadSettingsEvent();
+}
+
 class ToggleSettingEvent extends ProfileEvent {
   final String settingKey;
   final bool isEnabled;
@@ -66,4 +114,13 @@ class ToggleSettingEvent extends ProfileEvent {
 
   @override
   List<Object?> get props => [settingKey, isEnabled];
+}
+
+class SaveSettingsEvent extends ProfileEvent {
+  final SettingsModel settings;
+
+  const SaveSettingsEvent(this.settings);
+
+  @override
+  List<Object?> get props => [settings];
 }

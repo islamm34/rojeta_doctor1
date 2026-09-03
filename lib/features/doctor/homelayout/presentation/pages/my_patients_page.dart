@@ -69,6 +69,9 @@ class _MyPatientsPageState extends State<MyPatientsPage> {
                   controller: _searchController,
                   hintText: context.strings.searchByNameOrPhone,
                   prefixIcon: const Icon(Icons.search, color: Colors.grey),
+                  onChanged: (val) {
+                    context.read<PatientsBloc>().add(SearchPatientsEvent(val));
+                  },
                 ),
               ),
               Expanded(

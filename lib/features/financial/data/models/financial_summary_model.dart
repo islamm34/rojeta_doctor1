@@ -1,8 +1,10 @@
-class FinancialSummaryModel {
-  final int totalIncome;
+import 'package:equatable/equatable.dart';
+
+class FinancialSummaryModel extends Equatable {
+  final double totalIncome;
   final int completedAppointments;
-  final int commission;
-  final int netIncome;
+  final double commission;
+  final double netIncome;
 
   const FinancialSummaryModel({
     required this.totalIncome,
@@ -11,12 +13,16 @@ class FinancialSummaryModel {
     required this.netIncome,
   });
 
+  double get totalEarnings => totalIncome;
+  double get platformFees => commission;
+
   factory FinancialSummaryModel.fromJson(Map<String, dynamic> json) {
     return FinancialSummaryModel(
-      totalIncome: json['totalIncome'] as int? ?? 0,
-      completedAppointments: json['completedAppointments'] as int? ?? 0,
-      commission: json['commission'] as int? ?? 0,
-      netIncome: json['netIncome'] as int? ?? 0,
+      totalIncome: (json['totalIncome'] as num?)?.toDouble() ?? 0.0,
+      completedAppointments:
+          (json['completedAppointments'] as num?)?.toInt() ?? 0,
+      commission: (json['commission'] as num?)?.toDouble() ?? 0.0,
+      netIncome: (json['netIncome'] as num?)?.toDouble() ?? 0.0,
     );
   }
 
@@ -28,4 +34,12 @@ class FinancialSummaryModel {
       'netIncome': netIncome,
     };
   }
+
+  @override
+  List<Object?> get props => [
+        totalIncome,
+        completedAppointments,
+        commission,
+        netIncome,
+      ];
 }

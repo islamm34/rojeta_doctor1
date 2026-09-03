@@ -5,6 +5,7 @@ class LabServiceModel extends Equatable {
   final String name;
   final double price;
   final bool isHomeCollectionAvailable;
+  final bool requiresFasting;
   final String turnaroundTime; // e.g., "24 hours", "48 hours"
   final String category; // e.g., "Hematology"
 
@@ -13,18 +14,23 @@ class LabServiceModel extends Equatable {
     required this.name,
     required this.price,
     required this.isHomeCollectionAvailable,
+    this.requiresFasting = false,
     required this.turnaroundTime,
     required this.category,
   });
 
   factory LabServiceModel.fromJson(Map<String, dynamic> json) {
     return LabServiceModel(
-      id: json['id'] ?? '',
-      name: json['name'] ?? '',
-      price: (json['price'] ?? 0.0).toDouble(),
-      isHomeCollectionAvailable: json['isHomeCollectionAvailable'] ?? false,
-      turnaroundTime: json['turnaroundTime'] ?? '',
-      category: json['category'] ?? '',
+      id: json['id'] as String? ?? '',
+      name: json['name'] as String? ?? '',
+      price: (json['price'] as num?)?.toDouble() ?? 0.0,
+      isHomeCollectionAvailable:
+          json['isHomeCollectionAvailable'] as bool? ?? false,
+      requiresFasting: json['requiresFasting'] as bool? ??
+          json['requires_fasting'] as bool? ??
+          false,
+      turnaroundTime: json['turnaroundTime'] as String? ?? '',
+      category: json['category'] as String? ?? '',
     );
   }
 
@@ -34,6 +40,7 @@ class LabServiceModel extends Equatable {
       'name': name,
       'price': price,
       'isHomeCollectionAvailable': isHomeCollectionAvailable,
+      'requiresFasting': requiresFasting,
       'turnaroundTime': turnaroundTime,
       'category': category,
     };
@@ -45,6 +52,7 @@ class LabServiceModel extends Equatable {
         name,
         price,
         isHomeCollectionAvailable,
+        requiresFasting,
         turnaroundTime,
         category,
       ];

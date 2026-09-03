@@ -1,17 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rojeta_doctor/features/doctor/homelayout/presentation/widgets/home_stat_card.dart';
+import '../../../../../../config/routes/app_router.dart';
 import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
-import '../../data/mocks/doctor_mock_data.dart';
+import '../bloc/homelayout_bloc.dart';
 
 class HomeHeader extends StatelessWidget {
-  const HomeHeader({super.key});
+  final VoidCallback? onNotificationTap;
+
+  const HomeHeader({super.key, this.onNotificationTap});
 
   @override
   Widget build(BuildContext context) {
-    final profile = DoctorMockData.profile;
-    final stats = DoctorMockData.stats;
+    final state = context.watch<HomelayoutBloc>().state;
+    final profile = state.profileSummary;
+    final stats = state.stats;
     final paddingTop = MediaQuery.paddingOf(context).top;
+
+    final String doctorName = profile?.name.isNotEmpty == true
+        ? profile!.name
+        : context.strings.doctor;
+    final String doctorSpecialty = profile?.specialty ?? '';
+    final String? imageUrl = profile?.imageUrl;
 
     return Container(
       width: double.infinity,
@@ -19,19 +31,13 @@ class HomeHeader extends StatelessWidget {
         top: paddingTop + 16.h,
         left: 20.w,
         right: 20.w,
-        bottom: 24.h,
+        bottom: 6.h,
       ),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            AppColors.headerGradientStart,
-            AppColors.headerGradientEnd,
-          ],
-        ),
-        borderRadius: BorderRadius.vertical(
-          bottom: Radius.circular(24.r),
+          colors: [AppColors.headerGradientStart, AppColors.headerGradientEnd],
         ),
       ),
       child: Column(
@@ -44,7 +50,12 @@ class HomeHeader extends StatelessWidget {
               CircleAvatar(
                 radius: 26.r,
                 backgroundColor: Colors.white.withValues(alpha: 0.2),
-                backgroundImage: AssetImage(profile.imageUrl),
+                backgroundImage: imageUrl != null && imageUrl.startsWith('http')
+                    ? NetworkImage(imageUrl)
+                    : null,
+                child: imageUrl == null || !imageUrl.startsWith('http')
+                    ? const Icon(Icons.person, color: Colors.white)
+                    : null,
               ),
               SizedBox(width: 12.w),
               // Doctor Info
@@ -62,66 +73,24 @@ class HomeHeader extends StatelessWidget {
                     ),
                     SizedBox(height: 2.h),
                     Text(
-                      profile.name,
+                      doctorName,
                       style: context.textTheme.bodyMedium?.copyWith(
                         color: Colors.white70,
                         fontSize: 14.sp,
                       ),
                     ),
+                    if (doctorSpecialty.isNotEmpty)
+                      Text(
+                        doctorSpecialty,
+                        style: context.textTheme.bodySmall?.copyWith(
+                          color: Colors.white60,
+                          fontSize: 12.sp,
+                        ),
+                      ),
                   ],
                 ),
               ),
-              // Notification Icon
-              Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Container(
-                    width: 40.w,
-                    height: 40.h,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.15),
-                      borderRadius: BorderRadius.circular(12.r),
-                      border: Border.all(
-                        color: Colors.white.withValues(alpha: 0.1),
-                      ),
-                    ),
-                    child: IconButton(
-                      padding: EdgeInsets.zero,
-                      icon: const Icon(
-                        Icons.notifications_none_outlined,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {},
-                    ),
-                  ),
-                  Positioned(
-                    top: -4.h,
-                    right: -4.w,
-                    child: Container(
-                      padding: EdgeInsets.all(4.w),
-                      decoration: const BoxDecoration(
-                        color: Colors.red,
-                        shape: BoxShape.circle,
-                      ),
-                      constraints: BoxConstraints(
-                        minWidth: 16.w,
-                        minHeight: 16.h,
-                      ),
-                      child: Text(
-                        '4',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 9.sp,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(width: 10.w),
-              // Menu Icon
+              // Chat / Messages Icon
               Container(
                 width: 40.w,
                 height: 40.h,
@@ -135,10 +104,33 @@ class HomeHeader extends StatelessWidget {
                 child: IconButton(
                   padding: EdgeInsets.zero,
                   icon: const Icon(
-                    Icons.menu,
+                    Icons.chat_bubble_outline,
                     color: Colors.white,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    context.pushNamed(AppRoutes.doctorConversations);
+                  },
+                ),
+              ),
+              SizedBox(width: 10.w),
+              // Notification Icon
+              Container(
+                width: 40.w,
+                height: 40.h,
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.15),
+                  borderRadius: BorderRadius.circular(12.r),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.1),
+                  ),
+                ),
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  icon: const Icon(
+                    Icons.notifications_none_outlined,
+                    color: Colors.white,
+                  ),
+                  onPressed: onNotificationTap ?? () {},
                 ),
               ),
             ],
@@ -150,9 +142,7 @@ class HomeHeader extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(16.r),
-              border: Border.all(
-                color: Colors.white.withValues(alpha: 0.1),
-              ),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -169,7 +159,7 @@ class HomeHeader extends StatelessWidget {
                     ),
                     SizedBox(height: 4.h),
                     Text(
-                      stats.todayAppointments.toString(),
+                      stats?.todayAppointments.toString() ?? '0',
                       style: context.textTheme.headlineMedium?.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -196,6 +186,30 @@ class HomeHeader extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+          SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                child: HomeStatCard(
+                  icon: Icons.access_time_filled,
+                  value: stats?.completedAppointments.toString() ?? '0',
+                  title: context.strings.completed,
+                  iconColor: AppColors.completedIcon,
+                  bgColor: AppColors.completedIconBg,
+                ),
+              ),
+              SizedBox(width: 16.w),
+              Expanded(
+                child: HomeStatCard(
+                  icon: Icons.people_outline,
+                  value: stats?.pendingRequests.toString() ?? '0',
+                  title: context.strings.pending,
+                  iconColor: AppColors.pendingIcon,
+                  bgColor: AppColors.pendingIconBg,
+                ),
+              ),
+            ],
           ),
         ],
       ),

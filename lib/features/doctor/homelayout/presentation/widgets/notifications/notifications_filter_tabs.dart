@@ -4,6 +4,7 @@ import '../../../../../../core/utils/screen_util_like.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/notifications/notifications_cubit.dart';
 import '../../bloc/notifications/notifications_state.dart';
+import 'notification_filter_tab_item.dart';
 
 class NotificationsFilterTabs extends StatelessWidget {
   const NotificationsFilterTabs({super.key});
@@ -32,64 +33,32 @@ class NotificationsFilterTabs extends StatelessWidget {
           ),
           child: Row(
             children: [
-              _buildTab(
-                context,
+              NotificationFilterTabItem(
                 title: '${context.strings.all} ($allCount)',
                 isSelected: state.filter == NotificationFilter.all,
-                onTap: () => context.read<NotificationsCubit>().setFilter(NotificationFilter.all),
+                onTap: () => context.read<NotificationsCubit>().setFilter(
+                  NotificationFilter.all,
+                ),
               ),
-              _buildTab(
-                context,
+              NotificationFilterTabItem(
                 title: '${context.strings.unread} ($unreadCount)',
                 isSelected: state.filter == NotificationFilter.unread,
-                onTap: () => context.read<NotificationsCubit>().setFilter(NotificationFilter.unread),
+                onTap: () => context.read<NotificationsCubit>().setFilter(
+                  NotificationFilter.unread,
+                ),
               ),
-              _buildTab(
-                context,
+              NotificationFilterTabItem(
                 title: '${context.strings.urgent} ($urgentCount)',
                 isSelected: state.filter == NotificationFilter.urgent,
-                onTap: () => context.read<NotificationsCubit>().setFilter(NotificationFilter.urgent),
+                onTap: () => context.read<NotificationsCubit>().setFilter(
+                  NotificationFilter.urgent,
+                ),
                 isUrgent: true,
               ),
             ],
           ),
         );
       },
-    );
-  }
-
-  Widget _buildTab(
-    BuildContext context, {
-    required String title,
-    required bool isSelected,
-    required VoidCallback onTap,
-    bool isUrgent = false,
-  }) {
-    final theme = Theme.of(context);
-    
-    return Expanded(
-      child: GestureDetector(
-        onTap: onTap,
-        behavior: HitTestBehavior.opaque,
-        child: Container(
-          padding: EdgeInsets.symmetric(vertical: 12.h),
-          decoration: BoxDecoration(
-            color: isSelected ? theme.colorScheme.primary : Colors.transparent,
-            borderRadius: BorderRadius.circular(20.r),
-          ),
-          child: Center(
-            child: Text(
-              title,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: isSelected 
-                  ? Colors.white 
-                  : (isUrgent ? Colors.red : Colors.grey.shade600),
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rojeta_doctor/features/doctor/homelayout/presentation/widgets/appointment/appointment_card_action_buttons.dart';
 import '../../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../../core/utils/screen_util_like.dart';
 import '../../../data/models/doctor_appointment_model.dart';
@@ -198,7 +199,11 @@ class AppointmentsTabCard extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.calendar_today_outlined, size: 16.sp, color: Colors.grey.shade600),
+                        Icon(
+                          Icons.calendar_today_outlined,
+                          size: 16.sp,
+                          color: Colors.grey.shade600,
+                        ),
                         SizedBox(width: 6.w),
                         Text(
                           appointment.appointmentDate,
@@ -212,7 +217,11 @@ class AppointmentsTabCard extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        Icon(Icons.access_time, size: 16.sp, color: Colors.grey.shade600),
+                        Icon(
+                          Icons.access_time,
+                          size: 16.sp,
+                          color: Colors.grey.shade600,
+                        ),
                         SizedBox(width: 6.w),
                         Text(
                           appointment.appointmentTime,
@@ -257,7 +266,13 @@ class AppointmentsTabCard extends StatelessWidget {
           SizedBox(height: 16.h),
 
           // Action Buttons
-          _buildActionButtons(theme),
+          AppointmentCardActionButtons(
+            appointment: appointment,
+            onAccept: onAccept,
+            onReject: onReject,
+            onViewDetails: onViewDetails,
+            onStartConsultation: onStartConsultation,
+          ),
         ],
       ),
     );
@@ -270,125 +285,5 @@ class AppointmentsTabCard extends StatelessWidget {
       return Icons.home_outlined;
     }
     return Icons.calendar_today_outlined;
-  }
-
-  Widget _buildActionButtons(ThemeData theme) {
-    final status = appointment.status.toLowerCase();
-
-    if (status == 'pending') {
-      if (appointment.isOnline) {
-        // Only Reject button for pending video call
-        return SizedBox(
-          width: 140.w,
-          child: ElevatedButton(
-            onPressed: onReject,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              padding: EdgeInsets.symmetric(vertical: 12.h),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.cancel_outlined, size: 18.sp),
-                SizedBox(width: 6.w),
-                Text('Reject', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp)),
-              ],
-            ),
-          ),
-        );
-      } else {
-        // Accept and Reject buttons
-        return Row(
-          children: [
-            Expanded(
-              child: ElevatedButton(
-                onPressed: onAccept,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF00C853), // Green
-                  foregroundColor: Colors.white,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                  padding: EdgeInsets.symmetric(vertical: 12.h),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.check_circle_outline, size: 18.sp),
-                    SizedBox(width: 6.w),
-                    Text('Accept', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp)),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(width: 12.w),
-            Expanded(
-              child: ElevatedButton(
-                onPressed: onReject,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red,
-                  foregroundColor: Colors.white,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                  padding: EdgeInsets.symmetric(vertical: 12.h),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.cancel_outlined, size: 18.sp),
-                    SizedBox(width: 6.w),
-                    Text('Reject', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp)),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        );
-      }
-    } else if (status == 'completed') {
-      return SizedBox(
-        width: double.infinity,
-        child: ElevatedButton(
-          onPressed: onViewDetails,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.grey.shade100,
-            foregroundColor: Colors.black87,
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.r),
-            ),
-            padding: EdgeInsets.symmetric(vertical: 12.h),
-          ),
-          child: Text('View Details', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp)),
-        ),
-      );
-    } else if (status == 'confirmed') {
-      return SizedBox(
-        width: double.infinity,
-        child: ElevatedButton(
-          onPressed: onStartConsultation,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.lightBlue,
-            foregroundColor: Colors.white,
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.r),
-            ),
-            padding: EdgeInsets.symmetric(vertical: 12.h),
-          ),
-          child: Text('Start Consultation', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp)),
-        ),
-      );
-    }
-
-    return const SizedBox.shrink();
   }
 }

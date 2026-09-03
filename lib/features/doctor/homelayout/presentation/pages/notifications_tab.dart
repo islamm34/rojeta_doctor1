@@ -9,15 +9,22 @@ import '../widgets/notifications/notification_item_card.dart';
 import '../widgets/notifications/notification_management_tips.dart';
 import '../widgets/notifications/notification_stats_row.dart';
 
+import '../../../../../../core/di/injector.dart';
+
 class NotificationsTab extends StatelessWidget {
   const NotificationsTab({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => NotificationsCubit(),
-      child: const NotificationsTabContent(),
-    );
+    try {
+      context.read<NotificationsCubit>();
+      return const NotificationsTabContent();
+    } catch (_) {
+      return BlocProvider(
+        create: (context) => injector<NotificationsCubit>(),
+        child: const NotificationsTabContent(),
+      );
+    }
   }
 }
 
@@ -52,7 +59,9 @@ class NotificationsTabContent extends StatelessWidget {
 
                 if (state.status == NotificationsStatus.failure) {
                   return Center(
-                    child: Text(state.errorMessage ?? 'Error loading notifications'),
+                    child: Text(
+                      state.errorMessage ?? 'Error loading notifications',
+                    ),
                   );
                 }
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
-import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
-import 'package:rojeta_doctor/features/auth/data/models/user_type_model.dart';
-
+import '../../../../../../auth/data/models/user_type_model.dart';
+import '../../../../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../../../../core/utils/screen_util_like.dart';
+import 'add_service_text_field.dart';
 
 class AddServiceForm extends StatefulWidget {
   final UserType userType;
@@ -20,6 +20,7 @@ class _AddServiceFormState extends State<AddServiceForm> {
   final _priceController = TextEditingController();
   final _turnaroundTimeController = TextEditingController();
   final _preparationsController = TextEditingController();
+
   bool _isHomeCollection = false;
 
   @override
@@ -40,32 +41,34 @@ class _AddServiceFormState extends State<AddServiceForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildTextField(
+          AddServiceTextField(
             controller: _nameController,
-            label: isRadiology ? context.strings.scanName : context.strings.testName,
+            label: isRadiology
+                ? context.strings.scanName
+                : context.strings.testName,
             icon: Icons.title,
           ),
           SizedBox(height: 16.h),
-          _buildTextField(
+          AddServiceTextField(
             controller: _categoryController,
             label: context.strings.category,
             icon: Icons.category,
           ),
           SizedBox(height: 16.h),
-          _buildTextField(
+          AddServiceTextField(
             controller: _priceController,
             label: context.strings.priceEgp,
             icon: Icons.attach_money,
             keyboardType: TextInputType.number,
           ),
           SizedBox(height: 16.h),
-          _buildTextField(
+          AddServiceTextField(
             controller: _turnaroundTimeController,
             label: context.strings.turnaroundTimeLabel,
             icon: Icons.timer,
           ),
           SizedBox(height: 16.h),
-          _buildTextField(
+          AddServiceTextField(
             controller: _preparationsController,
             label: context.strings.preparationsOptional,
             icon: Icons.info_outline,
@@ -92,7 +95,6 @@ class _AddServiceFormState extends State<AddServiceForm> {
               ),
               onPressed: () {
                 if (_formKey.currentState?.validate() ?? false) {
-                  // Submit logic here
                   context.pop();
                 }
               },
@@ -107,41 +109,6 @@ class _AddServiceFormState extends State<AddServiceForm> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String label,
-    required IconData icon,
-    TextInputType keyboardType = TextInputType.text,
-    int maxLines = 1,
-  }) {
-    return TextFormField(
-      controller: controller,
-      keyboardType: keyboardType,
-      maxLines: maxLines,
-      decoration: InputDecoration(
-        labelText: label,
-        prefixIcon: Icon(icon, color: context.colors.primary),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.r),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.r),
-          borderSide: BorderSide(color: Colors.grey.shade300),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.r),
-          borderSide: BorderSide(color: context.colors.primary, width: 2),
-        ),
-      ),
-      validator: (val) {
-        if (label != context.strings.preparationsOptional && (val == null || val.isEmpty)) {
-          return 'Required field';
-        }
-        return null;
-      },
     );
   }
 }

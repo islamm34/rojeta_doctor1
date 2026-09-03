@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
-import 'package:rojeta_doctor/core/utils/app_colors.dart';
+import 'marketing_header_description.dart';
+import 'marketing_header_feature_row.dart';
 
 class MarketingHeader extends StatelessWidget {
   const MarketingHeader({super.key});
@@ -44,95 +45,28 @@ class MarketingHeader extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
-                _buildDescriptionText(context),
+                const MarketingHeaderDescription(),
                 const SizedBox(height: 12),
-                _buildFeatureRow(context, context.strings.profContentCreation),
-                const SizedBox(height: 6),
-                _buildFeatureRow(
-                  context,
-                  context.strings.targetedAudienceReach,
+                MarketingHeaderFeatureRow(
+                  text: context.strings.profContentCreation,
                 ),
                 const SizedBox(height: 6),
-                _buildFeatureRow(
-                  context,
-                  context.strings.perfTrackingAnalytics,
+                MarketingHeaderFeatureRow(
+                  text: context.strings.targetedAudienceReach,
                 ),
                 const SizedBox(height: 6),
-                _buildFeatureRow(
-                  context,
-                  context.strings.brandBuildingCredibility,
+                MarketingHeaderFeatureRow(
+                  text: context.strings.perfTrackingAnalytics,
+                ),
+                const SizedBox(height: 6),
+                MarketingHeaderFeatureRow(
+                  text: context.strings.brandBuildingCredibility,
                 ),
               ],
             ),
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildDescriptionText(BuildContext context) {
-    final String desc = context.strings.marketingIntroDesc;
-    String target = '';
-
-    if (desc.contains('500K+ followers')) {
-      target = '500K+ followers';
-    } else if (desc.contains('500 ألف متابع')) {
-      target = '500 ألف متابع';
-    }
-
-    if (target.isEmpty) {
-      return Text(
-        desc,
-        style: context.textTheme.bodyMedium?.copyWith(
-          color: const Color(0xFF6B7280),
-          height: 1.5,
-        ),
-      );
-    }
-
-    final parts = desc.split(target);
-    return RichText(
-      text: TextSpan(
-        style: context.textTheme.bodyMedium?.copyWith(
-          color: const Color(0xFF6B7280),
-          height: 1.5,
-        ),
-        children: [
-          TextSpan(text: parts[0]),
-          TextSpan(
-            text: target,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Color(0xFF4B5563),
-            ),
-          ),
-          if (parts.length > 1) TextSpan(text: parts.sublist(1).join(target)),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFeatureRow(BuildContext context, String text) {
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(2),
-          decoration: BoxDecoration(
-            color: const Color(0xFF10B981),
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: const Icon(Icons.check, color: Colors.white, size: 14),
-        ),
-        const SizedBox(width: 8),
-        Expanded(
-          child: Text(
-            text,
-            style: context.textTheme.bodyMedium?.copyWith(
-              color: const Color(0xFF4B5563),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

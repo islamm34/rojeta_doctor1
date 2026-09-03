@@ -1931,4 +1931,66 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get unsupportedRoleMessage =>
       'This account type is not supported on this application. Please log in with a healthcare provider account.';
+
+  @override
+  String get messages => 'Messages';
+
+  @override
+  String get typeYourMessage => 'Type your message...';
+
+  @override
+  String get somethingWentWrong => 'Something went wrong';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get noDataAvailable => 'No data available';
+
+  @override
+  String get tipsForManagingNotifications => 'Tips for managing notifications';
+
+  @override
+  String get keepNotificationsTurnedOn =>
+      'Keep notifications turned on to stay updated on your appointments';
+
+  @override
+  String get markCompletedRequestsAsRead =>
+      'Mark completed requests as read to keep your inbox organized';
+
+  @override
+  String get addTimeSlot => 'Add Time Slot';
+
+  @override
+  String get financialBreakdown => 'Financial Breakdown';
+
+  @override
+  String get totalEarned => 'Total Earned';
+
+  @override
+  String get platformFees => 'Platform Fees';
+
+  @override
+  String get netRevenue => 'Net Revenue';
+
+  @override
+  String get transactionId => 'Transaction ID';
+
+  @override
+  String get grossAmount => 'Gross Amount';
+
+  @override
+  String get feesDeducted => 'Fees Deducted';
+
+  @override
+  String get fastingRequired => 'Fasting Required';
+
+  @override
+  String get bloodGroup => 'Blood Group';
+
+  @override
+  String get vacationsAndLeaves => 'Vacations & Leaves';
+
+  @override
+  String get addVacation => 'Add Vacation';
 }

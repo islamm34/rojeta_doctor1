@@ -1,30 +1,47 @@
 import 'package:equatable/equatable.dart';
+import '../../data/models/doctor_appointment_model.dart';
+import '../../data/models/doctor_dashboard_stats.dart';
+import '../../data/models/doctor_profile_model.dart';
 
-enum HomelayoutStatus { initial, loading, loaded, error }
+enum HomelayoutStatus { initial, loading, success, failure }
 
 class HomelayoutState extends Equatable {
+  final HomelayoutStatus status;
+  final DoctorDashboardStats? stats;
+  final DoctorProfileModel? profileSummary;
+  final List<DoctorAppointmentModel> upcomingAppointments;
+  final String? errorMessage;
+
   const HomelayoutState({
     this.status = HomelayoutStatus.initial,
-    this.message = '',
-    // final HomelayoutEntity? entity,
+    this.stats,
+    this.profileSummary,
+    this.upcomingAppointments = const [],
+    this.errorMessage,
   });
-
-  final HomelayoutStatus status;
-  final String message;
-  // final HomelayoutEntity? entity;
 
   HomelayoutState copyWith({
     HomelayoutStatus? status,
-    String? message,
-    // HomelayoutEntity? entity,
+    DoctorDashboardStats? stats,
+    DoctorProfileModel? profileSummary,
+    List<DoctorAppointmentModel>? upcomingAppointments,
+    String? errorMessage,
   }) {
     return HomelayoutState(
       status: status ?? this.status,
-      message: message ?? this.message,
-      // entity: entity ?? this.entity,
+      stats: stats ?? this.stats,
+      profileSummary: profileSummary ?? this.profileSummary,
+      upcomingAppointments: upcomingAppointments ?? this.upcomingAppointments,
+      errorMessage: errorMessage,
     );
   }
 
   @override
-  List<Object> get props => [status, message]; // props..add(entity)
+  List<Object?> get props => [
+        status,
+        stats,
+        profileSummary,
+        upcomingAppointments,
+        errorMessage,
+      ];
 }

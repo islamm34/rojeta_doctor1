@@ -1,32 +1,33 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rojeta_doctor/features/doctor/homelayout/data/repositories/doctor_notifications_repository.dart';
 import 'notifications_state.dart';
-import '../../../../../../features/doctor/homelayout/data/mocks/doctor_mock_data.dart';
 
 class NotificationsCubit extends Cubit<NotificationsState> {
-  NotificationsCubit() : super(const NotificationsState()) {
-    _loadNotifications();
+  final DoctorNotificationsRepository repository;
+
+  NotificationsCubit({required this.repository})
+    : super(const NotificationsState()) {
+    loadNotifications();
   }
 
-  void _loadNotifications() {
-    emit(state.copyWith(status: NotificationsStatus.loading));
+  Future<void> loadNotifications() async {
+    emit(
+      state.copyWith(status: NotificationsStatus.loading, errorMessage: null),
+    );
 
     try {
-      // Simulate network delay
-      Future.delayed(const Duration(milliseconds: 500), () {
-        if (isClosed) return;
-        emit(
-          state.copyWith(
-            status: NotificationsStatus.success,
-            notifications: DoctorMockData.notifications,
-          ),
-        );
-      });
+      final notifications = await repository.getNotifications();
+      emit(
+        state.copyWith(
+          status: NotificationsStatus.success,
+          notifications: notifications,
+        ),
+      );
     } catch (e) {
-      if (isClosed) return;
       emit(
         state.copyWith(
           status: NotificationsStatus.failure,
-          errorMessage: 'Failed to load notifications',
+          errorMessage: e.toString(),
         ),
       );
     }
@@ -36,7 +37,7 @@ class NotificationsCubit extends Cubit<NotificationsState> {
     emit(state.copyWith(filter: filter));
   }
 
-  void markAsRead(String id) {
+  Future<void> markAsRead(String id) async {
     final updatedList = state.notifications.map((n) {
       if (n.id == id) {
         return n.copyWith(isRead: true);
@@ -45,14 +46,29 @@ class NotificationsCubit extends Cubit<NotificationsState> {
     }).toList();
 
     emit(state.copyWith(notifications: updatedList));
+
+    try {
+      await repository.markAsRead(id);
+    } catch (_) {}
   }
 
-  void markAllAsRead() {
+  Future<void> markAllAsRead() async {
+    final unreadList = state.notifications
+        .where((n) => !n.isRead)
+        .map((n) => n.id)
+        .toList();
+
     final updatedList = state.notifications.map((n) {
       return n.copyWith(isRead: true);
     }).toList();
 
     emit(state.copyWith(notifications: updatedList));
+
+    for (final id in unreadList) {
+      try {
+        await repository.markAsRead(id);
+      } catch (_) {}
+    }
   }
 
   void deleteNotification(String id) {

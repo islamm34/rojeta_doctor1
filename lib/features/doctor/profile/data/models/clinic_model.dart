@@ -29,20 +29,27 @@ class ClinicModel {
     this.clinicVisitPrice,
     this.followUpPrice,
     this.homeVisitPrice,
-    this.videoCallPrice, Object? location,
+    this.videoCallPrice,
+    Object? location,
   });
 
   factory ClinicModel.fromJson(Map<String, dynamic> json) {
     return ClinicModel(
-      id: json['id'] as String? ?? '',
+      id: json['id']?.toString() ?? '',
       name: json['name'] as String? ?? '',
-      phone: json['phone'] as String?,
+      phone: json['phone']?.toString(),
       governorate: json['governorate'] as String?,
       city: json['city'] as String?,
       fullAddress: json['fullAddress'] as String?,
-      photos: (json['photos'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
-      consultationTime: json['consultationTime'] as int?,
-      workingHours: json['workingHours'] as Map<String, dynamic>? ?? {},
+      photos:
+          (json['photos'] as List<dynamic>?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          [],
+      consultationTime: (json['consultationTime'] as num?)?.toInt(),
+      workingHours: json['workingHours'] is Map<String, dynamic>
+          ? (json['workingHours'] as Map<String, dynamic>)
+          : const {},
       clinicVisitPrice: (json['clinicVisitPrice'] as num?)?.toDouble(),
       followUpPrice: (json['followUpPrice'] as num?)?.toDouble(),
       homeVisitPrice: (json['homeVisitPrice'] as num?)?.toDouble(),
@@ -78,10 +85,9 @@ class ClinicModel {
 
     for (int i = 0; i < photos.length; i++) {
       if (!photos[i].startsWith('http')) {
-         formData.files.add(MapEntry(
-           'photos[]',
-           await MultipartFile.fromFile(photos[i]),
-         ));
+        formData.files.add(
+          MapEntry('photos[]', await MultipartFile.fromFile(photos[i])),
+        );
       }
     }
 

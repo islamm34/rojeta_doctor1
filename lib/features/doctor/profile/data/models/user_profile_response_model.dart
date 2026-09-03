@@ -7,17 +7,26 @@ class UserProfileResponseModel {
   final UserData? user;
   final UserProfileDetailModel? profile;
   final Map<String, dynamic>? rawUser;
+  final ProfileModel? profileModel;
 
   UserProfileResponseModel({
     this.user,
     this.profile,
     this.rawUser,
+    this.profileModel,
   });
 
   factory UserProfileResponseModel.fromJson(Map<String, dynamic> json) {
     final dataMap = (json['data'] is Map<String, dynamic>)
         ? json['data'] as Map<String, dynamic>
         : json;
+
+    // Check if this is the full doctor profile response from /doctor/profile
+    if (dataMap.containsKey('fullName') || dataMap.containsKey('clinics')) {
+      final model = ProfileModel.fromJson(dataMap);
+      return UserProfileResponseModel(profileModel: model);
+    }
+
     final userJson = (dataMap['user'] is Map<String, dynamic>)
         ? dataMap['user'] as Map<String, dynamic>
         : dataMap;
@@ -41,6 +50,7 @@ class UserProfileResponseModel {
   }
 
   ProfileModel toProfileModel() {
+    if (profileModel != null) return profileModel!;
     return ProfileModel(
       id: user?.id?.toString() ?? profile?.id?.toString() ?? '',
       fullName: user?.name ?? profile?.organizationName ?? '',

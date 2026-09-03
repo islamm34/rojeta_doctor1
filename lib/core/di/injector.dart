@@ -13,6 +13,7 @@ import '../network/api_consumer.dart';
 import '../network/dio_client.dart';
 
 import '../../features/doctor/profile/di/profile_injector.dart';
+import '../../features/doctor/chat/di/chat_injector.dart';
 
 final injector = GetIt.instance;
 
@@ -34,5 +35,6 @@ Future<void> setupInjector() async {
   await initLabHomeLayoutInjector();
   initBookingInjector();
   initSettingsDI();
+  await initDoctorChatInjector();
   // ... add other feature injectors
 }

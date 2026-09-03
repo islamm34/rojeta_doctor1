@@ -10,7 +10,38 @@ class Endpoints {
 
   static const String profile = '/auth/profile';
 
+  // --- Doctor Endpoints ---
+  static const String doctorDashboard = '/doctor/dashboard';
+  static const String doctorProfileSummary = '/doctor/profile/summary';
+  static const String doctorAppointments = '/doctor/appointments';
+  static String doctorAppointmentStatus(String appointmentId) =>
+      '/doctor/appointments/$appointmentId/status';
+  static const String doctorPatients = '/doctor/patients';
+  static String doctorPatientDetails(String patientId) =>
+      '/doctor/patients/$patientId';
+  static const String doctorConsultation = '/doctor/consultation';
+  static const String doctorSchedule = '/doctor/schedule';
+  static const String doctorProfile = '/doctor/profile';
+  static const String doctorClinics = '/doctor/clinics';
+  static String doctorClinicDetails(String clinicId) =>
+      '/doctor/clinics/$clinicId';
+  static const String doctorServices = '/doctor/services';
+  static const String doctorPaymentDetails = '/doctor/payment-details';
+  static const String doctorAnalytics = '/doctor/analytics';
+  static const String doctorMarketingPackages = '/doctor/marketing/packages';
+  static const String doctorMarketingSubscribe = '/doctor/marketing/subscribe';
+  static const String doctorNotifications = '/doctor/notifications';
+  static String doctorNotificationRead(String notificationId) =>
+      '/doctor/notifications/$notificationId/read';
+  static const String doctorSettings = '/doctor/settings';
+  static const String doctorChatConversations = '/doctor/chat/conversations';
+  static const String doctorChatMessages = '/doctor/chat/messages';
+  static const String doctorChatSendMessage = '/doctor/chat/send-message';
+  static const String doctorChatMarkRead = '/doctor/chat/mark-read';
 
+  // --- Financial Endpoints ---
+  static const String financialSummary = '/financial/summary';
+  static const String financialTransactions = '/financial/transactions';
 
   static const String registrationStatus = '/registration-status';
   static const String notifications = '/notifications';

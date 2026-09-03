@@ -43,7 +43,7 @@ class ProfileModel {
       phone: json['phone'] as String? ?? '',
       specialty: json['specialty'] as String?,
       subSpecialty: json['subSpecialty'] as String?,
-      yearsOfExperience: json['yearsOfExperience'] as String?,
+      yearsOfExperience: json['yearsOfExperience']?.toString(),
       about: json['about'] as String?,
       education: json['education'] as String?,
       imageUrl: json['imageUrl'] as String?,
@@ -60,7 +60,7 @@ class ProfileModel {
               )
               .toList() ??
           [],
-      paymentDetails: json['paymentDetails'] != null
+      paymentDetails: json['paymentDetails'] is Map<String, dynamic>
           ? PaymentDetailsModel.fromJson(
               json['paymentDetails'] as Map<String, dynamic>,
             )

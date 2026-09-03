@@ -3,6 +3,12 @@ import 'patient_model.dart';
 import 'visit_model.dart';
 import 'lab_result_model.dart';
 
+export 'patient_model.dart';
+export 'visit_model.dart';
+
+typedef PatientBasicInfo = PatientModel;
+typedef PatientVisitRecord = VisitModel;
+
 class PatientDetailsModel extends Equatable {
   final PatientModel basicInfo;
   final List<String> allergies;
@@ -20,9 +26,11 @@ class PatientDetailsModel extends Equatable {
 
   factory PatientDetailsModel.fromJson(Map<String, dynamic> json) {
     return PatientDetailsModel(
-      basicInfo: PatientModel.fromJson(json['basicInfo'] as Map<String, dynamic>),
+      basicInfo:
+          PatientModel.fromJson(json['basicInfo'] as Map<String, dynamic>),
       allergies: List<String>.from(json['allergies'] as List<dynamic>),
-      chronicConditions: List<String>.from(json['chronicConditions'] as List<dynamic>),
+      chronicConditions:
+          List<String>.from(json['chronicConditions'] as List<dynamic>),
       visitHistory: (json['visitHistory'] as List<dynamic>)
           .map((e) => VisitModel.fromJson(e as Map<String, dynamic>))
           .toList(),

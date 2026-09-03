@@ -5,20 +5,41 @@ import 'package:rojeta_doctor/core/utils/app_colors.dart';
 import '../../../data/models/marketing_package_model.dart';
 
 class MyPlanTabView extends StatelessWidget {
-  final ActivePlanModel activePlan;
+  final ActivePlanModel? activePlan;
   final List<MarketingPackageModel> packages;
 
   const MyPlanTabView({
     super.key,
-    required this.activePlan,
+    this.activePlan,
     required this.packages,
   });
 
   @override
   Widget build(BuildContext context) {
+    if (activePlan == null) {
+      return Center(
+        child: Text(
+          context.strings.noDataAvailable,
+          style: TextStyle(color: Colors.grey.shade600),
+        ),
+      );
+    }
+
+    final plan = activePlan!;
     final package = packages.firstWhere(
-      (p) => p.id == activePlan.packageId,
-      orElse: () => packages.first,
+      (p) => p.id == plan.packageId,
+      orElse: () => packages.isNotEmpty
+          ? packages.first
+          : const MarketingPackageModel(
+              id: '',
+              nameKey: '',
+              postsPerMonth: '',
+              monthlyPrice: 0,
+              yearlyPrice: 0,
+              isMostPopular: false,
+              platforms: [],
+              features: [],
+            ),
     );
 
     String name = '';
@@ -36,8 +57,8 @@ class MyPlanTabView extends StatelessWidget {
         name = package.nameKey;
     }
 
-    final double progress = activePlan.postsUsed / activePlan.totalPosts;
-    final int daysRemaining = activePlan.endDate
+    final double progress = plan.postsUsed / plan.totalPosts;
+    final int daysRemaining = plan.endDate
         .difference(DateTime.now())
         .inDays;
     final dateFormat = DateFormat('dd MMM, yyyy');
@@ -111,7 +132,7 @@ class MyPlanTabView extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${activePlan.postsUsed} of ${activePlan.totalPosts}',
+                    '${plan.postsUsed} of ${plan.totalPosts}',
                     style: context.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -141,7 +162,7 @@ class MyPlanTabView extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        dateFormat.format(activePlan.startDate),
+                        dateFormat.format(plan.startDate),
                         style: context.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -159,7 +180,7 @@ class MyPlanTabView extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        dateFormat.format(activePlan.endDate),
+                        dateFormat.format(plan.endDate),
                         style: context.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -198,7 +219,7 @@ class MyPlanTabView extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
-        ...activePlan.benefits.map((benefitKey) {
+        ...plan.benefits.map((benefitKey) {
           String benefitText = '';
           switch (benefitKey) {
             case 'benefit1':

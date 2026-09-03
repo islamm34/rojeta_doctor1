@@ -1,8 +1,11 @@
 import 'package:rojeta_doctor/core/local/user_hive_helper.dart';
-
 import '../../domain/repositories/profile_repository.dart';
 import '../datasources/profile_remote_data_source.dart';
 import '../models/user_profile_response_model.dart';
+import '../models/clinic_model.dart';
+import '../models/service_pricing_model.dart';
+import '../models/payment_details_model.dart';
+import '../models/settings_model.dart';
 
 class ProfileRepositoryImpl implements ProfileRepository {
   final ProfileRemoteDataSource remoteDataSource;
@@ -17,4 +20,31 @@ class ProfileRepositoryImpl implements ProfileRepository {
     }
     return response;
   }
+
+  @override
+  Future<void> updateProfile(Map<String, dynamic> data) =>
+      remoteDataSource.updateProfile(data);
+
+  @override
+  Future<String> addClinic(ClinicModel clinic) =>
+      remoteDataSource.addClinic(clinic);
+
+  @override
+  Future<void> updateClinic(String clinicId, Map<String, dynamic> data) =>
+      remoteDataSource.updateClinic(clinicId, data);
+
+  @override
+  Future<void> updateServices(List<ServicePricingModel> services) =>
+      remoteDataSource.updateServices(services);
+
+  @override
+  Future<void> updatePaymentDetails(PaymentDetailsModel paymentDetails) =>
+      remoteDataSource.updatePaymentDetails(paymentDetails);
+
+  @override
+  Future<SettingsModel> getSettings() => remoteDataSource.getSettings();
+
+  @override
+  Future<void> updateSettings(SettingsModel settings) =>
+      remoteDataSource.updateSettings(settings);
 }

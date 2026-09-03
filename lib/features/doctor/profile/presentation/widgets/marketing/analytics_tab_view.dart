@@ -1,33 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
 import 'package:rojeta_doctor/core/utils/app_colors.dart';
-import 'package:rojeta_doctor/features/doctor/profile/data/mocks/analytics_mock_data.dart';
+import 'package:rojeta_doctor/features/doctor/profile/data/models/analytics_model.dart';
 import 'analytics_stats_cards_section.dart';
 import 'analytics_appointments_type_section.dart';
 import 'analytics_weekly_performance_section.dart';
 import 'analytics_performance_summary_section.dart';
 
 class AnalyticsTabView extends StatelessWidget {
-  const AnalyticsTabView({super.key});
+  final AnalyticsModel? analytics;
+
+  const AnalyticsTabView({super.key, this.analytics});
 
   @override
   Widget build(BuildContext context) {
-    final analytics = AnalyticsMockData.analytics;
+    if (analytics == null) {
+      return Center(
+        child: Text(
+          context.strings.noDataAvailable,
+          style: TextStyle(color: Colors.grey.shade600),
+        ),
+      );
+    }
+
+    final data = analytics!;
 
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        _AnalyticsHeader(monthLabel: analytics.monthLabel),
+        _AnalyticsHeader(monthLabel: data.monthLabel),
         const SizedBox(height: 16),
-        AnalyticsStatsCardsSection(analytics: analytics),
+        AnalyticsStatsCardsSection(analytics: data),
         const SizedBox(height: 16),
         AnalyticsAppointmentsTypeSection(
-          appointmentTypes: analytics.appointmentTypes,
+          appointmentTypes: data.appointmentTypes,
         ),
         const SizedBox(height: 16),
-        AnalyticsWeeklyPerformanceSection(weeklyStats: analytics.weeklyStats),
+        AnalyticsWeeklyPerformanceSection(weeklyStats: data.weeklyStats),
         const SizedBox(height: 16),
-        AnalyticsPerformanceSummarySection(analytics: analytics),
+        AnalyticsPerformanceSummarySection(analytics: data),
         const SizedBox(height: 24),
       ],
     );

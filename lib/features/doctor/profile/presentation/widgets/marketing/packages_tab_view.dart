@@ -6,12 +6,14 @@ import 'package_card.dart';
 
 class PackagesTabView extends StatefulWidget {
   final List<MarketingPackageModel> packages;
-  final ActivePlanModel activePlan;
+  final ActivePlanModel? activePlan;
+  final void Function(String packageId, String billingCycle)? onSubscribe;
 
   const PackagesTabView({
     super.key,
     required this.packages,
-    required this.activePlan,
+    this.activePlan,
+    this.onSubscribe,
   });
 
   @override
@@ -75,7 +77,7 @@ class _PackagesTabViewState extends State<PackagesTabView> {
         ),
         const SizedBox(height: 24),
         ...widget.packages.map((pkg) {
-          final isCurrentPlan = pkg.id == widget.activePlan.packageId;
+          final isCurrentPlan = pkg.id == widget.activePlan?.packageId;
           return PackageCard(
             package: pkg,
             isYearly: isYearly,

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,10 +47,10 @@ class _RadiologyDocumentUploadView extends StatelessWidget {
           context.pushNamed(AppRoutes.verifyPhone, extra: {'phone': phone});
           context.read<AuthBloc>().add(const ResetAuthStatusEvent());
         } else if (state.status == AuthStatus.error) {
-          if (state.message != null && state.message!.isNotEmpty) {
+          if (state.message.isNotEmpty) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(state.message!),
+                content: Text(state.message),
                 backgroundColor: Colors.red,
               ),
             );

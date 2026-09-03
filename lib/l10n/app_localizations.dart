@@ -3841,6 +3841,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This account type is not supported on this application. Please log in with a healthcare provider account.'**
   String get unsupportedRoleMessage;
+
+  /// No description provided for @messages.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get messages;
+
+  /// No description provided for @typeYourMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Type your message...'**
+  String get typeYourMessage;
+
+  /// No description provided for @somethingWentWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get somethingWentWrong;
+
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
+
+  /// No description provided for @noDataAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No data available'**
+  String get noDataAvailable;
+
+  /// No description provided for @tipsForManagingNotifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Tips for managing notifications'**
+  String get tipsForManagingNotifications;
+
+  /// No description provided for @keepNotificationsTurnedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep notifications turned on to stay updated on your appointments'**
+  String get keepNotificationsTurnedOn;
+
+  /// No description provided for @markCompletedRequestsAsRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark completed requests as read to keep your inbox organized'**
+  String get markCompletedRequestsAsRead;
+
+  /// No description provided for @addTimeSlot.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Time Slot'**
+  String get addTimeSlot;
+
+  /// No description provided for @financialBreakdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Financial Breakdown'**
+  String get financialBreakdown;
+
+  /// No description provided for @totalEarned.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Earned'**
+  String get totalEarned;
+
+  /// No description provided for @platformFees.
+  ///
+  /// In en, this message translates to:
+  /// **'Platform Fees'**
+  String get platformFees;
+
+  /// No description provided for @netRevenue.
+  ///
+  /// In en, this message translates to:
+  /// **'Net Revenue'**
+  String get netRevenue;
+
+  /// No description provided for @transactionId.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction ID'**
+  String get transactionId;
+
+  /// No description provided for @grossAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Gross Amount'**
+  String get grossAmount;
+
+  /// No description provided for @feesDeducted.
+  ///
+  /// In en, this message translates to:
+  /// **'Fees Deducted'**
+  String get feesDeducted;
+
+  /// No description provided for @fastingRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Fasting Required'**
+  String get fastingRequired;
+
+  /// No description provided for @bloodGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'Blood Group'**
+  String get bloodGroup;
+
+  /// No description provided for @vacationsAndLeaves.
+  ///
+  /// In en, this message translates to:
+  /// **'Vacations & Leaves'**
+  String get vacationsAndLeaves;
+
+  /// No description provided for @addVacation.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Vacation'**
+  String get addVacation;
 }
 
 class _AppLocalizationsDelegate

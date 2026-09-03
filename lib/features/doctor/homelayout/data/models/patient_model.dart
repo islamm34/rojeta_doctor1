@@ -9,6 +9,8 @@ class PatientModel extends Equatable {
   final int visitsCount;
   final DateTime lastVisitDate;
   final String lastDiagnosis;
+  final String? address;
+  final String? bloodGroup;
 
   const PatientModel({
     required this.id,
@@ -19,18 +21,24 @@ class PatientModel extends Equatable {
     required this.visitsCount,
     required this.lastVisitDate,
     required this.lastDiagnosis,
+    this.address,
+    this.bloodGroup,
   });
 
   factory PatientModel.fromJson(Map<String, dynamic> json) {
     return PatientModel(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      phone: json['phone'] as String,
-      age: json['age'] as int,
-      gender: json['gender'] as String,
-      visitsCount: json['visitsCount'] as int,
-      lastVisitDate: DateTime.parse(json['lastVisitDate'] as String),
-      lastDiagnosis: json['lastDiagnosis'] as String,
+      id: json['id'] as String? ?? '',
+      name: json['name'] as String? ?? '',
+      phone: json['phone'] as String? ?? '',
+      age: json['age'] as int? ?? 0,
+      gender: json['gender'] as String? ?? '',
+      visitsCount: json['visitsCount'] as int? ?? 0,
+      lastVisitDate: json['lastVisitDate'] != null
+          ? DateTime.parse(json['lastVisitDate'] as String)
+          : DateTime.now(),
+      lastDiagnosis: json['lastDiagnosis'] as String? ?? '',
+      address: json['address'] as String?,
+      bloodGroup: json['bloodGroup'] as String?,
     );
   }
 
@@ -44,6 +52,8 @@ class PatientModel extends Equatable {
       'visitsCount': visitsCount,
       'lastVisitDate': lastVisitDate.toIso8601String(),
       'lastDiagnosis': lastDiagnosis,
+      if (address != null) 'address': address,
+      if (bloodGroup != null) 'bloodGroup': bloodGroup,
     };
   }
 
@@ -57,5 +67,7 @@ class PatientModel extends Equatable {
         visitsCount,
         lastVisitDate,
         lastDiagnosis,
+        address,
+        bloodGroup,
       ];
 }

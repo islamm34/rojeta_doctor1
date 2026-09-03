@@ -23,6 +23,9 @@ import 'package:rojeta_doctor/features/auth/presentation/pages/nursing_care_regi
 import 'package:rojeta_doctor/features/auth/presentation/pages/nursing_care_registerartion_flow_pages/nursing_document_upload_page.dart';
 import 'package:rojeta_doctor/features/doctor/profile/presentation/pages/marketing_packages_page.dart';
 import 'package:rojeta_doctor/features/financial/presentation/pages/financial_management_page.dart';
+import '../../features/doctor/chat/presentation/pages/doctor_conversations_page.dart';
+import '../../features/doctor/chat/presentation/pages/doctor_chat_messages_page.dart';
+import '../../features/doctor/chat/data/models/doctor_chat_models.dart';
 import '../../features/doctor/homelayout/presentation/pages/homelayout.dart';
 import '../../features/hospital/homelayout/presentation/pages/hospital_homelayout_page.dart';
 import '../../features/auth/presentation/pages/splash_screen.dart';
@@ -140,6 +143,8 @@ class AppRoutes {
   static const String nursingHomeLayout = '/nursing-home-layout';
   static const String nursingAddService = '/nursing-add-service';
   static const String nursingAddNurse = '/nursing-add-nurse';
+  static const String doctorConversations = '/doctor-conversations';
+  static const String doctorChatMessages = '/doctor-chat-messages';
 }
 
 class AppRouter {
@@ -231,6 +236,15 @@ class AppRouter {
             create: (_) => injector<ScheduleBloc>()..add(FetchScheduleEvent()),
             child: const ScheduleManagementPage(),
           ),
+        );
+      case AppRoutes.doctorConversations:
+        return MaterialPageRoute(
+          builder: (_) => const DoctorConversationsPage(),
+        );
+      case AppRoutes.doctorChatMessages:
+        final conversation = settings.arguments as DoctorConversationModel;
+        return MaterialPageRoute(
+          builder: (_) => DoctorChatMessagesPage(conversation: conversation),
         );
       // Hospital registration flow
       case AppRoutes.hospitalProfessionalInfo:

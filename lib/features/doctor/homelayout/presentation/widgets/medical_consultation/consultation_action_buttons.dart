@@ -3,9 +3,17 @@ import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
 import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
 import 'package:rojeta_doctor/shared/widgets/custom_elevated_button.dart';
 
-
 class ConsultationActionButtons extends StatelessWidget {
-  const ConsultationActionButtons({super.key});
+  final VoidCallback? onSaveDraft;
+  final VoidCallback? onComplete;
+  final bool isLoading;
+
+  const ConsultationActionButtons({
+    super.key,
+    this.onSaveDraft,
+    this.onComplete,
+    this.isLoading = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +21,7 @@ class ConsultationActionButtons extends StatelessWidget {
       children: [
         Expanded(
           child: OutlinedButton(
-            onPressed: () {
-              // Save Draft
-            },
+            onPressed: isLoading ? null : onSaveDraft,
             style: OutlinedButton.styleFrom(
               foregroundColor: Colors.blue,
               side: const BorderSide(color: Colors.blue),
@@ -31,7 +37,8 @@ class ConsultationActionButtons extends StatelessWidget {
                 SizedBox(width: 8.w),
                 Text(
                   context.strings.saveDraft,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
+                  style:
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
                 ),
               ],
             ),
@@ -44,10 +51,9 @@ class ConsultationActionButtons extends StatelessWidget {
             backgroundColor: const Color(0xFF00B0FF),
             borderRadius: 12.r,
             height: 52.h,
+            isLoading: isLoading,
             icon: Icon(Icons.send_outlined, color: Colors.white, size: 18.sp),
-            onPressed: () {
-              // Complete Consultation
-            },
+            onPressed: isLoading ? null : onComplete,
           ),
         ),
       ],

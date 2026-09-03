@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rojeta_doctor/features/doctor/profile/presentation/pages/profile_page.dart';
+import '../../../../../core/di/injector.dart';
 import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../shared/widgets/custom_nav_bar.dart';
+import '../bloc/homelayout_bloc.dart';
+import '../bloc/homelayout_event.dart';
+import '../bloc/notifications/notifications_cubit.dart';
+import '../bloc/notifications/notifications_state.dart';
 import 'home_tab.dart';
 import 'appointments_tab.dart';
 import 'notifications_tab.dart';
@@ -20,9 +26,11 @@ class _HomeLayoutPageState extends State<HomeLayoutPage> {
   @override
   void initState() {
     super.initState();
+    context.read<HomelayoutBloc>().add(LoadHomelayoutEvent());
     _pages = [
       HomeTab(
         onViewAllAppointments: () => _onItemTapped(1),
+        onNotificationTap: () => _onItemTapped(2),
       ),
       const AppointmentsTab(),
       const NotificationsTab(),
@@ -38,13 +46,21 @@ class _HomeLayoutPageState extends State<HomeLayoutPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: context.theme.scaffoldBackgroundColor,
-      // Using IndexedStack to preserve state of pages
-      body: IndexedStack(index: _currentIndex, children: _pages),
-      bottomNavigationBar: CustomBottomNavBar(
-        selectedIndex: _currentIndex,
-        onDestinationSelected: _onItemTapped,
+    return BlocProvider(
+      create: (context) => injector<NotificationsCubit>(),
+      child: Scaffold(
+        backgroundColor: context.theme.scaffoldBackgroundColor,
+        body: IndexedStack(index: _currentIndex, children: _pages),
+        bottomNavigationBar:
+            BlocBuilder<NotificationsCubit, NotificationsState>(
+          builder: (context, state) {
+            return CustomBottomNavBar(
+              selectedIndex: _currentIndex,
+              onDestinationSelected: _onItemTapped,
+              badgeCount: state.unreadCount,
+            );
+          },
+        ),
       ),
     );
   }

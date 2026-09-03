@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:rojeta_doctor/features/doctor/homelayout/data/models/patient_model.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
 import '../../../../../../config/routes/app_router.dart';
+import 'patient_info_column.dart';
 
 class PatientListCard extends StatelessWidget {
   final PatientModel patient;
@@ -40,7 +40,11 @@ class PatientListCard extends StatelessWidget {
                 CircleAvatar(
                   radius: 24.r,
                   backgroundColor: const Color(0xFFE3F2FD),
-                  child: Icon(Icons.person, color: const Color(0xFF2196F3), size: 28.r),
+                  child: Icon(
+                    Icons.person,
+                    color: const Color(0xFF2196F3),
+                    size: 28.r,
+                  ),
                 ),
                 SizedBox(width: 12.w),
                 Expanded(
@@ -69,44 +73,49 @@ class PatientListCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFE3F2FD),
-                    borderRadius: BorderRadius.circular(8.r),
+              ],
+            ),
+            SizedBox(height: 16.h),
+            Row(
+              children: [
+                Expanded(
+                  child: PatientInfoColumn(
+                    title: context.strings.age,
+                    value: '${patient.age} ${context.strings.years}',
                   ),
-                  child: Text(
-                    '${patient.visitsCount} ${context.strings.visits}',
-                    style: context.textTheme.labelMedium?.copyWith(
-                      color: const Color(0xFF1877F2),
-                      fontWeight: FontWeight.w600,
-                    ),
+                ),
+                Expanded(
+                  child: PatientInfoColumn(
+                    title: context.strings.gender,
+                    value: patient.gender,
+                  ),
+                ),
+                Expanded(
+                  child: PatientInfoColumn(
+                    title: context.strings.visits,
+                    value: '${patient.visitsCount}',
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 16.h),
-            Divider(color: Colors.grey[200]),
             SizedBox(height: 12.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildInfoColumn(context, '${context.strings.age} • ${context.strings.gender}', '${patient.age} ${context.strings.years} • ${patient.gender == 'Male' ? context.strings.male : context.strings.female}'),
-                _buildInfoColumn(context, context.strings.lastVisit, DateFormat('yyyy-MM-dd').format(patient.lastVisitDate)),
-              ],
-            ),
+            const Divider(height: 1),
             SizedBox(height: 12.h),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(Icons.description_outlined, size: 16.r, color: Colors.blue),
+                Icon(
+                  Icons.history,
+                  size: 16.sp,
+                  color: Colors.grey[400],
+                ),
                 SizedBox(width: 8.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        context.strings.lastDiagnosis,
+                        '${context.strings.lastVisit}: ${patient.lastVisitDate}',
                         style: context.textTheme.bodySmall?.copyWith(
                           color: Colors.grey[500],
                         ),
@@ -126,28 +135,6 @@ class PatientListCard extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildInfoColumn(BuildContext context, String title, String value) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title,
-          style: context.textTheme.bodySmall?.copyWith(
-            color: Colors.grey[500],
-          ),
-        ),
-        SizedBox(height: 4.h),
-        Text(
-          value,
-          style: context.textTheme.bodyMedium?.copyWith(
-            color: Colors.black87,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ],
     );
   }
 }

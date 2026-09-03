@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../core/utils/screen_util_like.dart';
-import '../../data/models/transaction_model.dart';
 import 'package:intl/intl.dart';
+import '../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../core/utils/screen_util_like.dart';
+import '../../data/models/transaction_model.dart';
+import 'transaction_amount_row.dart';
 
 class TransactionItemCard extends StatelessWidget {
   final TransactionModel transaction;
@@ -13,14 +14,7 @@ class TransactionItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final strings = context.strings;
-    final formatter = NumberFormat('#,###');
-
-    final isCompleted = transaction.status.toLowerCase() == 'completed';
-    final statusColor = isCompleted ? const Color(0xFF00B050) : Colors.orange;
-    final statusBgColor = isCompleted
-        ? const Color(0xFF00B050).withValues(alpha: 0.1)
-        : Colors.orange.withValues(alpha: 0.1);
-    final statusText = isCompleted ? strings.completedStatus : strings.pendingStatus;
+    final formatter = NumberFormat('#,##0.00');
 
     return Container(
       margin: EdgeInsets.only(bottom: 12.h),
@@ -34,79 +28,91 @@ class TransactionItemCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      transaction.patientName,
-                      style: theme.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                    SizedBox(height: 4.h),
-                    Text(
-                      transaction.visitType,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.colorScheme.primary,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
+              Text(
+                '${strings.transactionId}: ${transaction.id}',
+                style: theme.textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
                 ),
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
                 decoration: BoxDecoration(
-                  color: statusBgColor,
-                  borderRadius: BorderRadius.circular(12.r),
+                  color: const Color(0xFFE8F5E9),
+                  borderRadius: BorderRadius.circular(6.r),
                 ),
                 child: Text(
-                  statusText.toUpperCase(),
+                  strings.completed,
                   style: theme.textTheme.bodySmall?.copyWith(
-                    color: statusColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 10,
+                    color: const Color(0xFF2E7D32),
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
             ],
           ),
+          SizedBox(height: 8.h),
+          Text(
+            DateTime.tryParse(transaction.date) != null
+                ? DateFormat('yyyy-MM-dd • hh:mm a')
+                    .format(DateTime.parse(transaction.date))
+                : (transaction.time.isNotEmpty
+                    ? '${transaction.date} • ${transaction.time}'
+                    : transaction.date),
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: Colors.grey.shade500,
+            ),
+          ),
           SizedBox(height: 12.h),
           Row(
             children: [
-              Icon(Icons.calendar_today_outlined, size: 16, color: Colors.grey.shade500),
-              SizedBox(width: 6.w),
+              CircleAvatar(
+                radius: 12.r,
+                backgroundColor: Colors.blue.withValues(alpha: 0.1),
+                child: Icon(Icons.person, size: 14.r, color: Colors.blue),
+              ),
+              SizedBox(width: 8.w),
               Text(
-                '${transaction.date} • ${transaction.time}',
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: Colors.grey.shade600,
+                transaction.patientName,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black87,
+                ),
+              ),
+              const Spacer(),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade100,
+                  borderRadius: BorderRadius.circular(6.r),
+                ),
+                child: Text(
+                  transaction.serviceType,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: Colors.grey.shade700,
+                  ),
                 ),
               ),
             ],
           ),
           Padding(
             padding: EdgeInsets.symmetric(vertical: 12.h),
-            child: Divider(height: 1, color: Colors.grey.shade200),
+            child: Divider(color: Colors.grey.shade100),
           ),
-          _buildAmountRow(
-            context,
-            title: strings.serviceFee,
-            value: '${formatter.format(transaction.serviceFee)} EGP',
+          TransactionAmountRow(
+            title: strings.grossAmount,
+            value: '${formatter.format(transaction.grossAmount)} EGP',
           ),
-          SizedBox(height: 8.h),
-          _buildAmountRow(
-            context,
-            title: strings.platformCommission,
-            value: '-${formatter.format(transaction.platformCommission)} EGP',
-            valueColor: Colors.red,
+          SizedBox(height: 6.h),
+          TransactionAmountRow(
+            title: strings.feesDeducted,
+            value: '-${formatter.format(transaction.feesDeducted)} EGP',
+            valueColor: Colors.red.shade400,
           ),
-          SizedBox(height: 8.h),
-          _buildAmountRow(
-            context,
+          SizedBox(height: 6.h),
+          TransactionAmountRow(
             title: strings.yourEarning,
             value: '${formatter.format(transaction.yourEarning)} EGP',
             valueColor: const Color(0xFF00B050),
@@ -114,35 +120,6 @@ class TransactionItemCard extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildAmountRow(
-    BuildContext context, {
-    required String title,
-    required String value,
-    Color? valueColor,
-    bool isBold = false,
-  }) {
-    final theme = Theme.of(context);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          title,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: isBold ? Colors.black87 : Colors.grey.shade600,
-            fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-          ),
-        ),
-        Text(
-          value,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: valueColor ?? Colors.black87,
-            fontWeight: isBold ? FontWeight.bold : FontWeight.w600,
-          ),
-        ),
-      ],
     );
   }
 }

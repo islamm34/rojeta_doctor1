@@ -11,8 +11,13 @@ import '../../../../../../core/utils/extensions/context_extensions.dart';
 
 class HomeTab extends StatelessWidget {
   final VoidCallback? onViewAllAppointments;
+  final VoidCallback? onNotificationTap;
 
-  const HomeTab({super.key, this.onViewAllAppointments});
+  const HomeTab({
+    super.key,
+    this.onViewAllAppointments,
+    this.onNotificationTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +26,14 @@ class HomeTab extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const HomeHeader(),
+            HomeHeader(onNotificationTap: onNotificationTap),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 24.h),
+              padding: EdgeInsets.only(
+                left: 20.w,
+                right: 20.w,
+                bottom: 24.h,
+                top: 6.h,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

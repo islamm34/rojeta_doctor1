@@ -5,11 +5,13 @@ import '../../../../core/utils/screen_util_like.dart';
 class CustomBottomNavBar extends StatelessWidget {
   final int selectedIndex;
   final ValueChanged<int> onDestinationSelected;
+  final int? badgeCount;
 
   const CustomBottomNavBar({
     super.key,
     required this.selectedIndex,
     required this.onDestinationSelected,
+    this.badgeCount,
   });
 
   @override
@@ -34,20 +36,24 @@ class CustomBottomNavBar extends StatelessWidget {
             context,
             index: 0,
             icon: selectedIndex == 0 ? Icons.home : Icons.home_outlined,
-            label: context.strings.home, 
+            label: context.strings.home,
           ),
           _buildNavItem(
             context,
             index: 1,
-            icon: selectedIndex == 1 ? Icons.calendar_today : Icons.calendar_today_outlined,
+            icon: selectedIndex == 1
+                ? Icons.calendar_today
+                : Icons.calendar_today_outlined,
             label: context.strings.appointments,
           ),
           _buildNavItem(
             context,
             index: 2,
-            icon: selectedIndex == 2 ? Icons.notifications : Icons.notifications_none_outlined,
+            icon: selectedIndex == 2
+                ? Icons.notifications
+                : Icons.notifications_none_outlined,
             label: context.strings.notifications,
-            badgeCount: 4,
+            badgeCount: badgeCount,
           ),
           _buildNavItem(
             context,
@@ -89,17 +95,22 @@ class CustomBottomNavBar extends StatelessWidget {
             children: [
               Icon(
                 icon,
-                color: isSelected ? context.colors.primary : Colors.grey.shade600,
+                color: isSelected
+                    ? context.colors.primary
+                    : Colors.grey.shade600,
                 size: 28.r,
               ),
               if (badgeCount != null && badgeCount > 0)
-                Positioned(
-                  right: -4.w,
+                PositionedDirectional(
+                  end: -4.w,
                   top: -4.h,
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 2.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: badgeCount > 9 ? 4.w : 2.w,
+                      vertical: 2.h,
+                    ),
                     decoration: BoxDecoration(
-                      color: Colors.red,
+                      color: context.colors.error,
                       borderRadius: BorderRadius.circular(10.r),
                     ),
                     constraints: BoxConstraints(
@@ -108,11 +119,12 @@ class CustomBottomNavBar extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        badgeCount.toString(),
-                        style: TextStyle(
-                          color: Colors.white,
+                        badgeCount > 99 ? '99+' : badgeCount.toString(),
+                        style: context.textTheme.labelSmall?.copyWith(
+                          color: context.colors.onError,
                           fontSize: 9.sp,
                           fontWeight: FontWeight.bold,
+                          height: 1.0,
                         ),
                         textAlign: TextAlign.center,
                       ),

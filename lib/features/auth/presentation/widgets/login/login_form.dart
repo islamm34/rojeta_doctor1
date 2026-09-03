@@ -2,7 +2,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../config/routes/app_router.dart';
-import '../../../../../core/local/user_hive_helper.dart';
 import '../../../../../core/utils/role_navigation_helper.dart';
 import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
@@ -149,10 +148,10 @@ class _LoginFormState extends State<LoginForm> {
                 if (state.status == AuthStatus.loaded) {
                   _navigateBasedOnRole(context);
                 } else if (state.status == AuthStatus.error) {
-                  if (state.message != null && state.message!.isNotEmpty) {
+                  if (state.message.isNotEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text(state.message!),
+                        content: Text(state.message),
                         backgroundColor: Colors.red,
                       ),
                     );
@@ -163,9 +162,7 @@ class _LoginFormState extends State<LoginForm> {
                 final isLoading = state.status == AuthStatus.loading;
 
                 if (isLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
+                  return const Center(child: CircularProgressIndicator());
                 }
 
                 return CustomElevatedButton(
@@ -174,11 +171,11 @@ class _LoginFormState extends State<LoginForm> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       context.read<AuthBloc>().add(
-                            LoginSubmittedEvent(
-                              phone: _phoneController.text.trim(),
-                              password: _passwordController.text.trim(),
-                            ),
-                          );
+                        LoginSubmittedEvent(
+                          phone: _phoneController.text.trim(),
+                          password: _passwordController.text.trim(),
+                        ),
+                      );
                     }
                   },
                 );

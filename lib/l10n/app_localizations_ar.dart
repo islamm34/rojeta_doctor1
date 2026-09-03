@@ -1913,4 +1913,66 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get unsupportedRoleMessage =>
       'نوع هذا الحساب غير مصرح له بالدخول إلى هذا التطبيق. يرجى تسجيل الدخول بحساب مزود خدمة معتمد.';
+
+  @override
+  String get messages => 'الرسائل';
+
+  @override
+  String get typeYourMessage => 'اكتب رسالتك...';
+
+  @override
+  String get somethingWentWrong => 'حدث خطأ ما';
+
+  @override
+  String get retry => 'إعادة المحاولة';
+
+  @override
+  String get noDataAvailable => 'لا توجد بيانات متاحة';
+
+  @override
+  String get tipsForManagingNotifications => 'نصائح لإدارة الإشعارات';
+
+  @override
+  String get keepNotificationsTurnedOn =>
+      'فعّل الإشعارات لتصلك تحديثات مواعيدك باستمرار';
+
+  @override
+  String get markCompletedRequestsAsRead =>
+      'حدد الطلبات المكتملة كمقروءة لتنظيم صندوق الوارد';
+
+  @override
+  String get addTimeSlot => 'إضافة فترة زمنية';
+
+  @override
+  String get financialBreakdown => 'تفاصيل المعاملات المالية';
+
+  @override
+  String get totalEarned => 'إجمالي الأرباح';
+
+  @override
+  String get platformFees => 'رسوم المنصة';
+
+  @override
+  String get netRevenue => 'صافي الإيرادات';
+
+  @override
+  String get transactionId => 'رقم المعاملة';
+
+  @override
+  String get grossAmount => 'المبلغ الإجمالي';
+
+  @override
+  String get feesDeducted => 'الرسوم المخصومة';
+
+  @override
+  String get fastingRequired => 'يتطلب الصيام';
+
+  @override
+  String get bloodGroup => 'فصيلة الدم';
+
+  @override
+  String get vacationsAndLeaves => 'الإجازات والعطلات';
+
+  @override
+  String get addVacation => 'إضافة إجازة';
 }

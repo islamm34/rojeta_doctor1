@@ -11,6 +11,15 @@ class FetchPatientsEvent extends PatientsEvent {
   const FetchPatientsEvent();
 }
 
+class SearchPatientsEvent extends PatientsEvent {
+  final String query;
+
+  const SearchPatientsEvent(this.query);
+
+  @override
+  List<Object?> get props => [query];
+}
+
 class FetchPatientDetailsEvent extends PatientsEvent {
   final String patientId;
 

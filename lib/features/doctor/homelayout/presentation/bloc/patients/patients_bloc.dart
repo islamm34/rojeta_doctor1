@@ -8,6 +8,7 @@ class PatientsBloc extends Bloc<PatientsEvent, PatientsState> {
 
   PatientsBloc(this._repository) : super(const PatientsState()) {
     on<FetchPatientsEvent>(_onFetchPatients);
+    on<SearchPatientsEvent>(_onSearchPatients);
     on<FetchPatientDetailsEvent>(_onFetchPatientDetails);
   }
 
@@ -20,10 +21,30 @@ class PatientsBloc extends Bloc<PatientsEvent, PatientsState> {
       final patients = await _repository.getPatients();
       emit(state.copyWith(status: PatientsStatus.success, patients: patients));
     } catch (e) {
-      emit(state.copyWith(
-        status: PatientsStatus.failure,
-        errorMessage: e.toString(),
-      ));
+      emit(
+        state.copyWith(
+          status: PatientsStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onSearchPatients(
+    SearchPatientsEvent event,
+    Emitter<PatientsState> emit,
+  ) async {
+    emit(state.copyWith(status: PatientsStatus.loading, errorMessage: null));
+    try {
+      final patients = await _repository.getPatients(search: event.query);
+      emit(state.copyWith(status: PatientsStatus.success, patients: patients));
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: PatientsStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
     }
   }
 
@@ -34,12 +55,19 @@ class PatientsBloc extends Bloc<PatientsEvent, PatientsState> {
     emit(state.copyWith(status: PatientsStatus.loading, errorMessage: null));
     try {
       final details = await _repository.getPatientDetails(event.patientId);
-      emit(state.copyWith(status: PatientsStatus.success, selectedPatient: details));
+      emit(
+        state.copyWith(
+          status: PatientsStatus.success,
+          selectedPatient: details,
+        ),
+      );
     } catch (e) {
-      emit(state.copyWith(
-        status: PatientsStatus.failure,
-        errorMessage: e.toString(),
-      ));
+      emit(
+        state.copyWith(
+          status: PatientsStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
     }
   }
 }

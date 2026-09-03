@@ -1,41 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:rojeta_doctor/shared/models/time_slot_model.dart';
 
-class TimeSlotModel extends Equatable {
-  final String startTime;
-  final String endTime;
-
-  const TimeSlotModel({
-    required this.startTime,
-    required this.endTime,
-  });
-
-  factory TimeSlotModel.fromJson(Map<String, dynamic> json) {
-    return TimeSlotModel(
-      startTime: json['start_time'],
-      endTime: json['end_time'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'start_time': startTime,
-      'end_time': endTime,
-    };
-  }
-
-  TimeSlotModel copyWith({
-    String? startTime,
-    String? endTime,
-  }) {
-    return TimeSlotModel(
-      startTime: startTime ?? this.startTime,
-      endTime: endTime ?? this.endTime,
-    );
-  }
-
-  @override
-  List<Object?> get props => [startTime, endTime];
-}
+export 'package:rojeta_doctor/shared/models/time_slot_model.dart';
 
 class WorkingDayModel extends Equatable {
   final String dayName;
@@ -47,6 +13,9 @@ class WorkingDayModel extends Equatable {
     required this.isActive,
     required this.timeSlots,
   });
+
+  String get day => dayName;
+  List<TimeSlotModel> get slots => timeSlots;
 
   factory WorkingDayModel.fromJson(Map<String, dynamic> json) {
     return WorkingDayModel(

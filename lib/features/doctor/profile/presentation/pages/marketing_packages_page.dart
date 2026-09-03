@@ -1,21 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rojeta_doctor/core/di/injector.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
 import 'package:rojeta_doctor/core/utils/app_colors.dart';
+import '../bloc/marketing/marketing_bloc.dart';
+import '../bloc/marketing/marketing_event.dart';
+import '../bloc/marketing/marketing_state.dart';
 import '../widgets/marketing/marketing_header.dart';
 import '../widgets/marketing/packages_tab_view.dart';
 import '../widgets/marketing/my_plan_tab_view.dart';
 import '../widgets/marketing/analytics_tab_view.dart';
 import '../widgets/marketing/marketing_custom_tab_bar.dart';
-import '../../data/mocks/marketing_mock_data.dart';
 
-class MarketingPackagesPage extends StatefulWidget {
+class MarketingPackagesPage extends StatelessWidget {
   const MarketingPackagesPage({super.key});
 
   @override
-  State<MarketingPackagesPage> createState() => _MarketingPackagesPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) =>
+          injector<MarketingBloc>()..add(const FetchMarketingDataEvent()),
+      child: const _MarketingPackagesContent(),
+    );
+  }
 }
 
-class _MarketingPackagesPageState extends State<MarketingPackagesPage>
+class _MarketingPackagesContent extends StatefulWidget {
+  const _MarketingPackagesContent();
+
+  @override
+  State<_MarketingPackagesContent> createState() =>
+      _MarketingPackagesContentState();
+}
+
+class _MarketingPackagesContentState extends State<_MarketingPackagesContent>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
@@ -57,39 +75,56 @@ class _MarketingPackagesPageState extends State<MarketingPackagesPage>
           ),
         ),
       ),
-      body: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) {
-          return [
-            const SliverToBoxAdapter(child: MarketingHeader()),
-            SliverPersistentHeader(
-              pinned: true,
-              delegate: _SliverTabBarDelegate(
-                MarketingCustomTabBar(
-                  controller: _tabController,
-                  labels: [
-                    context.strings.packages,
-                    context.strings.myPlan,
-                    context.strings.analytics,
-                  ],
+      body: BlocBuilder<MarketingBloc, MarketingState>(
+        builder: (context, state) {
+          if (state.status == MarketingStatus.loading &&
+              state.packages.isEmpty) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          return NestedScrollView(
+            headerSliverBuilder: (context, innerBoxIsScrolled) {
+              return [
+                const SliverToBoxAdapter(child: MarketingHeader()),
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: _SliverTabBarDelegate(
+                    MarketingCustomTabBar(
+                      controller: _tabController,
+                      labels: [
+                        context.strings.packages,
+                        context.strings.myPlan,
+                        context.strings.analytics,
+                      ],
+                    ),
+                  ),
                 ),
-              ),
+              ];
+            },
+            body: TabBarView(
+              controller: _tabController,
+              children: [
+                PackagesTabView(
+                  packages: state.packages,
+                  activePlan: state.activePlan,
+                  onSubscribe: (packageId, cycle) {
+                    context.read<MarketingBloc>().add(
+                          SubscribeToPackageEvent(
+                            packageId: packageId,
+                            billingCycle: cycle,
+                          ),
+                        );
+                  },
+                ),
+                MyPlanTabView(
+                  packages: state.packages,
+                  activePlan: state.activePlan,
+                ),
+                AnalyticsTabView(analytics: state.analytics),
+              ],
             ),
-          ];
+          );
         },
-        body: TabBarView(
-          controller: _tabController,
-          children: [
-            PackagesTabView(
-              packages: MarketingMockData.packages,
-              activePlan: MarketingMockData.activePlan,
-            ),
-            MyPlanTabView(
-              packages: MarketingMockData.packages,
-              activePlan: MarketingMockData.activePlan,
-            ),
-            const AnalyticsTabView(),
-          ],
-        ),
       ),
     );
   }

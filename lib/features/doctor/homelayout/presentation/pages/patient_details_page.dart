@@ -23,7 +23,9 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
   @override
   void initState() {
     super.initState();
-    context.read<PatientsBloc>().add(FetchPatientDetailsEvent(widget.patientId));
+    context.read<PatientsBloc>().add(
+      FetchPatientDetailsEvent(widget.patientId),
+    );
   }
 
   @override
@@ -64,14 +66,14 @@ class _PatientDetailsPageState extends State<PatientDetailsPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                PatientHeaderCard(patient: details.basicInfo),
+                PatientHeaderCard(basicInfo: details.basicInfo),
                 SizedBox(height: 24.h),
                 MedicalInfoSection(
                   allergies: details.allergies,
                   chronicConditions: details.chronicConditions,
                 ),
                 SizedBox(height: 24.h),
-                VisitHistorySection(visits: details.visitHistory),
+                VisitHistorySection(visitHistory: details.visitHistory),
                 SizedBox(height: 24.h),
                 LaboratoryResultsSection(results: details.labResults),
                 SizedBox(height: 24.h),

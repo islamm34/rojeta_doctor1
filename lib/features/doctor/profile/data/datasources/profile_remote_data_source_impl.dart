@@ -1,7 +1,11 @@
-import 'package:rojeta_doctor/core/network/api_consumer.dart';
-import 'package:rojeta_doctor/core/network/endpoints.dart';
+import '../../../../../../core/network/api_consumer.dart';
+import '../../../../../../core/network/endpoints.dart';
 import 'profile_remote_data_source.dart';
 import '../models/user_profile_response_model.dart';
+import '../models/clinic_model.dart';
+import '../models/service_pricing_model.dart';
+import '../models/payment_details_model.dart';
+import '../models/settings_model.dart';
 
 class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   final ApiConsumer apiConsumer;
@@ -17,8 +21,10 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
 
     final future = () async {
       try {
-        final response = await apiConsumer.get(Endpoints.profile);
-        return UserProfileResponseModel.fromJson(response);
+        final response = await apiConsumer.get(Endpoints.doctorProfile);
+        return UserProfileResponseModel.fromJson(
+          response is Map<String, dynamic> ? response : <String, dynamic>{},
+        );
       } finally {
         _inFlightProfileRequest = null;
       }
@@ -26,5 +32,69 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
 
     _inFlightProfileRequest = future;
     return future;
+  }
+
+  @override
+  Future<void> updateProfile(Map<String, dynamic> data) async {
+    await apiConsumer.put(
+      Endpoints.doctorProfile,
+      data: data,
+    );
+  }
+
+  @override
+  Future<String> addClinic(ClinicModel clinic) async {
+    final formData = await clinic.toFormData();
+    final response = await apiConsumer.post(
+      Endpoints.doctorClinics,
+      data: formData,
+    );
+    if (response is Map && response['data'] is Map) {
+      return response['data']['id']?.toString() ?? '';
+    }
+    return '';
+  }
+
+  @override
+  Future<void> updateClinic(String clinicId, Map<String, dynamic> data) async {
+    await apiConsumer.put(
+      Endpoints.doctorClinicDetails(clinicId),
+      data: data,
+    );
+  }
+
+  @override
+  Future<void> updateServices(List<ServicePricingModel> services) async {
+    await apiConsumer.put(
+      Endpoints.doctorServices,
+      data: {
+        'services': services.map((s) => s.toJson()).toList(),
+      },
+    );
+  }
+
+  @override
+  Future<void> updatePaymentDetails(PaymentDetailsModel paymentDetails) async {
+    await apiConsumer.put(
+      Endpoints.doctorPaymentDetails,
+      data: paymentDetails.toJson(),
+    );
+  }
+
+  @override
+  Future<SettingsModel> getSettings() async {
+    final response = await apiConsumer.get(Endpoints.doctorSettings);
+    final data = response is Map<String, dynamic> && response['data'] != null
+        ? response['data'] as Map<String, dynamic>
+        : (response is Map<String, dynamic> ? response : <String, dynamic>{});
+    return SettingsModel.fromJson(data);
+  }
+
+  @override
+  Future<void> updateSettings(SettingsModel settings) async {
+    await apiConsumer.put(
+      Endpoints.doctorSettings,
+      data: settings.toJson(),
+    );
   }
 }

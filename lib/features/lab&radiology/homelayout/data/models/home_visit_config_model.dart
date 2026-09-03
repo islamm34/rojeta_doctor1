@@ -1,4 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:rojeta_doctor/shared/models/time_slot_model.dart';
+
+export 'package:rojeta_doctor/shared/models/time_slot_model.dart';
 
 class ServiceAreaModel extends Equatable {
   final String id;
@@ -35,45 +38,6 @@ class ServiceAreaModel extends Equatable {
   List<Object?> get props => [id, name, radiusKm, techsAvailable];
 }
 
-enum TimeSlotStatus { active, ready, disabled }
-
-class TimeSlotModel extends Equatable {
-  final String id;
-  final String time;
-  final String amPm;
-  final TimeSlotStatus status;
-
-  const TimeSlotModel({
-    required this.id,
-    required this.time,
-    required this.amPm,
-    required this.status,
-  });
-
-  factory TimeSlotModel.fromJson(Map<String, dynamic> json) {
-    return TimeSlotModel(
-      id: json['id'] as String,
-      time: json['time'] as String,
-      amPm: json['amPm'] as String,
-      status: TimeSlotStatus.values.firstWhere(
-        (e) => e.toString().split('.').last == json['status'],
-        orElse: () => TimeSlotStatus.disabled,
-      ),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'time': time,
-      'amPm': amPm,
-      'status': status.toString().split('.').last,
-    };
-  }
-
-  @override
-  List<Object?> get props => [id, time, amPm, status];
-}
 
 class HomeVisitConfigModel extends Equatable {
   final bool isServiceVisible;
@@ -97,17 +61,21 @@ class HomeVisitConfigModel extends Equatable {
   factory HomeVisitConfigModel.fromJson(Map<String, dynamic> json) {
     return HomeVisitConfigModel(
       isServiceVisible: json['isServiceVisible'] as bool? ?? false,
-      serviceAreas: (json['serviceAreas'] as List<dynamic>?)
+      serviceAreas:
+          (json['serviceAreas'] as List<dynamic>?)
               ?.map((e) => ServiceAreaModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
       collectionFee: (json['collectionFee'] as num?)?.toDouble() ?? 0.0,
-      minimumBookingAmount: (json['minimumBookingAmount'] as num?)?.toDouble() ?? 0.0,
-      weekdaySlots: (json['weekdaySlots'] as List<dynamic>?)
+      minimumBookingAmount:
+          (json['minimumBookingAmount'] as num?)?.toDouble() ?? 0.0,
+      weekdaySlots:
+          (json['weekdaySlots'] as List<dynamic>?)
               ?.map((e) => TimeSlotModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      weekendSlots: (json['weekendSlots'] as List<dynamic>?)
+      weekendSlots:
+          (json['weekendSlots'] as List<dynamic>?)
               ?.map((e) => TimeSlotModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
@@ -124,7 +92,7 @@ class HomeVisitConfigModel extends Equatable {
       'weekendSlots': weekendSlots.map((e) => e.toJson()).toList(),
     };
   }
-  
+
   HomeVisitConfigModel copyWith({
     bool? isServiceVisible,
     List<ServiceAreaModel>? serviceAreas,
@@ -147,12 +115,12 @@ class HomeVisitConfigModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        isServiceVisible,
-        serviceAreas,
-        collectionFee,
-        minimumBookingAmount,
-        weekdaySlots,
-        weekendSlots,
-        isWeekdaysTabActive,
-      ];
+    isServiceVisible,
+    serviceAreas,
+    collectionFee,
+    minimumBookingAmount,
+    weekdaySlots,
+    weekendSlots,
+    isWeekdaysTabActive,
+  ];
 }

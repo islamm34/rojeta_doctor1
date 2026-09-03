@@ -24,5 +24,5 @@ Future<void> initFinancialInjector() async {
 
   // DataSources
   injector.registerLazySingleton<FinancialRemoteDataSource>(
-      () => FinancialRemoteDataSourceImpl());
+      () => FinancialRemoteDataSourceImpl(apiConsumer: injector()));
 }

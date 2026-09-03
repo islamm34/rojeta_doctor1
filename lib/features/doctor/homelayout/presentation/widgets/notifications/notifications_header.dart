@@ -4,6 +4,7 @@ import '../../../../../../core/utils/screen_util_like.dart';
 import '../../../../../../core/utils/app_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/notifications/notifications_cubit.dart';
+import '../../bloc/notifications/notifications_state.dart';
 
 class NotificationsHeader extends StatelessWidget {
   const NotificationsHeader({super.key});
@@ -15,7 +16,7 @@ class NotificationsHeader extends StatelessWidget {
         top: MediaQuery.of(context).padding.top + 16.h,
         left: 16.w,
         right: 16.w,
-        bottom: 32.h,
+        bottom: 60.h,
       ),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
@@ -68,16 +69,36 @@ class NotificationsHeader extends StatelessWidget {
                   ),
                 ],
               ),
-              Container(
-                padding: EdgeInsets.all(8.w),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
-                  shape: BoxShape.circle,
-                ),
-                child: Text(
-                  "4",
-                  style: TextStyle(color: Colors.white, fontSize: 15.sp),
-                ),
+              BlocBuilder<NotificationsCubit, NotificationsState>(
+                builder: (context, state) {
+                  final unreadCount = state.unreadCount;
+                  return Container(
+                    constraints: BoxConstraints(
+                      minWidth: 32.w,
+                      minHeight: 32.h,
+                    ),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: unreadCount > 9 ? 8.w : 6.w,
+                      vertical: 4.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(16.r),
+                    ),
+                    child: Center(
+                      child: Text(
+                        unreadCount > 99 ? '99+' : unreadCount.toString(),
+                        style: context.textTheme.labelLarge?.copyWith(
+                          color: Colors.white,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.bold,
+                          height: 1.0,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ),
