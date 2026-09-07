@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rojeta_doctor/features/doctor/homelayout/presentation/widgets/home_stat_card.dart';
 import '../../../../../../config/routes/app_router.dart';
+import '../../../../../../core/local/user_hive_helper.dart';
 import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
@@ -19,11 +20,17 @@ class HomeHeader extends StatelessWidget {
     final stats = state.stats;
     final paddingTop = MediaQuery.paddingOf(context).top;
 
+    final cachedUser = UserHiveHelper.getUser();
+    final String cachedName = (cachedUser?.name?.isNotEmpty == true)
+        ? cachedUser!.name!
+        : '${cachedUser?.firstName ?? ''} ${cachedUser?.secondName ?? ''}'.trim();
     final String doctorName = profile?.name.isNotEmpty == true
         ? profile!.name
-        : context.strings.doctor;
-    final String doctorSpecialty = profile?.specialty ?? '';
-    final String? imageUrl = profile?.imageUrl;
+        : (cachedName.isNotEmpty ? cachedName : context.strings.doctor);
+    final String doctorSpecialty = profile?.specialty.isNotEmpty == true
+        ? profile!.specialty
+        : (cachedUser?.role?.isNotEmpty == true ? cachedUser!.role! : '');
+    final String? imageUrl = profile?.imageUrl ?? cachedUser?.image;
 
     return Container(
       width: double.infinity,

@@ -53,7 +53,7 @@ class HospitalUpcomingAppointmentsSection extends StatelessWidget {
             return UpcomingAppointmentCard(
               appointment: appointment,
               isActive: index == 0,
-              onTap: () {},
+              onTap: onViewAllTap ?? () {},
             );
           },
         ),

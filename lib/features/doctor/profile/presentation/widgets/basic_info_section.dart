@@ -5,8 +5,17 @@ import '../../data/models/profile_model.dart';
 
 class BasicInfoSection extends StatelessWidget {
   final ProfileModel profile;
+  final TextEditingController? nameController;
+  final TextEditingController? emailController;
+  final TextEditingController? phoneController;
 
-  const BasicInfoSection({super.key, required this.profile});
+  const BasicInfoSection({
+    super.key,
+    required this.profile,
+    this.nameController,
+    this.emailController,
+    this.phoneController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,19 +46,22 @@ class BasicInfoSection extends StatelessWidget {
           const SizedBox(height: 16),
           CustomTextField(
             label: context.strings.fullName,
-            initialValue: profile.fullName,
-            enabled: false, // assuming this is read-only or editable elsewhere
+            controller: nameController,
+            initialValue: nameController == null ? profile.fullName : null,
+            enabled: true,
           ),
           const SizedBox(height: 12),
           CustomTextField(
             label: context.strings.email,
-            initialValue: profile.email,
+            controller: emailController,
+            initialValue: emailController == null ? profile.email : null,
             keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(height: 12),
           CustomTextField(
             label: context.strings.phone,
-            initialValue: profile.phone,
+            controller: phoneController,
+            initialValue: phoneController == null ? profile.phone : null,
             keyboardType: TextInputType.phone,
           ),
         ],

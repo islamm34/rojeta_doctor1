@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rojeta_doctor/core/di/injector.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
+import 'package:rojeta_doctor/features/doctor/profile/data/models/profile_model.dart';
 import '../../../../../../shared/widgets/custom_elevated_button.dart';
 import '../bloc/profile/profile_bloc.dart';
 import '../bloc/profile/profile_event.dart';
@@ -40,15 +41,47 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: _profileBloc,
-      child: const ProfileView(),
-    );
+    return BlocProvider.value(value: _profileBloc, child: const ProfileView());
   }
 }
 
-class ProfileView extends StatelessWidget {
+class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
+
+  @override
+  State<ProfileView> createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> {
+  late final TextEditingController _nameController;
+  late final TextEditingController _emailController;
+  late final TextEditingController _phoneController;
+  bool _initialized = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController = TextEditingController();
+    _emailController = TextEditingController();
+    _phoneController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _phoneController.dispose();
+    super.dispose();
+  }
+
+  void _syncControllers(ProfileModel profile) {
+    if (!_initialized) {
+      _nameController.text = profile.fullName;
+      _emailController.text = profile.email;
+      _phoneController.text = profile.phone;
+      _initialized = true;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,18 +103,33 @@ class ProfileView extends StatelessWidget {
         centerTitle: false,
         scrolledUnderElevation: 0,
       ),
-      body: BlocBuilder<ProfileBloc, ProfileState>(
+      body: BlocConsumer<ProfileBloc, ProfileState>(
+        listener: (context, state) {
+          if (state.status == ProfileStatus.failure &&
+              state.errorMessage != null) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.errorMessage!)));
+          }
+        },
         builder: (context, state) {
-          if (state.status == ProfileStatus.loading ||
-              state.status == ProfileStatus.initial) {
+          if (state.status == ProfileStatus.loading && state.profile == null) {
             return const Center(child: CircularProgressIndicator());
           }
 
           if (state.profile == null) {
-            return const Center(child: Text('Failed to load profile.'));
+            return Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  context.read<ProfileBloc>().add(const LoadProfileEvent());
+                },
+                child: Text(context.strings.retry),
+              ),
+            );
           }
 
           final profile = state.profile!;
+          _syncControllers(profile);
 
           return SingleChildScrollView(
             padding: const EdgeInsets.all(16.0),
@@ -98,7 +146,12 @@ class ProfileView extends StatelessWidget {
                 ),
                 const SizedBox(height: 24),
                 if (state.isProfileTabSelected) ...[
-                  BasicInfoSection(profile: profile),
+                  BasicInfoSection(
+                    profile: profile,
+                    nameController: _nameController,
+                    emailController: _emailController,
+                    phoneController: _phoneController,
+                  ),
                   const SizedBox(height: 16),
                   ProfessionalInfoSection(profile: profile),
                   const SizedBox(height: 16),
@@ -113,6 +166,15 @@ class ProfileView extends StatelessWidget {
                   CustomElevatedButton(
                     text: context.strings.saveProfile,
                     onPressed: () {
+                      context.read<ProfileBloc>().add(
+                        UpdateProfileDetailsEvent({
+                          'name': _nameController.text.trim(),
+                          'full_name': _nameController.text.trim(),
+                          'email': _emailController.text.trim(),
+                          'phone': _phoneController.text.trim(),
+                          'phone_number': _phoneController.text.trim(),
+                        }),
+                      );
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Profile saved successfully'),

@@ -48,8 +48,10 @@ class HomeTab extends StatelessWidget {
                     onTapFinancial: () =>
                         context.pushNamed(AppRoutes.financialManagement),
                   ),
-                  SizedBox(height: 28.h),
-                  const SpecialOffersSection(),
+                  SpecialOffersSection(
+                    onUpgradeTap: () =>
+                        context.pushNamed(AppRoutes.marketingPackages),
+                  ),
                   SizedBox(height: 28.h),
                   UpcomingAppointmentsSection(
                     onViewAllTap: onViewAllAppointments,

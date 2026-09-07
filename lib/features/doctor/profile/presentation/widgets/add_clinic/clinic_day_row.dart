@@ -6,12 +6,20 @@ class ClinicDayRow extends StatelessWidget {
   final String label;
   final bool isActive;
   final ValueChanged<bool?> onChanged;
+  final String startTime;
+  final String endTime;
+  final VoidCallback? onStartTimeTap;
+  final VoidCallback? onEndTimeTap;
 
   const ClinicDayRow({
     super.key,
     required this.label,
     required this.isActive,
     required this.onChanged,
+    this.startTime = '09:00 AM',
+    this.endTime = '10:00 PM',
+    this.onStartTimeTap,
+    this.onEndTimeTap,
   });
 
   @override
@@ -30,9 +38,16 @@ class ClinicDayRow extends StatelessWidget {
                 Checkbox(
                   value: isActive,
                   onChanged: onChanged,
+                  activeColor: theme.colorScheme.primary,
                 ),
                 Expanded(
-                  child: Text(label, style: theme.textTheme.bodyMedium),
+                  child: Text(
+                    label,
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),
@@ -40,25 +55,32 @@ class ClinicDayRow extends StatelessWidget {
           const SizedBox(width: 8),
           Expanded(
             child: isActive
-                ? const Row(
+                ? Row(
                     children: [
                       Expanded(
-                        child: ClinicTimePickerBox(initialTime: '09:00 AM'),
+                        child: ClinicTimePickerBox(
+                          initialTime: startTime,
+                          onTap: onStartTimeTap,
+                        ),
                       ),
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8.0),
                         child: Text('-'),
                       ),
                       Expanded(
-                        child: ClinicTimePickerBox(initialTime: '10:00 PM'),
+                        child: ClinicTimePickerBox(
+                          initialTime: endTime,
+                          onTap: onEndTimeTap,
+                        ),
                       ),
                     ],
                   )
                 : Text(
                     strings.closed,
                     style: theme.textTheme.bodyMedium?.copyWith(
-                          color: Colors.grey,
-                        ),
+                      color: Colors.grey.shade400,
+                      fontStyle: FontStyle.italic,
+                    ),
                   ),
           ),
         ],

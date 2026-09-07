@@ -34,26 +34,47 @@ class ClinicModel {
   });
 
   factory ClinicModel.fromJson(Map<String, dynamic> json) {
+    final workingHoursRaw = json['workingHours'] ?? json['working_hours'];
+
     return ClinicModel(
       id: json['id']?.toString() ?? '',
-      name: json['name'] as String? ?? '',
-      phone: json['phone']?.toString(),
+      name: (json['name'] ?? json['clinic_name'] ?? '').toString(),
+      phone: (json['phone'] ?? json['clinic_phone'] ?? json['phone_number'])
+          ?.toString(),
       governorate: json['governorate'] as String?,
       city: json['city'] as String?,
-      fullAddress: json['fullAddress'] as String?,
+      fullAddress:
+          (json['fullAddress'] ?? json['full_address'] ?? json['address'])
+              as String?,
       photos:
           (json['photos'] as List<dynamic>?)
               ?.map((e) => e.toString())
               .toList() ??
           [],
-      consultationTime: (json['consultationTime'] as num?)?.toInt(),
-      workingHours: json['workingHours'] is Map<String, dynamic>
-          ? (json['workingHours'] as Map<String, dynamic>)
-          : const {},
-      clinicVisitPrice: (json['clinicVisitPrice'] as num?)?.toDouble(),
-      followUpPrice: (json['followUpPrice'] as num?)?.toDouble(),
-      homeVisitPrice: (json['homeVisitPrice'] as num?)?.toDouble(),
-      videoCallPrice: (json['videoCallPrice'] as num?)?.toDouble(),
+      consultationTime:
+          ((json['consultationTime'] ?? json['consultation_time']) as num?)
+              ?.toInt(),
+      workingHours: workingHoursRaw is Map<String, dynamic>
+          ? workingHoursRaw
+          : (workingHoursRaw is Map
+                ? Map<String, dynamic>.from(workingHoursRaw)
+                : const {}),
+      clinicVisitPrice:
+          ((json['clinicVisitPrice'] ??
+                      json['clinic_visit_price'] ??
+                      json['visit_price'] ??
+                      json['price'])
+                  as num?)
+              ?.toDouble(),
+      followUpPrice:
+          ((json['followUpPrice'] ?? json['follow_up_price']) as num?)
+              ?.toDouble(),
+      homeVisitPrice:
+          ((json['homeVisitPrice'] ?? json['home_visit_price']) as num?)
+              ?.toDouble(),
+      videoCallPrice:
+          ((json['videoCallPrice'] ?? json['video_call_price']) as num?)
+              ?.toDouble(),
     );
   }
 

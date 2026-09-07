@@ -39,6 +39,7 @@ import '../../features/auth/presentation/pages/doctor_registration_flow_pages/fo
 import '../../features/auth/presentation/pages/doctor_registration_flow_pages/reset_password_page.dart';
 import '../../features/doctor/profile/presentation/pages/profile_page.dart';
 import '../../features/doctor/profile/presentation/pages/add_clinic_page.dart';
+import '../../features/doctor/profile/data/models/clinic_model.dart';
 import '../../features/doctor/homelayout/presentation/pages/medical_consultation_page.dart';
 import '../../features/doctor/homelayout/data/models/doctor_appointment_model.dart';
 import '../../features/doctor/homelayout/presentation/pages/my_patients_page.dart';
@@ -206,7 +207,10 @@ class AppRouter {
           builder: (_) => const FinancialManagementPage(),
         );
       case AppRoutes.addClinic:
-        return MaterialPageRoute(builder: (_) => const AddClinicPage());
+        final clinic = settings.arguments as ClinicModel?;
+        return MaterialPageRoute(
+          builder: (_) => AddClinicPage(clinic: clinic),
+        );
       case AppRoutes.medicalConsultation:
         final appointment = settings.arguments as DoctorAppointmentModel;
         return MaterialPageRoute(
@@ -223,7 +227,9 @@ class AppRouter {
           ),
         );
       case AppRoutes.patientDetails:
-        final patientId = settings.arguments as String;
+        final patientId = settings.arguments is String
+            ? settings.arguments as String
+            : (settings.arguments?.toString() ?? '');
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (_) => injector<PatientsBloc>(),

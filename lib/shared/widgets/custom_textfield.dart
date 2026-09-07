@@ -235,7 +235,33 @@ class CustomTextField extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         if (label != null) ...[
-          _buildLabel(theme),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Expanded(
+                child: Text(
+                  label!,
+                  style:
+                      labelStyle ??
+                      theme.textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: theme.colorScheme.onSurface,
+                      ),
+                ),
+              ),
+              if (isRequired) ...[
+                const SizedBox(width: 4),
+                Text(
+                  '*',
+                  style: TextStyle(
+                    color: theme.colorScheme.error,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            ],
+          ),
           SizedBox(height: labelSpacing),
         ],
         TextFormField(
@@ -274,36 +300,6 @@ class CustomTextField extends StatelessWidget {
               ),
           decoration: _buildDecoration(theme),
         ),
-      ],
-    );
-  }
-
-  Widget _buildLabel(ThemeData theme) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Expanded(
-          child: Text(
-            label!,
-            style:
-                labelStyle ??
-                theme.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: theme.colorScheme.onSurface,
-                ),
-          ),
-        ),
-        if (isRequired) ...[
-          const SizedBox(width: 4),
-          Text(
-            '*',
-            style: TextStyle(
-              color: theme.colorScheme.error,
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
-          ),
-        ],
       ],
     );
   }
@@ -353,7 +349,11 @@ class CustomTextField extends StatelessWidget {
 
     return InputDecoration(
       hintText: hintText,
-      hintStyle: theme.textTheme.bodyLarge?.copyWith(color: Colors.grey),
+      hintStyle: hintStyle ??
+          theme.textTheme.bodyMedium?.copyWith(
+            color: Colors.grey.shade400,
+            fontWeight: FontWeight.normal,
+          ),
       errorStyle: errorStyle,
       prefixIcon: isPhoneField
           ? Padding(

@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
+import '../../../../../../core/local/user_hive_helper.dart';
 import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
 
 class HospitalHomeHeader extends StatelessWidget {
-  const HospitalHomeHeader({super.key});
+  final VoidCallback? onNotificationTap;
+
+  const HospitalHomeHeader({super.key, this.onNotificationTap});
 
   @override
   Widget build(BuildContext context) {
     final paddingTop = MediaQuery.paddingOf(context).top;
+
+    final cachedUser = UserHiveHelper.getUser();
+    final hospitalName = (cachedUser?.name?.isNotEmpty == true)
+        ? cachedUser!.name!
+        : ((cachedUser?.firstName?.isNotEmpty == true)
+            ? cachedUser!.firstName!
+            : context.strings.hospital);
 
     return Container(
       width: double.infinity,
@@ -49,7 +59,7 @@ class HospitalHomeHeader extends StatelessWidget {
                       width: 2.w,
                     ),
                     image: const DecorationImage(
-                      image: AssetImage('assets/images/doctor.png'),
+                      image: AssetImage('assets/images/hospital.png'),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -72,7 +82,7 @@ class HospitalHomeHeader extends StatelessWidget {
                       ),
                       SizedBox(height: 2.h),
                       Text(
-                        'As-Salam International Hospital',
+                        hospitalName,
                         style: context.textTheme.bodyMedium?.copyWith(
                           color: Colors.white70,
                           fontSize: 12.sp,
@@ -104,7 +114,7 @@ class HospitalHomeHeader extends StatelessWidget {
                           Icons.notifications_none_outlined,
                           color: Colors.white,
                         ),
-                        onPressed: () {},
+                        onPressed: onNotificationTap ?? () {},
                       ),
                     ),
                     Positioned(

@@ -128,7 +128,9 @@ class ClinicsManagementSection extends StatelessWidget {
                     ),
                     IconButton(
                       icon: Icon(Icons.edit_outlined, color: theme.colorScheme.onSurfaceVariant),
-                      onPressed: () {},
+                      onPressed: () {
+                        context.pushNamed(AppRoutes.addClinic, extra: clinic);
+                      },
                       constraints: const BoxConstraints(),
                       padding: const EdgeInsets.all(8),
                     ),

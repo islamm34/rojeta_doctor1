@@ -22,7 +22,10 @@ class UserProfileResponseModel {
         : json;
 
     // Check if this is the full doctor profile response from /doctor/profile
-    if (dataMap.containsKey('fullName') || dataMap.containsKey('clinics')) {
+    if (dataMap.containsKey('fullName') ||
+        dataMap.containsKey('full_name') ||
+        dataMap.containsKey('clinics') ||
+        dataMap.containsKey('specialty')) {
       final model = ProfileModel.fromJson(dataMap);
       return UserProfileResponseModel(profileModel: model);
     }

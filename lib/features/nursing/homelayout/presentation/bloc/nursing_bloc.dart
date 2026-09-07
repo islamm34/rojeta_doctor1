@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'nursing_event.dart';
 import 'nursing_state.dart';
+import '../../../../../../core/local/user_hive_helper.dart';
 import '../../data/models/nursing_dashboard_model.dart';
 import '../../data/models/nursing_service_model.dart';
 import '../../data/models/nursing_staff_model.dart';
@@ -264,21 +265,37 @@ class NursingBloc extends Bloc<NursingEvent, NursingState> {
 
     await Future.delayed(const Duration(milliseconds: 600));
 
-    const mockProfile = NursingProfileModel(
-      id: '1',
-      name: 'Graceful Care Nursing',
+    final cachedUser = UserHiveHelper.getUser();
+    final name = (cachedUser?.name?.isNotEmpty == true)
+        ? cachedUser!.name!
+        : ((cachedUser?.firstName?.isNotEmpty == true)
+            ? cachedUser!.firstName!
+            : 'Graceful Care Nursing');
+    final email = (cachedUser?.email?.isNotEmpty == true)
+        ? cachedUser!.email!
+        : 'admin@centraldiag.com';
+    final phone = (cachedUser?.phone?.isNotEmpty == true)
+        ? cachedUser!.phone!
+        : '+1 (555) 012-3456';
+    final avatar = (cachedUser?.image?.isNotEmpty == true)
+        ? cachedUser!.image!
+        : 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=200&h=200&fit=crop';
+
+    final mockProfile = NursingProfileModel(
+      id: cachedUser?.id?.toString() ?? '1',
+      name: name,
       licenseNumber: 'LAB-2023-994821',
-      avatarUrl: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=200&h=200&fit=crop',
+      avatarUrl: avatar,
       servicesCount: 8,
       nursesCount: 45,
     );
 
-    const mockOfficeInfo = NursingOfficeInfoModel(
-      officeName: 'City Lab',
+    final mockOfficeInfo = NursingOfficeInfoModel(
+      officeName: name,
       licenseNumber: 'CLIA-882944-B',
-      email: 'admin@centraldiag.com',
-      phone: '+1 (555) 012-3456',
-      description: 'Founded in 2005, Central provides state-of-the-art diagnostic services focusing on hematology, microbiology',
+      email: email,
+      phone: phone,
+      description: 'Founded in 2005, providing comprehensive nursing care and home healthcare services.',
       verificationStatus: 'ACTIVE STATUS',
     );
 

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rojeta_doctor/core/local/user_hive_helper.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
 import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
 import '../../bloc/nursing_bloc.dart';
+import '../../bloc/nursing_event.dart';
 import '../../bloc/nursing_state.dart';
 import 'widgets/nursing_dashboard_header.dart';
 import 'widgets/nursing_stat_cards.dart';
@@ -21,6 +23,12 @@ class NursingHomeTab extends StatelessWidget {
         }
 
         final data = state.dashboardData!;
+        final cachedUser = UserHiveHelper.getUser();
+        final nurseName = (cachedUser?.name?.isNotEmpty == true)
+            ? cachedUser!.name!
+            : ((cachedUser?.firstName?.isNotEmpty == true)
+                ? cachedUser!.firstName!
+                : 'Graceful Care');
 
         return SingleChildScrollView(
           child: Column(
@@ -33,7 +41,7 @@ class NursingHomeTab extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Welcome, Graceful Care',
+                      'Welcome, $nurseName',
                       style: context.textTheme.headlineSmall?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: const Color(0xFF0F2D52),
@@ -70,7 +78,11 @@ class NursingHomeTab extends StatelessWidget {
                           ),
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context
+                                .read<NursingBloc>()
+                                .add(const ChangeNursingTabEvent(3));
+                          },
                           child: Text(
                             'View All',
                             style: context.textTheme.titleSmall?.copyWith(

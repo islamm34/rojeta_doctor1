@@ -5,7 +5,6 @@ import 'config/routes/app_router.dart';
 import 'config/theme/app_theme.dart';
 import 'core/di/injector.dart';
 import 'core/local/user_hive_helper.dart';
-import 'core/utils/bloc_observer.dart';
 import 'core/utils/screen_util_like.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
 import 'l10n/app_localizations.dart';
@@ -70,7 +69,6 @@ class _RojetaDoctorAppState extends State<RojetaDoctorApp> {
         top: false,
         child: MaterialApp(
           navigatorKey: RojetaDoctorApp.navigatorKey, // Assign the key
-          title: 'RojetaDoctor',
           debugShowCheckedModeBanner: false,
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,

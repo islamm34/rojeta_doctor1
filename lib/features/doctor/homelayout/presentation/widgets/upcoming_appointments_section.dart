@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
+import 'package:rojeta_doctor/config/routes/app_router.dart';
 import 'package:rojeta_doctor/shared/widgets/upcoming_appointment_card.dart';
 import '../bloc/homelayout_bloc.dart';
 
@@ -80,7 +81,10 @@ class UpcomingAppointmentsSection extends StatelessWidget {
                 appointment: appointment,
                 isActive: index == 0,
                 onTap: () {
-                  // Navigate to appointment details if needed
+                  context.pushNamed(
+                    AppRoutes.patientDetails,
+                    extra: appointment.id,
+                  );
                 },
               );
             },

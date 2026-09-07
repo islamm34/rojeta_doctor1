@@ -15,7 +15,8 @@ class ClinicTimePickerBox extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = context.theme;
     return InkWell(
-      onTap: onTap ?? () {},
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
         decoration: BoxDecoration(
@@ -26,7 +27,15 @@ class ClinicTimePickerBox extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(initialTime, style: theme.textTheme.bodyMedium),
+            Expanded(
+              child: Text(
+                initialTime,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w500,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
             const Icon(Icons.arrow_drop_down, size: 20),
           ],
         ),

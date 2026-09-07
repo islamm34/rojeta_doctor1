@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:rojeta_doctor/config/routes/app_router.dart';
 import 'package:rojeta_doctor/core/utils/app_colors.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
 import '../../../../../../shared/widgets/quick_action_card.dart';
 
 class HospitalQuickActionsGrid extends StatelessWidget {
-  const HospitalQuickActionsGrid({super.key});
+  final VoidCallback? onAppointmentsTap;
+
+  const HospitalQuickActionsGrid({super.key, this.onAppointmentsTap});
 
   @override
   Widget build(BuildContext context) {
@@ -30,31 +33,31 @@ class HospitalQuickActionsGrid extends StatelessWidget {
           children: [
             QuickActionCard(
               title: context.strings.appointments,
-              subtitle: 'Manage bookings', // Not localized strictly for mock
+              subtitle: 'Manage bookings',
               icon: Icons.calendar_today_outlined,
               backgroundColor: AppColors.actionAppointments,
-              onTap: () {},
+              onTap: onAppointmentsTap ?? () {},
             ),
             QuickActionCard(
               title: context.strings.addSpecialty,
               subtitle: context.strings.addNewSpecialty,
               icon: Icons.add_circle_outline,
               backgroundColor: AppColors.actionSchedule,
-              onTap: () {},
+              onTap: () => context.pushNamed(AppRoutes.addSpecialty),
             ),
             QuickActionCard(
               title: context.strings.addDoctor,
               subtitle: context.strings.addNewDoctor,
               icon: Icons.person_add_alt_1_outlined,
               backgroundColor: AppColors.actionPatients,
-              onTap: () {},
+              onTap: () => context.pushNamed(AppRoutes.addDoctor),
             ),
             QuickActionCard(
               title: context.strings.viewEarnings,
               subtitle: context.strings.viewEarnings,
               icon: Icons.account_balance_wallet_outlined,
               backgroundColor: AppColors.actionFinancial,
-              onTap: () {},
+              onTap: () => context.pushNamed(AppRoutes.financialManagement),
             ),
           ],
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
+import '../../data/models/clinic_model.dart';
 import '../widgets/add_clinic/clinic_basic_info_section.dart';
 import '../widgets/add_clinic/clinic_photos_section.dart';
 import '../widgets/add_clinic/consultation_time_section.dart';
@@ -7,27 +8,36 @@ import '../widgets/add_clinic/working_hours_section.dart';
 import '../widgets/add_clinic/clinic_services_pricing_section.dart';
 import '../widgets/add_clinic/additional_services_pricing_section.dart';
 
-class AddClinicPage extends StatelessWidget {
-  const AddClinicPage({super.key});
+class AddClinicPage extends StatefulWidget {
+  final ClinicModel? clinic;
+
+  const AddClinicPage({super.key, this.clinic});
 
   @override
-  Widget build(BuildContext context) {
-    return const AddClinicView();
-  }
+  State<AddClinicPage> createState() => _AddClinicPageState();
 }
 
-class AddClinicView extends StatelessWidget {
-  const AddClinicView({super.key});
+class _AddClinicPageState extends State<AddClinicPage> {
+  Map<String, dynamic> _workingHours = {};
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.clinic != null) {
+      _workingHours = Map<String, dynamic>.from(widget.clinic!.workingHours);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
     final strings = context.strings;
+    final isEditing = widget.clinic != null;
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        title: Text(strings.addClinicTitle),
+        title: Text(isEditing ? strings.edit : strings.addClinicTitle),
         backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
         centerTitle: false,
@@ -56,24 +66,29 @@ class AddClinicView extends StatelessWidget {
                 ],
               ),
             ),
-            const Expanded(
+            Expanded(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      ClinicBasicInfoSection(),
-                      SizedBox(height: 24),
-                      ClinicPhotosSection(),
-                      SizedBox(height: 24),
-                      ConsultationTimeSection(),
-                      SizedBox(height: 24),
-                      WorkingHoursSection(),
-                      SizedBox(height: 24),
-                      ClinicServicesPricingSection(),
-                      SizedBox(height: 24),
-                      AdditionalServicesPricingSection(),
+                      const ClinicBasicInfoSection(),
+                      const SizedBox(height: 24),
+                      const ClinicPhotosSection(),
+                      const SizedBox(height: 24),
+                      const ConsultationTimeSection(),
+                      const SizedBox(height: 24),
+                      WorkingHoursSection(
+                        initialWorkingHours: widget.clinic?.workingHours,
+                        onWorkingHoursChanged: (hours) {
+                          _workingHours = hours;
+                        },
+                      ),
+                      const SizedBox(height: 24),
+                      const ClinicServicesPricingSection(),
+                      const SizedBox(height: 24),
+                      const AdditionalServicesPricingSection(),
                     ],
                   ),
                 ),
@@ -95,7 +110,7 @@ class AddClinicView extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    Navigator.of(context).pop(_workingHours);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: theme.colorScheme.primary,
@@ -105,7 +120,7 @@ class AddClinicView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  child: Text(strings.add),
+                  child: Text(isEditing ? strings.saveBtn : strings.add),
                 ),
               ),
             ),

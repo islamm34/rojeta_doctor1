@@ -1,3 +1,4 @@
+import '../../../../../../core/local/user_hive_helper.dart';
 import '../../../../../../core/network/api_consumer.dart';
 import '../../../../../../core/network/endpoints.dart';
 import '../models/lab_profile_model.dart';
@@ -20,12 +21,21 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
     // final response = await apiConsumer.get(Endpoints.getLabProfile);
     // return LabProfileModel.fromJson(response);
     await Future.delayed(const Duration(milliseconds: 500));
-    return const LabProfileModel(
-      labName: 'City Lab',
+    final cachedUser = UserHiveHelper.getUser();
+    final name = (cachedUser?.name?.isNotEmpty == true)
+        ? cachedUser!.name!
+        : ((cachedUser?.firstName?.isNotEmpty == true)
+            ? cachedUser!.firstName!
+            : 'City Lab');
+
+    return LabProfileModel(
+      labName: name,
       licenseNo: 'LAB-2023-994821',
       branchesCount: 12,
       scansCount: 45,
-      iconUrl: 'https://via.placeholder.com/150',
+      iconUrl: cachedUser?.image?.isNotEmpty == true
+          ? cachedUser!.image!
+          : 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=200',
     );
   }
 

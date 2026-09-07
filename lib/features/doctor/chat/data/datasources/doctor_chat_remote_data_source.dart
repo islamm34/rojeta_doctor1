@@ -41,9 +41,19 @@ class DoctorChatRemoteDataSourceImpl implements DoctorChatRemoteDataSource {
       queryParameters: query.isNotEmpty ? query : null,
     );
 
-    final rawList = response is Map<String, dynamic> && response['data'] is List
-        ? response['data'] as List<dynamic>
-        : (response is List ? response : <dynamic>[]);
+    List<dynamic> rawList = [];
+    if (response is List) {
+      rawList = response;
+    } else if (response is Map<String, dynamic>) {
+      if (response['data'] is List) {
+        rawList = response['data'] as List<dynamic>;
+      } else if (response['data'] is Map<String, dynamic> &&
+          response['data']['data'] is List) {
+        rawList = response['data']['data'] as List<dynamic>;
+      } else if (response['conversations'] is List) {
+        rawList = response['conversations'] as List<dynamic>;
+      }
+    }
 
     return rawList
         .whereType<Map<String, dynamic>>()
@@ -66,9 +76,19 @@ class DoctorChatRemoteDataSourceImpl implements DoctorChatRemoteDataSource {
       queryParameters: query,
     );
 
-    final rawList = response is Map<String, dynamic> && response['data'] is List
-        ? response['data'] as List<dynamic>
-        : (response is List ? response : <dynamic>[]);
+    List<dynamic> rawList = [];
+    if (response is List) {
+      rawList = response;
+    } else if (response is Map<String, dynamic>) {
+      if (response['data'] is List) {
+        rawList = response['data'] as List<dynamic>;
+      } else if (response['data'] is Map<String, dynamic> &&
+          response['data']['data'] is List) {
+        rawList = response['data']['data'] as List<dynamic>;
+      } else if (response['messages'] is List) {
+        rawList = response['messages'] as List<dynamic>;
+      }
+    }
 
     return rawList
         .whereType<Map<String, dynamic>>()

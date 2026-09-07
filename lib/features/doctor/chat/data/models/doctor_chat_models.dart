@@ -20,14 +20,67 @@ class DoctorConversationModel extends Equatable {
   });
 
   factory DoctorConversationModel.fromJson(Map<String, dynamic> json) {
+    final patientObj = json['patient'] is Map<String, dynamic>
+        ? json['patient'] as Map<String, dynamic>
+        : (json['user'] is Map<String, dynamic>
+            ? json['user'] as Map<String, dynamic>
+            : null);
+
+    final patientId = (json['patientId'] ??
+            json['patient_id'] ??
+            patientObj?['id'] ??
+            json['user_id'] ??
+            '')
+        .toString();
+
+    final patientName = (json['patientName'] ??
+            json['patient_name'] ??
+            patientObj?['name'] ??
+            patientObj?['full_name'] ??
+            json['name'] ??
+            'Patient')
+        .toString();
+
+    final patientAvatar = (json['patientAvatar'] ??
+            json['patient_avatar'] ??
+            patientObj?['avatar'] ??
+            patientObj?['image'] ??
+            patientObj?['profile_picture'])
+        ?.toString();
+
+    String lastMsg = '';
+    if (json['last_message'] is Map<String, dynamic>) {
+      final msgObj = json['last_message'] as Map<String, dynamic>;
+      lastMsg = (msgObj['content'] ?? msgObj['message'] ?? msgObj['body'] ?? '')
+          .toString();
+    } else if (json['last_message'] != null) {
+      lastMsg = json['last_message'].toString();
+    } else if (json['lastMessage'] != null) {
+      lastMsg = json['lastMessage'].toString();
+    } else if (json['message'] != null) {
+      lastMsg = json['message'].toString();
+    }
+
+    final lastMessageTime = (json['lastMessageTime'] ??
+            json['last_message_time'] ??
+            json['updated_at'] ??
+            json['created_at'] ??
+            '')
+        .toString();
+
+    final unreadCount = (json['unreadCount'] ??
+            json['unread_count'] ??
+            json['unread_messages_count'] ??
+            0) as num;
+
     return DoctorConversationModel(
       id: json['id']?.toString() ?? '',
-      patientId: json['patientId']?.toString() ?? '',
-      patientName: json['patientName'] as String? ?? '',
-      patientAvatar: json['patientAvatar'] as String?,
-      lastMessage: json['lastMessage'] as String? ?? '',
-      lastMessageTime: json['lastMessageTime'] as String? ?? '',
-      unreadCount: (json['unreadCount'] as num?)?.toInt() ?? 0,
+      patientId: patientId,
+      patientName: patientName,
+      patientAvatar: patientAvatar,
+      lastMessage: lastMsg,
+      lastMessageTime: lastMessageTime,
+      unreadCount: unreadCount.toInt(),
     );
   }
 
@@ -93,13 +146,33 @@ class DoctorChatMessageModel extends Equatable {
   });
 
   factory DoctorChatMessageModel.fromJson(Map<String, dynamic> json) {
+    final senderRole = (json['senderRole'] ??
+            json['sender_role'] ??
+            json['role'] ??
+            '')
+        .toString();
+
+    final isMeVal = json['isMe'] == true ||
+        json['is_me'] == true ||
+        senderRole.toLowerCase() == 'doctor';
+
     return DoctorChatMessageModel(
       id: json['id']?.toString() ?? '',
-      senderId: json['senderId']?.toString() ?? '',
-      senderRole: json['senderRole'] as String? ?? '',
-      content: json['content'] as String? ?? '',
-      createdAt: json['createdAt'] as String? ?? '',
-      isMe: json['isMe'] as bool? ?? false,
+      senderId: (json['senderId'] ?? json['sender_id'] ?? json['user_id'] ?? '')
+          .toString(),
+      senderRole: senderRole,
+      content: (json['content'] ??
+              json['message'] ??
+              json['body'] ??
+              json['text'] ??
+              '')
+          .toString(),
+      createdAt: (json['createdAt'] ??
+              json['created_at'] ??
+              json['time'] ??
+              '')
+          .toString(),
+      isMe: isMeVal,
     );
   }
 

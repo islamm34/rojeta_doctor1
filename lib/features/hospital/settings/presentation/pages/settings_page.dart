@@ -13,6 +13,7 @@ import '../widgets/settings_switch_tile.dart';
 import '../widgets/settings_action_tile.dart';
 import '../../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../../auth/presentation/bloc/auth_event.dart';
+import '../../../../../core/local/user_hive_helper.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -108,63 +109,77 @@ class SettingsPage extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          'Al Salam International Hospital',
-                                          style: context.textTheme.bodyLarge
-                                              ?.copyWith(
-                                                fontWeight: FontWeight.bold,
-                                                color: const Color(0xFF0F2D52),
+                                  Builder(
+                                    builder: (context) {
+                                      final user = UserHiveHelper.getUser();
+                                      final hospName = user?.name ?? user?.firstName ?? 'Hospital';
+                                      final hospPhone = user?.phone ?? '+20 123 456 7890';
+                                      final hospEmail = user?.email ?? 'info@hospital.com';
+
+                                      return Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  hospName,
+                                                  style: context.textTheme.bodyLarge
+                                                      ?.copyWith(
+                                                        fontWeight: FontWeight.bold,
+                                                        color: const Color(0xFF0F2D52),
+                                                      ),
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
                                               ),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                      SizedBox(width: 4.w),
-                                      const Icon(
-                                        Icons.verified,
-                                        color: Colors.blue,
-                                        size: 16,
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 6.h),
-                                  Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.phone_outlined,
-                                        size: 14,
-                                        color: Color(0xFF7A8FA6),
-                                      ),
-                                      SizedBox(width: 6.w),
-                                      Text(
-                                        '+20 123 456 7890',
-                                        style: context.textTheme.bodyMedium
-                                            ?.copyWith(
-                                              color: const Color(0xFF7A8FA6),
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 4.h),
-                                  Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.mail_outline_rounded,
-                                        size: 14,
-                                        color: Color(0xFF7A8FA6),
-                                      ),
-                                      SizedBox(width: 6.w),
-                                      Text(
-                                        'info@alsalam.com',
-                                        style: context.textTheme.bodyMedium
-                                            ?.copyWith(
-                                              color: const Color(0xFF7A8FA6),
-                                            ),
-                                      ),
-                                    ],
+                                              SizedBox(width: 4.w),
+                                              const Icon(
+                                                Icons.verified,
+                                                color: Colors.blue,
+                                                size: 16,
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(height: 6.h),
+                                          Row(
+                                            children: [
+                                              const Icon(
+                                                Icons.phone_outlined,
+                                                size: 14,
+                                                color: Color(0xFF7A8FA6),
+                                              ),
+                                              SizedBox(width: 6.w),
+                                              Text(
+                                                hospPhone,
+                                                style: context.textTheme.bodyMedium
+                                                    ?.copyWith(
+                                                      color: const Color(0xFF7A8FA6),
+                                                    ),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(height: 4.h),
+                                          Row(
+                                            children: [
+                                              const Icon(
+                                                Icons.mail_outline_rounded,
+                                                size: 14,
+                                                color: Color(0xFF7A8FA6),
+                                              ),
+                                              SizedBox(width: 6.w),
+                                              Text(
+                                                hospEmail,
+                                                style: context.textTheme.bodyMedium
+                                                    ?.copyWith(
+                                                      color: const Color(0xFF7A8FA6),
+                                                    ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      );
+                                    },
                                   ),
                                 ],
                               ),

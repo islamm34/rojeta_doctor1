@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:rojeta_doctor/config/routes/app_router.dart';
 import '../../../../../../core/utils/app_colors.dart';
+import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
 import '../widgets/hospital_home_header.dart';
 import '../widgets/hospital_home_stats_grid.dart';
@@ -38,9 +40,14 @@ class HospitalHomeTab extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const MedicalServicesBanner(),
+                  MedicalServicesBanner(
+                    onManageTap: () =>
+                        context.pushNamed(AppRoutes.laboratoryManagement),
+                  ),
                   SizedBox(height: 28.h),
-                  const HospitalQuickActionsGrid(),
+                  HospitalQuickActionsGrid(
+                    onAppointmentsTap: onViewAllAppointments,
+                  ),
                   SizedBox(height: 28.h),
                   HospitalUpcomingAppointmentsSection(
                     onViewAllTap: onViewAllAppointments,

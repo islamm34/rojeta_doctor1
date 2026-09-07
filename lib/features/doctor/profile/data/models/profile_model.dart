@@ -36,34 +36,52 @@ class ProfileModel {
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
+    final paymentMap = (json['paymentDetails'] is Map<String, dynamic>)
+        ? json['paymentDetails'] as Map<String, dynamic>
+        : (json['payment_details'] is Map<String, dynamic>
+              ? json['payment_details'] as Map<String, dynamic>
+              : null);
+
     return ProfileModel(
-      id: json['id'] as String? ?? '',
-      fullName: json['fullName'] as String? ?? '',
-      email: json['email'] as String? ?? '',
-      phone: json['phone'] as String? ?? '',
+      id: json['id']?.toString() ?? '',
+      fullName: (json['fullName'] ?? json['full_name'] ?? json['name'] ?? '')
+          .toString(),
+      email: (json['email'] ?? '').toString(),
+      phone: (json['phone'] ?? json['phone_number'] ?? '').toString(),
       specialty: json['specialty'] as String?,
-      subSpecialty: json['subSpecialty'] as String?,
-      yearsOfExperience: json['yearsOfExperience']?.toString(),
-      about: json['about'] as String?,
+      subSpecialty: (json['subSpecialty'] ?? json['sub_specialty']) as String?,
+      yearsOfExperience:
+          (json['yearsOfExperience'] ??
+                  json['years_of_experience'] ??
+                  json['experience_years'])
+              ?.toString(),
+      about: (json['about'] ?? json['bio'] ?? json['description']) as String?,
       education: json['education'] as String?,
-      imageUrl: json['imageUrl'] as String?,
-      isPro: json['isPro'] as bool? ?? false,
+      imageUrl:
+          (json['imageUrl'] ??
+                  json['image_url'] ??
+                  json['avatar'] ??
+                  json['image'] ??
+                  json['profile_picture'])
+              as String?,
+      isPro:
+          json['isPro'] == true ||
+          json['is_pro'] == true ||
+          json['is_pro'] == 1,
       clinics:
           (json['clinics'] as List<dynamic>?)
-              ?.map((e) => ClinicModel.fromJson(e as Map<String, dynamic>))
+              ?.whereType<Map<String, dynamic>>()
+              .map((e) => ClinicModel.fromJson(e))
               .toList() ??
           [],
       services:
           (json['services'] as List<dynamic>?)
-              ?.map(
-                (e) => ServicePricingModel.fromJson(e as Map<String, dynamic>),
-              )
+              ?.whereType<Map<String, dynamic>>()
+              .map((e) => ServicePricingModel.fromJson(e))
               .toList() ??
           [],
-      paymentDetails: json['paymentDetails'] is Map<String, dynamic>
-          ? PaymentDetailsModel.fromJson(
-              json['paymentDetails'] as Map<String, dynamic>,
-            )
+      paymentDetails: paymentMap != null
+          ? PaymentDetailsModel.fromJson(paymentMap)
           : const PaymentDetailsModel(paymentType: 'bank_transfer'),
     );
   }

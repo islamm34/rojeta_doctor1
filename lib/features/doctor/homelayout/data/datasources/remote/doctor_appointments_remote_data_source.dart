@@ -45,9 +45,21 @@ class DoctorAppointmentsRemoteDataSourceImpl
       queryParameters: queryParameters.isNotEmpty ? queryParameters : null,
     );
 
-    final rawList = response is Map<String, dynamic> && response['data'] is List
-        ? response['data'] as List<dynamic>
-        : (response is List ? response : <dynamic>[]);
+    List<dynamic> rawList = [];
+    if (response is List) {
+      rawList = response;
+    } else if (response is Map<String, dynamic>) {
+      if (response['data'] is List) {
+        rawList = response['data'] as List<dynamic>;
+      } else if (response['data'] is Map<String, dynamic> &&
+          response['data']['data'] is List) {
+        rawList = response['data']['data'] as List<dynamic>;
+      } else if (response['appointments'] is List) {
+        rawList = response['appointments'] as List<dynamic>;
+      } else if (response['bookings'] is List) {
+        rawList = response['bookings'] as List<dynamic>;
+      }
+    }
 
     return rawList
         .whereType<Map<String, dynamic>>()

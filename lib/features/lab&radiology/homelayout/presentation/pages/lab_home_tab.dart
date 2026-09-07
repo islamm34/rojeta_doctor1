@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../core/local/user_hive_helper.dart';
 import '../../../../../config/routes/app_router.dart';
 import '../../../../../features/auth/data/models/user_type_model.dart';
 import '../../../../../core/utils/extensions/context_extensions.dart';
@@ -81,14 +82,24 @@ class LabHomeTab extends StatelessWidget {
                                 color: Colors.white.withOpacity(0.8),
                               ),
                             ),
-                            Text(
-                              userType == UserType.radiologyCenter
-                                  ? context.strings.cityScan
-                                  : context.strings.cityLab,
-                              style: context.textTheme.titleMedium?.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            Builder(
+                              builder: (context) {
+                                final user = UserHiveHelper.getUser();
+                                final name = (user?.name?.isNotEmpty == true)
+                                    ? user!.name!
+                                    : ((user?.firstName?.isNotEmpty == true)
+                                        ? user!.firstName!
+                                        : (userType == UserType.radiologyCenter
+                                            ? context.strings.cityScan
+                                            : context.strings.cityLab));
+                                return Text(
+                                  name,
+                                  style: context.textTheme.titleMedium?.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                );
+                              },
                             ),
                           ],
                         ),
@@ -146,14 +157,24 @@ class LabHomeTab extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Welcome Title
-                    Text(
-                      userType == UserType.radiologyCenter
-                          ? context.strings.welcomeCityScan
-                          : context.strings.welcomeCityLab,
-                      style: context.textTheme.headlineSmall?.copyWith(
-                        color: const Color(0xFF0F2D52),
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Builder(
+                      builder: (context) {
+                        final user = UserHiveHelper.getUser();
+                        final name = (user?.name?.isNotEmpty == true)
+                            ? user!.name!
+                            : ((user?.firstName?.isNotEmpty == true)
+                                ? user!.firstName!
+                                : (userType == UserType.radiologyCenter
+                                    ? context.strings.welcomeCityScan
+                                    : context.strings.welcomeCityLab));
+                        return Text(
+                          name,
+                          style: context.textTheme.headlineSmall?.copyWith(
+                            color: const Color(0xFF0F2D52),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        );
+                      },
                     ),
                     SizedBox(height: 4.h),
                     Text(
@@ -208,7 +229,12 @@ class LabHomeTab extends StatelessWidget {
                     SizedBox(height: 12.h),
                     LabQuickActionGrid(
                       userType: userType,
-                      onAddTest: () {},
+                      onAddTest: () {
+                        context.pushNamed(
+                          AppRoutes.addLabService,
+                          extra: userType,
+                        );
+                      },
                       onManageBranch: () {
                         context.pushNamed(
                           AppRoutes.manageBranch,
@@ -251,7 +277,7 @@ class LabHomeTab extends StatelessWidget {
                     SizedBox(height: 8.h),
                     LabUpcomingBookingCard(
                       booking: data.upcomingBooking,
-                      onTap: () {},
+                      onTap: onViewAllAppointments,
                     ),
                     SizedBox(height: 24.h),
 
@@ -275,7 +301,9 @@ class LabHomeTab extends StatelessWidget {
                     SizedBox(height: 12.h),
                     LabSpecialOfferCard(
                       offer: data.specialOffer,
-                      onUpgrade: () {},
+                      onUpgrade: () {
+                        context.pushNamed(AppRoutes.marketingPackages);
+                      },
                     ),
                     SizedBox(height: 12.h),
 

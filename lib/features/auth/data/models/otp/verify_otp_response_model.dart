@@ -14,16 +14,20 @@ class VerifyOtpResponseModel {
   });
 
   factory VerifyOtpResponseModel.fromJson(Map<String, dynamic> json) {
-    final tokenStr = json['token'] as String?;
-    final userJson = json['user'] as Map<String, dynamic>?;
+    final dataMap = (json['data'] is Map<String, dynamic>)
+        ? json['data'] as Map<String, dynamic>
+        : null;
+
+    final tokenStr = (json['token'] ?? dataMap?['token']) as String?;
+    final userJson = (json['user'] ?? dataMap?['user'] ?? dataMap) as Map<String, dynamic>?;
 
     UserData? userData;
-    if (userJson != null) {
+    if (userJson != null && userJson.isNotEmpty) {
       userData = UserData.fromJson(userJson, token: tokenStr);
     }
 
     return VerifyOtpResponseModel(
-      message: json['message'] as String?,
+      message: (json['message'] ?? dataMap?['message']) as String?,
       token: tokenStr,
       user: userData,
       rawUser: userJson,

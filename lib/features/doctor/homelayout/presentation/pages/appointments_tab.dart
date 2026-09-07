@@ -206,7 +206,10 @@ class _AppointmentsTabViewState extends State<AppointmentsTabView> {
                               );
                             },
                             onViewDetails: () {
-                              // Details or patient navigation
+                              context.pushNamed(
+                                AppRoutes.patientDetails,
+                                extra: appointment.id,
+                              );
                             },
                             onStartConsultation: () {
                               context.pushNamed(
