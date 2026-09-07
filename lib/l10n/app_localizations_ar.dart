@@ -1875,6 +1875,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get filterRejected => 'مرفوض';
 
   @override
+  String get filterCancelled => 'ملغي';
+
+  @override
   String get tagBranchVisit => 'زيارة فرع';
 
   @override

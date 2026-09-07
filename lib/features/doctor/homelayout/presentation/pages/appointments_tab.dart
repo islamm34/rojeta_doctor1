@@ -39,6 +39,23 @@ class _AppointmentsTabViewState extends State<AppointmentsTabView> {
     'Cancelled',
   ];
 
+  String _getFilterLabel(BuildContext context, String filter) {
+    switch (filter.toLowerCase()) {
+      case 'all':
+        return context.strings.filterAll;
+      case 'pending':
+        return context.strings.filterPending;
+      case 'confirmed':
+        return context.strings.filterConfirmed;
+      case 'completed':
+        return context.strings.filterCompleted;
+      case 'cancelled':
+        return context.strings.filterCancelled;
+      default:
+        return filter;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -76,10 +93,10 @@ class _AppointmentsTabViewState extends State<AppointmentsTabView> {
                       final isSelected =
                           selectedFilter.toLowerCase() == filter.toLowerCase();
                       return Padding(
-                        padding: EdgeInsets.only(right: 8.w),
+                        padding: EdgeInsetsDirectional.only(end: 8.w),
                         child: ChoiceChip(
                           label: Text(
-                            filter,
+                            _getFilterLabel(context, filter),
                             style: TextStyle(
                               color: isSelected
                                   ? Colors.white

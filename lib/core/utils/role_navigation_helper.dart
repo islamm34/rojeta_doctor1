@@ -4,6 +4,7 @@ import 'package:rojeta_doctor/core/local/user_data.dart';
 import 'package:rojeta_doctor/core/local/user_hive_helper.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
 import 'package:rojeta_doctor/core/utils/flutter_secure_storage_helper.dart';
+import 'package:rojeta_doctor/core/utils/snackbar_helper.dart';
 import 'package:rojeta_doctor/features/auth/data/models/user_type_model.dart';
 
 class RoleNavigationHelper {
@@ -73,15 +74,15 @@ class RoleNavigationHelper {
       }
     } else {
       // Unknown role or patient: clear session, notify, and redirect to login
+      final message = context.strings.unsupportedRoleMessage;
       FlutterSecureStorageHelper.clearAll();
       UserHiveHelper.clearSession();
 
-      // SnackbarHelper.showError(
-      //   context,
-      //   message: context.strings.unsupportedRoleMessage,
-      // );
+      if (context.currentRouteName != AppRoutes.login) {
+        context.pushNamedAndRemoveUntil(AppRoutes.login);
+      }
 
-      context.pushNamedAndRemoveUntil(AppRoutes.login);
+      SnackbarHelper.showError(context, message: message);
     }
   }
 

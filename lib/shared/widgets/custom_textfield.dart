@@ -238,7 +238,7 @@ class CustomTextField extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Expanded(
+              Flexible(
                 child: Text(
                   label!,
                   style:
@@ -349,7 +349,8 @@ class CustomTextField extends StatelessWidget {
 
     return InputDecoration(
       hintText: hintText,
-      hintStyle: hintStyle ??
+      hintStyle:
+          hintStyle ??
           theme.textTheme.bodyMedium?.copyWith(
             color: Colors.grey.shade400,
             fontWeight: FontWeight.normal,

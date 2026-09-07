@@ -1893,6 +1893,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get filterRejected => 'Rejected';
 
   @override
+  String get filterCancelled => 'Cancelled';
+
+  @override
   String get tagBranchVisit => 'BRANCH VISIT';
 
   @override

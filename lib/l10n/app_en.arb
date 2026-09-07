@@ -625,6 +625,7 @@
   "filterConfirmed": "Confirmed",
   "filterCompleted": "Completed",
   "filterRejected": "Rejected",
+  "filterCancelled": "Cancelled",
   "tagBranchVisit": "BRANCH VISIT",
   "tagHomeVisit": "HOME Visit",
   "scanTypeLabel": "Scan Type",

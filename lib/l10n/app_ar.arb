@@ -777,6 +777,7 @@
   "filterConfirmed": "مؤكد",
   "filterCompleted": "مكتمل",
   "filterRejected": "مرفوض",
+  "filterCancelled": "ملغي",
   "tagBranchVisit": "زيارة فرع",
   "tagHomeVisit": "زيارة منزلية",
   "scanTypeLabel": "نوع الأشعة",

@@ -117,7 +117,7 @@ class AppointmentsTabCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Text(
-                  appointment.status.toLowerCase(),
+                  _getStatusLabel(context, appointment.status),
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: statusTextColor,
                     fontWeight: FontWeight.bold,
@@ -161,7 +161,7 @@ class AppointmentsTabCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            appointment.type,
+                            _getTypeLabel(context, appointment.type),
                             style: theme.textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.bold,
                               color: Colors.black87,
@@ -243,7 +243,7 @@ class AppointmentsTabCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Fee',
+                      context.strings.feeLabel,
                       style: TextStyle(
                         color: Colors.grey.shade600,
                         fontSize: 13.sp,
@@ -285,5 +285,33 @@ class AppointmentsTabCard extends StatelessWidget {
       return Icons.home_outlined;
     }
     return Icons.calendar_today_outlined;
+  }
+
+  String _getStatusLabel(BuildContext context, String status) {
+    switch (status.toLowerCase()) {
+      case 'confirmed':
+        return context.strings.filterConfirmed;
+      case 'pending':
+        return context.strings.filterPending;
+      case 'completed':
+        return context.strings.filterCompleted;
+      case 'cancelled':
+      case 'rejected':
+        return context.strings.filterCancelled;
+      default:
+        return status;
+    }
+  }
+
+  String _getTypeLabel(BuildContext context, String type) {
+    final lower = type.toLowerCase();
+    if (lower.contains('video') || lower.contains('online')) {
+      return context.strings.videoCall;
+    } else if (lower.contains('home')) {
+      return context.strings.homeVisit;
+    } else if (lower.contains('clinic')) {
+      return context.strings.clinicVisit;
+    }
+    return type;
   }
 }

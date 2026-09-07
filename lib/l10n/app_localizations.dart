@@ -3764,6 +3764,12 @@ abstract class AppLocalizations {
   /// **'Rejected'**
   String get filterRejected;
 
+  /// No description provided for @filterCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get filterCancelled;
+
   /// No description provided for @tagBranchVisit.
   ///
   /// In en, this message translates to:

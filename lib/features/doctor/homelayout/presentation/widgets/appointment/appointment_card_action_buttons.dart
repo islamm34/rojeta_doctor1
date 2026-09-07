@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rojeta_doctor/features/doctor/homelayout/data/models/doctor_appointment_model.dart';
+import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
 
 class AppointmentCardActionButtons extends StatelessWidget {
@@ -43,7 +44,7 @@ class AppointmentCardActionButtons extends StatelessWidget {
                 Icon(Icons.cancel_outlined, size: 18.sp),
                 SizedBox(width: 6.w),
                 Text(
-                  'Reject',
+                  context.strings.rejectBtn,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14.sp,
@@ -74,7 +75,7 @@ class AppointmentCardActionButtons extends StatelessWidget {
                     Icon(Icons.check_circle_outline, size: 18.sp),
                     SizedBox(width: 6.w),
                     Text(
-                      'Accept',
+                      context.strings.acceptBtn,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14.sp,
@@ -103,7 +104,7 @@ class AppointmentCardActionButtons extends StatelessWidget {
                     Icon(Icons.cancel_outlined, size: 18.sp),
                     SizedBox(width: 6.w),
                     Text(
-                      'Reject',
+                      context.strings.rejectBtn,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 14.sp,
@@ -131,7 +132,7 @@ class AppointmentCardActionButtons extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 12.h),
           ),
           child: Text(
-            'View Details',
+            context.strings.viewDetailsBtn,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
           ),
         ),
@@ -151,7 +152,7 @@ class AppointmentCardActionButtons extends StatelessWidget {
             padding: EdgeInsets.symmetric(vertical: 12.h),
           ),
           child: Text(
-            'Start Consultation',
+            context.strings.startConsultation,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
           ),
         ),
