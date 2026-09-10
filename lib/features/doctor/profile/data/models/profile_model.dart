@@ -2,6 +2,21 @@ import 'clinic_model.dart';
 import 'payment_details_model.dart';
 import 'service_pricing_model.dart';
 
+String? _sanitizeImageUrl(dynamic url) {
+  if (url == null) return null;
+  final s = url.toString().trim();
+  if (s.isEmpty) return null;
+  if (s.contains('localhost') || s.contains('127.0.0.1')) {
+    return s
+        .replaceAll('http://localhost:8000', 'https://rojeta.fassla.net')
+        .replaceAll('http://127.0.0.1:8000', 'https://rojeta.fassla.net')
+        .replaceAll('http://localhost', 'https://rojeta.fassla.net')
+        .replaceAll('https://localhost', 'https://rojeta.fassla.net')
+        .replaceAll('http://127.0.0.1', 'https://rojeta.fassla.net');
+  }
+  return s;
+}
+
 class ProfileModel {
   final String id;
   final String fullName;
@@ -36,11 +51,34 @@ class ProfileModel {
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
-    final paymentMap = (json['paymentDetails'] is Map<String, dynamic>)
-        ? json['paymentDetails'] as Map<String, dynamic>
-        : (json['payment_details'] is Map<String, dynamic>
-              ? json['payment_details'] as Map<String, dynamic>
-              : null);
+    final rawPayment = json['paymentDetails'] ?? json['payment_details'];
+    final paymentMap = rawPayment is Map
+        ? Map<String, dynamic>.from(rawPayment)
+        : null;
+
+    final rawClinics = json['clinics'];
+    final List<ClinicModel> clinicsList = [];
+    if (rawClinics is List) {
+      for (final item in rawClinics) {
+        if (item is Map) {
+          clinicsList.add(
+            ClinicModel.fromJson(Map<String, dynamic>.from(item)),
+          );
+        }
+      }
+    }
+
+    final rawServices = json['services'];
+    final List<ServicePricingModel> servicesList = [];
+    if (rawServices is List) {
+      for (final item in rawServices) {
+        if (item is Map) {
+          servicesList.add(
+            ServicePricingModel.fromJson(Map<String, dynamic>.from(item)),
+          );
+        }
+      }
+    }
 
     return ProfileModel(
       id: json['id']?.toString() ?? '',
@@ -57,29 +95,20 @@ class ProfileModel {
               ?.toString(),
       about: (json['about'] ?? json['bio'] ?? json['description']) as String?,
       education: json['education'] as String?,
-      imageUrl:
-          (json['imageUrl'] ??
-                  json['image_url'] ??
-                  json['avatar'] ??
-                  json['image'] ??
-                  json['profile_picture'])
-              as String?,
+      imageUrl: _sanitizeImageUrl(
+        (json['imageUrl'] ??
+                json['image_url'] ??
+                json['avatar'] ??
+                json['image'] ??
+                json['profile_picture'])
+            as String?,
+      ),
       isPro:
           json['isPro'] == true ||
           json['is_pro'] == true ||
           json['is_pro'] == 1,
-      clinics:
-          (json['clinics'] as List<dynamic>?)
-              ?.whereType<Map<String, dynamic>>()
-              .map((e) => ClinicModel.fromJson(e))
-              .toList() ??
-          [],
-      services:
-          (json['services'] as List<dynamic>?)
-              ?.whereType<Map<String, dynamic>>()
-              .map((e) => ServicePricingModel.fromJson(e))
-              .toList() ??
-          [],
+      clinics: clinicsList,
+      services: servicesList,
       paymentDetails: paymentMap != null
           ? PaymentDetailsModel.fromJson(paymentMap)
           : const PaymentDetailsModel(paymentType: 'bank_transfer'),

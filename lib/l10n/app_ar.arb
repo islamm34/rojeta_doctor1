@@ -220,6 +220,11 @@
   "addAllClinicsWhereYouPractice": "أضف جميع العيادات التي تمارس فيها عملك",
   "addClinic": "إضافة عيادة",
   "addClinicTitle": "إضافة عيادة",
+  "deleteClinic": "حذف العيادة",
+  "confirmDeleteClinic": "هل أنت متأكد من رغبتك في حذف هذه العيادة؟",
+  "clinicAddedSuccessfully": "تمت إضافة العيادة بنجاح",
+  "clinicUpdatedSuccessfully": "تم تحديث العيادة بنجاح",
+  "clinicDeletedSuccessfully": "تم حذف العيادة بنجاح",
   "servicesAndPricing": "الخدمات والأسعار",
   "clinicVisit": "زيارة عيادة",
   "price": "السعر",
@@ -810,5 +815,13 @@
   "fastingRequired": "يتطلب الصيام",
   "bloodGroup": "فصيلة الدم",
   "vacationsAndLeaves": "الإجازات والعطلات",
-  "addVacation": "إضافة إجازة"
+  "addVacation": "إضافة إجازة",
+  "cardiology": "أمراض القلب",
+  "pediatrics": "طب الأطفال",
+  "ophthalmology": "طب العيون",
+  "orthopedics": "جراحة العظام",
+  "neurology": "أمراض المخ والأعصاب",
+  "general": "الطب العام",
+  "selectSpecialty": "اختر التخصص",
+  "messagePatient": "مراسلة المريض"
 }

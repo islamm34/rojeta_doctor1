@@ -59,6 +59,9 @@ class DioClient implements ApiConsumer {
           return handler.next(options);
         },
         onResponse: (response, handler) {
+          if (response.data != null) {
+            response.data = _sanitizeResponseData(response.data);
+          }
           log(
             '✅ [RESPONSE] [${response.statusCode}] FROM: ${response.requestOptions.path}',
           );
@@ -90,10 +93,10 @@ class DioClient implements ApiConsumer {
           if (context != null) {
             if (e.type == DioExceptionType.badResponse) {
               final statusCode = e.response?.statusCode;
-              final String errorMessage = e.response?.data is Map
-                  ? (e.response?.data['message'] ??
-                        'Server error ($statusCode)')
-                  : 'Server error ($statusCode)';
+              final errorMessage = _extractErrorMessage(
+                e.response?.data,
+                defaultMsg: 'Server error ($statusCode)',
+              );
               SnackbarHelper.showError(context, message: errorMessage);
             } else if (e.type == DioExceptionType.connectionTimeout ||
                 e.type == DioExceptionType.receiveTimeout ||
@@ -104,10 +107,11 @@ class DioClient implements ApiConsumer {
                 message: 'Network error, please check your connection.',
               );
             } else {
-              SnackbarHelper.showError(
-                context,
-                message: e.message ?? 'An unknown error occurred.',
+              final sanitized = _sanitizeErrorMessage(
+                e.message,
+                defaultMsg: 'An unknown error occurred.',
               );
+              SnackbarHelper.showError(context, message: sanitized);
             }
           }
 
@@ -146,11 +150,17 @@ class DioClient implements ApiConsumer {
   }
 
   @override
-  Future<dynamic> post(String path, {dynamic data,
-    Map<String, dynamic>? queryParameters
+  Future<dynamic> post(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
   }) async {
     try {
-      final response = await dio.post(path, data: data,queryParameters: queryParameters);
+      final response = await dio.post(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+      );
       return response.data;
     } on DioException catch (e) {
       _handleDioError(e);
@@ -158,9 +168,17 @@ class DioClient implements ApiConsumer {
   }
 
   @override
-  Future<dynamic> put(String path, {dynamic data, Map<String, dynamic>? queryParameters}) async {
+  Future<dynamic> put(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
     try {
-      final response = await dio.put(path, data: data, queryParameters: queryParameters);
+      final response = await dio.put(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+      );
       return response.data;
     } on DioException catch (e) {
       _handleDioError(e);
@@ -168,9 +186,17 @@ class DioClient implements ApiConsumer {
   }
 
   @override
-  Future<dynamic> delete(String path, {dynamic data, Map<String, dynamic>? queryParameters}) async {
+  Future<dynamic> delete(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
     try {
-      final response = await dio.delete(path, data: data, queryParameters: queryParameters);
+      final response = await dio.delete(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+      );
       return response.data;
     } on DioException catch (e) {
       _handleDioError(e);
@@ -178,9 +204,17 @@ class DioClient implements ApiConsumer {
   }
 
   @override
-  Future<dynamic> patch(String path, {dynamic data, Map<String, dynamic>? queryParameters}) async {
+  Future<dynamic> patch(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
     try {
-      final response = await dio.patch(path, data: data, queryParameters: queryParameters);
+      final response = await dio.patch(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+      );
       return response.data;
     } on DioException catch (e) {
       _handleDioError(e);
@@ -199,12 +233,91 @@ class DioClient implements ApiConsumer {
 
     if (e.type == DioExceptionType.badResponse) {
       final statusCode = e.response?.statusCode;
-      final message = e.response?.data is Map
-          ? (e.response?.data['message'] ?? 'Server error')
-          : 'Server error';
+      final message = _extractErrorMessage(e.response?.data);
       throw ServerException(message: message, statusCode: statusCode);
     }
 
-    throw ServerException(message: e.message ?? 'An unknown error occurred.');
+    final message = _sanitizeErrorMessage(
+      e.message,
+      defaultMsg: 'An unknown error occurred.',
+    );
+    throw ServerException(message: message);
+  }
+
+  static String _extractErrorMessage(
+    dynamic data, {
+    String defaultMsg = 'Server error',
+  }) {
+    if (data == null) return defaultMsg;
+    if (data is String && data.trim().isNotEmpty) {
+      if (!data.trim().startsWith('<')) {
+        return _sanitizeErrorMessage(data.trim(), defaultMsg: defaultMsg);
+      }
+      return defaultMsg;
+    }
+    if (data is Map) {
+      final msg =
+          data['message'] ?? data['error'] ?? data['msg'] ?? data['detail'];
+      if (msg != null && msg.toString().trim().isNotEmpty) {
+        return _sanitizeErrorMessage(
+          msg.toString().trim(),
+          defaultMsg: defaultMsg,
+        );
+      }
+      final errors = data['errors'];
+      if (errors is List && errors.isNotEmpty) {
+        return errors.map((e) => e.toString()).join('\n');
+      }
+      if (errors is Map && errors.isNotEmpty) {
+        final messages = <String>[];
+        for (final val in errors.values) {
+          if (val is List) {
+            messages.addAll(val.map((e) => e.toString()));
+          } else if (val != null) {
+            messages.add(val.toString());
+          }
+        }
+        if (messages.isNotEmpty) {
+          return messages.join('\n');
+        }
+      }
+    }
+    return defaultMsg;
+  }
+
+  static String _sanitizeErrorMessage(
+    String? message, {
+    String defaultMsg = 'An unknown server error occurred.',
+  }) {
+    if (message == null || message.trim().isEmpty) return defaultMsg;
+    final clean = message.trim();
+    final lower = clean.toLowerCase();
+    if (lower.contains('serverexception') || lower.contains('instance of')) {
+      return defaultMsg;
+    }
+    return clean;
+  }
+
+  static dynamic _sanitizeResponseData(dynamic data) {
+    if (data is String) {
+      if (data.contains('localhost') || data.contains('127.0.0.1')) {
+        return data
+            .replaceAll('http://localhost:8000', 'https://rojeta.fassla.net')
+            .replaceAll('http://127.0.0.1:8000', 'https://rojeta.fassla.net')
+            .replaceAll('http://localhost', 'https://rojeta.fassla.net')
+            .replaceAll('https://localhost', 'https://rojeta.fassla.net')
+            .replaceAll('http://127.0.0.1', 'https://rojeta.fassla.net');
+      }
+      return data;
+    } else if (data is Map) {
+      return Map<String, dynamic>.fromEntries(
+        data.entries.map(
+          (e) => MapEntry(e.key.toString(), _sanitizeResponseData(e.value)),
+        ),
+      );
+    } else if (data is List) {
+      return data.map(_sanitizeResponseData).toList();
+    }
+    return data;
   }
 }

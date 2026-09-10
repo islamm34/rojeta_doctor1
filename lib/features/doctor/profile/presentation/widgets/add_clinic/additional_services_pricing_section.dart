@@ -3,7 +3,22 @@ import '../../../../../../core/utils/extensions/context_extensions.dart';
 import 'clinic_service_pricing_row.dart';
 
 class AdditionalServicesPricingSection extends StatefulWidget {
-  const AdditionalServicesPricingSection({super.key});
+  final TextEditingController homeVisitPriceController;
+  final TextEditingController videoCallPriceController;
+  final bool initialHomeVisitEnabled;
+  final bool initialVideoCallEnabled;
+  final ValueChanged<bool>? onHomeVisitEnabledChanged;
+  final ValueChanged<bool>? onVideoCallEnabledChanged;
+
+  const AdditionalServicesPricingSection({
+    super.key,
+    required this.homeVisitPriceController,
+    required this.videoCallPriceController,
+    this.initialHomeVisitEnabled = false,
+    this.initialVideoCallEnabled = false,
+    this.onHomeVisitEnabledChanged,
+    this.onVideoCallEnabledChanged,
+  });
 
   @override
   State<AdditionalServicesPricingSection> createState() =>
@@ -12,8 +27,15 @@ class AdditionalServicesPricingSection extends StatefulWidget {
 
 class _AdditionalServicesPricingSectionState
     extends State<AdditionalServicesPricingSection> {
-  bool _homeVisitEnabled = false;
-  bool _videoCallEnabled = false;
+  late bool _homeVisitEnabled;
+  late bool _videoCallEnabled;
+
+  @override
+  void initState() {
+    super.initState();
+    _homeVisitEnabled = widget.initialHomeVisitEnabled;
+    _videoCallEnabled = widget.initialVideoCallEnabled;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,13 +60,21 @@ class _AdditionalServicesPricingSectionState
         ClinicServicePricingRow(
           label: strings.homeVisit,
           isEnabled: _homeVisitEnabled,
-          onChanged: (val) => setState(() => _homeVisitEnabled = val),
+          controller: widget.homeVisitPriceController,
+          onChanged: (val) {
+            setState(() => _homeVisitEnabled = val);
+            widget.onHomeVisitEnabledChanged?.call(val);
+          },
         ),
         const SizedBox(height: 16),
         ClinicServicePricingRow(
           label: strings.videoCall,
           isEnabled: _videoCallEnabled,
-          onChanged: (val) => setState(() => _videoCallEnabled = val),
+          controller: widget.videoCallPriceController,
+          onChanged: (val) {
+            setState(() => _videoCallEnabled = val);
+            widget.onVideoCallEnabledChanged?.call(val);
+          },
         ),
       ],
     );

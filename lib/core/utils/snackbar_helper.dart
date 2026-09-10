@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'screen_util_like.dart';
 import '../../main.dart'; // To access RojetaDoctorApp.navigatorKey
+import '../../l10n/app_localizations.dart';
 
 class SnackbarHelper {
   static void showSuccess(BuildContext? context, {required String message}) {
@@ -19,12 +20,23 @@ class SnackbarHelper {
     final ctx = context ?? RojetaDoctorApp.navigatorKey.currentContext;
     if (ctx == null) return;
 
+    final displayMessage = _sanitizeErrorMessage(ctx, message);
+
     _showCustomSnackbar(
       context: ctx,
-      message: message,
+      message: displayMessage,
       backgroundColor: Colors.red.shade600,
       icon: Icons.error_outline,
     );
+  }
+
+  static String _sanitizeErrorMessage(BuildContext context, String message) {
+    final lower = message.toLowerCase();
+    if (lower.contains('serverexception') || lower.contains('instance of')) {
+      return AppLocalizations.of(context)?.somethingWentWrong ??
+          'Something went wrong';
+    }
+    return message;
   }
 
   static void showInfo(BuildContext? context, {required String message}) {
@@ -81,11 +93,7 @@ class SnackbarHelper {
           ],
         ),
       ),
-      margin: EdgeInsets.only(
-        bottom: 24.h,
-        left: 20.w,
-        right: 20.w,
-      ),
+      margin: EdgeInsets.only(bottom: 24.h, left: 20.w, right: 20.w),
     );
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);

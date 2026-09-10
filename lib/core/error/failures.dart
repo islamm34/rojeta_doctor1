@@ -6,11 +6,22 @@ abstract class Failure extends Equatable {
 
   @override
   List<Object> get props => [message];
+
+  @override
+  String toString() => message;
 }
 
 // General failures
 class ServerFailure extends Failure {
-  const ServerFailure(super.message);
+  ServerFailure(String message)
+    : super(
+        (message.toLowerCase().contains('serverexception') ||
+                message.toLowerCase().contains('instance of'))
+            ? 'An unknown server error occurred.'
+            : message,
+      );
+
+  const ServerFailure.raw(super.message);
 }
 
 class CacheFailure extends Failure {

@@ -44,11 +44,10 @@ class DoctorChatRemoteDataSourceImpl implements DoctorChatRemoteDataSource {
     List<dynamic> rawList = [];
     if (response is List) {
       rawList = response;
-    } else if (response is Map<String, dynamic>) {
+    } else if (response is Map) {
       if (response['data'] is List) {
         rawList = response['data'] as List<dynamic>;
-      } else if (response['data'] is Map<String, dynamic> &&
-          response['data']['data'] is List) {
+      } else if (response['data'] is Map && response['data']['data'] is List) {
         rawList = response['data']['data'] as List<dynamic>;
       } else if (response['conversations'] is List) {
         rawList = response['conversations'] as List<dynamic>;
@@ -56,8 +55,10 @@ class DoctorChatRemoteDataSourceImpl implements DoctorChatRemoteDataSource {
     }
 
     return rawList
-        .whereType<Map<String, dynamic>>()
-        .map((e) => DoctorConversationModel.fromJson(e))
+        .whereType<Map>()
+        .map(
+          (e) => DoctorConversationModel.fromJson(Map<String, dynamic>.from(e)),
+        )
         .toList();
   }
 
@@ -79,11 +80,10 @@ class DoctorChatRemoteDataSourceImpl implements DoctorChatRemoteDataSource {
     List<dynamic> rawList = [];
     if (response is List) {
       rawList = response;
-    } else if (response is Map<String, dynamic>) {
+    } else if (response is Map) {
       if (response['data'] is List) {
         rawList = response['data'] as List<dynamic>;
-      } else if (response['data'] is Map<String, dynamic> &&
-          response['data']['data'] is List) {
+      } else if (response['data'] is Map && response['data']['data'] is List) {
         rawList = response['data']['data'] as List<dynamic>;
       } else if (response['messages'] is List) {
         rawList = response['messages'] as List<dynamic>;
@@ -91,8 +91,10 @@ class DoctorChatRemoteDataSourceImpl implements DoctorChatRemoteDataSource {
     }
 
     return rawList
-        .whereType<Map<String, dynamic>>()
-        .map((e) => DoctorChatMessageModel.fromJson(e))
+        .whereType<Map>()
+        .map(
+          (e) => DoctorChatMessageModel.fromJson(Map<String, dynamic>.from(e)),
+        )
         .toList();
   }
 
@@ -103,10 +105,7 @@ class DoctorChatRemoteDataSourceImpl implements DoctorChatRemoteDataSource {
   }) async {
     final response = await apiConsumer.post(
       Endpoints.doctorChatSendMessage,
-      data: {
-        'conversation_id': conversationId,
-        'content': content,
-      },
+      data: {'conversation_id': conversationId, 'content': content},
     );
 
     final data = response is Map<String, dynamic> && response['data'] != null

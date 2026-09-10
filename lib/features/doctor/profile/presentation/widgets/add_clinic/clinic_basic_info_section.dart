@@ -3,7 +3,20 @@ import '../../../../../../core/utils/extensions/context_extensions.dart';
 import 'clinic_labeled_text_field.dart';
 
 class ClinicBasicInfoSection extends StatelessWidget {
-  const ClinicBasicInfoSection({super.key});
+  final TextEditingController nameController;
+  final TextEditingController phoneController;
+  final TextEditingController governorateController;
+  final TextEditingController cityController;
+  final TextEditingController addressController;
+
+  const ClinicBasicInfoSection({
+    super.key,
+    required this.nameController,
+    required this.phoneController,
+    required this.governorateController,
+    required this.cityController,
+    required this.addressController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +36,20 @@ class ClinicBasicInfoSection extends StatelessWidget {
         ClinicLabeledTextField(
           label: strings.clinicName,
           hint: strings.clinicNameHint,
+          controller: nameController,
+          validator: (val) {
+            if (val == null || val.trim().isEmpty) {
+              return strings.fieldRequired;
+            }
+            return null;
+          },
         ),
         const SizedBox(height: 16),
         ClinicLabeledTextField(
           label: strings.clinicPhone,
           hint: strings.clinicPhoneHint,
           keyboardType: TextInputType.phone,
+          controller: phoneController,
         ),
         const SizedBox(height: 16),
         Row(
@@ -37,6 +58,7 @@ class ClinicBasicInfoSection extends StatelessWidget {
               child: ClinicLabeledTextField(
                 label: strings.governorate,
                 hint: '',
+                controller: governorateController,
               ),
             ),
             const SizedBox(width: 16),
@@ -44,6 +66,7 @@ class ClinicBasicInfoSection extends StatelessWidget {
               child: ClinicLabeledTextField(
                 label: strings.city,
                 hint: '',
+                controller: cityController,
               ),
             ),
           ],
@@ -53,6 +76,7 @@ class ClinicBasicInfoSection extends StatelessWidget {
           label: strings.fullAddress,
           hint: strings.fullAddressHint,
           maxLines: 2,
+          controller: addressController,
         ),
       ],
     );

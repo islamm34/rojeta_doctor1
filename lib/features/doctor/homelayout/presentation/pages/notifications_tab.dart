@@ -67,18 +67,23 @@ class NotificationsTabContent extends StatelessWidget {
 
                 final list = state.filteredNotifications;
 
-                return ListView.builder(
-                  padding: EdgeInsets.only(top: 8.h, bottom: 24.h),
-                  itemCount: list.length + 2,
-                  itemBuilder: (context, index) {
-                    if (index < list.length) {
-                      return NotificationItemCard(notification: list[index]);
-                    } else if (index == list.length) {
-                      return const NotificationManagementTips();
-                    } else {
-                      return const NotificationStatsRow();
-                    }
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    await context.read<NotificationsCubit>().loadNotifications();
                   },
+                  child: ListView.builder(
+                    padding: EdgeInsets.only(top: 8.h, bottom: 24.h),
+                    itemCount: list.length + 2,
+                    itemBuilder: (context, index) {
+                      if (index < list.length) {
+                        return NotificationItemCard(notification: list[index]);
+                      } else if (index == list.length) {
+                        return const NotificationManagementTips();
+                      } else {
+                        return const NotificationStatsRow();
+                      }
+                    },
+                  ),
                 );
               },
             ),

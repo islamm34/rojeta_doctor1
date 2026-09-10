@@ -162,6 +162,7 @@ class _RadiologyWorkingHoursFormState extends State<RadiologyWorkingHoursForm> {
                         child: _buildTimeField(
                           label: 'From',
                           value: dayData['from'] as String,
+                          onTap: () => _selectTime(dayData, true),
                         ),
                       ),
                       SizedBox(width: 8.w),
@@ -170,6 +171,7 @@ class _RadiologyWorkingHoursFormState extends State<RadiologyWorkingHoursForm> {
                         child: _buildTimeField(
                           label: 'To',
                           value: dayData['to'] as String,
+                          onTap: () => _selectTime(dayData, false),
                         ),
                       ),
                       SizedBox(width: 8.w),
@@ -210,36 +212,82 @@ class _RadiologyWorkingHoursFormState extends State<RadiologyWorkingHoursForm> {
     );
   }
 
-  Widget _buildTimeField({required String label, required String value}) {
-    return InputDecorator(
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: TextStyle(
-          color: Colors.grey.shade500,
-          fontSize: 14.sp,
-          fontWeight: FontWeight.w500,
+  Future<void> _selectTime(Map<String, dynamic> dayData, bool isFrom) async {
+    final initialStr =
+        (isFrom ? dayData['from'] : dayData['to']) as String? ?? '09:00 AM';
+
+    TimeOfDay initialTime = const TimeOfDay(hour: 9, minute: 0);
+
+    try {
+      final clean = initialStr.trim();
+      final spaceIndex = clean.indexOf(' ');
+      if (spaceIndex != -1) {
+        final timePart = clean.substring(0, spaceIndex);
+        final period = clean.substring(spaceIndex + 1).toUpperCase();
+        final colonIndex = timePart.indexOf(':');
+        var hour = int.parse(timePart.substring(0, colonIndex));
+        final minute = int.parse(timePart.substring(colonIndex + 1));
+        if (period == 'PM' && hour < 12) hour += 12;
+        if (period == 'AM' && hour == 12) hour = 0;
+        initialTime = TimeOfDay(hour: hour, minute: minute);
+      }
+    } catch (_) {}
+
+    final picked = await showTimePicker(
+      context: context,
+      initialTime: initialTime,
+    );
+
+    if (picked != null && mounted) {
+      final formatted = picked.format(context);
+      setState(() {
+        if (isFrom) {
+          dayData['from'] = formatted;
+        } else {
+          dayData['to'] = formatted;
+        }
+      });
+    }
+  }
+
+  Widget _buildTimeField({
+    required String label,
+    required String value,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12.r),
+      child: InputDecorator(
+        decoration: InputDecoration(
+          labelText: label,
+          labelStyle: TextStyle(
+            color: Colors.grey.shade500,
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w500,
+          ),
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.r),
+            borderSide: BorderSide(color: Colors.grey.shade300),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.r),
+            borderSide: BorderSide(color: Colors.grey.shade300),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.r),
+            borderSide: const BorderSide(color: Color(0xFF3498DB)),
+          ),
         ),
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.r),
-          borderSide: BorderSide(color: Colors.grey.shade300),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.r),
-          borderSide: BorderSide(color: Colors.grey.shade300),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.r),
-          borderSide: const BorderSide(color: Color(0xFF3498DB)),
-        ),
-      ),
-      child: Text(
-        value,
-        style: TextStyle(
-          color: const Color(0xFF0F1E36),
-          fontSize: 13.sp,
-          fontWeight: FontWeight.w500,
+        child: Text(
+          value,
+          style: TextStyle(
+            color: const Color(0xFF0F1E36),
+            fontSize: 13.sp,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
     );

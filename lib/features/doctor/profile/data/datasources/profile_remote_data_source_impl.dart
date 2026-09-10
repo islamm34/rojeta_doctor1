@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+
 import '../../../../../../core/network/api_consumer.dart';
 import '../../../../../../core/network/endpoints.dart';
 import 'profile_remote_data_source.dart';
@@ -22,9 +24,10 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
     final future = () async {
       try {
         final response = await apiConsumer.get(Endpoints.doctorProfile);
-        return UserProfileResponseModel.fromJson(
-          response is Map<String, dynamic> ? response : <String, dynamic>{},
-        );
+        final json = response is Map
+            ? Map<String, dynamic>.from(response as Map)
+            : <String, dynamic>{};
+        return UserProfileResponseModel.fromJson(json);
       } finally {
         _inFlightProfileRequest = null;
       }
@@ -36,18 +39,15 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
 
   @override
   Future<void> updateProfile(Map<String, dynamic> data) async {
-    await apiConsumer.put(
-      Endpoints.doctorProfile,
-      data: data,
-    );
+    await apiConsumer.put(Endpoints.doctorProfile, data: data);
   }
 
   @override
   Future<String> addClinic(ClinicModel clinic) async {
-    final formData = await clinic.toFormData();
+    final body = await clinic.toRequestBody();
     final response = await apiConsumer.post(
       Endpoints.doctorClinics,
-      data: formData,
+      data: body,
     );
     if (response is Map && response['data'] is Map) {
       return response['data']['id']?.toString() ?? '';
@@ -56,20 +56,31 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   }
 
   @override
-  Future<void> updateClinic(String clinicId, Map<String, dynamic> data) async {
-    await apiConsumer.put(
-      Endpoints.doctorClinicDetails(clinicId),
-      data: data,
-    );
+  Future<void> updateClinic(ClinicModel clinic) async {
+    final body = await clinic.toRequestBody(isUpdate: true);
+    if (body is FormData) {
+      await apiConsumer.post(
+        Endpoints.doctorClinicDetails(clinic.id),
+        data: body,
+      );
+    } else {
+      await apiConsumer.put(
+        Endpoints.doctorClinicDetails(clinic.id),
+        data: body,
+      );
+    }
+  }
+
+  @override
+  Future<void> deleteClinic(String clinicId) async {
+    await apiConsumer.delete(Endpoints.doctorClinicDetails(clinicId));
   }
 
   @override
   Future<void> updateServices(List<ServicePricingModel> services) async {
     await apiConsumer.put(
       Endpoints.doctorServices,
-      data: {
-        'services': services.map((s) => s.toJson()).toList(),
-      },
+      data: {'services': services.map((s) => s.toJson()).toList()},
     );
   }
 
@@ -92,9 +103,6 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
 
   @override
   Future<void> updateSettings(SettingsModel settings) async {
-    await apiConsumer.put(
-      Endpoints.doctorSettings,
-      data: settings.toJson(),
-    );
+    await apiConsumer.put(Endpoints.doctorSettings, data: settings.toJson());
   }
 }

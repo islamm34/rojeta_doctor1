@@ -84,13 +84,12 @@ class AddClinicSubmittedEvent extends ProfileEvent {
 }
 
 class UpdateClinicSubmittedEvent extends ProfileEvent {
-  final String clinicId;
-  final Map<String, dynamic> data;
+  final ClinicModel clinic;
 
-  const UpdateClinicSubmittedEvent(this.clinicId, this.data);
+  const UpdateClinicSubmittedEvent(this.clinic);
 
   @override
-  List<Object?> get props => [clinicId, data];
+  List<Object?> get props => [clinic];
 }
 
 class UpdateProfileDetailsEvent extends ProfileEvent {

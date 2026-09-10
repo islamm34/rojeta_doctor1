@@ -39,6 +39,7 @@ import '../../features/auth/presentation/pages/doctor_registration_flow_pages/fo
 import '../../features/auth/presentation/pages/doctor_registration_flow_pages/reset_password_page.dart';
 import '../../features/doctor/profile/presentation/pages/profile_page.dart';
 import '../../features/doctor/profile/presentation/pages/add_clinic_page.dart';
+import '../../features/doctor/profile/presentation/bloc/profile/profile_bloc.dart';
 import '../../features/doctor/profile/data/models/clinic_model.dart';
 import '../../features/doctor/homelayout/presentation/pages/medical_consultation_page.dart';
 import '../../features/doctor/homelayout/data/models/doctor_appointment_model.dart';
@@ -209,7 +210,10 @@ class AppRouter {
       case AppRoutes.addClinic:
         final clinic = settings.arguments as ClinicModel?;
         return MaterialPageRoute(
-          builder: (_) => AddClinicPage(clinic: clinic),
+          builder: (_) => BlocProvider(
+            create: (_) => injector<ProfileBloc>(),
+            child: AddClinicPage(clinic: clinic),
+          ),
         );
       case AppRoutes.medicalConsultation:
         final appointment = settings.arguments as DoctorAppointmentModel;

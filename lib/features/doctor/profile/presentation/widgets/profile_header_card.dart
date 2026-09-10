@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
 import '../../data/models/profile_model.dart';
+import '../../../../auth/data/models/doctor_specialty.dart';
 import '../../../../../../shared/widgets/custom_elevated_button.dart';
 
 class ProfileHeaderCard extends StatelessWidget {
@@ -19,7 +20,9 @@ class ProfileHeaderCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         border: profile.isPro
             ? Border.all(color: theme.colorScheme.primary, width: 2)
-            : Border.all(color: theme.colorScheme.outline.withValues(alpha: 0.1)),
+            : Border.all(
+                color: theme.colorScheme.outline.withValues(alpha: 0.1),
+              ),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.05),
@@ -37,12 +40,20 @@ class ProfileHeaderCard extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 35,
-                    backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.1),
-                    backgroundImage: profile.imageUrl != null && profile.imageUrl!.isNotEmpty
+                    backgroundColor: theme.colorScheme.primary.withValues(
+                      alpha: 0.1,
+                    ),
+                    backgroundImage:
+                        profile.imageUrl != null && profile.imageUrl!.isNotEmpty
                         ? NetworkImage(profile.imageUrl!)
                         : null,
-                    child: (profile.imageUrl == null || profile.imageUrl!.isEmpty)
-                        ? Icon(Icons.person, size: 40, color: theme.colorScheme.primary)
+                    child:
+                        (profile.imageUrl == null || profile.imageUrl!.isEmpty)
+                        ? Icon(
+                            Icons.person,
+                            size: 40,
+                            color: theme.colorScheme.primary,
+                          )
                         : null,
                   ),
                   Positioned(
@@ -53,9 +64,16 @@ class ProfileHeaderCard extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: theme.colorScheme.primary,
                         shape: BoxShape.circle,
-                        border: Border.all(color: theme.colorScheme.surface, width: 2),
+                        border: Border.all(
+                          color: theme.colorScheme.surface,
+                          width: 2,
+                        ),
                       ),
-                      child: const Icon(Icons.camera_alt, size: 12, color: Colors.white),
+                      child: const Icon(
+                        Icons.camera_alt,
+                        size: 12,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ],
@@ -78,14 +96,21 @@ class ProfileHeaderCard extends StatelessWidget {
                         ),
                         if (profile.isPro)
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
                             decoration: BoxDecoration(
                               color: theme.colorScheme.primary,
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Row(
                               children: [
-                                const Icon(Icons.star, color: Colors.orange, size: 14),
+                                const Icon(
+                                  Icons.star,
+                                  color: Colors.orange,
+                                  size: 14,
+                                ),
                                 const SizedBox(width: 4),
                                 Text(
                                   context.strings.proDoctor,
@@ -98,12 +123,18 @@ class ProfileHeaderCard extends StatelessWidget {
                             ),
                           )
                         else
-                          Icon(Icons.edit_outlined, color: theme.colorScheme.onSurfaceVariant),
+                          Icon(
+                            Icons.edit_outlined,
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
                       ],
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      profile.specialty ?? '',
+                      DoctorSpecialty.localizedNameFromValue(
+                        context,
+                        profile.specialty,
+                      ),
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
@@ -112,7 +143,9 @@ class ProfileHeaderCard extends StatelessWidget {
                     Text(
                       profile.phone,
                       style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.7),
+                        color: theme.colorScheme.onSurfaceVariant.withValues(
+                          alpha: 0.7,
+                        ),
                       ),
                     ),
                   ],
@@ -121,7 +154,7 @@ class ProfileHeaderCard extends StatelessWidget {
               if (profile.isPro) ...[
                 const SizedBox(width: 8),
                 const Icon(Icons.qr_code_2, size: 40),
-              ]
+              ],
             ],
           ),
           if (!profile.isPro) ...[
@@ -129,7 +162,10 @@ class ProfileHeaderCard extends StatelessWidget {
             Align(
               alignment: Alignment.centerLeft,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.primary,
                   borderRadius: BorderRadius.circular(16),
@@ -156,7 +192,9 @@ class ProfileHeaderCard extends StatelessWidget {
             text: context.strings.uploadDocuments,
             icon: const Icon(Icons.upload_file),
             onPressed: () {},
-            backgroundColor: const Color(0xFF8B5CF6), // Purple color from design
+            backgroundColor: const Color(
+              0xFF8B5CF6,
+            ), // Purple color from design
             borderRadius: 8,
           ),
         ],

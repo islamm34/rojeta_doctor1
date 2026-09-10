@@ -39,8 +39,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     final name = (base?.fullName.isNotEmpty == true)
         ? base!.fullName
         : (cachedUser?.name?.isNotEmpty == true
-            ? cachedUser!.name!
-            : '${cachedUser?.firstName ?? ''} ${cachedUser?.secondName ?? ''}'.trim());
+              ? cachedUser!.name!
+              : '${cachedUser?.firstName ?? ''} ${cachedUser?.secondName ?? ''}'
+                    .trim());
     final email = (base?.email.isNotEmpty == true)
         ? base!.email
         : (cachedUser?.email ?? '');
@@ -161,10 +162,12 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       await profileRepository.updateServices(state.profile!.services);
       emit(state.copyWith(status: ProfileStatus.success));
     } catch (e) {
-      emit(state.copyWith(
-        status: ProfileStatus.failure,
-        errorMessage: e.toString(),
-      ));
+      emit(
+        state.copyWith(
+          status: ProfileStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
     }
   }
 
@@ -194,27 +197,42 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       final updatedProfile = state.profile?.copyWith(
         paymentDetails: event.paymentDetails,
       );
-      emit(state.copyWith(
-        status: ProfileStatus.success,
-        profile: updatedProfile,
-      ));
+      emit(
+        state.copyWith(status: ProfileStatus.success, profile: updatedProfile),
+      );
     } catch (e) {
-      emit(state.copyWith(
-        status: ProfileStatus.failure,
-        errorMessage: e.toString(),
-      ));
+      emit(
+        state.copyWith(
+          status: ProfileStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
     }
   }
 
-  void _onDeleteClinic(DeleteClinicEvent event, Emitter<ProfileState> emit) {
+  Future<void> _onDeleteClinic(
+    DeleteClinicEvent event,
+    Emitter<ProfileState> emit,
+  ) async {
     if (state.profile == null) return;
-
-    final updatedClinics = state.profile!.clinics
-        .where((c) => c.id != event.clinicId)
-        .toList();
-    final updatedProfile = state.profile!.copyWith(clinics: updatedClinics);
-
-    emit(state.copyWith(profile: updatedProfile));
+    emit(state.copyWith(status: ProfileStatus.loading, errorMessage: null));
+    try {
+      await profileRepository.deleteClinic(event.clinicId);
+      final updatedClinics = state.profile!.clinics
+          .where((c) => c.id != event.clinicId)
+          .toList();
+      final updatedProfile = state.profile!.copyWith(clinics: updatedClinics);
+      emit(
+        state.copyWith(status: ProfileStatus.success, profile: updatedProfile),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: ProfileStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
   }
 
   Future<void> _onAddClinic(
@@ -228,15 +246,19 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         id: clinicId.isNotEmpty ? clinicId : event.clinic.id,
       );
       final updatedClinics = [...?state.profile?.clinics, newClinic];
-      emit(state.copyWith(
-        status: ProfileStatus.success,
-        profile: state.profile?.copyWith(clinics: updatedClinics),
-      ));
+      emit(
+        state.copyWith(
+          status: ProfileStatus.success,
+          profile: state.profile?.copyWith(clinics: updatedClinics),
+        ),
+      );
     } catch (e) {
-      emit(state.copyWith(
-        status: ProfileStatus.failure,
-        errorMessage: e.toString(),
-      ));
+      emit(
+        state.copyWith(
+          status: ProfileStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
     }
   }
 
@@ -246,13 +268,23 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ) async {
     emit(state.copyWith(status: ProfileStatus.loading, errorMessage: null));
     try {
-      await profileRepository.updateClinic(event.clinicId, event.data);
-      emit(state.copyWith(status: ProfileStatus.success));
+      await profileRepository.updateClinic(event.clinic);
+      final updatedClinics = state.profile?.clinics.map((c) {
+        return c.id == event.clinic.id ? event.clinic : c;
+      }).toList();
+      emit(
+        state.copyWith(
+          status: ProfileStatus.success,
+          profile: state.profile?.copyWith(clinics: updatedClinics),
+        ),
+      );
     } catch (e) {
-      emit(state.copyWith(
-        status: ProfileStatus.failure,
-        errorMessage: e.toString(),
-      ));
+      emit(
+        state.copyWith(
+          status: ProfileStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
     }
   }
 
@@ -269,26 +301,31 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
     final cachedUser = UserHiveHelper.getUser() ?? UserData();
     if (event.data['name'] != null || event.data['full_name'] != null) {
-      cachedUser.name = (event.data['name'] ?? event.data['full_name'])?.toString();
+      cachedUser.name = (event.data['name'] ?? event.data['full_name'])
+          ?.toString();
     }
     if (event.data['email'] != null) {
       cachedUser.email = event.data['email']?.toString();
     }
     if (event.data['phone'] != null || event.data['phone_number'] != null) {
-      cachedUser.phone = (event.data['phone'] ?? event.data['phone_number'])?.toString();
+      cachedUser.phone = (event.data['phone'] ?? event.data['phone_number'])
+          ?.toString();
     }
     UserHiveHelper.saveUser(cachedUser);
 
     final updatedProfile = state.profile?.copyWith(
-      fullName: (event.data['name'] ?? event.data['full_name'])?.toString() ?? state.profile?.fullName,
+      fullName:
+          (event.data['name'] ?? event.data['full_name'])?.toString() ??
+          state.profile?.fullName,
       email: event.data['email']?.toString() ?? state.profile?.email,
-      phone: (event.data['phone'] ?? event.data['phone_number'])?.toString() ?? state.profile?.phone,
+      phone:
+          (event.data['phone'] ?? event.data['phone_number'])?.toString() ??
+          state.profile?.phone,
     );
 
-    emit(state.copyWith(
-      status: ProfileStatus.success,
-      profile: updatedProfile,
-    ));
+    emit(
+      state.copyWith(status: ProfileStatus.success, profile: updatedProfile),
+    );
   }
 
   Future<void> _onLoadSettings(
@@ -347,15 +384,16 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     emit(state.copyWith(status: ProfileStatus.loading, errorMessage: null));
     try {
       await profileRepository.updateSettings(event.settings);
-      emit(state.copyWith(
-        status: ProfileStatus.success,
-        settings: event.settings,
-      ));
+      emit(
+        state.copyWith(status: ProfileStatus.success, settings: event.settings),
+      );
     } catch (e) {
-      emit(state.copyWith(
-        status: ProfileStatus.failure,
-        errorMessage: e.toString(),
-      ));
+      emit(
+        state.copyWith(
+          status: ProfileStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
     }
   }
 }

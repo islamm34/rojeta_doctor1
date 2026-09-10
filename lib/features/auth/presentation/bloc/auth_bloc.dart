@@ -7,6 +7,7 @@ import 'package:rojeta_doctor/features/auth/data/models/otp/verify_otp_request_m
 import 'package:rojeta_doctor/features/auth/data/models/register/register_request_model.dart';
 import 'package:rojeta_doctor/features/auth/data/models/check_phone/check_phone_request_model.dart';
 import '../../data/models/user_type_model.dart';
+import '../../data/models/doctor_specialty.dart';
 import '../../domain/usecases/get_auth.dart';
 import '../../domain/usecases/login_use_case.dart';
 import '../../domain/usecases/register_use_case.dart';
@@ -243,7 +244,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         logo: _getFileName(
           state.profileImagePath ?? state.organizationImagePath,
         ),
-        specialty: state.specialty.isNotEmpty ? state.specialty : 'General',
+        specialty: state.specialty.isNotEmpty
+            ? state.specialty
+            : DoctorSpecialty.general.value,
         subSpecialty: state.subSpecialty,
         experienceYears: state.yearsOfExperience,
         education: state.education,

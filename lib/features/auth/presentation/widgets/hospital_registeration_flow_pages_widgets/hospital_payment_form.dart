@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/utils/extensions/context_extensions.dart';
@@ -109,6 +110,12 @@ class HospitalPaymentForm extends StatelessWidget {
                 label: context.strings.accountNumber.toUpperCase(),
                 hintText: '0000 0000 0000 0000',
                 keyboardType: TextInputType.number,
+                maxLength: 19,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(16),
+                  _CardNumberInputFormatter(),
+                ],
                 onChanged: (val) => context.read<AuthBloc>().add(
                   AccountNumberChangedEvent(val),
                 ),
@@ -128,7 +135,13 @@ class HospitalPaymentForm extends StatelessWidget {
                     return CustomTextField(
                       label: context.strings.expiryDate,
                       hintText: 'MM/YY',
-                      keyboardType: TextInputType.datetime,
+                      keyboardType: TextInputType.number,
+                      maxLength: 5,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(4),
+                        _ExpiryDateInputFormatter(),
+                      ],
                       onChanged: (val) => context.read<AuthBloc>().add(
                         ExpiryDateChangedEvent(val),
                       ),
@@ -146,6 +159,11 @@ class HospitalPaymentForm extends StatelessWidget {
                       hintText: '• • •',
                       obscureText: true,
                       keyboardType: TextInputType.number,
+                      maxLength: 3,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(3),
+                      ],
                       suffixIcon: const Icon(
                         Icons.help_outline,
                         color: Colors.grey,
@@ -191,6 +209,55 @@ class HospitalPaymentForm extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _CardNumberInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final text = newValue.text.replaceAll(' ', '');
+    final buffer = StringBuffer();
+
+    for (int i = 0; i < text.length; i++) {
+      buffer.write(text[i]);
+      final nonSpaceLength = i + 1;
+      if (nonSpaceLength % 4 == 0 && nonSpaceLength != text.length) {
+        buffer.write(' ');
+      }
+    }
+
+    final formattedText = buffer.toString();
+    return newValue.copyWith(
+      text: formattedText,
+      selection: TextSelection.collapsed(offset: formattedText.length),
+    );
+  }
+}
+
+class _ExpiryDateInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final text = newValue.text.replaceAll('/', '');
+    final buffer = StringBuffer();
+
+    for (int i = 0; i < text.length; i++) {
+      buffer.write(text[i]);
+      if (i == 1 && text.length > 2) {
+        buffer.write('/');
+      }
+    }
+
+    final formattedText = buffer.toString();
+    return newValue.copyWith(
+      text: formattedText,
+      selection: TextSelection.collapsed(offset: formattedText.length),
     );
   }
 }

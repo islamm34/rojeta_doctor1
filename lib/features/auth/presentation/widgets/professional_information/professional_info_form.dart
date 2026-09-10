@@ -6,6 +6,7 @@ import '../../../../../core/utils/image_picker_helper.dart';
 import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
 import '../../../../../shared/widgets/custom_textfield.dart';
+import 'specialty_dropdown_field.dart';
 import '../../bloc/auth_bloc.dart';
 import '../../bloc/auth_event.dart';
 import '../../bloc/auth_state.dart';
@@ -124,19 +125,7 @@ class ProfessionalInfoForm extends StatelessWidget {
           SizedBox(height: 24.h),
 
           // Specialty *
-          BlocBuilder<AuthBloc, AuthState>(
-            buildWhen: (previous, current) =>
-                previous.specialty != current.specialty,
-            builder: (context, state) {
-              return CustomTextField(
-                label: context.strings.specialty,
-                hintText: '',
-                isRequired: true,
-                onChanged: (val) =>
-                    context.read<AuthBloc>().add(SpecialtyChangedEvent(val)),
-              );
-            },
-          ),
+          const SpecialtyDropdownField(),
 
           SizedBox(height: 16.h),
 

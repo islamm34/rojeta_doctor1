@@ -16,9 +16,9 @@ class DoctorChatMessagesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) =>
-          injector<DoctorChatBloc>()
-            ..add(SelectConversationEvent(conversation.id)),
+      create: (_) => injector<DoctorChatBloc>()
+        ..add(SelectConversationEvent(conversation.id))
+        ..add(StartPollingMessagesEvent(conversation.id)),
       child: _DoctorChatMessagesView(conversation: conversation),
     );
   }
@@ -96,6 +96,7 @@ class _DoctorChatMessagesViewState extends State<_DoctorChatMessagesView> {
               listener: (context, state) {
                 if (state.activeMessages.isNotEmpty) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
+                    if (!mounted) return;
                     if (_scrollController.hasClients) {
                       _scrollController.animateTo(
                         _scrollController.position.maxScrollExtent,

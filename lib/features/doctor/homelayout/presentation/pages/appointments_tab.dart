@@ -169,21 +169,34 @@ class _AppointmentsTabViewState extends State<AppointmentsTabView> {
                     }
 
                     if (filteredAppointments.isEmpty) {
-                      return Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                      return RefreshIndicator(
+                        onRefresh: () async {
+                          context.read<DoctorAppointmentsBloc>().add(
+                            const FetchAppointmentsEvent(),
+                          );
+                        },
+                        child: ListView(
+                          physics: const AlwaysScrollableScrollPhysics(),
                           children: [
-                            Icon(
-                              Icons.calendar_today_outlined,
-                              size: 64.sp,
-                              color: Colors.grey.shade400,
-                            ),
-                            SizedBox(height: 16.h),
-                            Text(
-                              context.strings.noDataAvailable,
-                              style: theme.textTheme.bodyLarge?.copyWith(
-                                color: Colors.grey.shade500,
-                                fontWeight: FontWeight.bold,
+                            SizedBox(height: 120.h),
+                            Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.calendar_today_outlined,
+                                    size: 64.sp,
+                                    color: Colors.grey.shade400,
+                                  ),
+                                  SizedBox(height: 16.h),
+                                  Text(
+                                    context.strings.noDataAvailable,
+                                    style: theme.textTheme.bodyLarge?.copyWith(
+                                      color: Colors.grey.shade500,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],

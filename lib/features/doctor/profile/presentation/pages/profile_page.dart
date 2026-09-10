@@ -56,7 +56,11 @@ class _ProfileViewState extends State<ProfileView> {
   late final TextEditingController _nameController;
   late final TextEditingController _emailController;
   late final TextEditingController _phoneController;
-  bool _initialized = false;
+  late final TextEditingController _subSpecialtyController;
+  late final TextEditingController _experienceController;
+  late final TextEditingController _aboutController;
+  late final TextEditingController _educationController;
+  String? _lastProfileId;
 
   @override
   void initState() {
@@ -64,6 +68,10 @@ class _ProfileViewState extends State<ProfileView> {
     _nameController = TextEditingController();
     _emailController = TextEditingController();
     _phoneController = TextEditingController();
+    _subSpecialtyController = TextEditingController();
+    _experienceController = TextEditingController();
+    _aboutController = TextEditingController();
+    _educationController = TextEditingController();
   }
 
   @override
@@ -71,16 +79,22 @@ class _ProfileViewState extends State<ProfileView> {
     _nameController.dispose();
     _emailController.dispose();
     _phoneController.dispose();
+    _subSpecialtyController.dispose();
+    _experienceController.dispose();
+    _aboutController.dispose();
+    _educationController.dispose();
     super.dispose();
   }
 
   void _syncControllers(ProfileModel profile) {
-    if (!_initialized) {
-      _nameController.text = profile.fullName;
-      _emailController.text = profile.email;
-      _phoneController.text = profile.phone;
-      _initialized = true;
-    }
+    _nameController.text = profile.fullName;
+    _emailController.text = profile.email;
+    _phoneController.text = profile.phone;
+    _subSpecialtyController.text = profile.subSpecialty ?? '';
+    _experienceController.text = profile.yearsOfExperience ?? '';
+    _aboutController.text = profile.about ?? '';
+    _educationController.text = profile.education ?? '';
+    _lastProfileId = profile.id;
   }
 
   @override
@@ -111,6 +125,9 @@ class _ProfileViewState extends State<ProfileView> {
               context,
             ).showSnackBar(SnackBar(content: Text(state.errorMessage!)));
           }
+          if (state.status == ProfileStatus.success && state.profile != null) {
+            _syncControllers(state.profile!);
+          }
         },
         builder: (context, state) {
           if (state.status == ProfileStatus.loading && state.profile == null) {
@@ -129,64 +146,100 @@ class _ProfileViewState extends State<ProfileView> {
           }
 
           final profile = state.profile!;
-          _syncControllers(profile);
+          if (_lastProfileId == null) {
+            _syncControllers(profile);
+          }
 
-          return SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                ProfileHeaderCard(profile: profile),
-                const SizedBox(height: 16),
-                ProfileTabSwitcher(
-                  isProfileSelected: state.isProfileTabSelected,
-                  onTabChanged: (isProfile) {
-                    context.read<ProfileBloc>().add(SwitchTabEvent(isProfile));
-                  },
-                ),
-                const SizedBox(height: 24),
-                if (state.isProfileTabSelected) ...[
-                  BasicInfoSection(
-                    profile: profile,
-                    nameController: _nameController,
-                    emailController: _emailController,
-                    phoneController: _phoneController,
-                  ),
+          return RefreshIndicator(
+            onRefresh: () async {
+              context.read<ProfileBloc>().add(const LoadProfileEvent());
+            },
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  ProfileHeaderCard(profile: profile),
                   const SizedBox(height: 16),
-                  ProfessionalInfoSection(profile: profile),
-                  const SizedBox(height: 16),
-                  EducationSection(profile: profile),
-                  const SizedBox(height: 16),
-                  ClinicsManagementSection(profile: profile),
-                  const SizedBox(height: 24),
-                  ServicesPricingSection(profile: profile),
-                  const SizedBox(height: 24),
-                  PaymentDetailsSection(profile: profile),
-                  const SizedBox(height: 32),
-                  CustomElevatedButton(
-                    text: context.strings.saveProfile,
-                    onPressed: () {
+                  ProfileTabSwitcher(
+                    isProfileSelected: state.isProfileTabSelected,
+                    onTabChanged: (isProfile) {
                       context.read<ProfileBloc>().add(
-                        UpdateProfileDetailsEvent({
-                          'name': _nameController.text.trim(),
-                          'full_name': _nameController.text.trim(),
-                          'email': _emailController.text.trim(),
-                          'phone': _phoneController.text.trim(),
-                          'phone_number': _phoneController.text.trim(),
-                        }),
-                      );
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Profile saved successfully'),
-                        ),
+                        SwitchTabEvent(isProfile),
                       );
                     },
                   ),
-                  const SizedBox(height: 32),
-                ] else ...[
-                  const SettingsView(),
+                  const SizedBox(height: 24),
+                  if (state.isProfileTabSelected) ...[
+                    BasicInfoSection(
+                      profile: profile,
+                      nameController: _nameController,
+                      emailController: _emailController,
+                      phoneController: _phoneController,
+                    ),
+                    const SizedBox(height: 16),
+                    ProfessionalInfoSection(
+                      profile: profile,
+                      subSpecialtyController: _subSpecialtyController,
+                      experienceController: _experienceController,
+                      aboutController: _aboutController,
+                      onSpecialtyChanged: (selectedSpecialty) {
+                        if (selectedSpecialty != null) {
+                          context.read<ProfileBloc>().add(
+                            UpdateProfileDetailsEvent({
+                              'specialty': selectedSpecialty.value,
+                            }),
+                          );
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    EducationSection(
+                      profile: profile,
+                      educationController: _educationController,
+                    ),
+                    const SizedBox(height: 16),
+                    ClinicsManagementSection(profile: profile),
+                    const SizedBox(height: 24),
+                    ServicesPricingSection(profile: profile),
+                    const SizedBox(height: 24),
+                    PaymentDetailsSection(profile: profile),
+                    const SizedBox(height: 32),
+                    CustomElevatedButton(
+                      text: context.strings.saveProfile,
+                      onPressed: () {
+                        context.read<ProfileBloc>().add(
+                          UpdateProfileDetailsEvent({
+                            'name': _nameController.text.trim(),
+                            'full_name': _nameController.text.trim(),
+                            'email': _emailController.text.trim(),
+                            'phone': _phoneController.text.trim(),
+                            'phone_number': _phoneController.text.trim(),
+                            'sub_specialty': _subSpecialtyController.text
+                                .trim(),
+                            'subSpecialty': _subSpecialtyController.text.trim(),
+                            'years_of_experience': _experienceController.text
+                                .trim(),
+                            'yearsOfExperience': _experienceController.text
+                                .trim(),
+                            'about': _aboutController.text.trim(),
+                            'bio': _aboutController.text.trim(),
+                            'education': _educationController.text.trim(),
+                          }),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Profile saved successfully'),
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 32),
+                  ] else ...[
+                    const SettingsView(),
+                  ],
                 ],
-              ],
+              ),
             ),
           );
         },

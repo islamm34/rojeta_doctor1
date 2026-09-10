@@ -1,5 +1,20 @@
 import 'package:dio/dio.dart';
 
+String _sanitizeImageUrl(dynamic url) {
+  if (url == null) return '';
+  final s = url.toString().trim();
+  if (s.isEmpty) return '';
+  if (s.contains('localhost') || s.contains('127.0.0.1')) {
+    return s
+        .replaceAll('http://localhost:8000', 'https://rojeta.fassla.net')
+        .replaceAll('http://127.0.0.1:8000', 'https://rojeta.fassla.net')
+        .replaceAll('http://localhost', 'https://rojeta.fassla.net')
+        .replaceAll('https://localhost', 'https://rojeta.fassla.net')
+        .replaceAll('http://127.0.0.1', 'https://rojeta.fassla.net');
+  }
+  return s;
+}
+
 class ClinicModel {
   final String id;
   final String name;
@@ -48,7 +63,8 @@ class ClinicModel {
               as String?,
       photos:
           (json['photos'] as List<dynamic>?)
-              ?.map((e) => e.toString())
+              ?.map((e) => _sanitizeImageUrl(e))
+              .where((e) => e.isNotEmpty)
               .toList() ??
           [],
       consultationTime:
@@ -80,34 +96,77 @@ class ClinicModel {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      if (id.isNotEmpty) 'id': id,
       'name': name,
-      'phone': phone,
-      'governorate': governorate,
-      'city': city,
-      'fullAddress': fullAddress,
+      'clinic_name': name,
+      if (phone != null) ...{'phone': phone, 'clinic_phone': phone},
+      if (governorate != null) 'governorate': governorate,
+      if (city != null) 'city': city,
+      if (fullAddress != null) ...{
+        'fullAddress': fullAddress,
+        'full_address': fullAddress,
+        'address': fullAddress,
+      },
       'photos': photos,
-      'consultationTime': consultationTime,
+      if (consultationTime != null) ...{
+        'consultationTime': consultationTime,
+        'consultation_time': consultationTime,
+      },
       'workingHours': workingHours,
-      'clinicVisitPrice': clinicVisitPrice,
-      'followUpPrice': followUpPrice,
-      'homeVisitPrice': homeVisitPrice,
-      'videoCallPrice': videoCallPrice,
+      'working_hours': workingHours,
+      if (clinicVisitPrice != null) ...{
+        'clinicVisitPrice': clinicVisitPrice,
+        'clinic_visit_price': clinicVisitPrice,
+      },
+      if (followUpPrice != null) ...{
+        'followUpPrice': followUpPrice,
+        'follow_up_price': followUpPrice,
+      },
+      if (homeVisitPrice != null) ...{
+        'homeVisitPrice': homeVisitPrice,
+        'home_visit_price': homeVisitPrice,
+      },
+      if (videoCallPrice != null) ...{
+        'videoCallPrice': videoCallPrice,
+        'video_call_price': videoCallPrice,
+      },
     };
   }
 
-  Future<FormData> toFormData() async {
+  Future<dynamic> toRequestBody({bool isUpdate = false}) async {
+    final hasLocalFiles = photos.any(
+      (p) => !p.startsWith('http://') && !p.startsWith('https://'),
+    );
+    if (!hasLocalFiles) {
+      final map = toJson();
+      // Remove photos so the server's image validation rule does not reject non-file strings
+      map.remove('photos');
+      return map;
+    }
+    return toFormData(isUpdate: isUpdate);
+  }
+
+  Future<FormData> toFormData({bool isUpdate = false}) async {
     final Map<String, dynamic> data = toJson();
 
-    // Convert photo paths to MultipartFiles if they are local file paths
-    // For simplicity, we just pass the basic fields here, assuming uploading logic
-    // handles files specifically, or we can use MultipartFile.fromFile
+    // CRITICAL: Remove 'photos' from the data map so raw local file paths are not sent as strings in fields
+    data.remove('photos');
+
+    if (isUpdate) {
+      data['_method'] = 'PUT';
+    }
+
     final formData = FormData.fromMap(data);
 
     for (int i = 0; i < photos.length; i++) {
-      if (!photos[i].startsWith('http')) {
+      final photo = photos[i];
+      if (!photo.startsWith('http://') && !photo.startsWith('https://')) {
+        final filename = photo.split('/').last.split('\\').last;
         formData.files.add(
-          MapEntry('photos[]', await MultipartFile.fromFile(photos[i])),
+          MapEntry(
+            'photos[]',
+            await MultipartFile.fromFile(photo, filename: filename),
+          ),
         );
       }
     }

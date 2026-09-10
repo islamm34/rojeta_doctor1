@@ -1418,6 +1418,36 @@ abstract class AppLocalizations {
   /// **'Add Clinic'**
   String get addClinicTitle;
 
+  /// No description provided for @deleteClinic.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Clinic'**
+  String get deleteClinic;
+
+  /// No description provided for @confirmDeleteClinic.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this clinic?'**
+  String get confirmDeleteClinic;
+
+  /// No description provided for @clinicAddedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Clinic added successfully'**
+  String get clinicAddedSuccessfully;
+
+  /// No description provided for @clinicUpdatedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Clinic updated successfully'**
+  String get clinicUpdatedSuccessfully;
+
+  /// No description provided for @clinicDeletedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Clinic deleted successfully'**
+  String get clinicDeletedSuccessfully;
+
   /// No description provided for @servicesAndPricing.
   ///
   /// In en, this message translates to:
@@ -3967,6 +3997,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add Vacation'**
   String get addVacation;
+
+  /// No description provided for @cardiology.
+  ///
+  /// In en, this message translates to:
+  /// **'Cardiology'**
+  String get cardiology;
+
+  /// No description provided for @pediatrics.
+  ///
+  /// In en, this message translates to:
+  /// **'Pediatrics'**
+  String get pediatrics;
+
+  /// No description provided for @ophthalmology.
+  ///
+  /// In en, this message translates to:
+  /// **'Ophthalmology'**
+  String get ophthalmology;
+
+  /// No description provided for @orthopedics.
+  ///
+  /// In en, this message translates to:
+  /// **'Orthopedics'**
+  String get orthopedics;
+
+  /// No description provided for @neurology.
+  ///
+  /// In en, this message translates to:
+  /// **'Neurology'**
+  String get neurology;
+
+  /// No description provided for @general.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get general;
+
+  /// No description provided for @selectSpecialty.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Specialty'**
+  String get selectSpecialty;
+
+  /// No description provided for @messagePatient.
+  ///
+  /// In en, this message translates to:
+  /// **'Message Patient'**
+  String get messagePatient;
 }
 
 class _AppLocalizationsDelegate

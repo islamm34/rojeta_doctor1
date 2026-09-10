@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rojeta_doctor/core/error/exceptions.dart';
 import '../../data/repositories/doctor_chat_repository.dart';
@@ -6,12 +7,22 @@ import 'doctor_chat_state.dart';
 
 class DoctorChatBloc extends Bloc<DoctorChatEvent, DoctorChatState> {
   final DoctorChatRepository repository;
+  Timer? _pollingTimer;
 
   DoctorChatBloc({required this.repository}) : super(const DoctorChatState()) {
     on<FetchConversationsEvent>(_onFetchConversations);
     on<SelectConversationEvent>(_onSelectConversation);
     on<SendMessageEvent>(_onSendMessage);
     on<MarkConversationReadEvent>(_onMarkConversationRead);
+    on<StartPollingMessagesEvent>(_onStartPollingMessages);
+    on<StopPollingMessagesEvent>(_onStopPollingMessages);
+    on<PollMessagesEvent>(_onPollMessages);
+  }
+
+  @override
+  Future<void> close() {
+    _pollingTimer?.cancel();
+    return super.close();
   }
 
   Future<void> _onFetchConversations(
@@ -106,6 +117,44 @@ class DoctorChatBloc extends Bloc<DoctorChatEvent, DoctorChatState> {
         return c;
       }).toList();
       emit(state.copyWith(conversations: updated));
+    } catch (_) {}
+  }
+
+  void _onStartPollingMessages(
+    StartPollingMessagesEvent event,
+    Emitter<DoctorChatState> emit,
+  ) {
+    _pollingTimer?.cancel();
+    _pollingTimer = Timer.periodic(const Duration(seconds: 3), (_) {
+      add(PollMessagesEvent(event.conversationId));
+    });
+  }
+
+  void _onStopPollingMessages(
+    StopPollingMessagesEvent event,
+    Emitter<DoctorChatState> emit,
+  ) {
+    _pollingTimer?.cancel();
+    _pollingTimer = null;
+  }
+
+  Future<void> _onPollMessages(
+    PollMessagesEvent event,
+    Emitter<DoctorChatState> emit,
+  ) async {
+    try {
+      final messages = await repository.getMessages(
+        conversationId: event.conversationId,
+      );
+      if (messages.length != state.activeMessages.length ||
+          (messages.isNotEmpty &&
+              state.activeMessages.isNotEmpty &&
+              messages.last.id != state.activeMessages.last.id)) {
+        emit(state.copyWith(
+          status: DoctorChatStatus.success,
+          activeMessages: messages,
+        ));
+      }
     } catch (_) {}
   }
 }

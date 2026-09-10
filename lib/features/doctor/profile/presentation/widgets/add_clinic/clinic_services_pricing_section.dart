@@ -3,7 +3,22 @@ import '../../../../../../core/utils/extensions/context_extensions.dart';
 import 'clinic_service_pricing_row.dart';
 
 class ClinicServicesPricingSection extends StatefulWidget {
-  const ClinicServicesPricingSection({super.key});
+  final TextEditingController visitPriceController;
+  final TextEditingController followUpPriceController;
+  final bool initialVisitEnabled;
+  final bool initialFollowUpEnabled;
+  final ValueChanged<bool>? onVisitEnabledChanged;
+  final ValueChanged<bool>? onFollowUpEnabledChanged;
+
+  const ClinicServicesPricingSection({
+    super.key,
+    required this.visitPriceController,
+    required this.followUpPriceController,
+    this.initialVisitEnabled = true,
+    this.initialFollowUpEnabled = true,
+    this.onVisitEnabledChanged,
+    this.onFollowUpEnabledChanged,
+  });
 
   @override
   State<ClinicServicesPricingSection> createState() =>
@@ -12,8 +27,15 @@ class ClinicServicesPricingSection extends StatefulWidget {
 
 class _ClinicServicesPricingSectionState
     extends State<ClinicServicesPricingSection> {
-  bool _clinicVisitEnabled = true;
-  bool _followUpEnabled = true;
+  late bool _clinicVisitEnabled;
+  late bool _followUpEnabled;
+
+  @override
+  void initState() {
+    super.initState();
+    _clinicVisitEnabled = widget.initialVisitEnabled;
+    _followUpEnabled = widget.initialFollowUpEnabled;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +55,21 @@ class _ClinicServicesPricingSectionState
         ClinicServicePricingRow(
           label: strings.clinicVisit,
           isEnabled: _clinicVisitEnabled,
-          onChanged: (val) => setState(() => _clinicVisitEnabled = val),
+          controller: widget.visitPriceController,
+          onChanged: (val) {
+            setState(() => _clinicVisitEnabled = val);
+            widget.onVisitEnabledChanged?.call(val);
+          },
         ),
         const SizedBox(height: 16),
         ClinicServicePricingRow(
           label: strings.followUp,
           isEnabled: _followUpEnabled,
-          onChanged: (val) => setState(() => _followUpEnabled = val),
+          controller: widget.followUpPriceController,
+          onChanged: (val) {
+            setState(() => _followUpEnabled = val);
+            widget.onFollowUpEnabledChanged?.call(val);
+          },
         ),
       ],
     );

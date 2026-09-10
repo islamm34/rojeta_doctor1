@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 
 class ConsultationTimeSection extends StatelessWidget {
-  const ConsultationTimeSection({super.key});
+  final TextEditingController controller;
+
+  const ConsultationTimeSection({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +17,7 @@ class ConsultationTimeSection extends StatelessWidget {
         Text(strings.consultationTime, style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold)),
         const SizedBox(height: 16),
         TextFormField(
+          controller: controller,
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
             hintText: strings.consultationTimeHint,

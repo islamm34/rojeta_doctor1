@@ -17,21 +17,30 @@ class UserProfileResponseModel {
   });
 
   factory UserProfileResponseModel.fromJson(Map<String, dynamic> json) {
-    final dataMap = (json['data'] is Map<String, dynamic>)
-        ? json['data'] as Map<String, dynamic>
-        : json;
+    Map<String, dynamic> dataMap = json;
+    if (json['data'] is Map) {
+      dataMap = Map<String, dynamic>.from(json['data'] as Map);
+    }
 
     // Check if this is the full doctor profile response from /doctor/profile
     if (dataMap.containsKey('fullName') ||
         dataMap.containsKey('full_name') ||
         dataMap.containsKey('clinics') ||
-        dataMap.containsKey('specialty')) {
+        dataMap.containsKey('specialty') ||
+        dataMap.containsKey('sub_specialty') ||
+        dataMap.containsKey('subSpecialty') ||
+        dataMap.containsKey('years_of_experience') ||
+        dataMap.containsKey('yearsOfExperience') ||
+        dataMap.containsKey('bio') ||
+        dataMap.containsKey('about') ||
+        dataMap.containsKey('education')) {
       final model = ProfileModel.fromJson(dataMap);
       return UserProfileResponseModel(profileModel: model);
     }
 
-    final userJson = (dataMap['user'] is Map<String, dynamic>)
-        ? dataMap['user'] as Map<String, dynamic>
+    final rawUser = dataMap['user'];
+    final userJson = rawUser is Map
+        ? Map<String, dynamic>.from(rawUser)
         : dataMap;
 
     UserData? userData;
@@ -39,9 +48,11 @@ class UserProfileResponseModel {
 
     if (userJson.isNotEmpty) {
       userData = UserData.fromJson(userJson);
-      final profileJson = userJson['profile'] as Map<String, dynamic>?;
-      if (profileJson != null) {
-        profileDetail = UserProfileDetailModel.fromJson(profileJson);
+      final profileJson = userJson['profile'];
+      if (profileJson is Map) {
+        profileDetail = UserProfileDetailModel.fromJson(
+          Map<String, dynamic>.from(profileJson),
+        );
       }
     }
 

@@ -41,3 +41,25 @@ class MarkConversationReadEvent extends DoctorChatEvent {
   @override
   List<Object?> get props => [conversationId];
 }
+
+class StartPollingMessagesEvent extends DoctorChatEvent {
+  final String conversationId;
+
+  const StartPollingMessagesEvent(this.conversationId);
+
+  @override
+  List<Object?> get props => [conversationId];
+}
+
+class StopPollingMessagesEvent extends DoctorChatEvent {
+  const StopPollingMessagesEvent();
+}
+
+class PollMessagesEvent extends DoctorChatEvent {
+  final String conversationId;
+
+  const PollMessagesEvent(this.conversationId);
+
+  @override
+  List<Object?> get props => [conversationId];
+}

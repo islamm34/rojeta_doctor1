@@ -220,6 +220,11 @@
   "addAllClinicsWhereYouPractice": "Add all clinics where you practice",
   "addClinic": "Add Clinic",
   "addClinicTitle": "Add Clinic",
+  "deleteClinic": "Delete Clinic",
+  "confirmDeleteClinic": "Are you sure you want to delete this clinic?",
+  "clinicAddedSuccessfully": "Clinic added successfully",
+  "clinicUpdatedSuccessfully": "Clinic updated successfully",
+  "clinicDeletedSuccessfully": "Clinic deleted successfully",
   "servicesAndPricing": "Services & Pricing",
   "clinicVisit": "Clinic Visit",
   "price": "Price",
@@ -658,5 +663,13 @@
   "fastingRequired": "Fasting Required",
   "bloodGroup": "Blood Group",
   "vacationsAndLeaves": "Vacations & Leaves",
-  "addVacation": "Add Vacation"
+  "addVacation": "Add Vacation",
+  "cardiology": "Cardiology",
+  "pediatrics": "Pediatrics",
+  "ophthalmology": "Ophthalmology",
+  "orthopedics": "Orthopedics",
+  "neurology": "Neurology",
+  "general": "General",
+  "selectSpecialty": "Select Specialty",
+  "messagePatient": "Message Patient"
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:rojeta_doctor/config/routes/app_router.dart';
+import 'package:rojeta_doctor/features/doctor/chat/data/models/doctor_chat_models.dart';
 import 'package:rojeta_doctor/features/doctor/homelayout/data/models/patient_details_model.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
@@ -82,6 +84,54 @@ class PatientHeaderCard extends StatelessWidget {
                         ],
                       ),
                     ],
+                    SizedBox(height: 10.h),
+                    InkWell(
+                      onTap: () {
+                        final conversation = DoctorConversationModel(
+                          id: 'conv_${basicInfo.id}',
+                          patientId: basicInfo.id,
+                          patientName: basicInfo.name,
+                          lastMessage: '',
+                          lastMessageTime: '',
+                        );
+                        context.pushNamed(
+                          AppRoutes.doctorChatMessages,
+                          extra: conversation,
+                        );
+                      },
+                      borderRadius: BorderRadius.circular(10.r),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 12.w,
+                          vertical: 6.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.2),
+                          borderRadius: BorderRadius.circular(10.r),
+                          border: Border.all(
+                            color: Colors.white.withValues(alpha: 0.4),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.chat_bubble_outline_rounded,
+                              color: Colors.white,
+                              size: 14.r,
+                            ),
+                            SizedBox(width: 6.w),
+                            Text(
+                              context.strings.messagePatient,
+                              style: context.textTheme.bodySmall?.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

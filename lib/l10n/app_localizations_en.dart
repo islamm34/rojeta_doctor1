@@ -691,6 +691,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addClinicTitle => 'Add Clinic';
 
   @override
+  String get deleteClinic => 'Delete Clinic';
+
+  @override
+  String get confirmDeleteClinic =>
+      'Are you sure you want to delete this clinic?';
+
+  @override
+  String get clinicAddedSuccessfully => 'Clinic added successfully';
+
+  @override
+  String get clinicUpdatedSuccessfully => 'Clinic updated successfully';
+
+  @override
+  String get clinicDeletedSuccessfully => 'Clinic deleted successfully';
+
+  @override
   String get servicesAndPricing => 'Services & Pricing';
 
   @override
@@ -1996,4 +2012,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get addVacation => 'Add Vacation';
+
+  @override
+  String get cardiology => 'Cardiology';
+
+  @override
+  String get pediatrics => 'Pediatrics';
+
+  @override
+  String get ophthalmology => 'Ophthalmology';
+
+  @override
+  String get orthopedics => 'Orthopedics';
+
+  @override
+  String get neurology => 'Neurology';
+
+  @override
+  String get general => 'General';
+
+  @override
+  String get selectSpecialty => 'Select Specialty';
+
+  @override
+  String get messagePatient => 'Message Patient';
 }

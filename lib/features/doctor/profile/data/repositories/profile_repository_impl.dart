@@ -30,8 +30,12 @@ class ProfileRepositoryImpl implements ProfileRepository {
       remoteDataSource.addClinic(clinic);
 
   @override
-  Future<void> updateClinic(String clinicId, Map<String, dynamic> data) =>
-      remoteDataSource.updateClinic(clinicId, data);
+  Future<void> updateClinic(ClinicModel clinic) =>
+      remoteDataSource.updateClinic(clinic);
+
+  @override
+  Future<void> deleteClinic(String clinicId) =>
+      remoteDataSource.deleteClinic(clinicId);
 
   @override
   Future<void> updateServices(List<ServicePricingModel> services) =>

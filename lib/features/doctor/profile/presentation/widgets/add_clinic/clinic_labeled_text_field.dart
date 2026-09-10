@@ -8,6 +8,8 @@ class ClinicLabeledTextField extends StatelessWidget {
   final int maxLines;
   final TextEditingController? controller;
 
+  final String? Function(String?)? validator;
+
   const ClinicLabeledTextField({
     super.key,
     required this.label,
@@ -15,6 +17,7 @@ class ClinicLabeledTextField extends StatelessWidget {
     this.keyboardType,
     this.maxLines = 1,
     this.controller,
+    this.validator,
   });
 
   @override
@@ -29,6 +32,7 @@ class ClinicLabeledTextField extends StatelessWidget {
           controller: controller,
           keyboardType: keyboardType,
           maxLines: maxLines,
+          validator: validator,
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: theme.textTheme.bodyMedium?.copyWith(color: Colors.grey),

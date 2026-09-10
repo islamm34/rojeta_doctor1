@@ -682,6 +682,21 @@ class AppLocalizationsAr extends AppLocalizations {
   String get addClinicTitle => 'إضافة عيادة';
 
   @override
+  String get deleteClinic => 'حذف العيادة';
+
+  @override
+  String get confirmDeleteClinic => 'هل أنت متأكد من رغبتك في حذف هذه العيادة؟';
+
+  @override
+  String get clinicAddedSuccessfully => 'تمت إضافة العيادة بنجاح';
+
+  @override
+  String get clinicUpdatedSuccessfully => 'تم تحديث العيادة بنجاح';
+
+  @override
+  String get clinicDeletedSuccessfully => 'تم حذف العيادة بنجاح';
+
+  @override
   String get servicesAndPricing => 'الخدمات والأسعار';
 
   @override
@@ -1978,4 +1993,28 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get addVacation => 'إضافة إجازة';
+
+  @override
+  String get cardiology => 'أمراض القلب';
+
+  @override
+  String get pediatrics => 'طب الأطفال';
+
+  @override
+  String get ophthalmology => 'طب العيون';
+
+  @override
+  String get orthopedics => 'جراحة العظام';
+
+  @override
+  String get neurology => 'أمراض المخ والأعصاب';
+
+  @override
+  String get general => 'الطب العام';
+
+  @override
+  String get selectSpecialty => 'اختر التخصص';
+
+  @override
+  String get messagePatient => 'مراسلة المريض';
 }

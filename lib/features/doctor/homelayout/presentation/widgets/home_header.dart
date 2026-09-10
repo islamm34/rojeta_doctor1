@@ -6,6 +6,7 @@ import '../../../../../../core/local/user_hive_helper.dart';
 import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
+import '../../../../auth/data/models/doctor_specialty.dart';
 import '../bloc/homelayout_bloc.dart';
 
 class HomeHeader extends StatelessWidget {
@@ -27,9 +28,13 @@ class HomeHeader extends StatelessWidget {
     final String doctorName = profile?.name.isNotEmpty == true
         ? profile!.name
         : (cachedName.isNotEmpty ? cachedName : context.strings.doctor);
-    final String doctorSpecialty = profile?.specialty.isNotEmpty == true
+    final String rawSpecialty = profile?.specialty.isNotEmpty == true
         ? profile!.specialty
         : (cachedUser?.role?.isNotEmpty == true ? cachedUser!.role! : '');
+    final String doctorSpecialty = DoctorSpecialty.localizedNameFromValue(
+      context,
+      rawSpecialty,
+    );
     final String? imageUrl = profile?.imageUrl ?? cachedUser?.image;
 
     return Container(
