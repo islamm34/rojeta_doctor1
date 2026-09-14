@@ -1113,6 +1113,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get saveDraft => 'Save Draft';
 
   @override
+  String get draftSavedSuccessfully => 'Draft saved successfully';
+
+  @override
   String get completeBtn => 'Complete';
 
   @override
@@ -2036,4 +2039,67 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get messagePatient => 'Message Patient';
+
+  @override
+  String get appointmentDetails => 'Appointment Details';
+
+  @override
+  String get bookingId => 'Booking ID';
+
+  @override
+  String get patientInformation => 'Patient Information';
+
+  @override
+  String get appointmentInformation => 'Appointment Information';
+
+  @override
+  String get appointmentDate => 'Appointment Date';
+
+  @override
+  String get appointmentTime => 'Appointment Time';
+
+  @override
+  String get serviceType => 'Service Type';
+
+  @override
+  String get visitType => 'Visit Type';
+
+  @override
+  String get paymentStatus => 'Payment Status';
+
+  @override
+  String get paymentMethod => 'Payment Method';
+
+  @override
+  String get feeOriginal => 'Original Fee';
+
+  @override
+  String get feeCurrent => 'Current Fee';
+
+  @override
+  String get totalPrice => 'Total Price';
+
+  @override
+  String get patientNotes => 'Patient Notes';
+
+  @override
+  String get noNotes => 'No notes provided';
+
+  @override
+  String get attachments => 'Attachments';
+
+  @override
+  String get consultationDetails => 'Consultation Details';
+
+  @override
+  String get paid => 'Paid';
+
+  @override
+  String get unpaid => 'Unpaid';
+
+  @override
+  String get creditCard => 'Credit Card';
+
+  @override
+  String get cash => 'Cash';
 }

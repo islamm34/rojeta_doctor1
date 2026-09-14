@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rojeta_doctor/features/doctor/homelayout/data/models/doctor_appointment_model.dart';
+
+import '../../../../../../config/routes/app_router.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
 
@@ -74,11 +76,15 @@ class AppointmentCardActionButtons extends StatelessWidget {
                   children: [
                     Icon(Icons.check_circle_outline, size: 18.sp),
                     SizedBox(width: 6.w),
-                    Text(
-                      context.strings.acceptBtn,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14.sp,
+                    Flexible(
+                      child: Text(
+                        context.strings.acceptBtn,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14.sp,
+                        ),
                       ),
                     ),
                   ],
@@ -103,11 +109,15 @@ class AppointmentCardActionButtons extends StatelessWidget {
                   children: [
                     Icon(Icons.cancel_outlined, size: 18.sp),
                     SizedBox(width: 6.w),
-                    Text(
-                      context.strings.rejectBtn,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14.sp,
+                    Flexible(
+                      child: Text(
+                        context.strings.rejectBtn,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14.sp,
+                        ),
                       ),
                     ),
                   ],
@@ -121,7 +131,14 @@ class AppointmentCardActionButtons extends StatelessWidget {
       return SizedBox(
         width: double.infinity,
         child: ElevatedButton(
-          onPressed: onViewDetails,
+          onPressed:
+              onViewDetails ??
+              () {
+                context.pushNamed(
+                  AppRoutes.appointmentDetails,
+                  extra: appointment.id,
+                );
+              },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.grey.shade100,
             foregroundColor: Colors.black87,

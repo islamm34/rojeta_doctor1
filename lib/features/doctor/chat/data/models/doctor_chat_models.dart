@@ -9,44 +9,47 @@ class DoctorConversationModel extends Equatable {
   final String lastMessageTime;
   final int unreadCount;
 
-  const DoctorConversationModel({
-    required this.id,
+  DoctorConversationModel({
+    required String id,
     required this.patientId,
     required this.patientName,
     this.patientAvatar,
     required this.lastMessage,
     required this.lastMessageTime,
     this.unreadCount = 0,
-  });
+  }) : id = id.startsWith('conv_') ? id.substring(5) : id;
 
   factory DoctorConversationModel.fromJson(Map<String, dynamic> json) {
     final patientObj = json['patient'] is Map<String, dynamic>
         ? json['patient'] as Map<String, dynamic>
         : (json['user'] is Map<String, dynamic>
-            ? json['user'] as Map<String, dynamic>
-            : null);
+              ? json['user'] as Map<String, dynamic>
+              : null);
 
-    final patientId = (json['patientId'] ??
-            json['patient_id'] ??
-            patientObj?['id'] ??
-            json['user_id'] ??
-            '')
-        .toString();
+    final patientId =
+        (json['patientId'] ??
+                json['patient_id'] ??
+                patientObj?['id'] ??
+                json['user_id'] ??
+                '')
+            .toString();
 
-    final patientName = (json['patientName'] ??
-            json['patient_name'] ??
-            patientObj?['name'] ??
-            patientObj?['full_name'] ??
-            json['name'] ??
-            'Patient')
-        .toString();
+    final patientName =
+        (json['patientName'] ??
+                json['patient_name'] ??
+                patientObj?['name'] ??
+                patientObj?['full_name'] ??
+                json['name'] ??
+                'Patient')
+            .toString();
 
-    final patientAvatar = (json['patientAvatar'] ??
-            json['patient_avatar'] ??
-            patientObj?['avatar'] ??
-            patientObj?['image'] ??
-            patientObj?['profile_picture'])
-        ?.toString();
+    final patientAvatar =
+        (json['patientAvatar'] ??
+                json['patient_avatar'] ??
+                patientObj?['avatar'] ??
+                patientObj?['image'] ??
+                patientObj?['profile_picture'])
+            ?.toString();
 
     String lastMsg = '';
     if (json['last_message'] is Map<String, dynamic>) {
@@ -61,20 +64,28 @@ class DoctorConversationModel extends Equatable {
       lastMsg = json['message'].toString();
     }
 
-    final lastMessageTime = (json['lastMessageTime'] ??
-            json['last_message_time'] ??
-            json['updated_at'] ??
-            json['created_at'] ??
-            '')
-        .toString();
+    final lastMessageTime =
+        (json['lastMessageTime'] ??
+                json['last_message_time'] ??
+                json['updated_at'] ??
+                json['created_at'] ??
+                '')
+            .toString();
 
-    final unreadCount = (json['unreadCount'] ??
-            json['unread_count'] ??
-            json['unread_messages_count'] ??
-            0) as num;
+    final unreadCount =
+        (json['unreadCount'] ??
+                json['unread_count'] ??
+                json['unread_messages_count'] ??
+                0)
+            as num;
+
+    final rawId =
+        (json['id'] ?? json['conversation_id'] ?? json['conversationId'] ?? '')
+            .toString();
+    final cleanId = rawId.startsWith('conv_') ? rawId.substring(5) : rawId;
 
     return DoctorConversationModel(
-      id: json['id']?.toString() ?? '',
+      id: cleanId,
       patientId: patientId,
       patientName: patientName,
       patientAvatar: patientAvatar,
@@ -118,14 +129,14 @@ class DoctorConversationModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        patientId,
-        patientName,
-        patientAvatar,
-        lastMessage,
-        lastMessageTime,
-        unreadCount,
-      ];
+    id,
+    patientId,
+    patientName,
+    patientAvatar,
+    lastMessage,
+    lastMessageTime,
+    unreadCount,
+  ];
 }
 
 class DoctorChatMessageModel extends Equatable {
@@ -146,13 +157,12 @@ class DoctorChatMessageModel extends Equatable {
   });
 
   factory DoctorChatMessageModel.fromJson(Map<String, dynamic> json) {
-    final senderRole = (json['senderRole'] ??
-            json['sender_role'] ??
-            json['role'] ??
-            '')
-        .toString();
+    final senderRole =
+        (json['senderRole'] ?? json['sender_role'] ?? json['role'] ?? '')
+            .toString();
 
-    final isMeVal = json['isMe'] == true ||
+    final isMeVal =
+        json['isMe'] == true ||
         json['is_me'] == true ||
         senderRole.toLowerCase() == 'doctor';
 
@@ -161,16 +171,14 @@ class DoctorChatMessageModel extends Equatable {
       senderId: (json['senderId'] ?? json['sender_id'] ?? json['user_id'] ?? '')
           .toString(),
       senderRole: senderRole,
-      content: (json['content'] ??
-              json['message'] ??
-              json['body'] ??
-              json['text'] ??
-              '')
-          .toString(),
-      createdAt: (json['createdAt'] ??
-              json['created_at'] ??
-              json['time'] ??
-              '')
+      content:
+          (json['content'] ??
+                  json['message'] ??
+                  json['body'] ??
+                  json['text'] ??
+                  '')
+              .toString(),
+      createdAt: (json['createdAt'] ?? json['created_at'] ?? json['time'] ?? '')
           .toString(),
       isMe: isMeVal,
     );
@@ -188,5 +196,12 @@ class DoctorChatMessageModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, senderId, senderRole, content, createdAt, isMe];
+  List<Object?> get props => [
+    id,
+    senderId,
+    senderRole,
+    content,
+    createdAt,
+    isMe,
+  ];
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../../../../core/utils/screen_util_like.dart';
 
 class PickedFileChip extends StatelessWidget {
@@ -22,7 +23,20 @@ class PickedFileChip extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Icon(Icons.picture_as_pdf, size: 18.sp, color: Colors.red.shade600),
+          Icon(
+            fileName.toLowerCase().endsWith('.pdf')
+                ? Icons.picture_as_pdf
+                : (fileName.toLowerCase().endsWith('.png') ||
+                      fileName.toLowerCase().endsWith('.jpg') ||
+                      fileName.toLowerCase().endsWith('.jpeg') ||
+                      fileName.toLowerCase().endsWith('.webp'))
+                ? Icons.image
+                : Icons.description,
+            size: 18.sp,
+            color: fileName.toLowerCase().endsWith('.pdf')
+                ? Colors.red.shade600
+                : Colors.blue.shade700,
+          ),
           SizedBox(width: 8.w),
           Expanded(
             child: Text(

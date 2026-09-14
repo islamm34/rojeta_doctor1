@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:rojeta_doctor/config/routes/app_router.dart';
-import 'package:rojeta_doctor/features/doctor/chat/data/models/doctor_chat_models.dart';
+import 'package:rojeta_doctor/core/di/injector.dart';
+import 'package:rojeta_doctor/features/doctor/chat/data/repositories/doctor_chat_repository.dart';
 import 'package:rojeta_doctor/features/doctor/homelayout/presentation/widgets/appointment/appointment_card_action_buttons.dart';
+
 import '../../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../../core/utils/screen_util_like.dart';
 import '../../../data/models/doctor_appointment_model.dart';
@@ -86,6 +89,8 @@ class AppointmentsTabCard extends StatelessWidget {
                   children: [
                     Text(
                       appointment.patientName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: Colors.black87,
@@ -101,24 +106,35 @@ class AppointmentsTabCard extends StatelessWidget {
                           color: Colors.grey.shade500,
                         ),
                         SizedBox(width: 4.w),
-                        Text(
-                          appointment.patientPhone ?? '',
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: Colors.grey.shade600,
+                        Expanded(
+                          child: Text(
+                            appointment.patientPhone ?? '',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: Colors.grey.shade600,
+                            ),
                           ),
                         ),
                       ],
                     ),
                     SizedBox(height: 6.h),
                     InkWell(
-                      onTap: () {
-                        final conversation = DoctorConversationModel(
-                          id: 'conv_${appointment.patientId?.isNotEmpty ?? false ? appointment.patientId : appointment.id}',
-                          patientId: appointment.patientId ?? '',
-                          patientName: appointment.patientName,
-                          lastMessage: '',
-                          lastMessageTime: '',
-                        );
+                      onTap: () async {
+                        final targetPatientId =
+                            (appointment.patientId?.isNotEmpty ?? false)
+                            ? appointment.patientId!
+                            : appointment.id.toString();
+
+                        final conversation =
+                            await injector<DoctorChatRepository>()
+                                .getOrCreateConversation(
+                                  patientId: targetPatientId,
+                                  patientName: appointment.patientName,
+                                );
+
+                        if (!context.mounted) return;
+
                         context.pushNamed(
                           AppRoutes.doctorChatMessages,
                           extra: conversation,
@@ -143,12 +159,16 @@ class AppointmentsTabCard extends StatelessWidget {
                               color: Colors.blue.shade700,
                             ),
                             SizedBox(width: 4.w),
-                            Text(
-                              context.strings.messagePatient,
-                              style: theme.textTheme.bodySmall?.copyWith(
-                                color: Colors.blue.shade700,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 11.sp,
+                            Flexible(
+                              child: Text(
+                                context.strings.messagePatient,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: Colors.blue.shade700,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 11.sp,
+                                ),
                               ),
                             ),
                           ],
@@ -210,6 +230,8 @@ class AppointmentsTabCard extends StatelessWidget {
                         children: [
                           Text(
                             _getTypeLabel(context, appointment.type),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                             style: theme.textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.bold,
                               color: Colors.black87,
@@ -220,6 +242,8 @@ class AppointmentsTabCard extends StatelessWidget {
                               appointment.notes!.isNotEmpty)
                             Text(
                               appointment.notes!,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                               style: theme.textTheme.bodySmall?.copyWith(
                                 color: Colors.grey.shade500,
                                 fontSize: 12.sp,
@@ -229,57 +253,76 @@ class AppointmentsTabCard extends StatelessWidget {
                       ),
                     ),
                     if (appointment.location != null &&
-                        appointment.location!.isNotEmpty)
-                      Text(
-                        appointment.location!,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: Colors.grey.shade700,
-                          fontSize: 12.sp,
+                        appointment.location!.isNotEmpty) ...[
+                      SizedBox(width: 8.w),
+                      Flexible(
+                        child: Text(
+                          appointment.location!,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: Colors.grey.shade700,
+                            fontSize: 12.sp,
+                          ),
                         ),
                       ),
+                    ],
                   ],
                 ),
                 SizedBox(height: 16.h),
 
                 // Date & Time
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.calendar_today_outlined,
-                          size: 16.sp,
-                          color: Colors.grey.shade600,
-                        ),
-                        SizedBox(width: 6.w),
-                        Text(
-                          appointment.appointmentDate,
-                          style: TextStyle(
-                            color: Colors.grey.shade800,
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.w500,
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.calendar_today_outlined,
+                            size: 16.sp,
+                            color: Colors.grey.shade600,
                           ),
-                        ),
-                      ],
+                          SizedBox(width: 6.w),
+                          Expanded(
+                            child: Text(
+                              _formatDate(appointment.appointmentDate),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: Colors.grey.shade800,
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.access_time,
-                          size: 16.sp,
-                          color: Colors.grey.shade600,
-                        ),
-                        SizedBox(width: 6.w),
-                        Text(
-                          appointment.appointmentTime,
-                          style: TextStyle(
-                            color: Colors.grey.shade800,
-                            fontSize: 13.sp,
-                            fontWeight: FontWeight.w500,
+                    SizedBox(width: 12.w),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Icon(
+                            Icons.access_time,
+                            size: 16.sp,
+                            color: Colors.grey.shade600,
                           ),
-                        ),
-                      ],
+                          SizedBox(width: 6.w),
+                          Flexible(
+                            child: Text(
+                              _formatTime(appointment.appointmentTime),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: Colors.grey.shade800,
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -297,12 +340,17 @@ class AppointmentsTabCard extends StatelessWidget {
                         fontSize: 13.sp,
                       ),
                     ),
-                    Text(
-                      appointment.feeCurrent ?? '',
-                      style: TextStyle(
-                        color: Colors.blue.shade700,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.sp,
+                    SizedBox(width: 8.w),
+                    Flexible(
+                      child: Text(
+                        appointment.feeCurrent ?? '',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Colors.blue.shade700,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.sp,
+                        ),
                       ),
                     ),
                   ],
@@ -324,6 +372,27 @@ class AppointmentsTabCard extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _formatDate(String dateStr) {
+    if (dateStr.isEmpty) return '';
+    final parsed = DateTime.tryParse(dateStr);
+    if (parsed != null) {
+      return DateFormat('yyyy-MM-dd').format(parsed);
+    }
+    if (dateStr.contains('T')) {
+      return dateStr.split('T').first;
+    }
+    return dateStr;
+  }
+
+  String _formatTime(String timeStr) {
+    if (timeStr.isEmpty) return '';
+    final parsed = DateTime.tryParse(timeStr);
+    if (parsed != null) {
+      return DateFormat.jm().format(parsed);
+    }
+    return timeStr;
   }
 
   IconData _getIconForType(String type) {

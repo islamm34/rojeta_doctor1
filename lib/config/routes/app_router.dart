@@ -1,76 +1,80 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rojeta_doctor/features/auth/presentation/pages/doctor_registration_flow_pages/professional_information_page.dart';
-import 'package:rojeta_doctor/features/auth/presentation/pages/hospital_registeration_flow_pages/hospital_professional_info_page.dart';
-import 'package:rojeta_doctor/features/auth/presentation/pages/hospital_registeration_flow_pages/hospital_location_payment_page.dart';
 import 'package:rojeta_doctor/features/auth/presentation/pages/hospital_registeration_flow_pages/hospital_document_upload_page.dart';
-// Radiology registration flow
-import 'package:rojeta_doctor/features/auth/presentation/pages/radiology_registeration_flow_pages/radiology_basic_info_page.dart';
-import 'package:rojeta_doctor/features/auth/presentation/pages/radiology_registeration_flow_pages/radiology_professional_info_page.dart';
-import 'package:rojeta_doctor/features/auth/presentation/pages/radiology_registeration_flow_pages/radiology_home_sample_collection_page.dart';
-import 'package:rojeta_doctor/features/auth/presentation/pages/radiology_registeration_flow_pages/radiology_location_page.dart';
-import 'package:rojeta_doctor/features/auth/presentation/pages/radiology_registeration_flow_pages/radiology_document_upload_page.dart';
+import 'package:rojeta_doctor/features/auth/presentation/pages/hospital_registeration_flow_pages/hospital_location_payment_page.dart';
+import 'package:rojeta_doctor/features/auth/presentation/pages/hospital_registeration_flow_pages/hospital_professional_info_page.dart';
 // Laboratory registration flow
 import 'package:rojeta_doctor/features/auth/presentation/pages/laboratory_registeration_flow_pages/laboratory_basic_info_page.dart';
-import 'package:rojeta_doctor/features/auth/presentation/pages/laboratory_registeration_flow_pages/laboratory_professional_info_page.dart';
+import 'package:rojeta_doctor/features/auth/presentation/pages/laboratory_registeration_flow_pages/laboratory_document_upload_page.dart';
 import 'package:rojeta_doctor/features/auth/presentation/pages/laboratory_registeration_flow_pages/laboratory_home_sample_collection_page.dart';
 import 'package:rojeta_doctor/features/auth/presentation/pages/laboratory_registeration_flow_pages/laboratory_location_page.dart';
-import 'package:rojeta_doctor/features/auth/presentation/pages/laboratory_registeration_flow_pages/laboratory_document_upload_page.dart';
+import 'package:rojeta_doctor/features/auth/presentation/pages/laboratory_registeration_flow_pages/laboratory_professional_info_page.dart';
 // Nursing registration flow
 import 'package:rojeta_doctor/features/auth/presentation/pages/nursing_care_registerartion_flow_pages/nursing_basic_info_page.dart';
-import 'package:rojeta_doctor/features/auth/presentation/pages/nursing_care_registerartion_flow_pages/nursing_professional_info_page.dart';
+import 'package:rojeta_doctor/features/auth/presentation/pages/nursing_care_registerartion_flow_pages/nursing_document_upload_page.dart';
 import 'package:rojeta_doctor/features/auth/presentation/pages/nursing_care_registerartion_flow_pages/nursing_home_sample_collection_page.dart';
 import 'package:rojeta_doctor/features/auth/presentation/pages/nursing_care_registerartion_flow_pages/nursing_location_page.dart';
-import 'package:rojeta_doctor/features/auth/presentation/pages/nursing_care_registerartion_flow_pages/nursing_document_upload_page.dart';
+import 'package:rojeta_doctor/features/auth/presentation/pages/nursing_care_registerartion_flow_pages/nursing_professional_info_page.dart';
+// Radiology registration flow
+import 'package:rojeta_doctor/features/auth/presentation/pages/radiology_registeration_flow_pages/radiology_basic_info_page.dart';
+import 'package:rojeta_doctor/features/auth/presentation/pages/radiology_registeration_flow_pages/radiology_document_upload_page.dart';
+import 'package:rojeta_doctor/features/auth/presentation/pages/radiology_registeration_flow_pages/radiology_home_sample_collection_page.dart';
+import 'package:rojeta_doctor/features/auth/presentation/pages/radiology_registeration_flow_pages/radiology_location_page.dart';
+import 'package:rojeta_doctor/features/auth/presentation/pages/radiology_registeration_flow_pages/radiology_professional_info_page.dart';
 import 'package:rojeta_doctor/features/doctor/profile/presentation/pages/marketing_packages_page.dart';
 import 'package:rojeta_doctor/features/financial/presentation/pages/financial_management_page.dart';
-import '../../features/doctor/chat/presentation/pages/doctor_conversations_page.dart';
-import '../../features/doctor/chat/presentation/pages/doctor_chat_messages_page.dart';
-import '../../features/doctor/chat/data/models/doctor_chat_models.dart';
-import '../../features/doctor/homelayout/presentation/pages/homelayout.dart';
-import '../../features/hospital/homelayout/presentation/pages/hospital_homelayout_page.dart';
-import '../../features/auth/presentation/pages/splash_screen.dart';
-import '../../features/auth/presentation/pages/user_type_selection_page.dart';
+
+import '../../core/di/injector.dart';
+import '../../features/auth/data/models/user_type_model.dart';
 import '../../features/auth/presentation/pages/doctor_registration_flow_pages/basic_information_page.dart';
 import '../../features/auth/presentation/pages/doctor_registration_flow_pages/document_upload_page.dart';
-import '../../features/auth/presentation/pages/doctor_registration_flow_pages/verify_phone_page.dart';
-import '../../features/auth/presentation/pages/doctor_registration_flow_pages/registration_success_page.dart';
-import '../../features/auth/presentation/pages/doctor_registration_flow_pages/login_page.dart';
 import '../../features/auth/presentation/pages/doctor_registration_flow_pages/forgot_password_page.dart';
+import '../../features/auth/presentation/pages/doctor_registration_flow_pages/login_page.dart';
+import '../../features/auth/presentation/pages/doctor_registration_flow_pages/registration_success_page.dart';
 import '../../features/auth/presentation/pages/doctor_registration_flow_pages/reset_password_page.dart';
-import '../../features/doctor/profile/presentation/pages/profile_page.dart';
-import '../../features/doctor/profile/presentation/pages/add_clinic_page.dart';
-import '../../features/doctor/profile/presentation/bloc/profile/profile_bloc.dart';
-import '../../features/doctor/profile/data/models/clinic_model.dart';
-import '../../features/doctor/homelayout/presentation/pages/medical_consultation_page.dart';
+import '../../features/auth/presentation/pages/doctor_registration_flow_pages/verify_phone_page.dart';
+import '../../features/auth/presentation/pages/splash_screen.dart';
+import '../../features/auth/presentation/pages/user_type_selection_page.dart';
+import '../../features/booking/presentation/pages/booking_management_page.dart';
+import '../../features/doctor/chat/data/models/doctor_chat_models.dart';
+import '../../features/doctor/chat/presentation/pages/doctor_chat_messages_page.dart';
+import '../../features/doctor/chat/presentation/pages/doctor_conversations_page.dart';
 import '../../features/doctor/homelayout/data/models/doctor_appointment_model.dart';
-import '../../features/doctor/homelayout/presentation/pages/my_patients_page.dart';
-import '../../features/doctor/homelayout/presentation/pages/patient_details_page.dart';
-import '../../features/doctor/homelayout/presentation/bloc/patients/patients_bloc.dart';
+import '../../features/doctor/homelayout/presentation/bloc/appointment_details/appointment_details_bloc.dart';
+import '../../features/doctor/homelayout/presentation/bloc/appointment_details/appointment_details_event.dart';
 import '../../features/doctor/homelayout/presentation/bloc/medical_consultation/medical_consultation_bloc.dart';
-import '../../features/doctor/homelayout/presentation/pages/schedule_management_page.dart';
+import '../../features/doctor/homelayout/presentation/bloc/patients/patients_bloc.dart';
 import '../../features/doctor/homelayout/presentation/bloc/schedule/schedule_bloc.dart';
 import '../../features/doctor/homelayout/presentation/bloc/schedule/schedule_event.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../core/di/injector.dart';
+import '../../features/doctor/homelayout/presentation/pages/doctor_appointment_details_page.dart';
+import '../../features/doctor/homelayout/presentation/pages/homelayout.dart';
+import '../../features/doctor/homelayout/presentation/pages/medical_consultation_page.dart';
+import '../../features/doctor/homelayout/presentation/pages/my_patients_page.dart';
+import '../../features/doctor/homelayout/presentation/pages/patient_details_page.dart';
+import '../../features/doctor/homelayout/presentation/pages/schedule_management_page.dart';
+import '../../features/doctor/profile/data/models/clinic_model.dart';
+import '../../features/doctor/profile/presentation/bloc/profile/profile_bloc.dart';
+import '../../features/doctor/profile/presentation/pages/add_clinic_page.dart';
+import '../../features/doctor/profile/presentation/pages/profile_page.dart';
+import '../../features/hospital/homelayout/presentation/pages/hospital_homelayout_page.dart';
 import '../../features/hospital/settings/presentation/pages/settings_page.dart';
-import '../../features/lab&radiology/homelayout/presentation/pages/lab_home_layout_page.dart';
 import '../../features/lab&radiology/homelayout/presentation/pages/add_service/add_lab_service_page.dart';
-import '../../features/booking/presentation/pages/booking_management_page.dart';
-import '../../features/lab&radiology/homelayout/presentation/pages/manage_branch/manage_branch_page.dart';
-import '../../features/lab&radiology/homelayout/presentation/pages/manage_branch/add_branch_page.dart';
 import '../../features/lab&radiology/homelayout/presentation/pages/home_visits/home_visits_page.dart';
+import '../../features/lab&radiology/homelayout/presentation/pages/lab_home_layout_page.dart';
+import '../../features/lab&radiology/homelayout/presentation/pages/manage_branch/add_branch_page.dart';
+import '../../features/lab&radiology/homelayout/presentation/pages/manage_branch/manage_branch_page.dart';
+import '../../features/lab&radiology/settings/presentation/bloc/settings_bloc.dart';
 import '../../features/lab&radiology/settings/presentation/pages/general_settings_page.dart';
 import '../../features/lab&radiology/settings/presentation/pages/lab_info_page.dart';
 import '../../features/lab&radiology/settings/presentation/pages/working_hours_page.dart';
-import '../../features/lab&radiology/settings/presentation/bloc/settings_bloc.dart';
-import '../../features/nursing/homelayout/presentation/pages/nursing_home_layout.dart';
+import '../../features/nursing/homelayout/presentation/bloc/nursing_bloc.dart';
 import '../../features/nursing/homelayout/presentation/pages/nursing_add_service_page.dart';
 import '../../features/nursing/homelayout/presentation/pages/nursing_add_staff_page.dart';
-import '../../features/nursing/homelayout/presentation/pages/profile/nursing_settings_page.dart';
+import '../../features/nursing/homelayout/presentation/pages/nursing_home_layout.dart';
 import '../../features/nursing/homelayout/presentation/pages/profile/nursing_office_info_page.dart';
+import '../../features/nursing/homelayout/presentation/pages/profile/nursing_settings_page.dart';
 import '../../features/nursing/homelayout/presentation/pages/profile/nursing_working_hours_page.dart';
-import '../../features/nursing/homelayout/presentation/bloc/nursing_bloc.dart';
-import '../../features/auth/data/models/user_type_model.dart';
 import 'custom_routes.dart';
 
 class AppRoutes {
@@ -94,6 +98,7 @@ class AppRoutes {
   static const String medicalConsultation = '/medical-consultation';
   static const String myPatients = '/my-patients';
   static const String patientDetails = '/patient-details';
+  static const String appointmentDetails = '/appointment-details';
   static const String scheduleManagement = '/schedule-management';
   static const String hospitalHome = '/hospital-home-layout';
   static const String addSpecialty = '/add-specialty';
@@ -238,6 +243,18 @@ class AppRouter {
           builder: (_) => BlocProvider(
             create: (_) => injector<PatientsBloc>(),
             child: PatientDetailsPage(patientId: patientId),
+          ),
+        );
+      case AppRoutes.appointmentDetails:
+        final appointmentId = settings.arguments is String
+            ? settings.arguments as String
+            : (settings.arguments?.toString() ?? '');
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (_) =>
+                injector<AppointmentDetailsBloc>()
+                  ..add(FetchAppointmentDetailsEvent(appointmentId)),
+            child: DoctorAppointmentDetailsPage(appointmentId: appointmentId),
           ),
         );
       case AppRoutes.scheduleManagement:

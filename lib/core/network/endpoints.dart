@@ -7,13 +7,14 @@ class Endpoints {
   static const String login = '/auth/login';
   static const String checkPhone = '/auth/check-phone';
 
-
   static const String profile = '/auth/profile';
 
   // --- Doctor Endpoints ---
   static const String doctorDashboard = '/doctor/dashboard';
   static const String doctorProfileSummary = '/doctor/profile/summary';
   static const String doctorAppointments = '/doctor/appointments';
+  static String doctorAppointmentDetails(String appointmentId) =>
+      '/doctor/appointments/$appointmentId';
   static String doctorAppointmentStatus(String appointmentId) =>
       '/doctor/appointments/$appointmentId/status';
   static const String doctorPatients = '/doctor/patients';

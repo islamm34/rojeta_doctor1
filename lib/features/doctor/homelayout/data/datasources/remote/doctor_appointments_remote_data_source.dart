@@ -1,5 +1,6 @@
 import '../../../../../../core/network/api_consumer.dart';
 import '../../../../../../core/network/endpoints.dart';
+import '../../models/doctor_appointment_details_model.dart';
 import '../../models/doctor_appointment_model.dart';
 
 abstract class DoctorAppointmentsRemoteDataSource {
@@ -15,6 +16,10 @@ abstract class DoctorAppointmentsRemoteDataSource {
     required String appointmentId,
     required String status,
   });
+
+  Future<DoctorAppointmentDetailsModel> getAppointmentDetails(
+    String appointmentId,
+  );
 }
 
 class DoctorAppointmentsRemoteDataSourceImpl
@@ -76,5 +81,23 @@ class DoctorAppointmentsRemoteDataSourceImpl
       Endpoints.doctorAppointmentStatus(appointmentId),
       data: {'status': status},
     );
+  }
+
+  @override
+  Future<DoctorAppointmentDetailsModel> getAppointmentDetails(
+    String appointmentId,
+  ) async {
+    final response = await apiConsumer.get(
+      Endpoints.doctorAppointmentDetails(appointmentId),
+    );
+
+    if (response is Map<String, dynamic>) {
+      final data = response['data'] is Map<String, dynamic>
+          ? response['data'] as Map<String, dynamic>
+          : response;
+      return DoctorAppointmentDetailsModel.fromJson(data);
+    }
+
+    throw const FormatException('Invalid appointment details response format');
   }
 }

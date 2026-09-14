@@ -2246,6 +2246,12 @@ abstract class AppLocalizations {
   /// **'Save Draft'**
   String get saveDraft;
 
+  /// No description provided for @draftSavedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Draft saved successfully'**
+  String get draftSavedSuccessfully;
+
   /// No description provided for @completeBtn.
   ///
   /// In en, this message translates to:
@@ -4045,6 +4051,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Message Patient'**
   String get messagePatient;
+
+  /// No description provided for @appointmentDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Appointment Details'**
+  String get appointmentDetails;
+
+  /// No description provided for @bookingId.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking ID'**
+  String get bookingId;
+
+  /// No description provided for @patientInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient Information'**
+  String get patientInformation;
+
+  /// No description provided for @appointmentInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Appointment Information'**
+  String get appointmentInformation;
+
+  /// No description provided for @appointmentDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Appointment Date'**
+  String get appointmentDate;
+
+  /// No description provided for @appointmentTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Appointment Time'**
+  String get appointmentTime;
+
+  /// No description provided for @serviceType.
+  ///
+  /// In en, this message translates to:
+  /// **'Service Type'**
+  String get serviceType;
+
+  /// No description provided for @visitType.
+  ///
+  /// In en, this message translates to:
+  /// **'Visit Type'**
+  String get visitType;
+
+  /// No description provided for @paymentStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Status'**
+  String get paymentStatus;
+
+  /// No description provided for @paymentMethod.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Method'**
+  String get paymentMethod;
+
+  /// No description provided for @feeOriginal.
+  ///
+  /// In en, this message translates to:
+  /// **'Original Fee'**
+  String get feeOriginal;
+
+  /// No description provided for @feeCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Fee'**
+  String get feeCurrent;
+
+  /// No description provided for @totalPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Price'**
+  String get totalPrice;
+
+  /// No description provided for @patientNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Patient Notes'**
+  String get patientNotes;
+
+  /// No description provided for @noNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'No notes provided'**
+  String get noNotes;
+
+  /// No description provided for @attachments.
+  ///
+  /// In en, this message translates to:
+  /// **'Attachments'**
+  String get attachments;
+
+  /// No description provided for @consultationDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Consultation Details'**
+  String get consultationDetails;
+
+  /// No description provided for @paid.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid'**
+  String get paid;
+
+  /// No description provided for @unpaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Unpaid'**
+  String get unpaid;
+
+  /// No description provided for @creditCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Credit Card'**
+  String get creditCard;
+
+  /// No description provided for @cash.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash'**
+  String get cash;
 }
 
 class _AppLocalizationsDelegate

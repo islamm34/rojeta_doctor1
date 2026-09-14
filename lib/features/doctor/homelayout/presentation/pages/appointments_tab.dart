@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../../../config/routes/app_router.dart';
 import '../../../../../../core/di/injector.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
-import '../../../../../../config/routes/app_router.dart';
 import '../bloc/appointments/doctor_appointments_bloc.dart';
 import '../bloc/appointments/doctor_appointments_event.dart';
 import '../bloc/appointments/doctor_appointments_state.dart';
@@ -237,15 +238,20 @@ class _AppointmentsTabViewState extends State<AppointmentsTabView> {
                             },
                             onViewDetails: () {
                               context.pushNamed(
-                                AppRoutes.patientDetails,
+                                AppRoutes.appointmentDetails,
                                 extra: appointment.id,
                               );
                             },
-                            onStartConsultation: () {
-                              context.pushNamed(
+                            onStartConsultation: () async {
+                              final result = await context.pushNamed(
                                 AppRoutes.medicalConsultation,
                                 extra: appointment,
                               );
+                              if (result == true && context.mounted) {
+                                context.read<DoctorAppointmentsBloc>().add(
+                                  const FetchAppointmentsEvent(),
+                                );
+                              }
                             },
                           );
                         },

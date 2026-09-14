@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:rojeta_doctor/features/doctor/homelayout/data/models/doctor_appointment_model.dart';
+
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
 
 class ConsultationPatientInfoCard extends StatelessWidget {
   final DoctorAppointmentModel appointment;
 
-  const ConsultationPatientInfoCard({
-    super.key,
-    required this.appointment,
-  });
+  const ConsultationPatientInfoCard({super.key, required this.appointment});
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +65,7 @@ class ConsultationPatientInfoCard extends StatelessWidget {
                     ),
                     SizedBox(height: 4.h),
                     Text(
-                      '35 years • Male', // Hardcoded as per design or we can extract if model supports
+                      _getPatientDemographics(context),
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: Colors.white.withValues(alpha: 0.9),
                         fontSize: 12.sp,
@@ -92,7 +90,11 @@ class ConsultationPatientInfoCard extends StatelessWidget {
                 Expanded(
                   child: Row(
                     children: [
-                      Icon(Icons.calendar_today_outlined, size: 16.sp, color: Colors.white),
+                      Icon(
+                        Icons.calendar_today_outlined,
+                        size: 16.sp,
+                        color: Colors.white,
+                      ),
                       SizedBox(width: 8.w),
                       Text(
                         appointment.appointmentDate,
@@ -116,42 +118,61 @@ class ConsultationPatientInfoCard extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 12.h),
+          if (appointment.notes?.isNotEmpty == true) ...[
+            SizedBox(height: 12.h),
 
-          // Chief Complaint
-          Container(
-            padding: EdgeInsets.all(12.w),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(8.r),
-            ),
-            width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Chief Complaint',
-                  style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.8),
-                    fontSize: 11.sp,
+            // Notes
+            Container(
+              padding: EdgeInsets.all(12.w),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    context.strings.notes,
+                    style: TextStyle(
+                      color: Colors.white.withValues(alpha: 0.8),
+                      fontSize: 11.sp,
+                    ),
                   ),
-                ),
-                SizedBox(height: 4.h),
-                Text(
-                  appointment.notes?.isNotEmpty == true
-                      ? appointment.notes!
-                      : 'Chest pain and shortness of breath', // Fallback for UI matching if empty
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 13.sp,
+                  SizedBox(height: 4.h),
+                  Text(
+                    appointment.notes!,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 13.sp,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
+          ],
         ],
       ),
     );
+  }
+
+  String _getPatientDemographics(BuildContext context) {
+    final parts = <String>[];
+    if (appointment.patientAge.isNotEmpty && appointment.patientAge != 'null') {
+      parts.add('${appointment.patientAge} ${context.strings.years}');
+    }
+    if (appointment.patientGender.isNotEmpty &&
+        appointment.patientGender != 'null') {
+      final gender = appointment.patientGender.toLowerCase();
+      if (gender == 'male') {
+        parts.add(context.strings.male);
+      } else if (gender == 'female') {
+        parts.add(context.strings.female);
+      } else {
+        parts.add(appointment.patientGender);
+      }
+    }
+    return parts.isNotEmpty ? parts.join(' • ') : '';
   }
 }

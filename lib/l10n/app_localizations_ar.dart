@@ -1101,6 +1101,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get saveDraft => 'حفظ كمسودة';
 
   @override
+  String get draftSavedSuccessfully => 'تم حفظ المسودة بنجاح';
+
+  @override
   String get completeBtn => 'إكمال';
 
   @override
@@ -2017,4 +2020,67 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get messagePatient => 'مراسلة المريض';
+
+  @override
+  String get appointmentDetails => 'تفاصيل الموعد';
+
+  @override
+  String get bookingId => 'رقم الحجز';
+
+  @override
+  String get patientInformation => 'بيانات المريض';
+
+  @override
+  String get appointmentInformation => 'بيانات الموعد';
+
+  @override
+  String get appointmentDate => 'تاريخ الموعد';
+
+  @override
+  String get appointmentTime => 'وقت الموعد';
+
+  @override
+  String get serviceType => 'نوع الخدمة';
+
+  @override
+  String get visitType => 'نوع الزيارة';
+
+  @override
+  String get paymentStatus => 'حالة الدفع';
+
+  @override
+  String get paymentMethod => 'طريقة الدفع';
+
+  @override
+  String get feeOriginal => 'الرسوم الأصلية';
+
+  @override
+  String get feeCurrent => 'الرسوم الحالية';
+
+  @override
+  String get totalPrice => 'المبلغ الإجمالي';
+
+  @override
+  String get patientNotes => 'ملاحظات المريض';
+
+  @override
+  String get noNotes => 'لا توجد ملاحظات';
+
+  @override
+  String get attachments => 'المرفقات';
+
+  @override
+  String get consultationDetails => 'تفاصيل الاستشارة';
+
+  @override
+  String get paid => 'مدفوع';
+
+  @override
+  String get unpaid => 'غير مدفوع';
+
+  @override
+  String get creditCard => 'بطاقة ائتمان';
+
+  @override
+  String get cash => 'نقدي';
 }

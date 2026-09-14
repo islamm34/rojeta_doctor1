@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rojeta_doctor/config/routes/app_router.dart';
-import 'package:rojeta_doctor/features/doctor/chat/data/models/doctor_chat_models.dart';
+import 'package:rojeta_doctor/core/di/injector.dart';
+import 'package:rojeta_doctor/features/doctor/chat/data/repositories/doctor_chat_repository.dart';
 import 'package:rojeta_doctor/features/doctor/homelayout/data/models/patient_details_model.dart';
+
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
 import 'patient_header_info_box.dart';
@@ -86,14 +88,16 @@ class PatientHeaderCard extends StatelessWidget {
                     ],
                     SizedBox(height: 10.h),
                     InkWell(
-                      onTap: () {
-                        final conversation = DoctorConversationModel(
-                          id: 'conv_${basicInfo.id}',
-                          patientId: basicInfo.id,
-                          patientName: basicInfo.name,
-                          lastMessage: '',
-                          lastMessageTime: '',
-                        );
+                      onTap: () async {
+                        final conversation =
+                            await injector<DoctorChatRepository>()
+                                .getOrCreateConversation(
+                                  patientId: basicInfo.id,
+                                  patientName: basicInfo.name,
+                                );
+
+                        if (!context.mounted) return;
+
                         context.pushNamed(
                           AppRoutes.doctorChatMessages,
                           extra: conversation,

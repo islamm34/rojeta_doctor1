@@ -16,6 +16,7 @@ import '../domain/datasources/homelayout_local_data_source.dart' as local_ds;
 import '../domain/datasources/homelayout_remote_data_source.dart' as remote_ds;
 import '../domain/repositories/homelayout_repository.dart';
 import '../domain/usecases/get_homelayout.dart';
+import '../presentation/bloc/appointment_details/appointment_details_bloc.dart';
 import '../presentation/bloc/appointments/doctor_appointments_bloc.dart';
 import '../presentation/bloc/homelayout_bloc.dart';
 import '../presentation/bloc/medical_consultation/medical_consultation_bloc.dart';
@@ -26,13 +27,19 @@ import '../presentation/bloc/schedule/schedule_bloc.dart';
 Future<void> initHomelayoutInjector() async {
   // DataSources
   injector.registerLazySingleton<DoctorDashboardRemoteDataSource>(
-    () => DoctorDashboardRemoteDataSourceImpl(apiConsumer: injector<ApiConsumer>()),
+    () => DoctorDashboardRemoteDataSourceImpl(
+      apiConsumer: injector<ApiConsumer>(),
+    ),
   );
   injector.registerLazySingleton<DoctorAppointmentsRemoteDataSource>(
-    () => DoctorAppointmentsRemoteDataSourceImpl(apiConsumer: injector<ApiConsumer>()),
+    () => DoctorAppointmentsRemoteDataSourceImpl(
+      apiConsumer: injector<ApiConsumer>(),
+    ),
   );
   injector.registerLazySingleton<DoctorNotificationsRemoteDataSource>(
-    () => DoctorNotificationsRemoteDataSourceImpl(apiConsumer: injector<ApiConsumer>()),
+    () => DoctorNotificationsRemoteDataSourceImpl(
+      apiConsumer: injector<ApiConsumer>(),
+    ),
   );
   injector.registerLazySingleton<remote_ds.HomelayoutRemoteDataSource>(
     () => HomelayoutRemoteDataSourceImpl(),
@@ -52,10 +59,7 @@ Future<void> initHomelayoutInjector() async {
     () => DoctorNotificationsRepositoryImpl(remoteDataSource: injector()),
   );
   injector.registerLazySingleton<HomelayoutRepository>(
-    () => HomelayoutRepositoryImpl(
-      remote: injector(),
-      local: injector(),
-    ),
+    () => HomelayoutRepositoryImpl(remote: injector(), local: injector()),
   );
   injector.registerLazySingleton(
     () => PatientsRepository(apiConsumer: injector<ApiConsumer>()),
@@ -81,13 +85,12 @@ Future<void> initHomelayoutInjector() async {
     () => DoctorAppointmentsBloc(repository: injector()),
   );
   injector.registerFactory(
-    () => NotificationsCubit(repository: injector()),
+    () => AppointmentDetailsBloc(repository: injector()),
   );
+  injector.registerFactory(() => NotificationsCubit(repository: injector()));
   injector.registerFactory(() => PatientsBloc(injector()));
   injector.registerFactory<MedicalConsultationBloc>(
     () => MedicalConsultationBloc(injector()),
   );
-  injector.registerFactory<ScheduleBloc>(
-    () => ScheduleBloc(injector()),
-  );
+  injector.registerFactory<ScheduleBloc>(() => ScheduleBloc(injector()));
 }

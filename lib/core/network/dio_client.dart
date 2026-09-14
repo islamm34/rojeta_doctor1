@@ -1,14 +1,16 @@
 import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:rojeta_doctor/core/network/endpoints.dart';
+
 import '../../config/routes/app_router.dart';
 import '../../main.dart';
+import '../error/exceptions.dart';
+import '../local/user_hive_helper.dart';
 import '../utils/extensions/context_extensions.dart';
 import '../utils/flutter_secure_storage_helper.dart';
-import 'api_consumer.dart';
-import '../error/exceptions.dart';
 import '../utils/snackbar_helper.dart';
-import '../local/user_hive_helper.dart';
+import 'api_consumer.dart';
 
 class DioClient implements ApiConsumer {
   final Dio dio;
@@ -91,6 +93,21 @@ class DioClient implements ApiConsumer {
 
           final context = RojetaDoctorApp.navigatorKey.currentContext;
           if (context != null) {
+            final isChatMessagesGet404 =
+                e.requestOptions.method == 'GET' &&
+                e.requestOptions.path.contains('chat/messages') &&
+                e.response?.statusCode == 404;
+
+            final isDoctorStartChat405Or404 =
+                e.requestOptions.path.contains('doctor/chat/conversations') &&
+                e.requestOptions.method == 'POST' &&
+                (e.response?.statusCode == 405 ||
+                    e.response?.statusCode == 404);
+
+            if (isChatMessagesGet404 || isDoctorStartChat405Or404) {
+              return handler.next(e);
+            }
+
             if (e.type == DioExceptionType.badResponse) {
               final statusCode = e.response?.statusCode;
               final errorMessage = _extractErrorMessage(
@@ -266,7 +283,13 @@ class DioClient implements ApiConsumer {
       }
       final errors = data['errors'];
       if (errors is List && errors.isNotEmpty) {
-        return errors.map((e) => e.toString()).join('\n');
+        final messages = errors.map((e) {
+          if (e is Map && e['message'] != null) {
+            return e['message'].toString();
+          }
+          return e.toString();
+        }).toList();
+        return messages.join('\n');
       }
       if (errors is Map && errors.isNotEmpty) {
         final messages = <String>[];

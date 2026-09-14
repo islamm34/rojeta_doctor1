@@ -302,7 +302,13 @@ Content-Type: application/json
   "diagnosis": "التهاب الجيوب الأنفية الحاد مصحوب بصداع",
   "medication_details": "1. Augmentin 1g - قرص كل 12 ساعة لمدة 7 أيام\n2. Otrivin Nasal Spray - بخة في كل فتحة أنف مرتين يومياً\n3. Cataflam 50mg - قرص عند اللزوم بعد الأكل",
   "laboratory_tests": "صورة دم كاملة CBC",
+  "laboratory_tests_document": "<File Upload - PDF / DOC / Image (اختياري)>",
   "radiology_tests": "أشعة مقطعية على الجيوب الأنفية CT Paranasal Sinuses",
+  "radiology_tests_document": "<File Upload - PDF / DOC / Image (اختياري)>",
+  "medical_notes_images": [
+    "<File Upload - Image 1 (اختياري)>",
+    "<File Upload - Image 2 (اختياري)>"
+  ],
   "follow_up_date": "2026-09-15",
   "prescription_pdf": "<File Upload - PDF (اختياري)>"
 }

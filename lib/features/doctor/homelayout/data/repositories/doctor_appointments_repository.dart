@@ -1,4 +1,5 @@
 import '../datasources/remote/doctor_appointments_remote_data_source.dart';
+import '../models/doctor_appointment_details_model.dart';
 import '../models/doctor_appointment_model.dart';
 
 abstract class DoctorAppointmentsRepository {
@@ -14,6 +15,10 @@ abstract class DoctorAppointmentsRepository {
     required String appointmentId,
     required String status,
   });
+
+  Future<DoctorAppointmentDetailsModel> getAppointmentDetails(
+    String appointmentId,
+  );
 }
 
 class DoctorAppointmentsRepositoryImpl implements DoctorAppointmentsRepository {
@@ -28,22 +33,25 @@ class DoctorAppointmentsRepositoryImpl implements DoctorAppointmentsRepository {
     String? date,
     String? status,
     String? type,
-  }) =>
-      remoteDataSource.getAppointments(
-        page: page,
-        limit: limit,
-        date: date,
-        status: status,
-        type: type,
-      );
+  }) => remoteDataSource.getAppointments(
+    page: page,
+    limit: limit,
+    date: date,
+    status: status,
+    type: type,
+  );
 
   @override
   Future<void> updateAppointmentStatus({
     required String appointmentId,
     required String status,
-  }) =>
-      remoteDataSource.updateAppointmentStatus(
-        appointmentId: appointmentId,
-        status: status,
-      );
+  }) => remoteDataSource.updateAppointmentStatus(
+    appointmentId: appointmentId,
+    status: status,
+  );
+
+  @override
+  Future<DoctorAppointmentDetailsModel> getAppointmentDetails(
+    String appointmentId,
+  ) => remoteDataSource.getAppointmentDetails(appointmentId);
 }
