@@ -52,6 +52,26 @@ class LabServicesRepositoryImpl implements LabServicesRepository {
   }
 
   @override
+  Future<Either<Failure, void>> updateService(
+    String id,
+    CreateLabServiceModel service, {
+    UserType? userType,
+  }) async {
+    try {
+      await remoteDataSource.updateService(id, service, userType: userType);
+      return const Right(null);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
+    } on NetworkException catch (e) {
+      return Left(NetworkFailure(e.message));
+    } on DioException catch (e) {
+      return Left(ServerFailure(e.message ?? 'Failed to update service'));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
   Future<Either<Failure, void>> deleteService(
     String id, {
     UserType? userType,

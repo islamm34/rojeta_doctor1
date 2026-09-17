@@ -11,6 +11,7 @@ import '../bloc/services/lab_services_event.dart';
 import '../bloc/services/lab_services_state.dart';
 import '../widgets/lab_service_card.dart';
 import '../widgets/lab_stat_summary_card.dart';
+import 'add_service/add_lab_service_page.dart';
 
 class LabTestsTab extends StatelessWidget {
   final UserType userType;
@@ -203,7 +204,10 @@ class _LabTestsTabView extends StatelessWidget {
                           onEdit: () async {
                             await context.pushNamed(
                               AppRoutes.addLabService,
-                              extra: userType,
+                              extra: AddLabServiceArgs(
+                                userType: userType,
+                                service: service,
+                              ),
                             );
                             if (context.mounted) {
                               context.read<LabServicesBloc>().add(

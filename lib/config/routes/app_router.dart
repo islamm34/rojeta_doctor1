@@ -24,6 +24,7 @@ import 'package:rojeta_doctor/features/auth/presentation/pages/radiology_registe
 import 'package:rojeta_doctor/features/auth/presentation/pages/radiology_registeration_flow_pages/radiology_professional_info_page.dart';
 import 'package:rojeta_doctor/features/doctor/profile/presentation/pages/marketing_packages_page.dart';
 import 'package:rojeta_doctor/features/financial/presentation/pages/financial_management_page.dart';
+import 'package:rojeta_doctor/features/lab&radiology/homelayout/data/models/lab_service_model.dart';
 
 import '../../core/di/injector.dart';
 import '../../features/auth/data/models/user_type_model.dart';
@@ -356,10 +357,22 @@ class AppRouter {
           builder: (_) => LabHomeLayoutPage(userType: userType),
         );
       case AppRoutes.addLabService:
-        final userType =
-            settings.arguments as UserType? ?? UserType.radiologyCenter;
+        UserType userType = UserType.radiologyCenter;
+        LabServiceModel? service;
+        if (settings.arguments is AddLabServiceArgs) {
+          final args = settings.arguments as AddLabServiceArgs;
+          userType = args.userType;
+          service = args.service;
+        } else if (settings.arguments is UserType) {
+          userType = settings.arguments as UserType;
+        } else if (settings.arguments is Map<String, dynamic>) {
+          final map = settings.arguments as Map<String, dynamic>;
+          userType = map['userType'] as UserType? ?? UserType.radiologyCenter;
+          service = map['service'] as LabServiceModel?;
+        }
         return MaterialPageRoute(
-          builder: (_) => AddLabServicePage(userType: userType),
+          builder: (_) =>
+              AddLabServicePage(userType: userType, service: service),
         );
       case AppRoutes.bookingManagement:
         return MaterialPageRoute(

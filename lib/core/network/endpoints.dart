@@ -83,6 +83,8 @@ class Endpoints {
   static const String labTests = '/lab/tests';
   static String labDeleteService(String id) => '/lab/services/$id';
   static String labDeleteTest(String id) => '/lab/tests/$id';
+  static String labUpdateService(String id) => '/lab/services/$id';
+  static String labUpdateTest(String id) => '/lab/tests/$id';
   static const String getBranches = '/lab/branches';
   static const String addBranch = '/lab/branches/add';
   static String deleteBranch(String id) => '/lab/branches/$id';

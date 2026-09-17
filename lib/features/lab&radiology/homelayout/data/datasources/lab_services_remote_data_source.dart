@@ -7,6 +7,11 @@ import '../models/lab_services_response_model.dart';
 abstract class LabServicesRemoteDataSource {
   Future<LabServicesResponseModel> getServices({UserType? userType});
   Future<void> addService(CreateLabServiceModel service, {UserType? userType});
+  Future<void> updateService(
+    String id,
+    CreateLabServiceModel service, {
+    UserType? userType,
+  });
   Future<void> deleteService(String id, {UserType? userType});
 }
 
@@ -48,11 +53,26 @@ class LabServicesRemoteDataSourceImpl implements LabServicesRemoteDataSource {
   }
 
   @override
-  Future<void> addService(CreateLabServiceModel service, {UserType? userType}) async {
+  Future<void> addService(
+    CreateLabServiceModel service, {
+    UserType? userType,
+  }) async {
     final endpoint = (userType == UserType.radiologyCenter)
         ? Endpoints.addLabService
         : Endpoints.laboratoryAddTest;
     await apiConsumer.post(endpoint, data: service.toJson());
+  }
+
+  @override
+  Future<void> updateService(
+    String id,
+    CreateLabServiceModel service, {
+    UserType? userType,
+  }) async {
+    final endpoint = (userType == UserType.radiologyCenter)
+        ? Endpoints.labUpdateService(id)
+        : Endpoints.labUpdateTest(id);
+    await apiConsumer.put(endpoint, data: service.toJson());
   }
 
   @override

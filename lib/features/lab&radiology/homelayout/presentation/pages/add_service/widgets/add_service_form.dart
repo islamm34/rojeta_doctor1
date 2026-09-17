@@ -5,6 +5,7 @@ import '../../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../../core/utils/screen_util_like.dart';
 import '../../../../../../auth/data/models/user_type_model.dart';
 import '../../../../data/models/create_lab_service_model.dart';
+import '../../../../data/models/lab_service_model.dart';
 import '../../../bloc/services/lab_services_bloc.dart';
 import '../../../bloc/services/lab_services_event.dart';
 import '../../../bloc/services/lab_services_state.dart';
@@ -12,8 +13,9 @@ import 'add_service_text_field.dart';
 
 class AddServiceForm extends StatefulWidget {
   final UserType userType;
+  final LabServiceModel? service;
 
-  const AddServiceForm({super.key, required this.userType});
+  const AddServiceForm({super.key, required this.userType, this.service});
 
   @override
   State<AddServiceForm> createState() => _AddServiceFormState();
@@ -21,13 +23,35 @@ class AddServiceForm extends StatefulWidget {
 
 class _AddServiceFormState extends State<AddServiceForm> {
   final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  final _categoryController = TextEditingController();
-  final _priceController = TextEditingController();
-  final _turnaroundTimeController = TextEditingController();
-  final _preparationsController = TextEditingController();
+  late final TextEditingController _nameController;
+  late final TextEditingController _categoryController;
+  late final TextEditingController _priceController;
+  late final TextEditingController _turnaroundTimeController;
+  late final TextEditingController _preparationsController;
 
-  bool _isHomeCollection = false;
+  late bool _isHomeCollection;
+
+  @override
+  void initState() {
+    super.initState();
+    final service = widget.service;
+    _nameController = TextEditingController(text: service?.name ?? '');
+    _categoryController = TextEditingController(text: service?.category ?? '');
+    _priceController = TextEditingController(
+      text: service?.price != null
+          ? (service!.price! % 1 == 0
+                ? service.price!.toInt().toString()
+                : service.price!.toString())
+          : '',
+    );
+    _turnaroundTimeController = TextEditingController(
+      text: service?.turnaroundTime ?? '',
+    );
+    _preparationsController = TextEditingController(
+      text: service?.instructions ?? service?.description ?? '',
+    );
+    _isHomeCollection = service?.isHomeCollectionAvailable ?? false;
+  }
 
   @override
   void dispose() {
@@ -51,9 +75,16 @@ class _AddServiceFormState extends State<AddServiceForm> {
         isHomeCollectionAvailable: _isHomeCollection,
       );
 
-      context.read<LabServicesBloc>().add(
-        CreateLabServiceEvent(model, widget.userType),
-      );
+      final serviceId = widget.service?.id;
+      if (serviceId != null && serviceId.isNotEmpty) {
+        context.read<LabServicesBloc>().add(
+          UpdateLabServiceEvent(serviceId, model, widget.userType),
+        );
+      } else {
+        context.read<LabServicesBloc>().add(
+          CreateLabServiceEvent(model, widget.userType),
+        );
+      }
     }
   }
 

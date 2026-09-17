@@ -29,6 +29,17 @@ class CreateLabServiceEvent extends LabServicesEvent {
   List<Object?> get props => [service, userType];
 }
 
+class UpdateLabServiceEvent extends LabServicesEvent {
+  final String serviceId;
+  final CreateLabServiceModel service;
+  final UserType userType;
+
+  const UpdateLabServiceEvent(this.serviceId, this.service, this.userType);
+
+  @override
+  List<Object?> get props => [serviceId, service, userType];
+}
+
 class DeleteLabServiceEvent extends LabServicesEvent {
   final String serviceId;
   final UserType userType;

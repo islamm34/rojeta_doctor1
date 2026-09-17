@@ -16,6 +16,7 @@ import '../domain/usecases/add_lab_service_usecase.dart';
 import '../domain/usecases/delete_lab_service_usecase.dart';
 import '../domain/usecases/get_lab_dashboard_usecase.dart';
 import '../domain/usecases/get_lab_services_usecase.dart';
+import '../domain/usecases/update_lab_service_usecase.dart';
 import '../presentation/bloc/home_visits/home_visits_bloc.dart';
 import '../presentation/bloc/lab_home_bloc.dart';
 import '../presentation/bloc/manage_branch/manage_branch_bloc.dart';
@@ -56,6 +57,7 @@ Future<void> initLabHomeLayoutInjector() async {
   injector.registerLazySingleton(() => GetLabDashboardUseCase(injector()));
   injector.registerLazySingleton(() => GetLabServicesUseCase(injector()));
   injector.registerLazySingleton(() => AddLabServiceUseCase(injector()));
+  injector.registerLazySingleton(() => UpdateLabServiceUseCase(injector()));
   injector.registerLazySingleton(() => DeleteLabServiceUseCase(injector()));
 
   // BLoCs
@@ -66,13 +68,10 @@ Future<void> initLabHomeLayoutInjector() async {
     () => LabServicesBloc(
       getLabServicesUseCase: injector(),
       addLabServiceUseCase: injector(),
+      updateLabServiceUseCase: injector(),
       deleteLabServiceUseCase: injector(),
     ),
   );
-  injector.registerFactory(
-    () => ManageBranchBloc(repository: injector()),
-  );
-  injector.registerFactory(
-    () => HomeVisitsBloc(repository: injector()),
-  );
+  injector.registerFactory(() => ManageBranchBloc(repository: injector()));
+  injector.registerFactory(() => HomeVisitsBloc(repository: injector()));
 }

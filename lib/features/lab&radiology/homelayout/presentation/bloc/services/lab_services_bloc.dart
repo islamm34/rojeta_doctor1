@@ -3,21 +3,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../domain/usecases/add_lab_service_usecase.dart';
 import '../../../domain/usecases/delete_lab_service_usecase.dart';
 import '../../../domain/usecases/get_lab_services_usecase.dart';
+import '../../../domain/usecases/update_lab_service_usecase.dart';
 import 'lab_services_event.dart';
 import 'lab_services_state.dart';
 
 class LabServicesBloc extends Bloc<LabServicesEvent, LabServicesState> {
   final GetLabServicesUseCase getLabServicesUseCase;
   final AddLabServiceUseCase? addLabServiceUseCase;
+  final UpdateLabServiceUseCase? updateLabServiceUseCase;
   final DeleteLabServiceUseCase? deleteLabServiceUseCase;
 
   LabServicesBloc({
     required this.getLabServicesUseCase,
     this.addLabServiceUseCase,
+    this.updateLabServiceUseCase,
     this.deleteLabServiceUseCase,
   }) : super(const LabServicesState()) {
     on<FetchLabServicesEvent>(_onFetchLabServices);
     on<CreateLabServiceEvent>(_onCreateLabService);
+    on<UpdateLabServiceEvent>(_onUpdateLabService);
     on<DeleteLabServiceEvent>(_onDeleteLabService);
   }
 
@@ -67,7 +71,33 @@ class LabServicesBloc extends Bloc<LabServicesEvent, LabServicesState> {
         ),
       ),
       (_) {
-        add(FetchLabServicesEvent(event.userType));
+        emit(state.copyWith(status: LabServicesStatus.success));
+      },
+    );
+  }
+
+  Future<void> _onUpdateLabService(
+    UpdateLabServiceEvent event,
+    Emitter<LabServicesState> emit,
+  ) async {
+    if (updateLabServiceUseCase == null) return;
+    emit(state.copyWith(status: LabServicesStatus.loading, clearError: true));
+
+    final result = await updateLabServiceUseCase!(
+      event.serviceId,
+      event.service,
+      userType: event.userType,
+    );
+
+    result.fold(
+      (failure) => emit(
+        state.copyWith(
+          status: LabServicesStatus.failure,
+          errorMessage: failure.message,
+        ),
+      ),
+      (_) {
+        emit(state.copyWith(status: LabServicesStatus.success));
       },
     );
   }

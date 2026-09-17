@@ -13,5 +13,10 @@ abstract class LabServicesRepository {
     CreateLabServiceModel service, {
     UserType? userType,
   });
+  Future<Either<Failure, void>> updateService(
+    String id,
+    CreateLabServiceModel service, {
+    UserType? userType,
+  });
   Future<Either<Failure, void>> deleteService(String id, {UserType? userType});
 }
