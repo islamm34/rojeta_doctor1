@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import '../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../core/utils/extensions/time_extensions.dart';
 import '../../../../core/utils/screen_util_like.dart';
 import '../../data/models/transaction_model.dart';
 import 'transaction_amount_row.dart';
@@ -55,12 +57,7 @@ class TransactionItemCard extends StatelessWidget {
           ),
           SizedBox(height: 8.h),
           Text(
-            DateTime.tryParse(transaction.date) != null
-                ? DateFormat('yyyy-MM-dd • hh:mm a')
-                    .format(DateTime.parse(transaction.date))
-                : (transaction.time.isNotEmpty
-                    ? '${transaction.date} • ${transaction.time}'
-                    : transaction.date),
+            _formatDateTime(context, transaction),
             style: theme.textTheme.bodySmall?.copyWith(
               color: Colors.grey.shade500,
             ),
@@ -120,6 +117,14 @@ class TransactionItemCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  String _formatDateTime(BuildContext context, TransactionModel transaction) {
+    return TimeFormatter.formatDateTime(
+      transaction.date,
+      transaction.time,
+      context: context,
     );
   }
 }

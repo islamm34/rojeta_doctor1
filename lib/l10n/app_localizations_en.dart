@@ -2102,4 +2102,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cash => 'Cash';
+
+  @override
+  String get goodMorning => 'Good morning,';
+
+  @override
+  String get deleteScanConfirm => 'Are you sure you want to delete this scan?';
+
+  @override
+  String get deleteTestConfirm => 'Are you sure you want to delete this test?';
 }

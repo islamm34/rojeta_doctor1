@@ -2083,4 +2083,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get cash => 'نقدي';
+
+  @override
+  String get goodMorning => 'صباح الخير،';
+
+  @override
+  String get deleteScanConfirm => 'هل أنت متأكد من حذف هذا الفحص الإشعاعي؟';
+
+  @override
+  String get deleteTestConfirm => 'هل أنت متأكد من حذف هذا التحليل المخبري؟';
 }

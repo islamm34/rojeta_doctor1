@@ -4177,6 +4177,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cash'**
   String get cash;
+
+  /// No description provided for @goodMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Good morning,'**
+  String get goodMorning;
+
+  /// No description provided for @deleteScanConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this scan?'**
+  String get deleteScanConfirm;
+
+  /// No description provided for @deleteTestConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this test?'**
+  String get deleteTestConfirm;
 }
 
 class _AppLocalizationsDelegate

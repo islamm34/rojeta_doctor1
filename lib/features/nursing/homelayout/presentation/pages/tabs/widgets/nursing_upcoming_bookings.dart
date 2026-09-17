@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
+import 'package:rojeta_doctor/core/utils/extensions/time_extensions.dart';
 import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
 import 'package:rojeta_doctor/features/nursing/homelayout/data/models/nursing_dashboard_model.dart';
 
@@ -16,7 +17,9 @@ class NursingUpcomingBookings extends StatelessWidget {
           padding: EdgeInsets.all(24.w),
           child: Text(
             'No upcoming bookings',
-            style: context.textTheme.bodyMedium?.copyWith(color: const Color(0xFF64748B)),
+            style: context.textTheme.bodyMedium?.copyWith(
+              color: const Color(0xFF64748B),
+            ),
           ),
         ),
       );
@@ -27,7 +30,7 @@ class NursingUpcomingBookings extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       padding: EdgeInsets.zero,
       itemCount: bookings.length,
-      separatorBuilder: (_, __) => SizedBox(height: 12.h),
+      separatorBuilder: (_, _) => SizedBox(height: 12.h),
       itemBuilder: (context, index) {
         final booking = bookings[index];
         return Container(
@@ -86,13 +89,16 @@ class NursingUpcomingBookings extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8.w,
+                            vertical: 4.h,
+                          ),
                           decoration: BoxDecoration(
                             color: const Color(0xFFD1FAE5),
                             borderRadius: BorderRadius.circular(12.r),
                           ),
                           child: Text(
-                            booking.time,
+                            booking.time.formatTo12Hour(context),
                             style: context.textTheme.labelSmall?.copyWith(
                               color: const Color(0xFF065F46),
                               fontWeight: FontWeight.bold,
@@ -111,7 +117,11 @@ class NursingUpcomingBookings extends StatelessWidget {
                             color: const Color(0xFF64748B),
                           ),
                         ),
-                        Icon(Icons.arrow_forward_ios, size: 14.r, color: const Color(0xFF94A3B8)),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          size: 14.r,
+                          color: const Color(0xFF94A3B8),
+                        ),
                       ],
                     ),
                   ],

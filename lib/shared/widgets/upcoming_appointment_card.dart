@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
+import 'package:rojeta_doctor/core/utils/extensions/time_extensions.dart';
 import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
 import 'package:rojeta_doctor/features/doctor/homelayout/data/models/doctor_appointment_model.dart';
 
@@ -181,7 +182,7 @@ class UpcomingAppointmentCard extends StatelessWidget {
                         ),
                         SizedBox(height: 4.h),
                         Text(
-                          appointment.appointmentTime,
+                          appointment.appointmentTime.formatTo12Hour(context),
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 14.sp,
@@ -221,7 +222,10 @@ class UpcomingAppointmentCard extends StatelessWidget {
                         ),
                         SizedBox(height: 4.h),
                         Text(
-                          appointment.appointmentDate,
+                          TimeFormatter.formatDate(
+                            appointment.appointmentDate,
+                            context: context,
+                          ),
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 14.sp,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rojeta_doctor/features/lab&radiology/homelayout/data/models/lab_service_model.dart';
+
 import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
 import 'lab_service_chip.dart';
@@ -18,6 +19,12 @@ class LabServiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final name = service.name ?? '';
+    final price = service.price;
+    final turnaroundTime = service.turnaroundTime ?? '';
+    final category = service.category ?? '';
+    final requiresFasting = service.requiresFasting ?? false;
+
     return Container(
       margin: EdgeInsets.only(bottom: 16.h),
       padding: EdgeInsets.all(16.w),
@@ -34,7 +41,7 @@ class LabServiceCard extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  service.name,
+                  name,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: const Color(0xFF0F2D52),
@@ -55,10 +62,10 @@ class LabServiceCard extends StatelessWidget {
                   ),
                   SizedBox(width: 12.w),
                   IconButton(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.delete_outline,
                       color: Colors.red,
-                      size: 20.w,
+                      size: 20,
                     ),
                     onPressed: onDelete,
                     constraints: const BoxConstraints(),
@@ -68,37 +75,37 @@ class LabServiceCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 4.h),
-          Text(
-            '${service.price.toStringAsFixed(0)} EGP',
-            style: Theme.of(context).textTheme.titleSmall?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).primaryColor,
+          if (price != null) ...[
+            SizedBox(height: 4.h),
+            Text(
+              '${price.toStringAsFixed(0)} EGP',
+              style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).primaryColor,
+              ),
             ),
-          ),
+          ],
           SizedBox(height: 12.h),
           Wrap(
             spacing: 8.w,
             runSpacing: 8.h,
             children: [
-              if (service.turnaroundTime.isNotEmpty) ...[
-                LabServiceChip(
-                  icon: Icons.access_time,
-                  label: service.turnaroundTime,
-                ),
+              if (turnaroundTime.isNotEmpty) ...[
+                LabServiceChip(icon: Icons.access_time, label: turnaroundTime),
                 SizedBox(width: 8.w),
               ],
-              if (service.requiresFasting) ...[
+              if (requiresFasting) ...[
                 LabServiceChip(
                   icon: Icons.no_food_outlined,
                   label: context.strings.fastingRequired,
                 ),
                 SizedBox(width: 8.w),
               ],
-              LabServiceChip(
-                icon: Icons.medical_services_outlined,
-                label: service.category,
-              ),
+              if (category.isNotEmpty)
+                LabServiceChip(
+                  icon: Icons.medical_services_outlined,
+                  label: category,
+                ),
             ],
           ),
         ],

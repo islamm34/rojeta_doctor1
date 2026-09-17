@@ -54,6 +54,11 @@ class Endpoints {
   static const String updateSchedule = '/schedule/update';
   static const String laboratoryAddTest = '/lab/test/add';
   static const String addLabService = '/lab/service/add';
+  static const String labDashboard = '/lab/dashboard';
+  static const String labServices = '/lab/services';
+  static const String labTests = '/lab/tests';
+  static String labDeleteService(String id) => '/lab/services/$id';
+  static String labDeleteTest(String id) => '/lab/tests/$id';
   static const String getBookings = '/lab/bookings';
   static const String updateBookingStatus = '/lab/bookings/update-status';
   static const String getBranches = '/lab/branches';

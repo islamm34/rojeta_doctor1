@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
+import 'package:rojeta_doctor/core/utils/extensions/time_extensions.dart';
 import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
+
 import '../../../../data/models/home_visit_config_model.dart';
 
 class HomeVisitSlotCard extends StatelessWidget {
@@ -32,6 +34,13 @@ class HomeVisitSlotCard extends StatelessWidget {
         break;
     }
 
+    final formatted = slot.time.formatTo12Hour(context);
+    final parts = formatted.split(' ');
+    final displayTime = parts.isNotEmpty ? parts[0] : slot.time;
+    final displayAmPm = parts.length > 1
+        ? '${parts[1]} SLOT'
+        : (slot.amPm.isNotEmpty ? slot.amPm : '');
+
     return Container(
       width: 72.w,
       padding: EdgeInsets.symmetric(vertical: 12.h),
@@ -42,7 +51,7 @@ class HomeVisitSlotCard extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            slot.time,
+            displayTime,
             style: context.textTheme.titleMedium?.copyWith(
               color: slot.status == TimeSlotStatus.disabled
                   ? const Color(0xFF7A8FA6)
@@ -51,7 +60,7 @@ class HomeVisitSlotCard extends StatelessWidget {
           ),
           SizedBox(height: 2.h),
           Text(
-            slot.amPm,
+            displayAmPm,
             style: context.textTheme.labelSmall?.copyWith(
               color: const Color(0xFF7A8FA6),
               fontWeight: FontWeight.bold,

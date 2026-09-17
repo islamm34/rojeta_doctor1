@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
 import 'package:rojeta_doctor/core/utils/app_colors.dart';
+import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
+import 'package:rojeta_doctor/core/utils/extensions/time_extensions.dart';
+
 import '../../../data/models/marketing_package_model.dart';
 
 class MyPlanTabView extends StatelessWidget {
   final ActivePlanModel? activePlan;
   final List<MarketingPackageModel> packages;
 
-  const MyPlanTabView({
-    super.key,
-    this.activePlan,
-    required this.packages,
-  });
+  const MyPlanTabView({super.key, this.activePlan, required this.packages});
 
   @override
   Widget build(BuildContext context) {
@@ -58,10 +55,7 @@ class MyPlanTabView extends StatelessWidget {
     }
 
     final double progress = plan.postsUsed / plan.totalPosts;
-    final int daysRemaining = plan.endDate
-        .difference(DateTime.now())
-        .inDays;
-    final dateFormat = DateFormat('dd MMM, yyyy');
+    final int daysRemaining = plan.endDate.difference(DateTime.now()).inDays;
 
     return ListView(
       padding: const EdgeInsets.all(16),
@@ -162,7 +156,11 @@ class MyPlanTabView extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        dateFormat.format(plan.startDate),
+                        TimeFormatter.formatDate(
+                          plan.startDate,
+                          context: context,
+                          pattern: 'dd MMM, yyyy',
+                        ),
                         style: context.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -180,7 +178,11 @@ class MyPlanTabView extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        dateFormat.format(plan.endDate),
+                        TimeFormatter.formatDate(
+                          plan.endDate,
+                          context: context,
+                          pattern: 'dd MMM, yyyy',
+                        ),
                         style: context.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),

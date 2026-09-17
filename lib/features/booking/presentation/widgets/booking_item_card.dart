@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../../../features/auth/data/models/user_type_model.dart';
 import 'package:rojeta_doctor/core/utils/app_colors.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
+import 'package:rojeta_doctor/core/utils/extensions/time_extensions.dart';
 import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
+
+import '../../../../features/auth/data/models/user_type_model.dart';
 import '../../data/models/booking_model.dart';
 
 class BookingItemCard extends StatelessWidget {
@@ -31,7 +33,7 @@ class BookingItemCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -69,11 +71,15 @@ class BookingItemCard extends StatelessWidget {
         Container(
           padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
           decoration: BoxDecoration(
-            color: isBranch ? AppColors.primary.withOpacity(0.1) : Colors.green.withOpacity(0.1),
+            color: isBranch
+                ? AppColors.primary.withValues(alpha: 0.1)
+                : Colors.green.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(4.r),
           ),
           child: Text(
-            isBranch ? context.strings.tagBranchVisit : context.strings.tagHomeVisit,
+            isBranch
+                ? context.strings.tagBranchVisit
+                : context.strings.tagHomeVisit,
             style: context.textTheme.labelMedium?.copyWith(
               color: isBranch ? AppColors.primary : Colors.green,
               fontWeight: FontWeight.bold,
@@ -107,7 +113,7 @@ class BookingItemCard extends StatelessWidget {
         label = context.strings.filterCompleted;
         break;
       case BookingStatus.rejected:
-        bgColor = Colors.red.withOpacity(0.1);
+        bgColor = Colors.red.withValues(alpha: 0.1);
         textColor = Colors.red;
         label = context.strings.filterRejected;
         break;
@@ -160,8 +166,14 @@ class BookingItemCard extends StatelessWidget {
             SizedBox(width: 8.w),
             Expanded(
               child: Text(
-                userType == UserType.radiologyCenter ? context.strings.scanTypeLabel : (userType == UserType.laboratory ? context.strings.testName : 'Service Name'),
-                style: context.textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
+                userType == UserType.radiologyCenter
+                    ? context.strings.scanTypeLabel
+                    : (userType == UserType.laboratory
+                          ? context.strings.testName
+                          : 'Service Name'),
+                style: context.textTheme.bodySmall?.copyWith(
+                  color: Colors.grey[600],
+                ),
               ),
             ),
           ],
@@ -170,14 +182,21 @@ class BookingItemCard extends StatelessWidget {
           padding: EdgeInsets.only(left: 24.w),
           child: Text(
             booking.serviceName,
-            style: context.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+            style: context.textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         SizedBox(height: 8.h),
-        if (booking.type == BookingType.branchVisit && booking.locationName.isNotEmpty) ...[
+        if (booking.type == BookingType.branchVisit &&
+            booking.locationName.isNotEmpty) ...[
           Row(
             children: [
-              Icon(Icons.location_on_outlined, size: 16.sp, color: Colors.grey[600]),
+              Icon(
+                Icons.location_on_outlined,
+                size: 16.sp,
+                color: Colors.grey[600],
+              ),
               SizedBox(width: 8.w),
               Expanded(
                 child: Text(
@@ -193,10 +212,18 @@ class BookingItemCard extends StatelessWidget {
         ],
         Row(
           children: [
-            Icon(Icons.calendar_today_outlined, size: 16.sp, color: Colors.grey[600]),
+            Icon(
+              Icons.calendar_today_outlined,
+              size: 16.sp,
+              color: Colors.grey[600],
+            ),
             SizedBox(width: 8.w),
             Text(
-              '${booking.date} - ${booking.time}',
+              TimeFormatter.formatDateTime(
+                booking.date,
+                booking.time,
+                context: context,
+              ),
               style: context.textTheme.bodyMedium,
             ),
           ],
@@ -213,7 +240,9 @@ class BookingItemCard extends StatelessWidget {
       children: [
         Text(
           context.strings.paymentStatusLabel,
-          style: context.textTheme.labelSmall?.copyWith(color: Colors.grey[600]),
+          style: context.textTheme.labelSmall?.copyWith(
+            color: Colors.grey[600],
+          ),
         ),
         SizedBox(height: 4.h),
         Row(
@@ -229,7 +258,9 @@ class BookingItemCard extends StatelessWidget {
             ),
             SizedBox(width: 4.w),
             Text(
-              isPaid ? context.strings.paymentPaid : context.strings.paymentPending,
+              isPaid
+                  ? context.strings.paymentPaid
+                  : context.strings.paymentPending,
               style: context.textTheme.bodyMedium?.copyWith(
                 color: isPaid ? Colors.green : Colors.orange,
                 fontWeight: FontWeight.bold,
@@ -240,7 +271,9 @@ class BookingItemCard extends StatelessWidget {
         SizedBox(height: 12.h),
         Text(
           context.strings.feeLabel,
-          style: context.textTheme.labelSmall?.copyWith(color: Colors.grey[600]),
+          style: context.textTheme.labelSmall?.copyWith(
+            color: Colors.grey[600],
+          ),
         ),
         SizedBox(height: 4.h),
         Text(
@@ -255,19 +288,24 @@ class BookingItemCard extends StatelessWidget {
   }
 
   Widget _buildActionButtons(BuildContext context) {
-    if (booking.status == BookingStatus.completed || booking.status == BookingStatus.rejected) {
+    if (booking.status == BookingStatus.completed ||
+        booking.status == BookingStatus.rejected) {
       return SizedBox(
         width: double.infinity,
         child: OutlinedButton(
           onPressed: onViewDetails,
           style: OutlinedButton.styleFrom(
             side: const BorderSide(color: AppColors.primary),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.r),
+            ),
             padding: EdgeInsets.symmetric(vertical: 12.h),
           ),
           child: Text(
             context.strings.viewDetailsBtn,
-            style: context.textTheme.labelLarge?.copyWith(color: AppColors.primary),
+            style: context.textTheme.labelLarge?.copyWith(
+              color: AppColors.primary,
+            ),
           ),
         ),
       );
@@ -280,7 +318,9 @@ class BookingItemCard extends StatelessWidget {
             onPressed: onReject,
             style: OutlinedButton.styleFrom(
               side: const BorderSide(color: Colors.red),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.r),
+              ),
               padding: EdgeInsets.symmetric(vertical: 12.h),
             ),
             child: Text(
@@ -296,12 +336,16 @@ class BookingItemCard extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.green,
               foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.r),
+              ),
               padding: EdgeInsets.symmetric(vertical: 12.h),
             ),
             child: Text(
               context.strings.acceptBtn,
-              style: context.textTheme.labelLarge?.copyWith(color: Colors.white),
+              style: context.textTheme.labelLarge?.copyWith(
+                color: Colors.white,
+              ),
             ),
           ),
         ),

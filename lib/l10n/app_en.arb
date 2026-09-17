@@ -693,5 +693,8 @@
   "paid": "Paid",
   "unpaid": "Unpaid",
   "creditCard": "Credit Card",
-  "cash": "Cash"
+  "cash": "Cash",
+  "goodMorning": "Good morning,",
+  "deleteScanConfirm": "Are you sure you want to delete this scan?",
+  "deleteTestConfirm": "Are you sure you want to delete this test?"
 }

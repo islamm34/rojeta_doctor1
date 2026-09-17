@@ -1,5 +1,7 @@
-import '../../../../../core/utils/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../../core/utils/extensions/time_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
 
 class RadiologyWorkingHoursForm extends StatefulWidget {
@@ -239,7 +241,7 @@ class _RadiologyWorkingHoursFormState extends State<RadiologyWorkingHoursForm> {
     );
 
     if (picked != null && mounted) {
-      final formatted = picked.format(context);
+      final formatted = picked.formatTimeOfDay;
       setState(() {
         if (isFrom) {
           dayData['from'] = formatted;

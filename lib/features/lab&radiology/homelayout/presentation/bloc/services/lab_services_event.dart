@@ -16,3 +16,13 @@ class FetchLabServicesEvent extends LabServicesEvent {
   @override
   List<Object?> get props => [userType];
 }
+
+class DeleteLabServiceEvent extends LabServicesEvent {
+  final String serviceId;
+  final UserType userType;
+
+  const DeleteLabServiceEvent(this.serviceId, this.userType);
+
+  @override
+  List<Object?> get props => [serviceId, userType];
+}

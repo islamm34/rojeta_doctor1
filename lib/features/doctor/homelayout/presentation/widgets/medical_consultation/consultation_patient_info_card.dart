@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rojeta_doctor/features/doctor/homelayout/data/models/doctor_appointment_model.dart';
 
 import '../../../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../../../core/utils/extensions/time_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
 
 class ConsultationPatientInfoCard extends StatelessWidget {
@@ -97,7 +98,10 @@ class ConsultationPatientInfoCard extends StatelessWidget {
                       ),
                       SizedBox(width: 8.w),
                       Text(
-                        appointment.appointmentDate,
+                        TimeFormatter.formatDate(
+                          appointment.appointmentDate,
+                          context: context,
+                        ),
                         style: TextStyle(color: Colors.white, fontSize: 13.sp),
                       ),
                     ],
@@ -109,7 +113,7 @@ class ConsultationPatientInfoCard extends StatelessWidget {
                       Icon(Icons.access_time, size: 16.sp, color: Colors.white),
                       SizedBox(width: 8.w),
                       Text(
-                        appointment.appointmentTime,
+                        appointment.appointmentTime.formatTo12Hour(context),
                         style: TextStyle(color: Colors.white, fontSize: 13.sp),
                       ),
                     ],

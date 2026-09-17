@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
+
 import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
 
 class LabBookingsCard extends StatelessWidget {
-  final int count;
-  final String progress;
+  final int? count;
+  final String? progress;
 
-  const LabBookingsCard({
-    super.key,
-    required this.count,
-    required this.progress,
-  });
+  const LabBookingsCard({super.key, this.count, this.progress});
 
   @override
   Widget build(BuildContext context) {
+    final displayCount = (count ?? 0).toString();
+    final displayProgress = progress ?? '';
+
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(16.w),
@@ -23,7 +23,7 @@ class LabBookingsCard extends StatelessWidget {
         border: Border.all(color: const Color(0xFFE2E8F0)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.02),
+            color: Colors.black.withValues(alpha: 0.02),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -50,20 +50,22 @@ class LabBookingsCard extends StatelessWidget {
                   textBaseline: TextBaseline.alphabetic,
                   children: [
                     Text(
-                      count.toString(),
+                      displayCount,
                       style: context.textTheme.headlineMedium?.copyWith(
                         color: const Color(0xFF0F2D52),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(width: 8.w),
-                    Text(
-                      progress,
-                      style: context.textTheme.bodyMedium?.copyWith(
-                        color: const Color(0xFF00B050),
-                        fontWeight: FontWeight.w600,
+                    if (displayProgress.isNotEmpty) ...[
+                      SizedBox(width: 8.w),
+                      Text(
+                        displayProgress,
+                        style: context.textTheme.bodyMedium?.copyWith(
+                          color: const Color(0xFF00B050),
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
+                    ],
                   ],
                 ),
               ],

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../../core/utils/extensions/time_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
 import '../../data/models/lab_upcoming_booking_model.dart';
 
@@ -16,9 +18,21 @@ class LabUpcomingBookingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Parse date for layout, e.g. "MAY 24" -> "MAY" and "24"
-    final dateParts = booking.appointmentDate.split(' ');
+    final dateStr = booking.appointmentDate ?? '';
+    final dateParts = dateStr.trim().split(RegExp(r'\s+'));
     final month = dateParts.isNotEmpty ? dateParts[0] : '';
     final day = dateParts.length > 1 ? dateParts[1] : '';
+
+    final patientName = booking.patientName ?? '';
+    final testCategory = booking.testCategory ?? '';
+    final appointmentTime = (booking.appointmentTime ?? '').isNotEmpty
+        ? booking.appointmentTime!.formatTo12Hour(context)
+        : '';
+
+    final subtitle = [
+      if (testCategory.isNotEmpty) testCategory,
+      if (appointmentTime.isNotEmpty) appointmentTime,
+    ].join(' • ');
 
     return Container(
       width: double.infinity,
@@ -62,19 +76,21 @@ class LabUpcomingBookingCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  booking.patientName,
+                  patientName,
                   style: context.textTheme.titleMedium?.copyWith(
                     color: const Color(0xFF0F2D52),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 4.h),
-                Text(
-                  '${booking.testCategory} • ${booking.appointmentTime}',
-                  style: context.textTheme.bodyMedium?.copyWith(
-                    color: const Color(0xFF7A8FA6),
+                if (subtitle.isNotEmpty) ...[
+                  SizedBox(height: 4.h),
+                  Text(
+                    subtitle,
+                    style: context.textTheme.bodyMedium?.copyWith(
+                      color: const Color(0xFF7A8FA6),
+                    ),
                   ),
-                ),
+                ],
               ],
             ),
           ),

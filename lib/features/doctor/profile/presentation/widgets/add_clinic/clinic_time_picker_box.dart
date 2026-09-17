@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
+
 import '../../../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../../../core/utils/extensions/time_extensions.dart';
 
 class ClinicTimePickerBox extends StatelessWidget {
   final String initialTime;
   final VoidCallback? onTap;
 
-  const ClinicTimePickerBox({
-    super.key,
-    required this.initialTime,
-    this.onTap,
-  });
+  const ClinicTimePickerBox({super.key, required this.initialTime, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +27,7 @@ class ClinicTimePickerBox extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                initialTime,
+                initialTime.formatTo12Hour(context),
                 style: theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w500,
                 ),

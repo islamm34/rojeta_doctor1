@@ -1,26 +1,30 @@
 import 'package:equatable/equatable.dart';
 
 class LabSpecialOfferModel extends Equatable {
-  final String title;
-  final String description;
-  final String discount;
+  final String? id;
+  final String? title;
+  final String? description;
+  final String? discount;
 
   const LabSpecialOfferModel({
-    required this.title,
-    required this.description,
-    required this.discount,
+    this.id,
+    this.title,
+    this.description,
+    this.discount,
   });
 
   factory LabSpecialOfferModel.fromJson(Map<String, dynamic> json) {
     return LabSpecialOfferModel(
-      title: json['title'] ?? '',
-      description: json['description'] ?? '',
-      discount: json['discount'] ?? '',
+      id: (json['id'] ?? json['_id'])?.toString(),
+      title: json['title'] as String?,
+      description: json['description'] as String?,
+      discount: json['discount']?.toString(),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'title': title,
       'description': description,
       'discount': discount,
@@ -28,5 +32,5 @@ class LabSpecialOfferModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [title, description, discount];
+  List<Object?> get props => [id, title, description, discount];
 }

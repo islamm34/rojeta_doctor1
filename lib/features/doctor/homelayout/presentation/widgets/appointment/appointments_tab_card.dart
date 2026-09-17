@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:rojeta_doctor/config/routes/app_router.dart';
 import 'package:rojeta_doctor/core/di/injector.dart';
 import 'package:rojeta_doctor/features/doctor/chat/data/repositories/doctor_chat_repository.dart';
 import 'package:rojeta_doctor/features/doctor/homelayout/presentation/widgets/appointment/appointment_card_action_buttons.dart';
 
 import '../../../../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../../../../core/utils/extensions/time_extensions.dart';
 import '../../../../../../../core/utils/screen_util_like.dart';
 import '../../../data/models/doctor_appointment_model.dart';
 
@@ -285,7 +285,7 @@ class AppointmentsTabCard extends StatelessWidget {
                           SizedBox(width: 6.w),
                           Expanded(
                             child: Text(
-                              _formatDate(appointment.appointmentDate),
+                              _formatDate(context, appointment.appointmentDate),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -311,7 +311,7 @@ class AppointmentsTabCard extends StatelessWidget {
                           SizedBox(width: 6.w),
                           Flexible(
                             child: Text(
-                              _formatTime(appointment.appointmentTime),
+                              _formatTime(context, appointment.appointmentTime),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -374,25 +374,13 @@ class AppointmentsTabCard extends StatelessWidget {
     );
   }
 
-  String _formatDate(String dateStr) {
-    if (dateStr.isEmpty) return '';
-    final parsed = DateTime.tryParse(dateStr);
-    if (parsed != null) {
-      return DateFormat('yyyy-MM-dd').format(parsed);
-    }
-    if (dateStr.contains('T')) {
-      return dateStr.split('T').first;
-    }
-    return dateStr;
+  String _formatDate(BuildContext context, String dateStr) {
+    return TimeFormatter.formatDate(dateStr, context: context);
   }
 
-  String _formatTime(String timeStr) {
+  String _formatTime(BuildContext context, String timeStr) {
     if (timeStr.isEmpty) return '';
-    final parsed = DateTime.tryParse(timeStr);
-    if (parsed != null) {
-      return DateFormat.jm().format(parsed);
-    }
-    return timeStr;
+    return timeStr.formatTo12Hour(context);
   }
 
   IconData _getIconForType(String type) {

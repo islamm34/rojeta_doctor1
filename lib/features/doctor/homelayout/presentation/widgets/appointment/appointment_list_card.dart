@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../../../../../../../core/utils/extensions/time_extensions.dart';
 import '../../../../../../../core/utils/screen_util_like.dart';
 import '../../../data/models/doctor_appointment_model.dart';
 
@@ -6,11 +8,7 @@ class AppointmentListCard extends StatelessWidget {
   final DoctorAppointmentModel appointment;
   final VoidCallback? onTap;
 
-  const AppointmentListCard({
-    super.key,
-    required this.appointment,
-    this.onTap,
-  });
+  const AppointmentListCard({super.key, required this.appointment, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +43,7 @@ class AppointmentListCard extends StatelessWidget {
               offset: const Offset(0, 4),
             ),
           ],
-          border: Border.all(
-            color: Colors.grey.shade100,
-          ),
+          border: Border.all(color: Colors.grey.shade100),
         ),
         child: Row(
           children: [
@@ -89,7 +85,10 @@ class AppointmentListCard extends StatelessWidget {
                       ),
                       SizedBox(width: 8.w),
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 6.w,
+                          vertical: 2.h,
+                        ),
                         decoration: BoxDecoration(
                           color: Colors.grey.shade100,
                           borderRadius: BorderRadius.circular(4.r),
@@ -114,7 +113,7 @@ class AppointmentListCard extends StatelessWidget {
                       ),
                       SizedBox(width: 4.w),
                       Text(
-                        appointment.appointmentTime,
+                        appointment.appointmentTime.formatTo12Hour(context),
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.colorScheme.primary,
                           fontWeight: FontWeight.w600,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import '../../../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../../../core/utils/extensions/time_extensions.dart';
 import 'clinic_day_row.dart';
 
 class WorkingHoursSection extends StatefulWidget {
@@ -32,7 +34,8 @@ class _WorkingHoursSectionState extends State<WorkingHoursSection> {
   @override
   void initState() {
     super.initState();
-    if (widget.initialWorkingHours != null && widget.initialWorkingHours!.isNotEmpty) {
+    if (widget.initialWorkingHours != null &&
+        widget.initialWorkingHours!.isNotEmpty) {
       widget.initialWorkingHours!.forEach((key, val) {
         if (val is Map) {
           _activeDays[key] = val['isOpen'] == true || val['is_open'] == true;
@@ -87,12 +90,12 @@ class _WorkingHoursSectionState extends State<WorkingHoursSection> {
     );
 
     if (picked != null && mounted) {
-      final formatted = picked.format(context);
+      final formatted = picked.formatTimeOfDay;
       setState(() {
         if (isStart) {
-          _startTimes[dayKey] = formatted;
+          _startTimes[dayKey] = formatted();
         } else {
-          _endTimes[dayKey] = formatted;
+          _endTimes[dayKey] = formatted();
         }
       });
       _notifyChanges();
@@ -124,29 +127,27 @@ class _WorkingHoursSectionState extends State<WorkingHoursSection> {
           ),
         ),
         const SizedBox(height: 16),
-        ...days.map(
-          (day) {
-            final key = day['key']!;
-            final isActive = _activeDays[key] ?? false;
-            final startTime = _startTimes[key] ?? '09:00 AM';
-            final endTime = _endTimes[key] ?? '10:00 PM';
+        ...days.map((day) {
+          final key = day['key']!;
+          final isActive = _activeDays[key] ?? false;
+          final startTime = _startTimes[key] ?? '09:00 AM';
+          final endTime = _endTimes[key] ?? '10:00 PM';
 
-            return ClinicDayRow(
-              label: day['label']!,
-              isActive: isActive,
-              startTime: startTime,
-              endTime: endTime,
-              onStartTimeTap: () => _selectTime(key, true),
-              onEndTimeTap: () => _selectTime(key, false),
-              onChanged: (val) {
-                setState(() {
-                  _activeDays[key] = val ?? false;
-                });
-                _notifyChanges();
-              },
-            );
-          },
-        ),
+          return ClinicDayRow(
+            label: day['label']!,
+            isActive: isActive,
+            startTime: startTime,
+            endTime: endTime,
+            onStartTimeTap: () => _selectTime(key, true),
+            onEndTimeTap: () => _selectTime(key, false),
+            onChanged: (val) {
+              setState(() {
+                _activeDays[key] = val ?? false;
+              });
+              _notifyChanges();
+            },
+          );
+        }),
       ],
     );
   }

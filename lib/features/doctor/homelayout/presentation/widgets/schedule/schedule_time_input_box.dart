@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../../../../../../core/utils/extensions/time_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
 
 class ScheduleTimeInputBox extends StatelessWidget {
@@ -8,6 +10,7 @@ class ScheduleTimeInputBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final displayTime = time.isEmpty ? '-- : --' : time.formatTo12Hour(context);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
       decoration: BoxDecoration(
@@ -16,7 +19,7 @@ class ScheduleTimeInputBox extends StatelessWidget {
         border: Border.all(color: Colors.grey.shade300),
       ),
       child: Text(
-        time.isEmpty ? '-- : --' : time,
+        displayTime,
         style: TextStyle(
           color: time.isEmpty ? Colors.grey : Colors.black87,
           fontSize: 14.sp,

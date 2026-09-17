@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../../../core/utils/extensions/time_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
 import '../../../data/models/doctor_appointment_details_model.dart';
 
@@ -69,7 +70,7 @@ class AppointmentDetailsScheduleCard extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            _formatDate(details.appointmentDate),
+                            _formatDate(context, details.appointmentDate),
                             style: TextStyle(
                               color: Colors.black87,
                               fontWeight: FontWeight.w600,
@@ -110,7 +111,7 @@ class AppointmentDetailsScheduleCard extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            _formatTime(details.appointmentTime),
+                            _formatTime(context, details.appointmentTime),
                             style: TextStyle(
                               color: Colors.black87,
                               fontWeight: FontWeight.w600,
@@ -207,47 +208,12 @@ class AppointmentDetailsScheduleCard extends StatelessWidget {
     );
   }
 
-  String _formatDate(String? rawDate) {
-    if (rawDate == null || rawDate.trim().isEmpty) return '';
-    final trimmed = rawDate.trim();
-
-    final parsed = DateTime.tryParse(trimmed);
-    if (parsed != null) {
-      final day = parsed.day.toString().padLeft(2, '0');
-      final month = parsed.month.toString().padLeft(2, '0');
-      final year = parsed.year.toString().padLeft(4, '0');
-      return '$day/$month/$year';
-    }
-
-    final dateOnly = trimmed.split('T').first.split(' ').first;
-    final parts = dateOnly.split(RegExp(r'[-/]'));
-    if (parts.length == 3) {
-      if (parts[0].length == 4) {
-        final y = parts[0];
-        final m = parts[1].padLeft(2, '0');
-        final d = parts[2].padLeft(2, '0');
-        return '$d/$m/$y';
-      } else if (parts[2].length == 4) {
-        final d = parts[0].padLeft(2, '0');
-        final m = parts[1].padLeft(2, '0');
-        final y = parts[2];
-        return '$d/$m/$y';
-      }
-    }
-
-    return dateOnly;
+  String _formatDate(BuildContext context, String? rawDate) {
+    return TimeFormatter.formatDate(rawDate, context: context);
   }
 
-  String _formatTime(String timeStr) {
+  String _formatTime(BuildContext context, String timeStr) {
     if (timeStr.isEmpty) return '';
-    final parsed = DateTime.tryParse(timeStr);
-    if (parsed != null) {
-      final hour = parsed.hour;
-      final minute = parsed.minute.toString().padLeft(2, '0');
-      final period = hour >= 12 ? 'PM' : 'AM';
-      final hour12 = hour == 0 ? 12 : (hour > 12 ? hour - 12 : hour);
-      return '$hour12:$minute $period';
-    }
-    return timeStr;
+    return timeStr.formatTo12Hour(context);
   }
 }

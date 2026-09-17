@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
+import 'package:rojeta_doctor/core/utils/extensions/time_extensions.dart';
 import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
 import 'package:rojeta_doctor/features/nursing/homelayout/data/models/nursing_profile_model.dart';
 import 'package:rojeta_doctor/features/nursing/homelayout/presentation/bloc/nursing_bloc.dart';
 import 'package:rojeta_doctor/features/nursing/homelayout/presentation/bloc/nursing_event.dart';
 
-
 class NursingWorkingHoursPage extends StatefulWidget {
   const NursingWorkingHoursPage({super.key});
 
   @override
-  State<NursingWorkingHoursPage> createState() => _NursingWorkingHoursPageState();
+  State<NursingWorkingHoursPage> createState() =>
+      _NursingWorkingHoursPageState();
 }
 
 class _NursingWorkingHoursPageState extends State<NursingWorkingHoursPage> {
@@ -21,12 +22,15 @@ class _NursingWorkingHoursPageState extends State<NursingWorkingHoursPage> {
   void initState() {
     super.initState();
     final state = context.read<NursingBloc>().state;
-    _workingHours = state.workingHours ??
+    _workingHours =
+        state.workingHours ??
         const NursingWorkingHoursModel(days: []); // Default empty if null
   }
 
   void _saveChanges() {
-    context.read<NursingBloc>().add(UpdateNursingWorkingHoursEvent(_workingHours));
+    context.read<NursingBloc>().add(
+      UpdateNursingWorkingHoursEvent(_workingHours),
+    );
     context.pop();
   }
 
@@ -45,7 +49,7 @@ class _NursingWorkingHoursPageState extends State<NursingWorkingHoursPage> {
     );
     if (picked != null) {
       final day = _workingHours.days[index];
-      final formattedTime = picked.format(context);
+      final formattedTime = picked.formatTimeOfDay();
       if (isOpenTime) {
         _updateDay(index, day.copyWith(openTime: formattedTime));
       } else {
@@ -116,7 +120,7 @@ class _NursingWorkingHoursPageState extends State<NursingWorkingHoursPage> {
                               onChanged: (val) {
                                 _updateDay(index, day.copyWith(isOpen: val));
                               },
-                              activeColor: Colors.white,
+                              activeThumbColor: Colors.white,
                               activeTrackColor: const Color(0xFF2563EB),
                               inactiveThumbColor: Colors.white,
                               inactiveTrackColor: const Color(0xFFE2E8F0),
@@ -148,7 +152,11 @@ class _NursingWorkingHoursPageState extends State<NursingWorkingHoursPage> {
                           SizedBox(height: 8.h),
                           Row(
                             children: [
-                              Icon(Icons.bedtime_outlined, color: const Color(0xFF94A3B8), size: 16.w),
+                              Icon(
+                                Icons.bedtime_outlined,
+                                color: const Color(0xFF94A3B8),
+                                size: 16.w,
+                              ),
                               SizedBox(width: 8.w),
                               Text(
                                 'Closed',
@@ -200,7 +208,11 @@ class _NursingWorkingHoursPageState extends State<NursingWorkingHoursPage> {
                 Expanded(
                   child: ElevatedButton.icon(
                     onPressed: _saveChanges,
-                    icon: Icon(Icons.save_outlined, color: Colors.white, size: 16.w),
+                    icon: Icon(
+                      Icons.save_outlined,
+                      color: Colors.white,
+                      size: 16.w,
+                    ),
                     label: Text(
                       'SAVE CHANGES',
                       style: TextStyle(
@@ -226,7 +238,11 @@ class _NursingWorkingHoursPageState extends State<NursingWorkingHoursPage> {
     );
   }
 
-  Widget _buildTimePicker({required String label, required String time, required VoidCallback onTap}) {
+  Widget _buildTimePicker({
+    required String label,
+    required String time,
+    required VoidCallback onTap,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -252,11 +268,12 @@ class _NursingWorkingHoursPageState extends State<NursingWorkingHoursPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  time,
-                  style: const TextStyle(color: Color(0xFF0F172A)),
+                Text(time, style: const TextStyle(color: Color(0xFF0F172A))),
+                Icon(
+                  Icons.access_time,
+                  color: const Color(0xFF64748B),
+                  size: 18.w,
                 ),
-                Icon(Icons.access_time, color: const Color(0xFF64748B), size: 18.w),
               ],
             ),
           ),
