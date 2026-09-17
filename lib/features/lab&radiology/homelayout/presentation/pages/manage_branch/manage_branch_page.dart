@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
 import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
-import '../../../../../../features/auth/data/models/user_type_model.dart';
+
 import '../../../../../../config/routes/app_router.dart';
+import '../../../../../../core/di/injector.dart';
+import '../../../../../../features/auth/data/models/user_type_model.dart';
 import '../../bloc/manage_branch/manage_branch_bloc.dart';
 import '../../bloc/manage_branch/manage_branch_event.dart';
 import '../../bloc/manage_branch/manage_branch_state.dart';
-import 'widgets/branch_stats_card.dart';
 import 'widgets/branch_item_card.dart';
+import 'widgets/branch_stats_card.dart';
 
 class ManageBranchPage extends StatelessWidget {
   final UserType userType;
@@ -18,7 +20,9 @@ class ManageBranchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ManageBranchBloc()..add(LoadBranchesEvent(userType: userType)),
+      create: (context) =>
+          injector<ManageBranchBloc>()
+            ..add(LoadBranchesEvent(userType: userType)),
       child: Scaffold(
         appBar: AppBar(
           title: Text(
@@ -43,7 +47,9 @@ class ManageBranchPage extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             }
             if (state.status == ManageBranchStatus.failure) {
-              return Center(child: Text(state.errorMessage ?? 'An error occurred'));
+              return Center(
+                child: Text(state.errorMessage ?? 'An error occurred'),
+              );
             }
 
             return SingleChildScrollView(
@@ -69,8 +75,16 @@ class ManageBranchPage extends StatelessWidget {
                     width: double.infinity,
                     height: 48.h,
                     child: ElevatedButton.icon(
-                      onPressed: () {
-                        context.pushNamed(AppRoutes.addBranch, extra: userType);
+                      onPressed: () async {
+                        final result = await context.pushNamed(
+                          AppRoutes.addBranch,
+                          extra: userType,
+                        );
+                        if (result == true && context.mounted) {
+                          context.read<ManageBranchBloc>().add(
+                            LoadBranchesEvent(userType: userType),
+                          );
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF2CC069),
@@ -79,7 +93,10 @@ class ManageBranchPage extends StatelessWidget {
                         ),
                         elevation: 0,
                       ),
-                      icon: const Icon(Icons.location_on_outlined, color: Colors.white),
+                      icon: const Icon(
+                        Icons.location_on_outlined,
+                        color: Colors.white,
+                      ),
                       label: Text(
                         'Add Branch',
                         style: context.textTheme.titleMedium?.copyWith(
@@ -94,14 +111,17 @@ class ManageBranchPage extends StatelessWidget {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: state.branches.length,
-                    separatorBuilder: (context, index) => SizedBox(height: 16.h),
+                    separatorBuilder: (context, index) =>
+                        SizedBox(height: 16.h),
                     itemBuilder: (context, index) {
                       final branch = state.branches[index];
                       return BranchItemCard(
                         branch: branch,
                         onEdit: () {},
                         onDelete: () {
-                          context.read<ManageBranchBloc>().add(DeleteBranchEvent(branchId: branch.id));
+                          context.read<ManageBranchBloc>().add(
+                            DeleteBranchEvent(branchId: branch.id ?? ''),
+                          );
                         },
                       );
                     },

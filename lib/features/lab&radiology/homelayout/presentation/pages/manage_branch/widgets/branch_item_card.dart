@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
 import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
+
 import '../../../../data/models/branch_model.dart';
 import 'branch_info_row.dart';
 
@@ -37,7 +38,7 @@ class BranchItemCard extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        branch.name,
+                        branch.name ?? '-',
                         style: context.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: const Color(0xFF0F2D52),
@@ -67,7 +68,7 @@ class BranchItemCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                if (branch.isHomeCollectionAvailable) ...[
+                if (branch.isHomeCollectionAvailable ?? false) ...[
                   SizedBox(height: 8.h),
                   Container(
                     padding: EdgeInsets.symmetric(
@@ -101,14 +102,17 @@ class BranchItemCard extends StatelessWidget {
                 SizedBox(height: 16.h),
                 BranchInfoRow(
                   icon: Icons.location_on_outlined,
-                  text: branch.address,
+                  text: branch.address ?? '-',
                 ),
                 SizedBox(height: 6.h),
-                BranchInfoRow(icon: Icons.phone_outlined, text: branch.phone),
+                BranchInfoRow(
+                  icon: Icons.phone_outlined,
+                  text: branch.phone ?? "-",
+                ),
                 SizedBox(height: 6.h),
                 BranchInfoRow(
                   icon: Icons.access_time,
-                  text: branch.workingHours,
+                  text: branch.workingHours ?? '0',
                 ),
                 if (branch.mapUrl != null)
                   Padding(

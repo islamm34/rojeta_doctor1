@@ -4,16 +4,17 @@ import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
 
 class VerificationStatusCard extends StatelessWidget {
   final bool isRadiology;
-  final String year;
+  final String? year;
 
   const VerificationStatusCard({
     super.key,
     required this.isRadiology,
-    required this.year,
+    this.year,
   });
 
   @override
   Widget build(BuildContext context) {
+    final displayYear = year ?? DateTime.now().year.toString();
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 32.h),
@@ -29,7 +30,11 @@ class VerificationStatusCard extends StatelessWidget {
               color: Color(0xFFBAE6FD),
               shape: BoxShape.circle,
             ),
-            child: Icon(Icons.verified_outlined, color: const Color(0xFF0369A1), size: 28.r),
+            child: Icon(
+              Icons.verified_outlined,
+              color: const Color(0xFF0369A1),
+              size: 28.r,
+            ),
           ),
           SizedBox(height: 16.h),
           Text(
@@ -41,7 +46,7 @@ class VerificationStatusCard extends StatelessWidget {
           ),
           SizedBox(height: 8.h),
           Text(
-            'Your ${isRadiology ? 'Radiology Center' : 'lab'} is currently verified for the $year calendar year.',
+            'Your ${isRadiology ? 'Radiology Center' : 'lab'} is currently verified for the $displayYear calendar year.',
             textAlign: TextAlign.center,
             style: context.textTheme.bodyMedium?.copyWith(
               color: const Color(0xFF475569),

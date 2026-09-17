@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:rojeta_doctor/core/utils/app_colors.dart';
-import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
-import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
+import '../../../../core/utils/app_colors.dart';
+import '../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../core/utils/screen_util_like.dart';
+import 'booking_summary_stat_item.dart';
 
 class BookingSummaryCard extends StatelessWidget {
   final int pendingCount;
@@ -23,7 +24,7 @@ class BookingSummaryCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withOpacity(0.3),
+            color: AppColors.primary.withValues(alpha: 0.3),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -43,8 +44,7 @@ class BookingSummaryCard extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: _buildStatItem(
-                  context,
+                child: BookingSummaryStatItem(
                   label: context.strings.pendingBookings,
                   count: pendingCount,
                 ),
@@ -52,11 +52,10 @@ class BookingSummaryCard extends StatelessWidget {
               Container(
                 width: 1,
                 height: 40.h,
-                color: Colors.white.withOpacity(0.5),
+                color: Colors.white.withValues(alpha: 0.5),
               ),
               Expanded(
-                child: _buildStatItem(
-                  context,
+                child: BookingSummaryStatItem(
                   label: context.strings.homeVisitsCount,
                   count: homeVisitsCount,
                 ),
@@ -65,27 +64,6 @@ class BookingSummaryCard extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildStatItem(BuildContext context, {required String label, required int count}) {
-    return Column(
-      children: [
-        Text(
-          count.toString().padLeft(2, '0'),
-          style: context.textTheme.headlineMedium?.copyWith(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        SizedBox(height: 4.h),
-        Text(
-          label,
-          style: context.textTheme.bodyMedium?.copyWith(
-            color: Colors.white.withOpacity(0.9),
-          ),
-        ),
-      ],
     );
   }
 }

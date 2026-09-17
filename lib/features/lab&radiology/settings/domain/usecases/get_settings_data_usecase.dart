@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import '../../../../../../core/error/failures.dart';
-import '../entities/lab_profile.dart';
-import '../entities/general_settings.dart';
+import '../../data/models/general_settings_model.dart';
+import '../../data/models/lab_profile_model.dart';
 import '../repositories/settings_repository.dart';
 
 class GetSettingsDataUseCase {
@@ -9,11 +9,11 @@ class GetSettingsDataUseCase {
 
   GetSettingsDataUseCase(this.repository);
 
-  Future<Either<Failure, LabProfile>> getLabProfile() async {
+  Future<Either<Failure, LabProfileModel>> getLabProfile() async {
     return await repository.getLabProfile();
   }
 
-  Future<Either<Failure, GeneralSettings>> getGeneralSettings() async {
+  Future<Either<Failure, GeneralSettingsModel>> getGeneralSettings() async {
     return await repository.getGeneralSettings();
   }
 }

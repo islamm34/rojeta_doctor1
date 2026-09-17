@@ -64,11 +64,15 @@ class _WorkingHoursPageState extends State<WorkingHoursPage> {
                   ),
                 ),
                 SizedBox(height: 16.h),
-                ...workingHours.standardWeek.map((day) => DayScheduleTile(day: day)),
+                ...(workingHours.standardWeek ?? []).map(
+                  (day) => DayScheduleTile(day: day),
+                ),
                 SizedBox(height: 32.h),
                 const Divider(),
                 SizedBox(height: 24.h),
-                SpecialHoursSection(overrides: workingHours.upcomingOverrides),
+                SpecialHoursSection(
+                  overrides: workingHours.upcomingOverrides ?? const [],
+                ),
                 SizedBox(height: 40.h),
               ],
             ),

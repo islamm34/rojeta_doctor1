@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
-import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
-import 'package:rojeta_doctor/features/lab&radiology/settings/data/models/working_hours_model.dart';
-import 'package:rojeta_doctor/features/lab&radiology/settings/presentation/bloc/settings_bloc.dart';
-import 'package:rojeta_doctor/features/lab&radiology/settings/presentation/bloc/settings_event.dart';
+import '../../../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../../../core/utils/screen_util_like.dart';
+import '../../../data/models/working_hours_model.dart';
+import '../../bloc/settings_bloc.dart';
+import '../../bloc/settings_event.dart';
+import 'schedule_time_chip.dart';
 
 class DayScheduleTile extends StatelessWidget {
   final DayScheduleModel day;
@@ -13,6 +14,11 @@ class DayScheduleTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isClosed = day.isClosed ?? false;
+    final dayName = day.dayName ?? '';
+    final openingTime = day.openingTime ?? '';
+    final closingTime = day.closingTime ?? '';
+
     return Container(
       margin: EdgeInsets.only(bottom: 8.h),
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
@@ -27,7 +33,7 @@ class DayScheduleTile extends StatelessWidget {
           SizedBox(
             width: 60.w,
             child: Text(
-              day.dayName,
+              dayName,
               style: context.textTheme.titleMedium?.copyWith(
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
@@ -35,7 +41,7 @@ class DayScheduleTile extends StatelessWidget {
               ),
             ),
           ),
-          if (day.isClosed)
+          if (isClosed)
             Container(
               padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
               decoration: BoxDecoration(
@@ -53,25 +59,25 @@ class DayScheduleTile extends StatelessWidget {
           else
             Row(
               children: [
-                _buildTimeChip(context, day.openingTime),
+                ScheduleTimeChip(time: openingTime),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8.w),
                   child: Text('-', style: context.textTheme.bodyMedium),
                 ),
-                _buildTimeChip(context, day.closingTime),
+                ScheduleTimeChip(time: closingTime),
               ],
             ),
           SizedBox(
             width: 20.w,
             child: Switch(
-              value: !day.isClosed,
+              value: !isClosed,
               onChanged: (val) {
                 context.read<SettingsBloc>().add(
                   UpdateDayScheduleEvent(
-                    dayName: day.dayName,
+                    dayName: dayName,
                     isClosed: !val,
-                    openingTime: day.openingTime,
-                    closingTime: day.closingTime,
+                    openingTime: openingTime,
+                    closingTime: closingTime,
                   ),
                 );
               },
@@ -79,24 +85,6 @@ class DayScheduleTile extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildTimeChip(BuildContext context, String time) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF8FAFC),
-        borderRadius: BorderRadius.circular(8.r),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
-      ),
-      child: Text(
-        time,
-        style: context.textTheme.bodyMedium?.copyWith(
-          color: const Color(0xFF0F2D52),
-          fontWeight: FontWeight.w500,
-        ),
       ),
     );
   }

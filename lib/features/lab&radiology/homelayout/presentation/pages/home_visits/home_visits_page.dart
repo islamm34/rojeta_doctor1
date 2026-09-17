@@ -5,12 +5,13 @@ import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
 import 'package:rojeta_doctor/features/lab&radiology/homelayout/presentation/bloc/home_visits/home_visits_bloc.dart';
 import 'package:rojeta_doctor/features/lab&radiology/homelayout/presentation/bloc/home_visits/home_visits_event.dart';
 import 'package:rojeta_doctor/features/lab&radiology/homelayout/presentation/bloc/home_visits/home_visits_state.dart';
-import '../../../../../../features/auth/data/models/user_type_model.dart';
 
-import 'widgets/service_status_card.dart';
-import 'widgets/service_areas_card.dart';
-import 'widgets/fee_input_card.dart';
+import '../../../../../../core/di/injector.dart';
+import '../../../../../../features/auth/data/models/user_type_model.dart';
 import 'widgets/available_time_slots_card.dart';
+import 'widgets/fee_input_card.dart';
+import 'widgets/service_areas_card.dart';
+import 'widgets/service_status_card.dart';
 
 class HomeVisitsPage extends StatelessWidget {
   final UserType userType;
@@ -21,7 +22,8 @@ class HomeVisitsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          HomeVisitsBloc()..add(LoadHomeVisitsConfig(userType: userType)),
+          injector<HomeVisitsBloc>()
+            ..add(LoadHomeVisitsConfig(userType: userType)),
       child: const HomeVisitsView(),
     );
   }
@@ -84,7 +86,7 @@ class HomeVisitsView extends StatelessWidget {
                     ),
                     SizedBox(height: 20.h),
                     ServiceStatusCard(
-                      isVisible: config.isServiceVisible,
+                      isVisible: config.isServiceVisible ?? false,
                       onToggle: (val) {
                         context.read<HomeVisitsBloc>().add(
                           ToggleServiceStatus(),
@@ -93,12 +95,12 @@ class HomeVisitsView extends StatelessWidget {
                     ),
                     SizedBox(height: 16.h),
                     ServiceAreasCard(
-                      areas: config.serviceAreas,
+                      areas: config.serviceAreas ?? const [],
                       onAddArea: () {
-                        // TODO: Navigate to add area page
+                        // ponytail: navigate to add area page
                       },
                       onDeleteArea: (id) {
-                        // TODO: Implement delete
+                        // ponytail: handle area deletion
                       },
                     ),
                     SizedBox(height: 16.h),
@@ -106,7 +108,7 @@ class HomeVisitsView extends StatelessWidget {
                       title: 'Collection Fee',
                       subtext:
                           'Flat rate applied to all residential visits regardless of test volume.',
-                      value: config.collectionFee,
+                      value: config.collectionFee ?? 0.0,
                       icon: Icons.money,
                       onChanged: (val) {
                         context.read<HomeVisitsBloc>().add(
@@ -119,7 +121,7 @@ class HomeVisitsView extends StatelessWidget {
                       title: 'Minimum Booking Amount',
                       subtext:
                           'Service will only be available if subtotal exceeds this amount.',
-                      value: config.minimumBookingAmount,
+                      value: config.minimumBookingAmount ?? 0.0,
                       icon: Icons.shopping_bag_outlined,
                       onChanged: (val) {
                         context.read<HomeVisitsBloc>().add(
@@ -129,17 +131,17 @@ class HomeVisitsView extends StatelessWidget {
                     ),
                     SizedBox(height: 16.h),
                     AvailableTimeSlotsCard(
-                      slots: config.isWeekdaysTabActive
-                          ? config.weekdaySlots
-                          : config.weekendSlots,
-                      isWeekdaysTabActive: config.isWeekdaysTabActive,
+                      slots: (config.isWeekdaysTabActive ?? true)
+                          ? (config.weekdaySlots ?? const [])
+                          : (config.weekendSlots ?? const []),
+                      isWeekdaysTabActive: config.isWeekdaysTabActive ?? true,
                       onTabChanged: (isWeekdays) {
                         context.read<HomeVisitsBloc>().add(
                           ToggleWeekdaysTab(isWeekdays: isWeekdays),
                         );
                       },
                       onAddSlot: () {
-                        // TODO: Implement add slot
+                        // ponytail: implement add slot
                       },
                     ),
                   ],

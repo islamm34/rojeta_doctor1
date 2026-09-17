@@ -1,45 +1,45 @@
 import 'package:equatable/equatable.dart';
 
 class LabInfoModel extends Equatable {
-  final String labName;
-  final String licenseNumber;
-  final String primaryContactEmail;
-  final String phoneNumber;
-  final String laboratoryDescription;
-  final bool isVerified;
-  final String verificationYear;
+  final String? labName;
+  final String? licenseNumber;
+  final String? primaryContactEmail;
+  final String? phoneNumber;
+  final String? laboratoryDescription;
+  final bool? isVerified;
+  final String? verificationYear;
 
   const LabInfoModel({
-    required this.labName,
-    required this.licenseNumber,
-    required this.primaryContactEmail,
-    required this.phoneNumber,
-    required this.laboratoryDescription,
-    required this.isVerified,
-    required this.verificationYear,
+    this.labName,
+    this.licenseNumber,
+    this.primaryContactEmail,
+    this.phoneNumber,
+    this.laboratoryDescription,
+    this.isVerified,
+    this.verificationYear,
   });
 
   factory LabInfoModel.fromJson(Map<String, dynamic> json) {
     return LabInfoModel(
-      labName: json['labName'] ?? '',
-      licenseNumber: json['licenseNumber'] ?? '',
-      primaryContactEmail: json['primaryContactEmail'] ?? '',
-      phoneNumber: json['phoneNumber'] ?? '',
-      laboratoryDescription: json['laboratoryDescription'] ?? '',
-      isVerified: json['isVerified'] ?? false,
-      verificationYear: json['verificationYear'] ?? '',
+      labName: (json['labName'] ?? json['lab_name'] ?? json['name']) as String?,
+      licenseNumber: (json['licenseNumber'] ?? json['license_number'] ?? json['license_no']) as String?,
+      primaryContactEmail: (json['primaryContactEmail'] ?? json['primary_contact_email'] ?? json['email']) as String?,
+      phoneNumber: (json['phoneNumber'] ?? json['phone_number'] ?? json['phone']) as String?,
+      laboratoryDescription: (json['laboratoryDescription'] ?? json['laboratory_description'] ?? json['description'] ?? json['about']) as String?,
+      isVerified: json['isVerified'] as bool? ?? json['is_verified'] as bool? ?? false,
+      verificationYear: (json['verificationYear'] ?? json['verification_year'] ?? json['year'])?.toString(),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'labName': labName,
-      'licenseNumber': licenseNumber,
-      'primaryContactEmail': primaryContactEmail,
-      'phoneNumber': phoneNumber,
-      'laboratoryDescription': laboratoryDescription,
-      'isVerified': isVerified,
-      'verificationYear': verificationYear,
+      'lab_name': labName,
+      'license_number': licenseNumber,
+      'primary_contact_email': primaryContactEmail,
+      'phone_number': phoneNumber,
+      'laboratory_description': laboratoryDescription,
+      'is_verified': isVerified,
+      'verification_year': verificationYear,
     };
   }
 

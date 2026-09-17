@@ -1,13 +1,19 @@
-import '../../../../../../core/local/user_hive_helper.dart';
 import '../../../../../../core/network/api_consumer.dart';
 import '../../../../../../core/network/endpoints.dart';
-import '../models/lab_profile_model.dart';
 import '../models/general_settings_model.dart';
+import '../models/lab_info_model.dart';
+import '../models/lab_profile_model.dart';
+import '../models/working_hours_model.dart';
 
 abstract class SettingsRemoteDataSource {
   Future<LabProfileModel> getLabProfile();
+  Future<void> updateLabProfile(LabProfileModel profile);
   Future<GeneralSettingsModel> getGeneralSettings();
   Future<void> updateGeneralSettings(GeneralSettingsModel settings);
+  Future<LabInfoModel> getLabInfo();
+  Future<void> updateLabInfo(LabInfoModel info);
+  Future<WorkingHoursModel> getWorkingHours();
+  Future<void> updateWorkingHours(WorkingHoursModel workingHours);
 }
 
 class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
@@ -17,45 +23,69 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
 
   @override
   Future<LabProfileModel> getLabProfile() async {
-    // Simulated remote call since it's mock
-    // final response = await apiConsumer.get(Endpoints.getLabProfile);
-    // return LabProfileModel.fromJson(response);
-    await Future.delayed(const Duration(milliseconds: 500));
-    final cachedUser = UserHiveHelper.getUser();
-    final name = (cachedUser?.name?.isNotEmpty == true)
-        ? cachedUser!.name!
-        : ((cachedUser?.firstName?.isNotEmpty == true)
-            ? cachedUser!.firstName!
-            : 'City Lab');
+    final response = await apiConsumer.get(Endpoints.getLabProfile);
+    if (response is Map<String, dynamic>) {
+      if (response['data'] is Map<String, dynamic>) {
+        return LabProfileModel.fromJson(response['data'] as Map<String, dynamic>);
+      }
+      return LabProfileModel.fromJson(response);
+    }
+    return const LabProfileModel();
+  }
 
-    return LabProfileModel(
-      labName: name,
-      licenseNo: 'LAB-2023-994821',
-      branchesCount: 12,
-      scansCount: 45,
-      iconUrl: cachedUser?.image?.isNotEmpty == true
-          ? cachedUser!.image!
-          : 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=200',
-    );
+  @override
+  Future<void> updateLabProfile(LabProfileModel profile) async {
+    await apiConsumer.post(Endpoints.updateLabProfile, data: profile.toJson());
   }
 
   @override
   Future<GeneralSettingsModel> getGeneralSettings() async {
-    // Simulated remote call
-    await Future.delayed(const Duration(milliseconds: 500));
-    return const GeneralSettingsModel(
-      emailNotifications: true,
-      bookingUpdates: true,
-      pushNotifications: true,
-      appointmentReminders: true,
-      marketingEmails: false,
-    );
+    final response = await apiConsumer.get(Endpoints.getGeneralSettings);
+    if (response is Map<String, dynamic>) {
+      if (response['data'] is Map<String, dynamic>) {
+        return GeneralSettingsModel.fromJson(response['data'] as Map<String, dynamic>);
+      }
+      return GeneralSettingsModel.fromJson(response);
+    }
+    return const GeneralSettingsModel();
   }
 
   @override
   Future<void> updateGeneralSettings(GeneralSettingsModel settings) async {
-    // Simulated remote call
-    // await apiConsumer.post(Endpoints.updateGeneralSettings, body: settings.toJson());
-    await Future.delayed(const Duration(milliseconds: 500));
+    await apiConsumer.post(Endpoints.updateGeneralSettings, data: settings.toJson());
+  }
+
+  @override
+  Future<LabInfoModel> getLabInfo() async {
+    final response = await apiConsumer.get(Endpoints.getLabProfile);
+    if (response is Map<String, dynamic>) {
+      if (response['data'] is Map<String, dynamic>) {
+        return LabInfoModel.fromJson(response['data'] as Map<String, dynamic>);
+      }
+      return LabInfoModel.fromJson(response);
+    }
+    return const LabInfoModel();
+  }
+
+  @override
+  Future<void> updateLabInfo(LabInfoModel info) async {
+    await apiConsumer.post(Endpoints.updateLabProfile, data: info.toJson());
+  }
+
+  @override
+  Future<WorkingHoursModel> getWorkingHours() async {
+    final response = await apiConsumer.get(Endpoints.getWorkingHours);
+    if (response is Map<String, dynamic>) {
+      if (response['data'] is Map<String, dynamic>) {
+        return WorkingHoursModel.fromJson(response['data'] as Map<String, dynamic>);
+      }
+      return WorkingHoursModel.fromJson(response);
+    }
+    return const WorkingHoursModel();
+  }
+
+  @override
+  Future<void> updateWorkingHours(WorkingHoursModel workingHours) async {
+    await apiConsumer.post(Endpoints.updateWorkingHours, data: workingHours.toJson());
   }
 }

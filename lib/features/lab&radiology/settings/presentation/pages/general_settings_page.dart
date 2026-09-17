@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
 import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
+
+import '../../../../../../core/di/injector.dart';
 import '../../../../../../features/auth/data/models/user_type_model.dart';
 import '../bloc/settings_bloc.dart';
 import '../bloc/settings_event.dart';
 import '../bloc/settings_state.dart';
-import '../../../../../../core/di/injector.dart';
+import 'widgets/settings_action_tile.dart';
+import 'widgets/settings_section.dart';
+import 'widgets/settings_switch_tile.dart';
 
 class GeneralSettingsPage extends StatelessWidget {
   final UserType userType;
@@ -36,7 +40,8 @@ class GeneralSettingsPage extends StatelessWidget {
         ),
         body: BlocBuilder<SettingsBloc, SettingsState>(
           builder: (context, state) {
-            if (state.status == SettingsStatus.initial || state.status == SettingsStatus.loading) {
+            if (state.status == SettingsStatus.initial ||
+                state.status == SettingsStatus.loading) {
               return const Center(child: CircularProgressIndicator());
             }
 
@@ -47,37 +52,40 @@ class GeneralSettingsPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildSectionTitle(context, 'Notifications'),
-                  _buildSettingsContainer(
+                  SettingsSection(
+                    title: 'Notifications',
                     children: [
-                      _buildSwitchTile(
-                        context,
+                      SettingsSwitchTile(
                         title: 'Email Notifications',
-                        value: settings.emailNotifications,
-                        onChanged: (val) => context.read<SettingsBloc>().add(ToggleEmailNotifications(val)),
+                        value: settings.emailNotifications ?? false,
+                        onChanged: (val) => context.read<SettingsBloc>().add(
+                          ToggleEmailNotifications(val),
+                        ),
                       ),
-                      _buildSwitchTile(
-                        context,
+                      SettingsSwitchTile(
                         title: 'Booking Updates',
-                        value: settings.bookingUpdates,
-                        onChanged: (val) => context.read<SettingsBloc>().add(ToggleBookingUpdates(val)),
+                        value: settings.bookingUpdates ?? false,
+                        onChanged: (val) => context.read<SettingsBloc>().add(
+                          ToggleBookingUpdates(val),
+                        ),
                       ),
-                      _buildSwitchTile(
-                        context,
+                      SettingsSwitchTile(
                         title: 'Push Notifications',
-                        value: settings.pushNotifications,
-                        onChanged: (val) => context.read<SettingsBloc>().add(TogglePushNotifications(val)),
+                        value: settings.pushNotifications ?? false,
+                        onChanged: (val) => context.read<SettingsBloc>().add(
+                          TogglePushNotifications(val),
+                        ),
                       ),
-                      _buildSwitchTile(
-                        context,
+                      SettingsSwitchTile(
                         title: 'Appointment Reminders',
-                        value: settings.appointmentReminders,
-                        onChanged: (val) => context.read<SettingsBloc>().add(ToggleAppointmentReminders(val)),
+                        value: settings.appointmentReminders ?? false,
+                        onChanged: (val) => context.read<SettingsBloc>().add(
+                          ToggleAppointmentReminders(val),
+                        ),
                       ),
-                      _buildSwitchTile(
-                        context,
+                      SettingsSwitchTile(
                         title: 'Marketing Emails',
-                        value: settings.marketingEmails,
+                        value: settings.marketingEmails ?? false,
                         onChanged: null,
                         hasDivider: false,
                       ),
@@ -85,48 +93,72 @@ class GeneralSettingsPage extends StatelessWidget {
                   ),
                   SizedBox(height: 24.h),
 
-                  _buildSectionTitle(context, 'Security'),
-                  _buildSettingsContainer(
+                  SettingsSection(
+                    title: 'Security',
                     children: [
-                      _buildActionTile(context, title: 'Change Password', onTap: () {}),
-                      _buildActionTile(context, title: 'Two-Factor Authentication', onTap: () {}, hasDivider: false),
+                      SettingsActionTile(
+                        title: 'Change Password',
+                        onTap: () {},
+                      ),
+                      SettingsActionTile(
+                        title: 'Two-Factor Authentication',
+                        onTap: () {},
+                        hasDivider: false,
+                      ),
                     ],
                   ),
                   SizedBox(height: 24.h),
 
-                  _buildSectionTitle(context, 'Privacy'),
-                  _buildSettingsContainer(
+                  SettingsSection(
+                    title: 'Privacy',
                     children: [
-                      _buildActionTile(context, title: 'Privacy Policy', onTap: () {}),
-                      _buildActionTile(context, title: 'Terms & Conditions', onTap: () {}, hasDivider: false),
+                      SettingsActionTile(title: 'Privacy Policy', onTap: () {}),
+                      SettingsActionTile(
+                        title: 'Terms & Conditions',
+                        onTap: () {},
+                        hasDivider: false,
+                      ),
                     ],
                   ),
                   SizedBox(height: 24.h),
 
-                  _buildSectionTitle(context, 'Language'),
-                  _buildSettingsContainer(
+                  SettingsSection(
+                    title: 'Language',
                     children: [
                       ListTile(
                         title: Text(
-                          settings.language,
+                          settings.language ?? '',
                           style: context.textTheme.bodyMedium?.copyWith(
                             color: const Color(0xFF0F2D52),
                           ),
                         ),
-                        trailing: const Icon(Icons.keyboard_arrow_down, color: Color(0xFF7A8FA6)),
+                        trailing: const Icon(
+                          Icons.keyboard_arrow_down,
+                          color: Color(0xFF7A8FA6),
+                        ),
                         onTap: () {},
                       ),
                     ],
                   ),
                   SizedBox(height: 24.h),
 
-                  _buildSectionTitle(context, 'Help & Support'),
-                  _buildSettingsContainer(
+                  SettingsSection(
+                    title: 'Help & Support',
                     children: [
-                      _buildActionTile(context, title: 'Help Center', onTap: () {}),
-                      _buildActionTile(context, title: 'Monthly statistics', onTap: () {}),
-                      _buildActionTile(context, title: 'Contact Support', onTap: () {}),
-                      _buildActionTile(context, title: 'About Rujeta', onTap: () {}, hasDivider: false),
+                      SettingsActionTile(title: 'Help Center', onTap: () {}),
+                      SettingsActionTile(
+                        title: 'Monthly statistics',
+                        onTap: () {},
+                      ),
+                      SettingsActionTile(
+                        title: 'Contact Support',
+                        onTap: () {},
+                      ),
+                      SettingsActionTile(
+                        title: 'About Rujeta',
+                        onTap: () {},
+                        hasDivider: false,
+                      ),
                     ],
                   ),
 
@@ -146,101 +178,6 @@ class GeneralSettingsPage extends StatelessWidget {
           },
         ),
       ),
-    );
-  }
-
-  Widget _buildSectionTitle(BuildContext context, String title) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 12.h),
-      child: Text(
-        title,
-        style: context.textTheme.titleMedium?.copyWith(
-          fontWeight: FontWeight.bold,
-          color: const Color(0xFF0F2D52),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSettingsContainer({required List<Widget> children}) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
-      ),
-      child: Column(
-        children: children,
-      ),
-    );
-  }
-
-  Widget _buildSwitchTile(
-    BuildContext context, {
-    required String title,
-    required bool value,
-    required ValueChanged<bool>? onChanged,
-    bool hasDivider = true,
-  }) {
-    return Column(
-      children: [
-        SwitchListTile(
-          value: value,
-          onChanged: onChanged,
-          title: Text(
-            title,
-            style: context.textTheme.bodyMedium?.copyWith(
-              color: const Color(0xFF0F2D52),
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          activeColor: Colors.white,
-          activeTrackColor: const Color(0xFF1877F2),
-          inactiveThumbColor: Colors.white,
-          inactiveTrackColor: const Color(0xFFE2E8F0),
-          contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
-        ),
-        if (hasDivider)
-          Divider(
-            height: 1,
-            thickness: 1,
-            color: const Color(0xFFE2E8F0),
-            indent: 16.w,
-            endIndent: 16.w,
-          ),
-      ],
-    );
-  }
-
-  Widget _buildActionTile(
-    BuildContext context, {
-    required String title,
-    required VoidCallback onTap,
-    bool hasDivider = true,
-  }) {
-    return Column(
-      children: [
-        ListTile(
-          title: Text(
-            title,
-            style: context.textTheme.bodyMedium?.copyWith(
-              color: const Color(0xFF0F2D52),
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          trailing: const Icon(Icons.chevron_right, color: Color(0xFF7A8FA6)),
-          onTap: onTap,
-          contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
-        ),
-        if (hasDivider)
-          Divider(
-            height: 1,
-            thickness: 1,
-            color: const Color(0xFFE2E8F0),
-            indent: 16.w,
-            endIndent: 16.w,
-          ),
-      ],
     );
   }
 }

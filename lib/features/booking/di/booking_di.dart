@@ -1,5 +1,5 @@
-import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+
 import '../data/datasources/booking_remote_datasource.dart';
 import '../data/repositories/booking_repository_impl.dart';
 import '../domain/repositories/booking_repository.dart';
@@ -14,8 +14,12 @@ void initBookingInjector() {
   injector.registerFactory(() => BookingBloc(repository: injector()));
 
   // Usecases
-  injector.registerLazySingleton(() => GetBookingsUseCase(repository: injector()));
-  injector.registerLazySingleton(() => UpdateBookingStatusUseCase(repository: injector()));
+  injector.registerLazySingleton(
+    () => GetBookingsUseCase(repository: injector()),
+  );
+  injector.registerLazySingleton(
+    () => UpdateBookingStatusUseCase(repository: injector()),
+  );
 
   // Repository
   injector.registerLazySingleton<BookingRepository>(
@@ -24,6 +28,6 @@ void initBookingInjector() {
 
   // Data sources
   injector.registerLazySingleton<BookingRemoteDataSource>(
-    () => BookingRemoteDataSourceImpl(dio: injector()),
+    () => BookingRemoteDataSourceImpl(apiConsumer: injector()),
   );
 }

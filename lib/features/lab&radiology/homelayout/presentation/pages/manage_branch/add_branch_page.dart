@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rojeta_doctor/core/di/injector.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
 import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
-import 'widgets/add_branch_section_title.dart';
+
 import '../../../../../../features/auth/data/models/user_type_model.dart';
+import '../../../data/models/branch_model.dart';
+import '../../../presentation/bloc/manage_branch/manage_branch_bloc.dart';
+import '../../../presentation/bloc/manage_branch/manage_branch_event.dart';
+import '../../../presentation/bloc/manage_branch/manage_branch_state.dart';
+import 'widgets/add_branch_section_title.dart';
 
 class AddBranchPage extends StatefulWidget {
   final UserType userType;
@@ -38,161 +45,204 @@ class _AddBranchPageState extends State<AddBranchPage> {
     super.dispose();
   }
 
-  void _submitForm() {
+  void _submitForm(BuildContext blocContext) {
     if (_formKey.currentState!.validate()) {
-      // Form validated, in a real scenario we'd dispatch AddBranchEvent via bloc here.
-      // E.g.: context.read<ManageBranchBloc>().add(AddBranchEvent(branch: newBranch));
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Branch added successfully!')),
+      final fullAddress = _selectedCity != null
+          ? '${_addressController.text.trim()}, $_selectedCity'
+          : _addressController.text.trim();
+      final branch = BranchModel(
+        name: _nameController.text.trim(),
+        address: fullAddress,
+        phone: _phoneController.text.trim(),
+        workingHours: _selectedWorkingHours,
+        isHomeCollectionAvailable: _isHomeCollectionAvailable,
       );
-      Navigator.pop(context);
+
+      blocContext.read<ManageBranchBloc>().add(AddBranchEvent(branch: branch));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Add Branch',
-          style: context.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: const Color(0xFF0F2D52),
-          ),
-        ),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Color(0xFF0F2D52)),
-          onPressed: () => Navigator.pop(context),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0.5,
-        centerTitle: false,
-      ),
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.w),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AddBranchSectionTitle(title: 'Branch Name'),
-              SizedBox(height: 8.h),
-              TextFormField(
-                controller: _nameController,
-                decoration: _inputDecoration('Enter branch name'),
-                validator: (value) =>
-                    value == null || value.isEmpty ? 'Required' : null,
-              ),
-              SizedBox(height: 16.h),
-              AddBranchSectionTitle(title: 'City / Area'),
-              SizedBox(height: 8.h),
-              DropdownButtonFormField<String>(
-                value: _selectedCity,
-                decoration: _inputDecoration('Select city'),
-                items: _cities
-                    .map(
-                      (city) =>
-                          DropdownMenuItem(value: city, child: Text(city)),
-                    )
-                    .toList(),
-                onChanged: (val) => setState(() => _selectedCity = val),
-                validator: (value) => value == null ? 'Required' : null,
-              ),
-              SizedBox(height: 16.h),
-              AddBranchSectionTitle(title: 'Detailed Address'),
-              SizedBox(height: 8.h),
-              TextFormField(
-                controller: _addressController,
-                maxLines: 3,
-                decoration: _inputDecoration('Enter detailed address'),
-                validator: (value) =>
-                    value == null || value.isEmpty ? 'Required' : null,
-              ),
-              SizedBox(height: 16.h),
-              AddBranchSectionTitle(title: 'Phone Number'),
-              SizedBox(height: 8.h),
-              TextFormField(
-                controller: _phoneController,
-                keyboardType: TextInputType.phone,
-                decoration: _inputDecoration('Enter phone number'),
-                validator: (value) =>
-                    value == null || value.isEmpty ? 'Required' : null,
-              ),
-              SizedBox(height: 16.h),
-              OutlinedButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.map, color: Color(0xFF1877F2)),
-                label: const Text(
-                  'Location on Map',
-                  style: TextStyle(color: Color(0xFF1877F2)),
-                ),
-                style: OutlinedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 48.h),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
-                  side: const BorderSide(color: Color(0xFF1877F2)),
+    return BlocProvider(
+      create: (context) => injector<ManageBranchBloc>(),
+      child: BlocConsumer<ManageBranchBloc, ManageBranchState>(
+        listener: (context, state) {
+          if (state.status == ManageBranchStatus.success) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Branch added successfully!')),
+            );
+            Navigator.pop(context, true);
+          } else if (state.status == ManageBranchStatus.failure &&
+              state.errorMessage != null) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.errorMessage!)));
+          }
+        },
+        builder: (context, state) {
+          final isLoading = state.status == ManageBranchStatus.loading;
+
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(
+                'Add Branch',
+                style: context.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF0F2D52),
                 ),
               ),
-              SizedBox(height: 24.h),
-              AddBranchSectionTitle(title: 'Location Working Hours'),
-              SizedBox(height: 8.h),
-              DropdownButtonFormField<String>(
-                value: _selectedWorkingHours,
-                decoration: _inputDecoration('Select working hours'),
-                items: _workingHoursOptions
-                    .map(
-                      (hours) =>
-                          DropdownMenuItem(value: hours, child: Text(hours)),
-                    )
-                    .toList(),
-                onChanged: (val) => setState(() => _selectedWorkingHours = val),
-                validator: (value) => value == null ? 'Required' : null,
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back, color: Color(0xFF0F2D52)),
+                onPressed: () => Navigator.pop(context),
               ),
-              SizedBox(height: 16.h),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Switch(
-                    value: _isHomeCollectionAvailable,
-                    onChanged: (val) =>
-                        setState(() => _isHomeCollectionAvailable = val),
-                    activeColor: const Color(0xFF2CC069),
-                  ),
-                  Expanded(
-                    child: Text(
-                      'Home collection service is available at this location.',
-                      style: context.textTheme.bodyMedium?.copyWith(
-                        color: const Color(0xFF0F2D52),
+              backgroundColor: Colors.white,
+              elevation: 0.5,
+              centerTitle: false,
+            ),
+            backgroundColor: Colors.white,
+            body: SingleChildScrollView(
+              padding: EdgeInsets.all(16.w),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const AddBranchSectionTitle(title: 'Branch Name'),
+                    SizedBox(height: 8.h),
+                    TextFormField(
+                      controller: _nameController,
+                      decoration: _inputDecoration('Enter branch name'),
+                      validator: (value) =>
+                          value == null || value.isEmpty ? 'Required' : null,
+                    ),
+                    SizedBox(height: 16.h),
+                    const AddBranchSectionTitle(title: 'City / Area'),
+                    SizedBox(height: 8.h),
+                    DropdownButtonFormField<String>(
+                      initialValue: _selectedCity,
+                      decoration: _inputDecoration('Select city'),
+                      items: _cities
+                          .map(
+                            (city) => DropdownMenuItem(
+                              value: city,
+                              child: Text(city),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (val) => setState(() => _selectedCity = val),
+                      validator: (value) => value == null ? 'Required' : null,
+                    ),
+                    SizedBox(height: 16.h),
+                    const AddBranchSectionTitle(title: 'Detailed Address'),
+                    SizedBox(height: 8.h),
+                    TextFormField(
+                      controller: _addressController,
+                      maxLines: 3,
+                      decoration: _inputDecoration('Enter detailed address'),
+                      validator: (value) =>
+                          value == null || value.isEmpty ? 'Required' : null,
+                    ),
+                    SizedBox(height: 16.h),
+                    const AddBranchSectionTitle(title: 'Phone Number'),
+                    SizedBox(height: 8.h),
+                    TextFormField(
+                      controller: _phoneController,
+                      keyboardType: TextInputType.phone,
+                      decoration: _inputDecoration('Enter phone number'),
+                      validator: (value) =>
+                          value == null || value.isEmpty ? 'Required' : null,
+                    ),
+                    SizedBox(height: 16.h),
+                    OutlinedButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(Icons.map, color: Color(0xFF1877F2)),
+                      label: const Text(
+                        'Location on Map',
+                        style: TextStyle(color: Color(0xFF1877F2)),
+                      ),
+                      style: OutlinedButton.styleFrom(
+                        minimumSize: Size(double.infinity, 48.h),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        side: const BorderSide(color: Color(0xFF1877F2)),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 32.h),
-              ElevatedButton(
-                onPressed: _submitForm,
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 48.h),
-                  backgroundColor: const Color(0xFF2CC069),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
+                    SizedBox(height: 24.h),
+                    const AddBranchSectionTitle(
+                      title: 'Location Working Hours',
+                    ),
+                    SizedBox(height: 8.h),
+                    DropdownButtonFormField<String>(
+                      initialValue: _selectedWorkingHours,
+                      decoration: _inputDecoration('Select working hours'),
+                      items: _workingHoursOptions
+                          .map(
+                            (hours) => DropdownMenuItem(
+                              value: hours,
+                              child: Text(hours),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (val) =>
+                          setState(() => _selectedWorkingHours = val),
+                      validator: (value) => value == null ? 'Required' : null,
+                    ),
+                    SizedBox(height: 16.h),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Switch(
+                          value: _isHomeCollectionAvailable,
+                          onChanged: (val) =>
+                              setState(() => _isHomeCollectionAvailable = val),
+                          activeThumbColor: const Color(0xFF2CC069),
+                        ),
+                        Expanded(
+                          child: Text(
+                            'Home collection service is available at this location.',
+                            style: context.textTheme.bodyMedium?.copyWith(
+                              color: const Color(0xFF0F2D52),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 32.h),
+                    ElevatedButton(
+                      onPressed: isLoading ? null : () => _submitForm(context),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(double.infinity, 48.h),
+                        backgroundColor: const Color(0xFF2CC069),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                      ),
+                      child: isLoading
+                          ? const SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : Text(
+                              'Add Branch',
+                              style: context.textTheme.titleMedium?.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                    ),
+                    SizedBox(height: 16.h),
+                  ],
                 ),
-                child: Text(
-                  'Add Branch',
-                  style: context.textTheme.titleMedium?.copyWith(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
               ),
-              SizedBox(height: 16.h),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }

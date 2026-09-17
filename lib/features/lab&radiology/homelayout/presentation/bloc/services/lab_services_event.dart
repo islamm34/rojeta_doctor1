@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:rojeta_doctor/features/auth/data/models/user_type_model.dart';
 
+import '../../../data/models/create_lab_service_model.dart';
+
 abstract class LabServicesEvent extends Equatable {
   const LabServicesEvent();
 
@@ -15,6 +17,16 @@ class FetchLabServicesEvent extends LabServicesEvent {
 
   @override
   List<Object?> get props => [userType];
+}
+
+class CreateLabServiceEvent extends LabServicesEvent {
+  final CreateLabServiceModel service;
+  final UserType userType;
+
+  const CreateLabServiceEvent(this.service, this.userType);
+
+  @override
+  List<Object?> get props => [service, userType];
 }
 
 class DeleteLabServiceEvent extends LabServicesEvent {

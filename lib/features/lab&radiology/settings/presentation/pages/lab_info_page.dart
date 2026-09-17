@@ -13,10 +13,7 @@ import 'widgets/verification_status_card.dart';
 class LabInfoPage extends StatefulWidget {
   final bool isRadiology;
 
-  const LabInfoPage({
-    super.key,
-    required this.isRadiology,
-  });
+  const LabInfoPage({super.key, required this.isRadiology});
 
   @override
   State<LabInfoPage> createState() => _LabInfoPageState();
@@ -63,11 +60,11 @@ class _LabInfoPageState extends State<LabInfoPage> {
 
   void _populateData(SettingsState state) {
     if (state.labInfo != null && !_hasUnsavedChanges) {
-      _nameController.text = state.labInfo!.labName;
-      _licenseController.text = state.labInfo!.licenseNumber;
-      _emailController.text = state.labInfo!.primaryContactEmail;
-      _phoneController.text = state.labInfo!.phoneNumber;
-      _descriptionController.text = state.labInfo!.laboratoryDescription;
+      _nameController.text = state.labInfo!.labName ?? '';
+      _licenseController.text = state.labInfo!.licenseNumber ?? '';
+      _emailController.text = state.labInfo!.primaryContactEmail ?? '';
+      _phoneController.text = state.labInfo!.phoneNumber ?? '';
+      _descriptionController.text = state.labInfo!.laboratoryDescription ?? '';
     }
   }
 
@@ -94,11 +91,12 @@ class _LabInfoPageState extends State<LabInfoPage> {
     if (state.labInfo != null) {
       setState(() {
         _hasUnsavedChanges = false;
-        _nameController.text = state.labInfo!.labName;
-        _licenseController.text = state.labInfo!.licenseNumber;
-        _emailController.text = state.labInfo!.primaryContactEmail;
-        _phoneController.text = state.labInfo!.phoneNumber;
-        _descriptionController.text = state.labInfo!.laboratoryDescription;
+        _nameController.text = state.labInfo!.labName ?? '';
+        _licenseController.text = state.labInfo!.licenseNumber ?? '';
+        _emailController.text = state.labInfo!.primaryContactEmail ?? '';
+        _phoneController.text = state.labInfo!.phoneNumber ?? '';
+        _descriptionController.text =
+            state.labInfo!.laboratoryDescription ?? '';
       });
     }
   }
@@ -116,7 +114,9 @@ class _LabInfoPageState extends State<LabInfoPage> {
           onPressed: () => context.pop(),
         ),
         title: Text(
-          widget.isRadiology ? 'Radiology Center Information' : 'Lab Information',
+          widget.isRadiology
+              ? 'Radiology Center Information'
+              : 'Lab Information',
           style: context.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
             color: Colors.black,
@@ -127,7 +127,9 @@ class _LabInfoPageState extends State<LabInfoPage> {
         listener: (context, state) {
           if (state.status == SettingsStatus.failure) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.errorMessage ?? 'Error loading data')),
+              SnackBar(
+                content: Text(state.errorMessage ?? 'Error loading data'),
+              ),
             );
           }
         },

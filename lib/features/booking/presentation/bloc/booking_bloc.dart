@@ -48,6 +48,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     else if (filter == 'Confirmed' || filter == 'مؤكد') targetStatus = BookingStatus.confirmed;
     else if (filter == 'Completed' || filter == 'مكتمل') targetStatus = BookingStatus.completed;
     else if (filter == 'Rejected' || filter == 'مرفوض') targetStatus = BookingStatus.rejected;
+    else if (filter == 'Cancelled' || filter == 'ملغي') targetStatus = BookingStatus.cancelled;
 
     if (targetStatus == null) return bookings;
     return bookings.where((b) => b.status == targetStatus).toList();

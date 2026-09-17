@@ -1,31 +1,38 @@
 import 'package:equatable/equatable.dart';
 
 class WorkingHoursModel extends Equatable {
-  final List<DayScheduleModel> standardWeek;
-  final List<SpecialDateModel> upcomingOverrides;
+  final List<DayScheduleModel>? standardWeek;
+  final List<SpecialDateModel>? upcomingOverrides;
 
   const WorkingHoursModel({
-    required this.standardWeek,
-    required this.upcomingOverrides,
+    this.standardWeek = const [],
+    this.upcomingOverrides = const [],
   });
 
   factory WorkingHoursModel.fromJson(Map<String, dynamic> json) {
+    final rawWeek = json['standardWeek'] ?? json['standard_week'] ?? json['days'] ?? json['schedule'];
+    final rawOverrides = json['upcomingOverrides'] ?? json['upcoming_overrides'] ?? json['special_dates'] ?? json['overrides'];
+
     return WorkingHoursModel(
-      standardWeek: (json['standardWeek'] as List<dynamic>?)
-              ?.map((e) => DayScheduleModel.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
-      upcomingOverrides: (json['upcomingOverrides'] as List<dynamic>?)
-              ?.map((e) => SpecialDateModel.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
+      standardWeek: (rawWeek is List)
+          ? rawWeek
+              .whereType<Map<String, dynamic>>()
+              .map((e) => DayScheduleModel.fromJson(e))
+              .toList()
+          : const [],
+      upcomingOverrides: (rawOverrides is List)
+          ? rawOverrides
+              .whereType<Map<String, dynamic>>()
+              .map((e) => SpecialDateModel.fromJson(e))
+              .toList()
+          : const [],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'standardWeek': standardWeek.map((e) => e.toJson()).toList(),
-      'upcomingOverrides': upcomingOverrides.map((e) => e.toJson()).toList(),
+      'standard_week': standardWeek?.map((e) => e.toJson()).toList(),
+      'upcoming_overrides': upcomingOverrides?.map((e) => e.toJson()).toList(),
     };
   }
 
@@ -44,33 +51,33 @@ class WorkingHoursModel extends Equatable {
 }
 
 class DayScheduleModel extends Equatable {
-  final String dayName;
-  final bool isClosed;
-  final String openingTime;
-  final String closingTime;
+  final String? dayName;
+  final bool? isClosed;
+  final String? openingTime;
+  final String? closingTime;
 
   const DayScheduleModel({
-    required this.dayName,
+    this.dayName,
     this.isClosed = false,
-    required this.openingTime,
-    required this.closingTime,
+    this.openingTime,
+    this.closingTime,
   });
 
   factory DayScheduleModel.fromJson(Map<String, dynamic> json) {
     return DayScheduleModel(
-      dayName: json['dayName'] ?? '',
-      isClosed: json['isClosed'] ?? false,
-      openingTime: json['openingTime'] ?? '',
-      closingTime: json['closingTime'] ?? '',
+      dayName: (json['dayName'] ?? json['day_name'] ?? json['day']) as String?,
+      isClosed: json['isClosed'] as bool? ?? json['is_closed'] as bool? ?? false,
+      openingTime: (json['openingTime'] ?? json['opening_time'] ?? json['from'] ?? json['start_time']) as String?,
+      closingTime: (json['closingTime'] ?? json['closing_time'] ?? json['to'] ?? json['end_time']) as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'dayName': dayName,
-      'isClosed': isClosed,
-      'openingTime': openingTime,
-      'closingTime': closingTime,
+      'day_name': dayName,
+      'is_closed': isClosed,
+      'opening_time': openingTime,
+      'closing_time': closingTime,
     };
   }
 
@@ -93,17 +100,17 @@ class DayScheduleModel extends Equatable {
 }
 
 class SpecialDateModel extends Equatable {
-  final String id;
-  final String dateStr;
-  final String eventName;
-  final bool isClosed;
+  final String? id;
+  final String? dateStr;
+  final String? eventName;
+  final bool? isClosed;
   final String? openingTime;
   final String? closingTime;
 
   const SpecialDateModel({
-    required this.id,
-    required this.dateStr,
-    required this.eventName,
+    this.id,
+    this.dateStr,
+    this.eventName,
     this.isClosed = false,
     this.openingTime,
     this.closingTime,
@@ -111,26 +118,26 @@ class SpecialDateModel extends Equatable {
 
   factory SpecialDateModel.fromJson(Map<String, dynamic> json) {
     return SpecialDateModel(
-      id: json['id'] ?? '',
-      dateStr: json['dateStr'] ?? '',
-      eventName: json['eventName'] ?? '',
-      isClosed: json['isClosed'] ?? false,
-      openingTime: json['openingTime'],
-      closingTime: json['closingTime'],
+      id: (json['id'] ?? json['_id'])?.toString(),
+      dateStr: (json['dateStr'] ?? json['date_str'] ?? json['date']) as String?,
+      eventName: (json['eventName'] ?? json['event_name'] ?? json['name'] ?? json['title']) as String?,
+      isClosed: json['isClosed'] as bool? ?? json['is_closed'] as bool? ?? false,
+      openingTime: (json['openingTime'] ?? json['opening_time'] ?? json['from']) as String?,
+      closingTime: (json['closingTime'] ?? json['closing_time'] ?? json['to']) as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'dateStr': dateStr,
-      'eventName': eventName,
-      'isClosed': isClosed,
-      'openingTime': openingTime,
-      'closingTime': closingTime,
+      'date_str': dateStr,
+      'event_name': eventName,
+      'is_closed': isClosed,
+      'opening_time': openingTime,
+      'closing_time': closingTime,
     };
   }
-  
+
   SpecialDateModel copyWith({
     String? id,
     String? dateStr,

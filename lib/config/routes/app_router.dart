@@ -51,6 +51,7 @@ import '../../features/doctor/homelayout/presentation/pages/doctor_appointment_d
 import '../../features/doctor/homelayout/presentation/pages/homelayout.dart';
 import '../../features/doctor/homelayout/presentation/pages/medical_consultation_page.dart';
 import '../../features/doctor/homelayout/presentation/pages/my_patients_page.dart';
+import '../../features/doctor/homelayout/presentation/pages/notifications_tab.dart';
 import '../../features/doctor/homelayout/presentation/pages/patient_details_page.dart';
 import '../../features/doctor/homelayout/presentation/pages/schedule_management_page.dart';
 import '../../features/doctor/profile/data/models/clinic_model.dart';
@@ -152,6 +153,7 @@ class AppRoutes {
   static const String nursingAddNurse = '/nursing-add-nurse';
   static const String doctorConversations = '/doctor-conversations';
   static const String doctorChatMessages = '/doctor-chat-messages';
+  static const String notifications = '/notifications';
 }
 
 class AppRouter {
@@ -273,6 +275,8 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => DoctorChatMessagesPage(conversation: conversation),
         );
+      case AppRoutes.notifications:
+        return MaterialPageRoute(builder: (_) => const NotificationsTab());
       // Hospital registration flow
       case AppRoutes.hospitalProfessionalInfo:
         return MaterialPageRoute(

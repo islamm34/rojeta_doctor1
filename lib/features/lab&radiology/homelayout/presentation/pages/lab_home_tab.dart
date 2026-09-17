@@ -145,16 +145,21 @@ class LabHomeTab extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Container(
-                        padding: EdgeInsets.all(8.w),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.2),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.notifications_none_outlined,
-                          color: Colors.white,
-                          size: 24,
+                      GestureDetector(
+                        onTap: () {
+                          context.pushNamed(AppRoutes.notifications);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(8.w),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.2),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.notifications_none_outlined,
+                            color: Colors.white,
+                            size: 24,
+                          ),
                         ),
                       ),
                     ],

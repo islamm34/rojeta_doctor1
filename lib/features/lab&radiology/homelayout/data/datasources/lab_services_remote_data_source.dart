@@ -1,10 +1,12 @@
 import '../../../../../../core/network/api_consumer.dart';
 import '../../../../../../core/network/endpoints.dart';
 import '../../../../auth/data/models/user_type_model.dart';
+import '../models/create_lab_service_model.dart';
 import '../models/lab_services_response_model.dart';
 
 abstract class LabServicesRemoteDataSource {
   Future<LabServicesResponseModel> getServices({UserType? userType});
+  Future<void> addService(CreateLabServiceModel service, {UserType? userType});
   Future<void> deleteService(String id, {UserType? userType});
 }
 
@@ -46,7 +48,18 @@ class LabServicesRemoteDataSourceImpl implements LabServicesRemoteDataSource {
   }
 
   @override
+  Future<void> addService(CreateLabServiceModel service, {UserType? userType}) async {
+    final endpoint = (userType == UserType.radiologyCenter)
+        ? Endpoints.addLabService
+        : Endpoints.laboratoryAddTest;
+    await apiConsumer.post(endpoint, data: service.toJson());
+  }
+
+  @override
   Future<void> deleteService(String id, {UserType? userType}) async {
-    await apiConsumer.delete(Endpoints.labDeleteService(id));
+    final endpoint = (userType == UserType.radiologyCenter)
+        ? Endpoints.labDeleteService(id)
+        : Endpoints.labDeleteTest(id);
+    await apiConsumer.delete(endpoint);
   }
 }

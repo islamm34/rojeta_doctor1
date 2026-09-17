@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
-import '../../../../../../core/utils/app_colors.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../bloc/notifications/notifications_cubit.dart';
 import '../../bloc/notifications/notifications_state.dart';
 
@@ -33,22 +34,24 @@ class NotificationsHeader extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  // GestureDetector(
-                  //   onTap: () => Navigator.pop(context),
-                  //   child: Container(
-                  //     padding: EdgeInsets.all(8.w),
-                  //     decoration: BoxDecoration(
-                  //       color: Colors.white.withValues(alpha: 0.2),
-                  //       shape: BoxShape.circle,
-                  //     ),
-                  //     child: const Icon(
-                  //       Icons.arrow_back,
-                  //       color: Colors.white,
-                  //       size: 20,
-                  //     ),
-                  //   ),
-                  // ),
-                  SizedBox(width: 12.w),
+                  if (Navigator.canPop(context)) ...[
+                    GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: Container(
+                        padding: EdgeInsets.all(8.w),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.2),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 12.w),
+                  ],
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

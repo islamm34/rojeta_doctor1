@@ -51,8 +51,8 @@ class _LabTestsTabView extends StatelessWidget {
             onPressed: () {
               Navigator.of(dialogContext).pop();
               context.read<LabServicesBloc>().add(
-                    DeleteLabServiceEvent(serviceId, userType),
-                  );
+                DeleteLabServiceEvent(serviceId, userType),
+              );
             },
             child: Text(
               context.strings.delete,
@@ -102,9 +102,9 @@ class _LabTestsTabView extends StatelessWidget {
                     SizedBox(height: 16.h),
                     ElevatedButton(
                       onPressed: () {
-                        context
-                            .read<LabServicesBloc>()
-                            .add(FetchLabServicesEvent(userType));
+                        context.read<LabServicesBloc>().add(
+                          FetchLabServicesEvent(userType),
+                        );
                       },
                       child: Text(context.strings.retry),
                     ),
@@ -116,9 +116,9 @@ class _LabTestsTabView extends StatelessWidget {
 
           return RefreshIndicator(
             onRefresh: () async {
-              context
-                  .read<LabServicesBloc>()
-                  .add(FetchLabServicesEvent(userType));
+              context.read<LabServicesBloc>().add(
+                FetchLabServicesEvent(userType),
+              );
             },
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
@@ -143,28 +143,30 @@ class _LabTestsTabView extends StatelessWidget {
                       icon: Icons.personal_injury_outlined,
                     )
                   else
-                    Row(
-                      children: [
-                        Expanded(
-                          child: LabStatSummaryCard(
-                            title: context.strings.totalActiveTests,
-                            value: state.totalActiveServices.toString(),
-                            backgroundColor: const Color(0xFF139EE9),
-                            icon: Icons.science_outlined,
+                    IntrinsicHeight(
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: LabStatSummaryCard(
+                              title: context.strings.totalActiveTests,
+                              value: state.totalActiveServices.toString(),
+                              backgroundColor: const Color(0xFF139EE9),
+                              icon: Icons.science_outlined,
+                            ),
                           ),
-                        ),
-                        SizedBox(width: 16.w),
-                        Expanded(
-                          child: LabStatSummaryCard(
-                            title: context.strings.homeVisits,
-                            subtitle:
-                                '${state.homeVisitsAvailableCount} ${context.strings.available}',
-                            value: state.homeVisitsAvailableCount.toString(),
-                            backgroundColor: const Color(0xFF5DF2C1),
-                            icon: Icons.house_outlined,
+                          SizedBox(width: 16.w),
+                          Expanded(
+                            child: LabStatSummaryCard(
+                              title: context.strings.homeVisits,
+                              subtitle:
+                                  '${state.homeVisitsAvailableCount} ${context.strings.available}',
+                              value: state.homeVisitsAvailableCount.toString(),
+                              backgroundColor: const Color(0xFF5DF2C1),
+                              icon: Icons.house_outlined,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   SizedBox(height: 32.h),
                   Text(
@@ -204,9 +206,9 @@ class _LabTestsTabView extends StatelessWidget {
                               extra: userType,
                             );
                             if (context.mounted) {
-                              context
-                                  .read<LabServicesBloc>()
-                                  .add(FetchLabServicesEvent(userType));
+                              context.read<LabServicesBloc>().add(
+                                FetchLabServicesEvent(userType),
+                              );
                             }
                           },
                           onDelete: () {
@@ -228,7 +230,9 @@ class _LabTestsTabView extends StatelessWidget {
         onPressed: () async {
           await context.pushNamed(AppRoutes.addLabService, extra: userType);
           if (context.mounted) {
-            context.read<LabServicesBloc>().add(FetchLabServicesEvent(userType));
+            context.read<LabServicesBloc>().add(
+              FetchLabServicesEvent(userType),
+            );
           }
         },
         backgroundColor: const Color(0xFF2082FE),

@@ -1,80 +1,150 @@
 import 'package:equatable/equatable.dart';
-import '../../../../features/auth/data/models/user_type_model.dart';
 
 enum BookingType { branchVisit, homeVisit }
-enum BookingStatus { pending, confirmed, completed, rejected }
-enum PaymentStatus { paid, pending }
+
+enum BookingStatus { pending, confirmed, completed, rejected, cancelled }
+
+enum PaymentStatus { paid, pending, unpaid }
 
 class BookingModel extends Equatable {
-  final String id;
-  final BookingType type;
-  final String patientName;
-  final String patientPhone;
-  final String serviceName;
-  final String locationName;
-  final String date;
-  final String time;
-  final BookingStatus status;
-  final PaymentStatus paymentStatus;
-  final double fee;
+  final String? id;
+  final String? bookingRefId;
+  final BookingType? type;
+  final String? patientName;
+  final String? patientPhone;
+  final String? serviceName;
+  final String? locationName;
+  final String? date;
+  final String? time;
+  final BookingStatus? status;
+  final PaymentStatus? paymentStatus;
+  final double? fee;
 
   const BookingModel({
-    required this.id,
-    required this.type,
-    required this.patientName,
-    required this.patientPhone,
-    required this.serviceName,
-    required this.locationName,
-    required this.date,
-    required this.time,
-    required this.status,
-    required this.paymentStatus,
-    required this.fee,
+    this.id,
+    this.bookingRefId,
+    this.type,
+    this.patientName,
+    this.patientPhone,
+    this.serviceName,
+    this.locationName,
+    this.date,
+    this.time,
+    this.status,
+    this.paymentStatus,
+    this.fee,
   });
 
   factory BookingModel.fromJson(Map<String, dynamic> json) {
+    final rawType = (json['type'] ?? json['visit_type'] ?? json['visitType'])
+        ?.toString()
+        .toLowerCase();
+    BookingType? parsedType;
+    if (rawType == 'homevisit' ||
+        rawType == 'home_visit' ||
+        rawType == 'home') {
+      parsedType = BookingType.homeVisit;
+    } else if (rawType != null) {
+      parsedType = BookingType.branchVisit;
+    }
+
+    final rawStatus = (json['status'])?.toString().toLowerCase();
+    BookingStatus? parsedStatus;
+    if (rawStatus == 'confirmed') {
+      parsedStatus = BookingStatus.confirmed;
+    } else if (rawStatus == 'completed') {
+      parsedStatus = BookingStatus.completed;
+    } else if (rawStatus == 'rejected') {
+      parsedStatus = BookingStatus.rejected;
+    } else if (rawStatus == 'cancelled') {
+      parsedStatus = BookingStatus.cancelled;
+    } else if (rawStatus == 'pending') {
+      parsedStatus = BookingStatus.pending;
+    } else {
+      parsedStatus = BookingStatus.pending;
+    }
+
+    final rawPayment = (json['paymentStatus'] ?? json['payment_status'])
+        ?.toString()
+        .toLowerCase();
+    PaymentStatus? parsedPayment;
+    if (rawPayment == 'paid') {
+      parsedPayment = PaymentStatus.paid;
+    } else if (rawPayment == 'pending') {
+      parsedPayment = PaymentStatus.pending;
+    } else if (rawPayment == 'unpaid') {
+      parsedPayment = PaymentStatus.unpaid;
+    }
+
+    final rawFee =
+        json['totalPrice'] ??
+        json['total_price'] ??
+        json['fee'] ??
+        json['service_fee'];
+    double? parsedFee;
+    if (rawFee is num) {
+      parsedFee = rawFee.toDouble();
+    } else if (rawFee is String) {
+      parsedFee = double.tryParse(rawFee);
+    }
+
     return BookingModel(
-      id: json['id'] ?? '',
-      type: BookingType.values.firstWhere(
-        (e) => e.name == json['type'],
-        orElse: () => BookingType.branchVisit,
-      ),
-      patientName: json['patientName'] ?? '',
-      patientPhone: json['patientPhone'] ?? '',
-      serviceName: json['serviceName'] ?? '',
-      locationName: json['locationName'] ?? '',
-      date: json['date'] ?? '',
-      time: json['time'] ?? '',
-      status: BookingStatus.values.firstWhere(
-        (e) => e.name == json['status'],
-        orElse: () => BookingStatus.pending,
-      ),
-      paymentStatus: PaymentStatus.values.firstWhere(
-        (e) => e.name == json['paymentStatus'],
-        orElse: () => PaymentStatus.pending,
-      ),
-      fee: (json['fee'] ?? 0.0).toDouble(),
+      id:
+          json['id']?.toString() ??
+          json['bookingRefId']?.toString() ??
+          json['booking_ref_id']?.toString(),
+      bookingRefId:
+          json['bookingRefId']?.toString() ??
+          json['booking_ref_id']?.toString() ??
+          json['id']?.toString(),
+      type: parsedType ?? BookingType.branchVisit,
+      patientName:
+          (json['patientName'] ??
+                  json['patient_name'] ??
+                  json['patient']?['name'])
+              ?.toString(),
+      patientPhone:
+          (json['patientPhone'] ??
+                  json['patient_phone'] ??
+                  json['patient']?['phone'])
+              ?.toString(),
+      serviceName:
+          (json['serviceName'] ?? json['service_name'] ?? json['title'])
+              ?.toString(),
+      locationName:
+          (json['locationName'] ??
+                  json['location_name'] ??
+                  json['address'] ??
+                  json['patient_address'])
+              ?.toString(),
+      date: (json['date'] ?? json['booking_date'])?.toString(),
+      time: (json['time'] ?? json['booking_time'])?.toString(),
+      status: parsedStatus,
+      paymentStatus: parsedPayment ?? PaymentStatus.pending,
+      fee: parsedFee,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'type': type.name,
+      'bookingRefId': bookingRefId,
+      'type': type?.name,
       'patientName': patientName,
       'patientPhone': patientPhone,
       'serviceName': serviceName,
       'locationName': locationName,
       'date': date,
       'time': time,
-      'status': status.name,
-      'paymentStatus': paymentStatus.name,
-      'fee': fee,
+      'status': status?.name,
+      'paymentStatus': paymentStatus?.name,
+      'totalPrice': fee,
     };
   }
-  
+
   BookingModel copyWith({
     String? id,
+    String? bookingRefId,
     BookingType? type,
     String? patientName,
     String? patientPhone,
@@ -88,6 +158,7 @@ class BookingModel extends Equatable {
   }) {
     return BookingModel(
       id: id ?? this.id,
+      bookingRefId: bookingRefId ?? this.bookingRefId,
       type: type ?? this.type,
       patientName: patientName ?? this.patientName,
       patientPhone: patientPhone ?? this.patientPhone,
@@ -103,62 +174,17 @@ class BookingModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        type,
-        patientName,
-        patientPhone,
-        serviceName,
-        locationName,
-        date,
-        time,
-        status,
-        paymentStatus,
-        fee,
-      ];
-}
-
-class MockBookingData {
-  static List<BookingModel> generateMockBookings(UserType userType) {
-    return [
-      BookingModel(
-        id: '1',
-        type: BookingType.branchVisit,
-        patientName: 'Mohamed Ali',
-        patientPhone: '01012345678',
-        serviceName: userType == UserType.radiologyCenter ? 'MRI Scan' : (userType == UserType.laboratory ? 'PCR' : 'Nursing Service'),
-        locationName: 'New cairo',
-        date: '2026-02-06',
-        time: '10:00 AM',
-        status: BookingStatus.pending,
-        paymentStatus: PaymentStatus.paid,
-        fee: 300,
-      ),
-      BookingModel(
-        id: '2',
-        type: BookingType.homeVisit,
-        patientName: 'Heba Salem',
-        patientPhone: '01187654321',
-        serviceName: userType == UserType.radiologyCenter ? 'X-Ray' : (userType == UserType.laboratory ? 'Home Consultation' : 'Home Nursing'),
-        locationName: '',
-        date: '2026-02-07',
-        time: '03:00 PM',
-        status: BookingStatus.confirmed,
-        paymentStatus: PaymentStatus.pending,
-        fee: 500,
-      ),
-      BookingModel(
-        id: '3',
-        type: BookingType.homeVisit,
-        patientName: 'Fatma Mahmoud',
-        patientPhone: '01098765432',
-        serviceName: userType == UserType.radiologyCenter ? 'X-Ray' : (userType == UserType.laboratory ? 'Heart Check-up' : 'Elderly Care'),
-        locationName: '',
-        date: '2026-02-05',
-        time: '09:00 AM',
-        status: BookingStatus.completed,
-        paymentStatus: PaymentStatus.paid,
-        fee: 300,
-      ),
-    ];
-  }
+    id,
+    bookingRefId,
+    type,
+    patientName,
+    patientPhone,
+    serviceName,
+    locationName,
+    date,
+    time,
+    status,
+    paymentStatus,
+    fee,
+  ];
 }

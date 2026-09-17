@@ -40,18 +40,42 @@ class Endpoints {
   static const String doctorChatSendMessage = '/doctor/chat/send-message';
   static const String doctorChatMarkRead = '/doctor/chat/mark-read';
 
-  // --- Financial Endpoints ---
+  // --- Public & Patient Endpoints ---
+  static const String laboratoryTestsCatalog = '/laboratory/tests';
+  static const String radiologyScansCatalog = '/radiology/scans';
+  static const String laboratoriesList = '/laboratories';
+  static String laboratoryTests(String providerId) =>
+      '/laboratories/$providerId/tests';
+  static String radiologyServices(String providerId) =>
+      '/radiology/$providerId/services';
+  static const String serviceProviderDetails = '/service-providers/details';
+  static String serviceProviderReviews(String providerId) =>
+      '/service-providers/$providerId/reviews';
+
+  // --- Bookings Endpoints ---
+  static const String createLabBooking = '/bookings/laboratory/create';
+  static const String createRadiologyBooking = '/bookings/radiology/create';
+  static const String bookings = '/bookings';
+  static String bookingStatus(String bookingId) =>
+      '/bookings/$bookingId/status';
+  static const String getBookings = '/bookings';
+  static String updateBookingStatus(String bookingId) =>
+      '/bookings/$bookingId/status';
+
+  // --- Financial & Notifications Endpoints ---
   static const String financialSummary = '/financial/summary';
   static const String financialTransactions = '/financial/transactions';
+  static const String notifications = '/notifications/get';
+  static const String getFinancialData = '/financial';
 
   static const String registrationStatus = '/registration-status';
-  static const String notifications = '/notifications';
-  static const String getFinancialData = '/financial';
   static const String addClinic = '/clinics/add';
   static const String getMarketingAnalytics = '/marketing/analytics';
   static const String submitConsultation = '/consultation/submit';
   static const String getSchedule = '/schedule';
   static const String updateSchedule = '/schedule/update';
+
+  // --- Laboratory & Radiology Provider Endpoints ---
   static const String laboratoryAddTest = '/lab/test/add';
   static const String addLabService = '/lab/service/add';
   static const String labDashboard = '/lab/dashboard';
@@ -59,10 +83,9 @@ class Endpoints {
   static const String labTests = '/lab/tests';
   static String labDeleteService(String id) => '/lab/services/$id';
   static String labDeleteTest(String id) => '/lab/tests/$id';
-  static const String getBookings = '/lab/bookings';
-  static const String updateBookingStatus = '/lab/bookings/update-status';
   static const String getBranches = '/lab/branches';
   static const String addBranch = '/lab/branches/add';
+  static String deleteBranch(String id) => '/lab/branches/$id';
   static const String getHomeVisitConfig = '/lab/home-visits/config';
   static const String updateHomeVisitConfig = '/lab/home-visits/config/update';
   static const String getLabProfile = '/lab/profile';
@@ -71,6 +94,8 @@ class Endpoints {
   static const String updateGeneralSettings = '/lab/settings/update';
   static const String getWorkingHours = '/lab/working-hours';
   static const String updateWorkingHours = '/lab/working-hours/update';
+
+  // --- Nursing Endpoints ---
   static const String getNursingDashboard = '/nursing/dashboard';
   static const String getNursingServices = '/nursing/services';
   static const String addNursingService = '/nursing/services/add';

@@ -50,17 +50,17 @@ class LabServiceCard extends StatelessWidget {
               ),
               Row(
                 children: [
-                  IconButton(
-                    icon: Icon(
-                      Icons.edit,
-                      color: Theme.of(context).primaryColor,
-                      size: 20.w,
-                    ),
-                    onPressed: onEdit,
-                    constraints: const BoxConstraints(),
-                    padding: EdgeInsets.zero,
-                  ),
-                  SizedBox(width: 12.w),
+                  // IconButton(
+                  //   icon: Icon(
+                  //     Icons.edit,
+                  //     color: Theme.of(context).primaryColor,
+                  //     size: 20.w,
+                  //   ),
+                  //   onPressed: onEdit,
+                  //   constraints: const BoxConstraints(),
+                  //   padding: EdgeInsets.zero,
+                  // ),
+                  // SizedBox(width: 12.w),
                   IconButton(
                     icon: const Icon(
                       Icons.delete_outline,

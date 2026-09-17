@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
 import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
-import 'package:rojeta_doctor/features/lab&radiology/settings/domain/entities/lab_profile.dart';
+import 'package:rojeta_doctor/features/lab&radiology/settings/data/models/lab_profile_model.dart';
 
 class ProfileHeaderCard extends StatelessWidget {
-  final LabProfile profile;
+  final LabProfileModel profile;
 
   const ProfileHeaderCard({super.key, required this.profile});
 
@@ -29,11 +29,21 @@ class ProfileHeaderCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: const Color(0xFFF1F5F9),
                       borderRadius: BorderRadius.circular(12.r),
-                      image: DecorationImage(
-                        image: NetworkImage(profile.iconUrl),
-                        fit: BoxFit.cover,
-                      ),
+                      image:
+                          profile.iconUrl != null && profile.iconUrl!.isNotEmpty
+                          ? DecorationImage(
+                              image: NetworkImage(profile.iconUrl!),
+                              fit: BoxFit.cover,
+                            )
+                          : null,
                     ),
+                    child: profile.iconUrl == null || profile.iconUrl!.isEmpty
+                        ? Icon(
+                            Icons.business,
+                            color: const Color(0xFF7A8FA6),
+                            size: 30.r,
+                          )
+                        : null,
                   ),
                   Positioned(
                     right: -4,
@@ -55,7 +65,7 @@ class ProfileHeaderCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      profile.labName,
+                      profile.labName ?? '',
                       style: context.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: const Color(0xFF0F2D52),
@@ -63,7 +73,7 @@ class ProfileHeaderCard extends StatelessWidget {
                     ),
                     SizedBox(height: 4.h),
                     Text(
-                      'License No: ${profile.licenseNo}',
+                      'License No: ${profile.licenseNo ?? '-'}',
                       style: context.textTheme.bodySmall?.copyWith(
                         color: const Color(0xFF7A8FA6),
                       ),
@@ -86,10 +96,14 @@ class ProfileHeaderCard extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.location_on_outlined, color: const Color(0xFF1877F2), size: 16.r),
+                      Icon(
+                        Icons.location_on_outlined,
+                        color: const Color(0xFF1877F2),
+                        size: 16.r,
+                      ),
                       SizedBox(width: 4.w),
                       Text(
-                        '${profile.branchesCount} Branches',
+                        '${profile.branchesCount ?? 0} Branches',
                         style: context.textTheme.labelMedium?.copyWith(
                           color: const Color(0xFF0F2D52),
                           fontWeight: FontWeight.bold,
@@ -110,10 +124,14 @@ class ProfileHeaderCard extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.people_outline, color: const Color(0xFF1877F2), size: 16.r),
+                      Icon(
+                        Icons.people_outline,
+                        color: const Color(0xFF1877F2),
+                        size: 16.r,
+                      ),
                       SizedBox(width: 4.w),
                       Text(
-                        '${profile.scansCount} Scans',
+                        '${profile.scansCount ?? 0} Scans',
                         style: context.textTheme.labelMedium?.copyWith(
                           color: const Color(0xFF0F2D52),
                           fontWeight: FontWeight.bold,

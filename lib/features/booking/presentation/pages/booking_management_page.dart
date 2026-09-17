@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
-import '../../../../features/auth/data/models/user_type_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rojeta_doctor/core/di/injector.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
 import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
-import 'package:rojeta_doctor/shared/widgets/loading_widget.dart';
 import 'package:rojeta_doctor/shared/widgets/error_display_widget.dart';
+import 'package:rojeta_doctor/shared/widgets/loading_widget.dart';
+
+import '../../../../features/auth/data/models/user_type_model.dart';
+import '../../data/models/booking_model.dart';
 import '../bloc/booking_bloc.dart';
 import '../bloc/booking_event.dart';
 import '../bloc/booking_state.dart';
-import '../widgets/booking_summary_card.dart';
+import '../widgets/booking_details_bottom_sheet.dart';
 import '../widgets/booking_filter_chips.dart';
 import '../widgets/booking_item_card.dart';
-import '../../data/models/booking_model.dart';
+import '../widgets/booking_summary_card.dart';
 
 class BookingManagementPage extends StatelessWidget {
   final UserType userType;
@@ -22,7 +24,8 @@ class BookingManagementPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => injector<BookingBloc>()..add(FetchBookingsEvent(userType: userType)),
+      create: (context) =>
+          injector<BookingBloc>()..add(FetchBookingsEvent(userType: userType)),
       child: Scaffold(
         appBar: AppBar(
           title: Text(
@@ -45,8 +48,9 @@ class BookingManagementPage extends StatelessWidget {
             if (state.status == BookingStateStatus.failure) {
               return ErrorDisplayWidget(
                 message: state.errorMessage ?? 'An error occurred',
-                onRetry: () =>
-                    context.read<BookingBloc>().add(FetchBookingsEvent(userType: userType)),
+                onRetry: () => context.read<BookingBloc>().add(
+                  FetchBookingsEvent(userType: userType),
+                ),
               );
             }
 
@@ -58,8 +62,9 @@ class BookingManagementPage extends StatelessWidget {
                 .length;
 
             return RefreshIndicator(
-              onRefresh: () async =>
-                  context.read<BookingBloc>().add(FetchBookingsEvent(userType: userType)),
+              onRefresh: () async => context.read<BookingBloc>().add(
+                FetchBookingsEvent(userType: userType),
+              ),
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 padding: EdgeInsets.all(16.w),
@@ -73,8 +78,9 @@ class BookingManagementPage extends StatelessWidget {
                     SizedBox(height: 24.h),
                     BookingFilterChips(
                       currentFilter: state.currentFilter,
-                      onFilterChanged: (filter) =>
-                          context.read<BookingBloc>().add(ChangeFilterEvent(newFilter: filter)),
+                      onFilterChanged: (filter) => context
+                          .read<BookingBloc>()
+                          .add(ChangeFilterEvent(newFilter: filter)),
                     ),
                     SizedBox(height: 24.h),
                     if (state.filteredBookings.isEmpty)
@@ -99,13 +105,23 @@ class BookingManagementPage extends StatelessWidget {
                           return BookingItemCard(
                             booking: booking,
                             userType: userType,
-                            onAccept: () => context
-                                .read<BookingBloc>()
-                                .add(AcceptBookingEvent(bookingId: booking.id)),
-                            onReject: () => context
-                                .read<BookingBloc>()
-                                .add(RejectBookingEvent(bookingId: booking.id)),
-                            onViewDetails: () {},
+                            onAccept: () => context.read<BookingBloc>().add(
+                              AcceptBookingEvent(bookingId: booking.id ?? ''),
+                            ),
+                            onReject: () => context.read<BookingBloc>().add(
+                              RejectBookingEvent(bookingId: booking.id ?? ''),
+                            ),
+                            onViewDetails: () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                backgroundColor: Colors.transparent,
+                                builder: (_) => BookingDetailsBottomSheet(
+                                  booking: booking,
+                                  userType: userType,
+                                ),
+                              );
+                            },
                           );
                         },
                       ),
