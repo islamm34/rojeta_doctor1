@@ -50,7 +50,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get phone => 'رقم الهاتف';
 
   @override
-  String get fullName => 'الاسم الكامل';
+  String get fullName => 'الاسم بالكامل';
 
   @override
   String get loginButton => 'تسجيل الدخول';
@@ -199,7 +199,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get basicInformation => 'المعلومات الأساسية';
 
   @override
-  String get fullNameHint => 'د. أحمد حسن';
+  String get fullNameHint => 'مثال: أحمد محمد';
 
   @override
   String get emailAddress => 'البريد الإلكتروني';
@@ -247,7 +247,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get medicalLicenseHint => 'مثال';
 
   @override
-  String get yearsOfExperience => 'سنوات الخبرة *';
+  String get yearsOfExperience => 'سنوات الخبرة';
 
   @override
   String get yearsOfExperienceHint => '10';
@@ -1243,7 +1243,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get organizationNumberHint => 'مثال: 01X XXXXXXXX';
 
   @override
-  String get licenseNumber => 'رقم الترخيص *';
+  String get licenseNumber => 'رقم الترخيص';
 
   @override
   String get licenseNumberHint => 'مثال: ORG-12345';
@@ -1338,7 +1338,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get activeSpecialties => 'ACTIVE SPECIALTIES';
 
   @override
-  String get totalStaff => 'TOTAL STAFF';
+  String get totalStaff => 'إجمالي الطاقم';
 
   @override
   String get hospitalSetupProgress => 'Hospital Setup Progress';
@@ -1447,7 +1447,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get addAnotherSpecialty => 'Add Another Specialty';
 
   @override
-  String get nurses => 'Nurses';
+  String get nurses => 'التمريض';
 
   @override
   String get showAll => 'Show All';
@@ -2387,4 +2387,304 @@ class AppLocalizationsAr extends AppLocalizations {
   String radiusAndTechs(Object count, Object radius) {
     return 'النطاق: $radius كم • $count فني';
   }
+
+  @override
+  String get nurseHome => 'الرئيسية';
+
+  @override
+  String get nursingServices => 'خدمات التمريض';
+
+  @override
+  String get staffManagement => 'إدارة طاقم التمريض';
+
+  @override
+  String get nurseProfile => 'الملف الشخصي';
+
+  @override
+  String nurseWelcome(Object name) {
+    return 'مرحباً، $name';
+  }
+
+  @override
+  String get hereIsWhatsHappeningToday => 'إليك ملخص ما يحدث اليوم.';
+
+  @override
+  String get activeNurses => 'الممرضون النشطون';
+
+  @override
+  String get onDutyAcrossAllWards => 'على رأس العمل عبر كافة القطاعات';
+
+  @override
+  String get totalEarnings => 'إجمالي الأرباح';
+
+  @override
+  String get monthlyRevenueToDate => 'الإيرادات الشهرية حتى اليوم';
+
+  @override
+  String get addNurse => 'إضافة ممرض';
+
+  @override
+  String get upcomingBookings => 'الحجوزات القادمة';
+
+  @override
+  String get noUpcomingBookings => 'لا توجد حجوزات قادمة';
+
+  @override
+  String get manageServicesPricesAvailability =>
+      'إدارة الخدمات والأسعار وأوقات التوفر.';
+
+  @override
+  String get addNewService => 'إضافة خدمة جديدة';
+
+  @override
+  String get serviceDetails => 'تفاصيل الخدمة';
+
+  @override
+  String get serviceDetailsSubtitle =>
+      'أدخل تفاصيل ومواصفات خدمة التمريض\nالتي ترغب بتقديمها.';
+
+  @override
+  String get service => 'الخدمة';
+
+  @override
+  String get serviceDescription => 'وصف الخدمة';
+
+  @override
+  String get serviceDescriptionHint =>
+      'صف الرعاية المقدمة، والمسؤوليات،\nوالمهام السريرية المحددة...';
+
+  @override
+  String get pricingType => 'نوع التسعير';
+
+  @override
+  String get perVisit => 'لكل زيارة';
+
+  @override
+  String get perHour => 'لكل ساعة';
+
+  @override
+  String get perDay => 'لكل يوم';
+
+  @override
+  String get perMonth => 'لكل شهر';
+
+  @override
+  String get availableGender => 'الجنس المتاح';
+
+  @override
+  String get both => 'كلاهما';
+
+  @override
+  String get duration => 'المدة';
+
+  @override
+  String get durationHint => 'مثال: 12 ساعة، يومي';
+
+  @override
+  String get activeStatus => 'الحالة النشطة';
+
+  @override
+  String get toggleVisibilityProviderList =>
+      'تبديل ظهور الخدمة في قائمة مقدمي الخدمات';
+
+  @override
+  String get serviceAddedSuccessfully => 'تمت إضافة الخدمة بنجاح';
+
+  @override
+  String get manageAndOrganizeNursing =>
+      'إدارة وتنظيم طاقم التمريض المحترف لديك.';
+
+  @override
+  String get onDuty => 'على رأس العمل';
+
+  @override
+  String get onLeave => 'في إجازة';
+
+  @override
+  String get busy => 'مشغول';
+
+  @override
+  String get noStaffFound => 'لم يتم العثور على طاقم في هذا التصنيف.';
+
+  @override
+  String get uploadProfilePhoto => 'تحميل الصورة الشخصية';
+
+  @override
+  String get genderSelection => 'تحديد الجنس';
+
+  @override
+  String get professionalDetails => 'التفاصيل المهنية';
+
+  @override
+  String get skillsSpecialty => 'المهارات والتخصص';
+
+  @override
+  String get addSkill => 'إضافة مهارة';
+
+  @override
+  String yearsExperienceText(Object years) {
+    return '$years سنوات خبرة';
+  }
+
+  @override
+  String get statusSelection => 'تحديد الحالة';
+
+  @override
+  String get availableServices => 'الخدمات المتاحة';
+
+  @override
+  String get nurseAddedSuccessfully => 'تمت إضافة الممرض بنجاح';
+
+  @override
+  String get officeInformation => 'معلومات المكتب';
+
+  @override
+  String get officeInformationSubtitle => 'التفاصيل والعنوان وجهات الاتصال';
+
+  @override
+  String get coverageAreas => 'مناطق التغطية';
+
+  @override
+  String get manageServiceLocations => 'إدارة مواقع تقديم الخدمات';
+
+  @override
+  String get staffShiftsAndOfficeHours => 'مناوبات الطاقم وساعات عمل المكتب';
+
+  @override
+  String get appPreferencesAndSecurity => 'تفضيلات التطبيق والأمان';
+
+  @override
+  String get adminSupport => 'دعم الإدارة';
+
+  @override
+  String get adminSupportDesc =>
+      'هل تحتاج إلى مساعدة بشأن ملفك أو مستنداتك؟\nفريق الدعم لدينا متواجد 24/7.';
+
+  @override
+  String get manageOfficeProfileDesc =>
+      'إدارة الملف العام لمكتبك وتفاصيل الاتصال الإدارية.';
+
+  @override
+  String get officeName => 'اسم المكتب';
+
+  @override
+  String get officeDescription => 'وصف المكتب';
+
+  @override
+  String get officeVerifiedDesc => 'تم التحقق من اعتماد مكتبك لعام 2026.';
+
+  @override
+  String get unsavedChangesLossDesc =>
+      'سيتم فقدان التغييرات غير المحفوظة إذا غادرت هذه الصفحة.';
+
+  @override
+  String get discard => 'تجاهل';
+
+  @override
+  String get setOfficeWorkingHoursDesc =>
+      'حدد ساعات عمل مكتبك. سيتمكن المرضى من الحجز فقط خلال هذه الأوقات.';
+
+  @override
+  String get noWorkingHoursData => 'لا توجد بيانات لساعات العمل.';
+
+  @override
+  String get openingTime => 'وقت البدء';
+
+  @override
+  String get closingTime => 'وقت الانتهاء';
+
+  @override
+  String get receiveNotificationsViaEmail =>
+      'استلام الإشعارات عبر البريد الإلكتروني';
+
+  @override
+  String get receiveSmsImportantUpdates => 'استلام رسائل نصية للتحديثات الهامة';
+
+  @override
+  String get receivePushNotificationsDevice => 'استلام إشعارات فورية على جهازك';
+
+  @override
+  String get getRemindersBeforeAppointments => 'استلام تذكيرات قبل المواعيد';
+
+  @override
+  String get receivePromotionalMarketingEmails =>
+      'استلام رسائل تسويقية وترويجية';
+
+  @override
+  String get service12Hour => 'تمريض 12 ساعة';
+
+  @override
+  String get customServiceTerms => 'خدمة مخصصة';
+
+  @override
+  String get standardTermsApply => 'تطبق الشروط القياسية';
+
+  @override
+  String get service24Hour => 'تمريض 24 ساعة';
+
+  @override
+  String get serviceHomeVisit => 'زيارة منزلية';
+
+  @override
+  String get serviceElderlyCare => 'رعاية كبار السن';
+
+  @override
+  String get serviceBabyCare => 'رعاية أطفال';
+
+  @override
+  String get requiredField => 'مطلوب';
+
+  @override
+  String get bookings => 'الحجوزات';
+
+  @override
+  String get manageOfficeSubtitle =>
+      'إدارة الملف العام لمكتبك وتفاصيل الاتصال الإدارية.';
+
+  @override
+  String get verifiedStatusDesc => 'تم التحقق من اعتماد مكتبك لعام 2026.';
+
+  @override
+  String get unsavedChangesWarning =>
+      'سيتم فقدان التغييرات غير المحفوظة إذا غادرت هذه الصفحة.';
+
+  @override
+  String get manageWorkingHoursSubtitle =>
+      'حدد ساعات عمل مكتبك. سيتمكن المرضى من الحجز فقط خلال هذه الأوقات.';
+
+  @override
+  String get nursingCare => 'رعاية تمريضية';
+
+  @override
+  String get welcomeNursing => 'مرحباً بك في لوحة تحكم التمريض';
+
+  @override
+  String get officeInformationDesc => 'التفاصيل والعنوان وجهات الاتصال';
+
+  @override
+  String get coverageAreasDesc => 'إدارة مواقع تقديم الخدمات';
+
+  @override
+  String get documentsDesc => 'التراخيص والشهادات والتصاريح';
+
+  @override
+  String get paymentSettings => 'إعدادات الدفع';
+
+  @override
+  String get paymentSettingsDesc => 'الحسابات البنكية وطرق الدفع';
+
+  @override
+  String get earnings => 'الأرباح';
+
+  @override
+  String get settingsDesc => 'تفضيلات التطبيق والأمان';
+
+  @override
+  String get manageStaffSubtitle => 'إدارة وتنظيم أخصائيي التمريض.';
+
+  @override
+  String get addService => 'إضافة خدمة';
+
+  @override
+  String get manageServicesSubtitle => 'إدارة الخدمات والأسعار والتوافر.';
 }

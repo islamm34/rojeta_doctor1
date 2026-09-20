@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rojeta_doctor/config/routes/app_router.dart';
-import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
-import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
-import 'package:rojeta_doctor/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:rojeta_doctor/features/auth/presentation/bloc/auth_event.dart';
+
+import '../../../../../../config/routes/app_router.dart';
+import '../../../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../../../core/utils/screen_util_like.dart';
+import '../../../../../auth/presentation/bloc/auth_bloc.dart';
+import '../../../../../auth/presentation/bloc/auth_event.dart';
 import '../../bloc/nursing_bloc.dart';
 import '../../bloc/nursing_state.dart';
+import 'widgets/nursing_profile_divider.dart';
+import 'widgets/nursing_profile_list_item.dart';
 
 class NursingProfileTab extends StatelessWidget {
   const NursingProfileTab({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.strings;
+
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
       appBar: AppBar(
@@ -20,14 +25,12 @@ class NursingProfileTab extends StatelessWidget {
         elevation: 0,
         centerTitle: false,
         title: Text(
-          'Profile',
+          strings.profile,
           style: context.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
             color: const Color(0xFF0F2D52),
           ),
         ),
-        // If it's a tab, we typically don't have a back button, but screenshot shows one.
-        // We'll leave it out or put a dummy if required, but standard tabs don't have back buttons.
       ),
       body: BlocBuilder<NursingBloc, NursingState>(
         builder: (context, state) {
@@ -36,7 +39,7 @@ class NursingProfileTab extends StatelessWidget {
           }
 
           if (state.profile == null) {
-            return const Center(child: Text('Failed to load profile'));
+            return Center(child: Text(strings.noDataAvailable));
           }
 
           final profile = state.profile!;
@@ -65,7 +68,10 @@ class NursingProfileTab extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   image: DecorationImage(
-                                    image: NetworkImage(profile.avatarUrl),
+                                    image: NetworkImage(
+                                      profile.avatarUrl ??
+                                          'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=200&h=200&fit=crop',
+                                    ),
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -94,7 +100,7 @@ class NursingProfileTab extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  profile.name,
+                                  profile.name ?? '',
                                   style: context.textTheme.titleMedium
                                       ?.copyWith(
                                         fontWeight: FontWeight.bold,
@@ -103,7 +109,7 @@ class NursingProfileTab extends StatelessWidget {
                                 ),
                                 SizedBox(height: 4.h),
                                 Text(
-                                  'License No: ${profile.licenseNumber}',
+                                  '${strings.licenseNumber}: ${profile.licenseNumber ?? ''}',
                                   style: context.textTheme.bodySmall?.copyWith(
                                     color: const Color(0xFF64748B),
                                   ),
@@ -133,7 +139,7 @@ class NursingProfileTab extends StatelessWidget {
                                   ),
                                   SizedBox(width: 4.w),
                                   Text(
-                                    '${profile.servicesCount} Services',
+                                    '${profile.servicesCount ?? 0} ${strings.services}',
                                     style: context.textTheme.bodySmall
                                         ?.copyWith(
                                           color: const Color(0xFF0F2D52),
@@ -162,7 +168,7 @@ class NursingProfileTab extends StatelessWidget {
                                   ),
                                   SizedBox(width: 4.w),
                                   Text(
-                                    '${profile.nursesCount} Nurses',
+                                    '${profile.nursesCount ?? 0} ${strings.nurses}',
                                     style: context.textTheme.bodySmall
                                         ?.copyWith(
                                           color: const Color(0xFF0F2D52),
@@ -189,67 +195,60 @@ class NursingProfileTab extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      _buildListItem(
-                        context,
+                      NursingProfileListItem(
                         icon: Icons.business_outlined,
-                        title: 'Office Information',
-                        subtitle: 'Details, address, and contacts',
+                        title: strings.officeInformation,
+                        subtitle: strings.officeInformationDesc,
                         onTap: () => context.pushNamed(
                           AppRoutes.nursingOfficeInfo,
                           extra: context.read<NursingBloc>(),
                         ),
                       ),
-                      _buildDivider(),
-                      _buildListItem(
-                        context,
+                      const NursingProfileDivider(),
+                      NursingProfileListItem(
                         icon: Icons.map_outlined,
-                        title: 'Coverage Areas',
-                        subtitle: 'Manage service locations',
+                        title: strings.coverageAreas,
+                        subtitle: strings.coverageAreasDesc,
                         onTap: () {},
                       ),
-                      _buildDivider(),
-                      _buildListItem(
-                        context,
+                      const NursingProfileDivider(),
+                      NursingProfileListItem(
                         icon: Icons.access_time_outlined,
-                        title: 'Working Hours',
-                        subtitle: 'Staff shifts and office hours',
+                        title: strings.workingHours,
+                        subtitle: strings.workingHoursDesc,
                         onTap: () => context.pushNamed(
                           AppRoutes.nursingWorkingHours,
                           extra: context.read<NursingBloc>(),
                         ),
                       ),
-                      _buildDivider(),
-                      _buildListItem(
-                        context,
+                      const NursingProfileDivider(),
+                      NursingProfileListItem(
                         icon: Icons.description_outlined,
-                        title: 'Documents',
-                        subtitle: 'Licenses and certifications',
+                        title: strings.documents,
+                        subtitle: strings.documentsDesc,
                         onTap: () {},
                       ),
-                      _buildDivider(),
-                      _buildListItem(
-                        context,
+                      const NursingProfileDivider(),
+                      NursingProfileListItem(
                         icon: Icons.account_balance_outlined,
-                        title: 'Payment Settings',
-                        subtitle: 'Banking and payment methods',
+                        title: strings.paymentSettings,
+                        subtitle: strings.paymentSettingsDesc,
                         onTap: () {},
                       ),
-                      _buildDivider(),
-                      _buildListItem(
-                        context,
+                      const NursingProfileDivider(),
+                      NursingProfileListItem(
                         icon: Icons.monetization_on_outlined,
-                        title: 'Earning',
-                        subtitle: 'Financial Management',
+                        title: strings.earnings,
+                        subtitle: strings.financialManagement,
                         onTap: () {
                           context.pushNamed(AppRoutes.financialManagement);
                         },
                       ),
-                      _buildDivider(),
-                      _buildListItem(
-                        context,
+                      const NursingProfileDivider(),
+                      NursingProfileListItem(
                         icon: Icons.settings_outlined,
-                        title: 'Settings',
-                        subtitle: 'App preferences and security',
+                        title: strings.settings,
+                        subtitle: strings.settingsDesc,
                         onTap: () => context.pushNamed(
                           AppRoutes.nursingSettings,
                           extra: context.read<NursingBloc>(),
@@ -281,7 +280,7 @@ class NursingProfileTab extends StatelessWidget {
                           ),
                           SizedBox(width: 8.w),
                           Text(
-                            'Admin Support',
+                            strings.adminSupport,
                             style: context.textTheme.titleSmall?.copyWith(
                               color: const Color(0xFF0284C7),
                               fontWeight: FontWeight.bold,
@@ -291,7 +290,7 @@ class NursingProfileTab extends StatelessWidget {
                       ),
                       SizedBox(height: 12.h),
                       Text(
-                        'Need help with your profile or documents?\nOur support team is available 24/7.',
+                        strings.adminSupportDesc,
                         style: context.textTheme.bodySmall?.copyWith(
                           color: const Color(0xFF0F2D52),
                         ),
@@ -307,7 +306,7 @@ class NursingProfileTab extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          'Contact Support',
+                          strings.contactSupport,
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -328,7 +327,7 @@ class NursingProfileTab extends StatelessWidget {
                   },
                   icon: const Icon(Icons.logout, color: Color(0xFFEF4444)),
                   label: Text(
-                    context.strings.logOut,
+                    strings.logOut,
                     style: TextStyle(
                       color: const Color(0xFFEF4444),
                       fontWeight: FontWeight.bold,
@@ -350,73 +349,6 @@ class NursingProfileTab extends StatelessWidget {
           );
         },
       ),
-    );
-  }
-
-  Widget _buildListItem(
-    BuildContext context, {
-    required IconData icon,
-    required String title,
-    required String subtitle,
-    required VoidCallback onTap,
-    bool isLast = false,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: isLast
-          ? BorderRadius.vertical(bottom: Radius.circular(16.r))
-          : BorderRadius.zero,
-      child: Padding(
-        padding: EdgeInsets.all(16.w),
-        child: Row(
-          children: [
-            Container(
-              padding: EdgeInsets.all(8.w),
-              decoration: BoxDecoration(
-                color: const Color(0xFFEFF6FF),
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-              child: Icon(icon, color: const Color(0xFF3B82F6), size: 20.w),
-            ),
-            SizedBox(width: 16.w),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: context.textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF0F172A),
-                    ),
-                  ),
-                  SizedBox(height: 2.h),
-                  Text(
-                    subtitle,
-                    style: context.textTheme.bodySmall?.copyWith(
-                      color: const Color(0xFF64748B),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Icon(
-              Icons.chevron_right,
-              color: const Color(0xFF94A3B8),
-              size: 24.w,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDivider() {
-    return Divider(
-      height: 1,
-      thickness: 1,
-      color: const Color(0xFFF1F5F9),
-      indent: 64.w,
     );
   }
 }

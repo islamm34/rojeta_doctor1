@@ -200,7 +200,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get basicInformation => 'Basic Information';
 
   @override
-  String get fullNameHint => 'Dr. Ahmed Hassan';
+  String get fullNameHint => 'e.g. Ahmed Mohamed';
 
   @override
   String get emailAddress => 'Email Address';
@@ -248,7 +248,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get medicalLicenseHint => 'مثال';
 
   @override
-  String get yearsOfExperience => 'Years of Experience *';
+  String get yearsOfExperience => 'Years of Experience';
 
   @override
   String get yearsOfExperienceHint => '10';
@@ -1255,7 +1255,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get organizationNumberHint => 'e.g., 01X XXXXXXXX';
 
   @override
-  String get licenseNumber => 'License Number *';
+  String get licenseNumber => 'LICENSE NUMBER';
 
   @override
   String get licenseNumberHint => 'e.g., ORG-12345';
@@ -1351,7 +1351,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get activeSpecialties => 'ACTIVE SPECIALTIES';
 
   @override
-  String get totalStaff => 'TOTAL STAFF';
+  String get totalStaff => 'Total Staff';
 
   @override
   String get hospitalSetupProgress => 'Hospital Setup Progress';
@@ -2410,4 +2410,309 @@ class AppLocalizationsEn extends AppLocalizations {
   String radiusAndTechs(Object count, Object radius) {
     return 'Radius: $radius km • $count Techs';
   }
+
+  @override
+  String get nurseHome => 'Home';
+
+  @override
+  String get nursingServices => 'Nursing Services';
+
+  @override
+  String get staffManagement => 'Staff Management';
+
+  @override
+  String get nurseProfile => 'Profile';
+
+  @override
+  String nurseWelcome(Object name) {
+    return 'Welcome, $name';
+  }
+
+  @override
+  String get hereIsWhatsHappeningToday => 'Here\'s what\'s happening today.';
+
+  @override
+  String get activeNurses => 'ACTIVE NURSES';
+
+  @override
+  String get onDutyAcrossAllWards => 'On-duty across all wards';
+
+  @override
+  String get totalEarnings => 'TOTAL EARNINGS';
+
+  @override
+  String get monthlyRevenueToDate => 'Monthly revenue to date';
+
+  @override
+  String get addNurse => 'Add Nurse';
+
+  @override
+  String get upcomingBookings => 'Upcoming Bookings';
+
+  @override
+  String get noUpcomingBookings => 'No upcoming bookings';
+
+  @override
+  String get manageServicesPricesAvailability =>
+      'Manage services, prices, and availability.';
+
+  @override
+  String get addNewService => 'Add New Service';
+
+  @override
+  String get serviceDetails => 'Service Details';
+
+  @override
+  String get serviceDetailsSubtitle =>
+      'Provide the specifics of the nursing service\nyou want to offer.';
+
+  @override
+  String get service => 'Service';
+
+  @override
+  String get serviceDescription => 'Service Description';
+
+  @override
+  String get serviceDescriptionHint =>
+      'Describe the care provided, responsibilities,\nand specific clinical tasks...';
+
+  @override
+  String get pricingType => 'Pricing Type';
+
+  @override
+  String get perVisit => 'Per Visit';
+
+  @override
+  String get perHour => 'Per Hour';
+
+  @override
+  String get perDay => 'Per Day';
+
+  @override
+  String get perMonth => 'Per Month';
+
+  @override
+  String get availableGender => 'Available Gender';
+
+  @override
+  String get both => 'Both';
+
+  @override
+  String get duration => 'Duration';
+
+  @override
+  String get durationHint => 'e.g., 12 Hours, Daily';
+
+  @override
+  String get activeStatus => 'Active Status';
+
+  @override
+  String get toggleVisibilityProviderList =>
+      'Toggle visibility on the provider list';
+
+  @override
+  String get serviceAddedSuccessfully => 'Service added successfully';
+
+  @override
+  String get manageAndOrganizeNursing =>
+      'Manage and organize your nursing professionals.';
+
+  @override
+  String get onDuty => 'On Duty';
+
+  @override
+  String get onLeave => 'On Leave';
+
+  @override
+  String get busy => 'Busy';
+
+  @override
+  String get noStaffFound => 'No staff found in this category.';
+
+  @override
+  String get uploadProfilePhoto => 'Upload Profile Photo';
+
+  @override
+  String get genderSelection => 'Gender Selection';
+
+  @override
+  String get professionalDetails => 'Professional Details';
+
+  @override
+  String get skillsSpecialty => 'Skills / Specialty';
+
+  @override
+  String get addSkill => 'Add Skill';
+
+  @override
+  String yearsExperienceText(Object years) {
+    return '$years yrs experience';
+  }
+
+  @override
+  String get statusSelection => 'Status Selection';
+
+  @override
+  String get availableServices => 'Available Services';
+
+  @override
+  String get nurseAddedSuccessfully => 'Nurse added successfully';
+
+  @override
+  String get officeInformation => 'Office Information';
+
+  @override
+  String get officeInformationSubtitle => 'Details, address, and contacts';
+
+  @override
+  String get coverageAreas => 'Coverage Areas';
+
+  @override
+  String get manageServiceLocations => 'Manage service locations';
+
+  @override
+  String get staffShiftsAndOfficeHours => 'Staff shifts and office hours';
+
+  @override
+  String get appPreferencesAndSecurity => 'App preferences and security';
+
+  @override
+  String get adminSupport => 'Admin Support';
+
+  @override
+  String get adminSupportDesc =>
+      'Need help with your profile or documents?\nOur support team is available 24/7.';
+
+  @override
+  String get manageOfficeProfileDesc =>
+      'Manage your office\'s public profile and administrative contact details.';
+
+  @override
+  String get officeName => 'OFFICE NAME';
+
+  @override
+  String get officeDescription => 'OFFICE DESCRIPTION';
+
+  @override
+  String get officeVerifiedDesc =>
+      'Your Office is currently verified for the 2026 calendar year.';
+
+  @override
+  String get unsavedChangesLossDesc =>
+      'Unsaved changes will be lost if you leave this page.';
+
+  @override
+  String get discard => 'DISCARD';
+
+  @override
+  String get setOfficeWorkingHoursDesc =>
+      'Set your office working hours. Patients will only be able to book appointments during these times.';
+
+  @override
+  String get noWorkingHoursData => 'No working hours data available.';
+
+  @override
+  String get openingTime => 'OPENING TIME';
+
+  @override
+  String get closingTime => 'CLOSING TIME';
+
+  @override
+  String get receiveNotificationsViaEmail => 'Receive notifications via email';
+
+  @override
+  String get receiveSmsImportantUpdates => 'Receive SMS for important updates';
+
+  @override
+  String get receivePushNotificationsDevice =>
+      'Receive push notifications on your device';
+
+  @override
+  String get getRemindersBeforeAppointments =>
+      'Get reminders before appointments';
+
+  @override
+  String get receivePromotionalMarketingEmails =>
+      'Receive promotional and marketing emails';
+
+  @override
+  String get service12Hour => '12-Hour Nursing';
+
+  @override
+  String get customServiceTerms => 'Custom service';
+
+  @override
+  String get standardTermsApply => 'Standard terms apply';
+
+  @override
+  String get service24Hour => '24-Hour Nursing';
+
+  @override
+  String get serviceHomeVisit => 'Home Visit';
+
+  @override
+  String get serviceElderlyCare => 'Elderly Care';
+
+  @override
+  String get serviceBabyCare => 'Baby Care';
+
+  @override
+  String get requiredField => 'Required';
+
+  @override
+  String get bookings => 'Bookings';
+
+  @override
+  String get manageOfficeSubtitle =>
+      'Manage your office\'s public profile and administrative contact details.';
+
+  @override
+  String get verifiedStatusDesc =>
+      'Your Office is currently verified for the 2026 calendar year.';
+
+  @override
+  String get unsavedChangesWarning =>
+      'Unsaved changes will be lost if you leave this page.';
+
+  @override
+  String get manageWorkingHoursSubtitle =>
+      'Set your office working hours. Patients will only be able to book appointments during these times.';
+
+  @override
+  String get nursingCare => 'Nursing Care';
+
+  @override
+  String get welcomeNursing => 'Welcome to your Nursing Care dashboard';
+
+  @override
+  String get officeInformationDesc => 'Details, address, and contacts';
+
+  @override
+  String get coverageAreasDesc => 'Manage service locations';
+
+  @override
+  String get documentsDesc => 'Licenses, certificates & permits';
+
+  @override
+  String get paymentSettings => 'Payment Settings';
+
+  @override
+  String get paymentSettingsDesc => 'Bank accounts, billing methods';
+
+  @override
+  String get earnings => 'Earnings';
+
+  @override
+  String get settingsDesc => 'App preferences and security';
+
+  @override
+  String get manageStaffSubtitle =>
+      'Manage and organize your nursing professionals.';
+
+  @override
+  String get addService => 'Add Service';
+
+  @override
+  String get manageServicesSubtitle =>
+      'Manage services, prices, and availability.';
 }

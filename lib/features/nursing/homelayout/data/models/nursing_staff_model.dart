@@ -1,31 +1,56 @@
-class NursingStaffModel {
-  final String id;
-  final String name;
-  final String imageUrl;
-  final String gender;
-  final String status;
-  final List<String> skills;
-  final int yearsOfExperience;
+import 'package:equatable/equatable.dart';
 
-  NursingStaffModel({
-    required this.id,
-    required this.name,
-    required this.imageUrl,
-    required this.gender,
-    required this.status,
-    required this.skills,
-    required this.yearsOfExperience,
+class NursingStaffModel extends Equatable {
+  final String? id;
+  final String? name;
+  final String? imageUrl;
+  final String? gender;
+  final String? status;
+  final List<String> skills;
+  final int? yearsOfExperience;
+  final String? phone;
+  final List<String> selectedServices;
+
+  const NursingStaffModel({
+    this.id,
+    this.name = '',
+    this.imageUrl = '',
+    this.gender = 'MALE',
+    this.status = 'AVAILABLE',
+    this.skills = const [],
+    this.yearsOfExperience = 0,
+    this.phone = '',
+    this.selectedServices = const [],
   });
 
-  factory NursingStaffModel.fromJson(Map<String, dynamic> json) {
+  factory NursingStaffModel.fromJson(Map<String, dynamic>? json) {
+    if (json == null) return const NursingStaffModel();
+
+    List<String> skillsList = [];
+    if (json['skills'] is List) {
+      skillsList = (json['skills'] as List).map((e) => e.toString()).toList();
+    }
+
+    List<String> servicesList = [];
+    if (json['selectedServices'] is List) {
+      servicesList = (json['selectedServices'] as List).map((e) => e.toString()).toList();
+    } else if (json['services'] is List) {
+      servicesList = (json['services'] as List).map((e) => e.toString()).toList();
+    }
+
+    final rawExp = json['yearsOfExperience'] ?? json['experience_years'] ?? json['experience'] ?? 0;
+    final exp = (rawExp is num) ? rawExp.toInt() : int.tryParse(rawExp.toString()) ?? 0;
+
     return NursingStaffModel(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      imageUrl: json['imageUrl'] as String,
-      gender: json['gender'] as String,
-      status: json['status'] as String,
-      skills: (json['skills'] as List<dynamic>).map((e) => e as String).toList(),
-      yearsOfExperience: json['yearsOfExperience'] as int,
+      id: json['id']?.toString(),
+      name: json['name'] ?? json['full_name'] ?? '',
+      imageUrl: json['imageUrl'] ?? json['image'] ?? json['avatar'] ?? '',
+      gender: (json['gender'] ?? 'MALE').toString().toUpperCase(),
+      status: (json['status'] ?? 'AVAILABLE').toString().toUpperCase(),
+      skills: skillsList,
+      yearsOfExperience: exp,
+      phone: json['phone'] ?? json['phone_number'] ?? '',
+      selectedServices: servicesList,
     );
   }
 
@@ -33,34 +58,80 @@ class NursingStaffModel {
     return {
       'id': id,
       'name': name,
+      'full_name': name,
       'imageUrl': imageUrl,
+      'image': imageUrl,
       'gender': gender,
       'status': status,
       'skills': skills,
       'yearsOfExperience': yearsOfExperience,
+      'experience_years': yearsOfExperience,
+      'phone': phone,
+      'phone_number': phone,
+      'selectedServices': selectedServices,
+      'services': selectedServices,
     };
   }
+
+  NursingStaffModel copyWith({
+    String? id,
+    String? name,
+    String? imageUrl,
+    String? gender,
+    String? status,
+    List<String>? skills,
+    int? yearsOfExperience,
+    String? phone,
+    List<String>? selectedServices,
+  }) {
+    return NursingStaffModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      imageUrl: imageUrl ?? this.imageUrl,
+      gender: gender ?? this.gender,
+      status: status ?? this.status,
+      skills: skills ?? this.skills,
+      yearsOfExperience: yearsOfExperience ?? this.yearsOfExperience,
+      phone: phone ?? this.phone,
+      selectedServices: selectedServices ?? this.selectedServices,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        imageUrl,
+        gender,
+        status,
+        skills,
+        yearsOfExperience,
+        phone,
+        selectedServices,
+      ];
 }
 
-class NursingStaffStatsModel {
+class NursingStaffStatsModel extends Equatable {
   final int totalStaff;
   final int available;
   final int onDuty;
   final int onLeave;
 
-  NursingStaffStatsModel({
-    required this.totalStaff,
-    required this.available,
-    required this.onDuty,
-    required this.onLeave,
+  const NursingStaffStatsModel({
+    this.totalStaff = 0,
+    this.available = 0,
+    this.onDuty = 0,
+    this.onLeave = 0,
   });
 
-  factory NursingStaffStatsModel.fromJson(Map<String, dynamic> json) {
+  factory NursingStaffStatsModel.fromJson(Map<String, dynamic>? json) {
+    if (json == null) return const NursingStaffStatsModel();
+
     return NursingStaffStatsModel(
-      totalStaff: json['totalStaff'] as int,
-      available: json['available'] as int,
-      onDuty: json['onDuty'] as int,
-      onLeave: json['onLeave'] as int,
+      totalStaff: json['totalStaff'] ?? json['total_staff'] ?? json['total'] ?? 0,
+      available: json['available'] ?? json['available_staff'] ?? 0,
+      onDuty: json['onDuty'] ?? json['on_duty'] ?? 0,
+      onLeave: json['onLeave'] ?? json['on_leave'] ?? 0,
     );
   }
 
@@ -72,4 +143,21 @@ class NursingStaffStatsModel {
       'onLeave': onLeave,
     };
   }
+
+  NursingStaffStatsModel copyWith({
+    int? totalStaff,
+    int? available,
+    int? onDuty,
+    int? onLeave,
+  }) {
+    return NursingStaffStatsModel(
+      totalStaff: totalStaff ?? this.totalStaff,
+      available: available ?? this.available,
+      onDuty: onDuty ?? this.onDuty,
+      onLeave: onLeave ?? this.onLeave,
+    );
+  }
+
+  @override
+  List<Object?> get props => [totalStaff, available, onDuty, onLeave];
 }

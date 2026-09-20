@@ -1,24 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
-import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
 import 'package:rojeta_doctor/features/nursing/homelayout/data/models/nursing_profile_model.dart';
-import 'package:rojeta_doctor/features/nursing/homelayout/presentation/bloc/nursing_bloc.dart';
-import 'package:rojeta_doctor/features/nursing/homelayout/presentation/bloc/nursing_event.dart';
-import 'package:rojeta_doctor/features/nursing/homelayout/presentation/bloc/nursing_state.dart';
+
+import '../../../../../../config/routes/app_router.dart';
+import '../../../../../../core/local/user_hive_helper.dart';
+import '../../../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../../../core/utils/screen_util_like.dart';
+import '../../../../../doctor/profile/presentation/widgets/settings/settings_about_sheet.dart';
+import '../../../../../doctor/profile/presentation/widgets/settings/settings_change_password_sheet.dart';
+import '../../../../../doctor/profile/presentation/widgets/settings/settings_contact_support_sheet.dart';
+import '../../../../../doctor/profile/presentation/widgets/settings/settings_help_center_sheet.dart';
+import '../../../../../doctor/profile/presentation/widgets/settings/settings_legal_sheet.dart';
+import '../../../../../doctor/profile/presentation/widgets/settings/settings_two_factor_sheet.dart';
+import '../../bloc/nursing_bloc.dart';
+import '../../bloc/nursing_event.dart';
+import '../../bloc/nursing_state.dart';
+import 'widgets/nursing_settings_nav_item.dart';
+import 'widgets/nursing_settings_section_container.dart';
+import 'widgets/nursing_settings_switch_item.dart';
 
 class NursingSettingsPage extends StatelessWidget {
   const NursingSettingsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.strings;
+
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         title: Text(
-          'Settings',
+          strings.settings,
           style: context.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
             color: const Color(0xFF0F2D52),
@@ -31,11 +45,11 @@ class NursingSettingsPage extends StatelessWidget {
       ),
       body: BlocBuilder<NursingBloc, NursingState>(
         builder: (context, state) {
-          if (state.settings == null) {
+          if (state.settings == null && state.status == NursingStatus.loading) {
             return const Center(child: CircularProgressIndicator());
           }
 
-          final settings = state.settings!;
+          final settings = state.settings ?? const NursingSettingsModel();
 
           void updateSettings(NursingSettingsModel updatedSettings) {
             context.read<NursingBloc>().add(
@@ -48,61 +62,72 @@ class NursingSettingsPage extends StatelessWidget {
             child: Column(
               children: [
                 // Notifications Section
-                _buildSectionContainer(
-                  title: 'Notifications',
+                NursingSettingsSectionContainer(
+                  title: strings.notifications,
                   icon: Icons.notifications_outlined,
                   children: [
-                    _buildSwitchItem(
-                      context,
-                      title: 'Email Notifications',
-                      subtitle: 'Receive notifications via email',
-                      value: settings.emailNotifications,
+                    NursingSettingsSwitchItem(
+                      title: strings.emailNotifications,
+                      subtitle: strings.emailNotificationsDesc,
+                      value: settings.emailNotifications ?? true,
                       onChanged: (val) {
                         updateSettings(
                           settings.copyWith(emailNotifications: val),
                         );
                       },
                     ),
-                    _buildDivider(),
-                    _buildSwitchItem(
-                      context,
-                      title: 'Booking Updates',
-                      subtitle: 'Receive SMS for important updates',
-                      value: settings.bookingUpdates,
+                    Divider(
+                      height: 16.h,
+                      thickness: 1,
+                      color: const Color(0xFFF1F5F9),
+                    ),
+                    NursingSettingsSwitchItem(
+                      title: strings.smsNotifications,
+                      subtitle: strings.smsNotificationsDesc,
+                      value: settings.bookingUpdates ?? true,
                       onChanged: (val) {
                         updateSettings(settings.copyWith(bookingUpdates: val));
                       },
                     ),
-                    _buildDivider(),
-                    _buildSwitchItem(
-                      context,
-                      title: 'Push Notifications',
-                      subtitle: 'Receive push notifications on your device',
-                      value: settings.pushNotifications,
+                    Divider(
+                      height: 16.h,
+                      thickness: 1,
+                      color: const Color(0xFFF1F5F9),
+                    ),
+                    NursingSettingsSwitchItem(
+                      title: strings.pushNotifications,
+                      subtitle: strings.pushNotificationsDesc,
+                      value: settings.pushNotifications ?? true,
                       onChanged: (val) {
                         updateSettings(
                           settings.copyWith(pushNotifications: val),
                         );
                       },
                     ),
-                    _buildDivider(),
-                    _buildSwitchItem(
-                      context,
-                      title: 'Appointment Reminders',
-                      subtitle: 'Get reminders before appointments',
-                      value: settings.appointmentReminders,
+                    Divider(
+                      height: 16.h,
+                      thickness: 1,
+                      color: const Color(0xFFF1F5F9),
+                    ),
+                    NursingSettingsSwitchItem(
+                      title: strings.appointmentReminders,
+                      subtitle: strings.appointmentRemindersDesc,
+                      value: settings.appointmentReminders ?? true,
                       onChanged: (val) {
                         updateSettings(
                           settings.copyWith(appointmentReminders: val),
                         );
                       },
                     ),
-                    _buildDivider(),
-                    _buildSwitchItem(
-                      context,
-                      title: 'Marketing Emails',
-                      subtitle: 'Receive promotional and marketing emails',
-                      value: settings.marketingEmails,
+                    Divider(
+                      height: 16.h,
+                      thickness: 1,
+                      color: const Color(0xFFF1F5F9),
+                    ),
+                    NursingSettingsSwitchItem(
+                      title: strings.marketingEmails,
+                      subtitle: strings.marketingEmailsDesc,
+                      value: settings.marketingEmails ?? false,
                       onChanged: (val) {
                         updateSettings(settings.copyWith(marketingEmails: val));
                       },
@@ -112,63 +137,91 @@ class NursingSettingsPage extends StatelessWidget {
                 SizedBox(height: 16.h),
 
                 // Security Section
-                _buildSectionContainer(
-                  title: 'Security',
+                NursingSettingsSectionContainer(
+                  title: strings.security,
                   icon: Icons.lock_outline,
                   children: [
-                    _buildNavigationItem(context, title: 'Change Password'),
+                    NursingSettingsNavItem(
+                      title: strings.changePassword,
+                      onTap: () => SettingsChangePasswordSheet.show(context),
+                    ),
                     SizedBox(height: 8.h),
-                    _buildNavigationItem(
-                      context,
-                      title: 'Two-Factor Authentication',
+                    NursingSettingsNavItem(
+                      title: strings.twoFactorAuth,
+                      onTap: () => SettingsTwoFactorSheet.show(context),
                     ),
                   ],
                 ),
                 SizedBox(height: 16.h),
 
                 // Privacy Section
-                _buildSectionContainer(
-                  title: 'Privacy',
+                NursingSettingsSectionContainer(
+                  title: strings.privacy,
                   icon: Icons.shield_outlined,
                   children: [
-                    _buildNavigationItem(context, title: 'Privacy Policy'),
+                    NursingSettingsNavItem(
+                      title: strings.privacyPolicy,
+                      onTap: () => SettingsLegalSheet.show(
+                        context,
+                        title: strings.privacyPolicy,
+                        content:
+                            'At Rojeta, we take your privacy and the confidentiality of medical data seriously. All patient records, consultations, and nursing schedules are encrypted and processed in compliance with healthcare data protection standards.',
+                      ),
+                    ),
                     SizedBox(height: 8.h),
-                    _buildNavigationItem(context, title: 'Terms & Conditions'),
+                    NursingSettingsNavItem(
+                      title: strings.termsAndConditions,
+                      onTap: () => SettingsLegalSheet.show(
+                        context,
+                        title: strings.termsAndConditions,
+                        content:
+                            'By using the Rojeta Nursing Provider platform, you agree to provide certified nursing staff, maintain professional medical standards, and honor confirmed service bookings according to your published schedule.',
+                      ),
+                    ),
                   ],
                 ),
                 SizedBox(height: 16.h),
 
                 // Language Section
-                _buildSectionContainer(
-                  title: 'Language',
+                NursingSettingsSectionContainer(
+                  title: strings.language,
                   icon: Icons.language,
                   children: [
                     Container(
                       margin: EdgeInsets.only(top: 8.h),
                       padding: EdgeInsets.symmetric(
                         horizontal: 16.w,
-                        vertical: 12.h,
+                        vertical: 4.h,
                       ),
                       decoration: BoxDecoration(
                         border: Border.all(color: const Color(0xFFE2E8F0)),
                         borderRadius: BorderRadius.circular(8.r),
                         color: Colors.white,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'English',
-                            style: context.textTheme.bodyMedium?.copyWith(
-                              color: const Color(0xFF0F172A),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: Localizations.localeOf(context).languageCode,
+                          isExpanded: true,
+                          icon: const Icon(Icons.arrow_drop_down),
+                          items: const [
+                            DropdownMenuItem(
+                              value: 'ar',
+                              child: Text('العربية'),
                             ),
-                          ),
-                          Icon(
-                            Icons.keyboard_arrow_down,
-                            color: const Color(0xFF64748B),
-                            size: 20.w,
-                          ),
-                        ],
+                            DropdownMenuItem(
+                              value: 'en',
+                              child: Text('English'),
+                            ),
+                          ],
+                          onChanged: (String? newValue) {
+                            if (newValue != null) {
+                              final user = UserHiveHelper.getUser();
+                              if (user != null) {
+                                user.languageSetter = newValue;
+                              }
+                            }
+                          },
+                        ),
                       ),
                     ),
                   ],
@@ -176,17 +229,30 @@ class NursingSettingsPage extends StatelessWidget {
                 SizedBox(height: 16.h),
 
                 // Help & Support Section
-                _buildSectionContainer(
-                  title: 'Help & Support',
+                NursingSettingsSectionContainer(
+                  title: strings.helpAndSupport,
                   icon: Icons.help_outline,
                   children: [
-                    _buildNavigationItem(context, title: 'Help Center'),
+                    NursingSettingsNavItem(
+                      title: strings.helpCenter,
+                      onTap: () => SettingsHelpCenterSheet.show(context),
+                    ),
                     SizedBox(height: 8.h),
-                    _buildNavigationItem(context, title: 'Monthly statistics'),
+                    NursingSettingsNavItem(
+                      title: strings.monthlyStatistics,
+                      onTap: () =>
+                          context.pushNamed(AppRoutes.financialManagement),
+                    ),
                     SizedBox(height: 8.h),
-                    _buildNavigationItem(context, title: 'Contact Support'),
+                    NursingSettingsNavItem(
+                      title: strings.contactSupport,
+                      onTap: () => SettingsContactSupportSheet.show(context),
+                    ),
                     SizedBox(height: 8.h),
-                    _buildNavigationItem(context, title: 'About Rujeta'),
+                    NursingSettingsNavItem(
+                      title: strings.aboutRujeta,
+                      onTap: () => SettingsAboutSheet.show(context),
+                    ),
                   ],
                 ),
                 SizedBox(height: 32.h),
@@ -196,7 +262,7 @@ class NursingSettingsPage extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        'Rujeta Doctor App',
+                        'Rujeta Nursing Provider App',
                         style: context.textTheme.bodySmall?.copyWith(
                           color: const Color(0xFF64748B),
                         ),
@@ -218,112 +284,5 @@ class NursingSettingsPage extends StatelessWidget {
         },
       ),
     );
-  }
-
-  Widget _buildSectionContainer({
-    required String title,
-    required IconData icon,
-    required List<Widget> children,
-  }) {
-    return Container(
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(icon, color: const Color(0xFF3B82F6), size: 20.w),
-              SizedBox(width: 8.w),
-              Text(
-                title,
-                style: TextStyle(
-                  color: const Color(0xFF0F172A),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14.sp,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 16.h),
-          ...children,
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSwitchItem(
-    BuildContext context, {
-    required String title,
-    required String subtitle,
-    required bool value,
-    required ValueChanged<bool> onChanged,
-  }) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 4.h),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: context.textTheme.bodyMedium?.copyWith(
-                    color: const Color(0xFF0F172A),
-                  ),
-                ),
-                Text(
-                  subtitle,
-                  style: context.textTheme.bodySmall?.copyWith(
-                    color: const Color(0xFF64748B),
-                    fontSize: 10.sp,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Switch(
-            value: value,
-            onChanged: onChanged,
-            activeColor: Colors.white,
-            activeTrackColor: const Color(0xFF2563EB),
-            inactiveThumbColor: Colors.white,
-            inactiveTrackColor: const Color(0xFFE2E8F0),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildNavigationItem(BuildContext context, {required String title}) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF8FAFC),
-        borderRadius: BorderRadius.circular(8.r),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            title,
-            style: context.textTheme.bodyMedium?.copyWith(
-              color: const Color(0xFF475569),
-            ),
-          ),
-          Icon(Icons.chevron_right, color: const Color(0xFF94A3B8), size: 20.w),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDivider() {
-    return Divider(height: 16.h, thickness: 1, color: const Color(0xFFF1F5F9));
   }
 }

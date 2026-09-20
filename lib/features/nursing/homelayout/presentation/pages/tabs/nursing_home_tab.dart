@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rojeta_doctor/core/local/user_hive_helper.dart';
-import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
-import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
+import '../../../../../../core/local/user_hive_helper.dart';
+import '../../../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../../../core/utils/screen_util_like.dart';
 import '../../bloc/nursing_bloc.dart';
 import '../../bloc/nursing_event.dart';
 import '../../bloc/nursing_state.dart';
 import 'widgets/nursing_dashboard_header.dart';
-import 'widgets/nursing_stat_cards.dart';
 import 'widgets/nursing_quick_actions.dart';
+import 'widgets/nursing_stat_cards.dart';
 import 'widgets/nursing_upcoming_bookings.dart';
 
 class NursingHomeTab extends StatelessWidget {
@@ -16,6 +16,8 @@ class NursingHomeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.strings;
+
     return BlocBuilder<NursingBloc, NursingState>(
       builder: (context, state) {
         if (state.dashboardData == null) {
@@ -28,7 +30,7 @@ class NursingHomeTab extends StatelessWidget {
             ? cachedUser!.name!
             : ((cachedUser?.firstName?.isNotEmpty == true)
                 ? cachedUser!.firstName!
-                : 'Graceful Care');
+                : strings.nursingCare);
 
         return SingleChildScrollView(
           child: Column(
@@ -41,7 +43,7 @@ class NursingHomeTab extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Welcome, $nurseName',
+                      '${strings.welcomeNursing}, $nurseName',
                       style: context.textTheme.headlineSmall?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: const Color(0xFF0F2D52),
@@ -49,7 +51,7 @@ class NursingHomeTab extends StatelessWidget {
                     ),
                     SizedBox(height: 4.h),
                     Text(
-                      "Here's what's happening today.",
+                      strings.whatsHappeningToday,
                       style: context.textTheme.bodyMedium?.copyWith(
                         color: const Color(0xFF64748B),
                       ),
@@ -58,7 +60,7 @@ class NursingHomeTab extends StatelessWidget {
                     NursingStatCards(data: data),
                     SizedBox(height: 24.h),
                     Text(
-                      'Quick Actions',
+                      strings.quickActions,
                       style: context.textTheme.titleLarge?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: const Color(0xFF0F2D52),
@@ -71,7 +73,7 @@ class NursingHomeTab extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Upcoming Bookings',
+                          strings.upcomingBookings,
                           style: context.textTheme.titleLarge?.copyWith(
                             fontWeight: FontWeight.bold,
                             color: const Color(0xFF0F2D52),
@@ -84,7 +86,7 @@ class NursingHomeTab extends StatelessWidget {
                                 .add(const ChangeNursingTabEvent(3));
                           },
                           child: Text(
-                            'View All',
+                            strings.viewAll,
                             style: context.textTheme.titleSmall?.copyWith(
                               color: const Color(0xFF0369A1),
                               fontWeight: FontWeight.bold,
@@ -94,7 +96,7 @@ class NursingHomeTab extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: 16.h),
-                    NursingUpcomingBookings(bookings: data.upcomingBookings),
+                    NursingUpcomingBookings(bookings: data.upcomingBookings ?? const []),
                     SizedBox(height: 80.h), // Padding for bottom nav
                   ],
                 ),
@@ -106,3 +108,4 @@ class NursingHomeTab extends StatelessWidget {
     );
   }
 }
+

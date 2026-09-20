@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rojeta_doctor/config/routes/app_router.dart';
-import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
-import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
 
+import '../../../../../../../config/routes/app_router.dart';
+import '../../../../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../../../../core/utils/screen_util_like.dart';
 import '../../../bloc/nursing_bloc.dart';
 import '../../../bloc/nursing_event.dart';
 import 'nursing_action_card.dart';
@@ -13,11 +13,13 @@ class NursingQuickActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.strings;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         NursingActionCard(
-          title: 'Add Service',
+          title: strings.addService,
           icon: Icons.medical_services_outlined,
           color: const Color(0xFF3B82F6),
           onTap: () {
@@ -29,7 +31,7 @@ class NursingQuickActions extends StatelessWidget {
         ),
         SizedBox(width: 12.w),
         NursingActionCard(
-          title: 'Add Nurse',
+          title: strings.addNurse,
           icon: Icons.person_add_outlined,
           color: const Color(0xFF22C55E),
           onTap: () {
@@ -41,7 +43,7 @@ class NursingQuickActions extends StatelessWidget {
         ),
         SizedBox(width: 12.w),
         NursingActionCard(
-          title: 'View Bookings',
+          title: strings.viewBookings,
           icon: Icons.event_note_outlined,
           color: const Color(0xFFA855F7),
           onTap: () {

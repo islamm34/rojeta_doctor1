@@ -6,7 +6,9 @@ import 'package:rojeta_doctor/features/nursing/homelayout/data/models/nursing_st
 import 'package:rojeta_doctor/features/nursing/homelayout/presentation/bloc/nursing_bloc.dart';
 import 'package:rojeta_doctor/features/nursing/homelayout/presentation/bloc/nursing_event.dart';
 import 'package:rojeta_doctor/features/nursing/homelayout/presentation/bloc/nursing_state.dart';
-
+import 'package:rojeta_doctor/features/nursing/homelayout/presentation/pages/widgets/nursing_add_skill_dialog.dart';
+import 'package:rojeta_doctor/features/nursing/homelayout/presentation/pages/widgets/nursing_gender_toggle_row.dart';
+import 'package:rojeta_doctor/features/nursing/homelayout/presentation/pages/widgets/nursing_labeled_text_field.dart';
 
 class NursingAddStaffPage extends StatefulWidget {
   const NursingAddStaffPage({super.key});
@@ -20,7 +22,6 @@ class _NursingAddStaffPageState extends State<NursingAddStaffPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _experienceController = TextEditingController();
-  final TextEditingController _newSkillController = TextEditingController();
 
   String _selectedGender = 'Male';
   String _selectedStatus = 'Available';
@@ -32,7 +33,6 @@ class _NursingAddStaffPageState extends State<NursingAddStaffPage> {
     _nameController.dispose();
     _phoneController.dispose();
     _experienceController.dispose();
-    _newSkillController.dispose();
     super.dispose();
   }
 
@@ -40,43 +40,24 @@ class _NursingAddStaffPageState extends State<NursingAddStaffPage> {
     showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          title: const Text('Add Skill'),
-          content: TextField(
-            controller: _newSkillController,
-            decoration: const InputDecoration(
-              hintText: 'e.g. Geriatrics',
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => context.pop(),
-              child: const Text('Cancel'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                if (_newSkillController.text.trim().isNotEmpty) {
-                  setState(() {
-                    _skills.add(_newSkillController.text.trim());
-                  });
-                }
-                _newSkillController.clear();
-                context.pop();
-              },
-              child: const Text('Add'),
-            ),
-          ],
+        return NursingAddSkillDialog(
+          onSkillAdded: (skill) {
+            setState(() {
+              _skills.add(skill);
+            });
+          },
         );
       },
     );
   }
 
   void _save() {
-    if (_formKey.currentState!.validate()) {
+    if (_formKey.currentState?.validate() ?? false) {
       final newStaff = NursingStaffModel(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
         name: _nameController.text.trim(),
-        imageUrl: 'https://i.pravatar.cc/150?img=${DateTime.now().millisecondsSinceEpoch % 70}',
+        imageUrl:
+            'https://i.pravatar.cc/150?img=${DateTime.now().millisecondsSinceEpoch % 70}',
         gender: _selectedGender.toUpperCase(),
         status: _selectedStatus.toUpperCase(),
         skills: List.from(_skills),
@@ -90,13 +71,15 @@ class _NursingAddStaffPageState extends State<NursingAddStaffPage> {
 
   @override
   Widget build(BuildContext context) {
+    final s = context.strings;
+
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         title: Text(
-          'Add Nurse',
+          s.addNurse,
           style: context.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
             color: const Color(0xFF0F2D52),
@@ -127,10 +110,18 @@ class _NursingAddStaffPageState extends State<NursingAddStaffPage> {
                               decoration: BoxDecoration(
                                 color: const Color(0xFFE2E8F0),
                                 shape: BoxShape.circle,
-                                border: Border.all(color: const Color(0xFFCBD5E1), width: 2, style: BorderStyle.solid), // Should be dashed ideally
+                                border: Border.all(
+                                  color: const Color(0xFFCBD5E1),
+                                  width: 2,
+                                  style: BorderStyle.solid,
+                                ),
                               ),
                               child: Center(
-                                child: Icon(Icons.camera_alt_outlined, color: const Color(0xFF64748B), size: 32.w),
+                                child: Icon(
+                                  Icons.camera_alt_outlined,
+                                  color: const Color(0xFF64748B),
+                                  size: 32.w,
+                                ),
                               ),
                             ),
                             Positioned(
@@ -144,7 +135,11 @@ class _NursingAddStaffPageState extends State<NursingAddStaffPage> {
                                   shape: BoxShape.circle,
                                 ),
                                 child: const Center(
-                                  child: Icon(Icons.add, color: Colors.white, size: 18),
+                                  child: Icon(
+                                    Icons.add,
+                                    color: Colors.white,
+                                    size: 18,
+                                  ),
                                 ),
                               ),
                             ),
@@ -152,7 +147,7 @@ class _NursingAddStaffPageState extends State<NursingAddStaffPage> {
                         ),
                         SizedBox(height: 8.h),
                         Text(
-                          'Upload Profile Photo',
+                          s.uploadProfilePhoto,
                           style: context.textTheme.bodySmall?.copyWith(
                             color: const Color(0xFF64748B),
                             fontWeight: FontWeight.bold,
@@ -174,74 +169,45 @@ class _NursingAddStaffPageState extends State<NursingAddStaffPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Basic Information',
+                          s.basicInformation,
                           style: context.textTheme.titleSmall?.copyWith(
                             color: const Color(0xFF10B981),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         SizedBox(height: 16.h),
-                        _buildLabel('Full Name'),
-                        _buildTextField(
+                        NursingLabeledTextField(
                           controller: _nameController,
-                          hintText: 'e.g. Ahmed Mohamed',
-                          validator: (v) => v!.isEmpty ? 'Enter name' : null,
+                          label: s.fullName,
+                          hint: s.fullNameHint,
+                          validator: (v) =>
+                              (v == null || v.isEmpty) ? s.requiredField : null,
                         ),
                         SizedBox(height: 16.h),
-                        _buildLabel('Gender Selection'),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: GestureDetector(
-                                onTap: () => setState(() => _selectedGender = 'Male'),
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(vertical: 12.h),
-                                  decoration: BoxDecoration(
-                                    color: _selectedGender == 'Male' ? Colors.white : const Color(0xFFDBEAFE),
-                                    border: _selectedGender == 'Male' ? Border.all(color: const Color(0xFF3B82F6)) : null,
-                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(8.r), bottomLeft: Radius.circular(8.r)),
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    'Male',
-                                    style: TextStyle(
-                                      color: _selectedGender == 'Male' ? const Color(0xFF1E3A8A) : const Color(0xFF64748B),
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: GestureDetector(
-                                onTap: () => setState(() => _selectedGender = 'Female'),
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(vertical: 12.h),
-                                  decoration: BoxDecoration(
-                                    color: _selectedGender == 'Female' ? Colors.white : const Color(0xFFDBEAFE),
-                                    border: _selectedGender == 'Female' ? Border.all(color: const Color(0xFF3B82F6)) : null,
-                                    borderRadius: BorderRadius.only(topRight: Radius.circular(8.r), bottomRight: Radius.circular(8.r)),
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    'Female',
-                                    style: TextStyle(
-                                      color: _selectedGender == 'Female' ? const Color(0xFF1E3A8A) : const Color(0xFF64748B),
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                        Text(
+                          s.genderSelection,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF475569),
+                          ),
+                        ),
+                        SizedBox(height: 8.h),
+                        NursingGenderToggleRow(
+                          selectedGender: _selectedGender,
+                          maleLabel: s.male,
+                          femaleLabel: s.female,
+                          onChanged: (val) =>
+                              setState(() => _selectedGender = val),
                         ),
                         SizedBox(height: 16.h),
-                        _buildLabel('Phone Number'),
-                        _buildTextField(
+                        NursingLabeledTextField(
                           controller: _phoneController,
-                          hintText: '+201X XXXXXXXX',
+                          label: s.phoneNumber,
+                          hint: '+201X XXXXXXXX',
                           keyboardType: TextInputType.phone,
-                          validator: (v) => v!.isEmpty ? 'Enter phone' : null,
+                          validator: (v) =>
+                              (v == null || v.isEmpty) ? s.requiredField : null,
                         ),
                       ],
                     ),
@@ -259,72 +225,127 @@ class _NursingAddStaffPageState extends State<NursingAddStaffPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Professional Details',
+                          s.professionalDetails,
                           style: context.textTheme.titleSmall?.copyWith(
                             color: const Color(0xFF10B981),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         SizedBox(height: 16.h),
-                        _buildLabel('Skills / Specialty'),
+                        Text(
+                          s.skillsSpecialty,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF475569),
+                          ),
+                        ),
+                        SizedBox(height: 8.h),
                         Wrap(
                           spacing: 8.w,
                           runSpacing: 8.h,
                           children: [
-                            ..._skills.map((skill) => Chip(
-                                  label: Text(
-                                    skill,
-                                    style: const TextStyle(color: Color(0xFF047857), fontWeight: FontWeight.bold),
+                            ..._skills.map(
+                              (skill) => Chip(
+                                label: Text(
+                                  skill,
+                                  style: const TextStyle(
+                                    color: Color(0xFF047857),
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  deleteIcon: const Icon(Icons.close, size: 16, color: Color(0xFF047857)),
-                                  onDeleted: () {
-                                    setState(() => _skills.remove(skill));
-                                  },
-                                  backgroundColor: const Color(0xFF6EE7B7),
-                                  side: BorderSide.none,
-                                )),
+                                ),
+                                deleteIcon: const Icon(
+                                  Icons.close,
+                                  size: 16,
+                                  color: Color(0xFF047857),
+                                ),
+                                onDeleted: () {
+                                  setState(() => _skills.remove(skill));
+                                },
+                                backgroundColor: const Color(0xFF6EE7B7),
+                                side: BorderSide.none,
+                              ),
+                            ),
                             ActionChip(
-                              label: const Text('+ Add Skill', style: TextStyle(color: Color(0xFF64748B))),
+                              label: Text(
+                                '+ ${s.addSkill}',
+                                style: const TextStyle(
+                                  color: Color(0xFF64748B),
+                                ),
+                              ),
                               onPressed: _addSkill,
                               backgroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(16.r),
-                                side:  BorderSide(color: Color(0xFFCBD5E1), style: BorderStyle.solid),
+                                side: const BorderSide(
+                                  color: Color(0xFFCBD5E1),
+                                  style: BorderStyle.solid,
+                                ),
                               ),
                             ),
                           ],
                         ),
                         SizedBox(height: 16.h),
-                        _buildLabel('Years of Experience'),
-                        _buildTextField(
+                        NursingLabeledTextField(
                           controller: _experienceController,
-                          hintText: '0',
+                          label: s.yearsOfExperience,
+                          hint: '0',
                           keyboardType: TextInputType.number,
-                          validator: (v) => v!.isEmpty ? 'Enter experience' : null,
+                          validator: (v) =>
+                              (v == null || v.isEmpty) ? s.requiredField : null,
                         ),
                         SizedBox(height: 16.h),
-                        _buildLabel('Status Selection'),
+                        Text(
+                          s.statusSelection,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF475569),
+                          ),
+                        ),
+                        SizedBox(height: 8.h),
                         DropdownButtonFormField<String>(
-                          value: _selectedStatus,
+                          initialValue: _selectedStatus,
                           decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 12.w,
+                              vertical: 12.h,
+                            ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.r),
-                              borderSide: const BorderSide(color: Color(0xFFCBD5E1)),
+                              borderSide: const BorderSide(
+                                color: Color(0xFFCBD5E1),
+                              ),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.r),
-                              borderSide: const BorderSide(color: Color(0xFFCBD5E1)),
+                              borderSide: const BorderSide(
+                                color: Color(0xFFCBD5E1),
+                              ),
                             ),
                           ),
-                          items: const [
-                            DropdownMenuItem(value: 'Available', child: Text('Available')),
-                            DropdownMenuItem(value: 'Busy', child: Text('Busy')),
-                            DropdownMenuItem(value: 'On Duty', child: Text('On Duty')),
-                            DropdownMenuItem(value: 'On Leave', child: Text('On Leave')),
+                          items: [
+                            DropdownMenuItem(
+                              value: 'Available',
+                              child: Text(s.available),
+                            ),
+                            DropdownMenuItem(
+                              value: 'Busy',
+                              child: Text(s.busy),
+                            ),
+                            DropdownMenuItem(
+                              value: 'On Duty',
+                              child: Text(s.onDuty),
+                            ),
+                            DropdownMenuItem(
+                              value: 'On Leave',
+                              child: Text(s.onLeave),
+                            ),
                           ],
                           onChanged: (val) {
-                            if (val != null) setState(() => _selectedStatus = val);
+                            if (val != null) {
+                              setState(() => _selectedStatus = val);
+                            }
                           },
                         ),
                       ],
@@ -343,7 +364,7 @@ class _NursingAddStaffPageState extends State<NursingAddStaffPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Available Services',
+                          s.availableServices,
                           style: context.textTheme.titleSmall?.copyWith(
                             color: const Color(0xFF10B981),
                             fontWeight: FontWeight.bold,
@@ -351,11 +372,15 @@ class _NursingAddStaffPageState extends State<NursingAddStaffPage> {
                         ),
                         SizedBox(height: 16.h),
                         ...state.services.map((service) {
-                          final isChecked = _selectedServices.contains(service.title);
+                          final isChecked = _selectedServices.contains(
+                            service.title,
+                          );
                           return Container(
                             margin: EdgeInsets.only(bottom: 8.h),
                             decoration: BoxDecoration(
-                              border: Border.all(color: const Color(0xFFE2E8F0)),
+                              border: Border.all(
+                                color: const Color(0xFFE2E8F0),
+                              ),
                               borderRadius: BorderRadius.circular(8.r),
                             ),
                             child: CheckboxListTile(
@@ -363,14 +388,14 @@ class _NursingAddStaffPageState extends State<NursingAddStaffPage> {
                               onChanged: (val) {
                                 setState(() {
                                   if (val == true) {
-                                    _selectedServices.add(service.title);
+                                    _selectedServices.add(service.title ?? '');
                                   } else {
                                     _selectedServices.remove(service.title);
                                   }
                                 });
                               },
                               title: Text(
-                                service.title,
+                                service.title ?? '',
                                 style: context.textTheme.bodyMedium?.copyWith(
                                   color: const Color(0xFF0F172A),
                                   fontWeight: FontWeight.w600,
@@ -402,7 +427,7 @@ class _NursingAddStaffPageState extends State<NursingAddStaffPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Save',
+                          s.save,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 16.sp,
@@ -410,7 +435,11 @@ class _NursingAddStaffPageState extends State<NursingAddStaffPage> {
                           ),
                         ),
                         SizedBox(width: 8.w),
-                        Icon(Icons.arrow_forward, color: Colors.white, size: 20.w),
+                        Icon(
+                          Icons.arrow_forward,
+                          color: Colors.white,
+                          size: 20.w,
+                        ),
                       ],
                     ),
                   ),
@@ -425,7 +454,7 @@ class _NursingAddStaffPageState extends State<NursingAddStaffPage> {
                       side: const BorderSide(color: Color(0xFFCBD5E1)),
                     ),
                     child: Text(
-                      'Cancel',
+                      s.cancel,
                       style: TextStyle(
                         color: const Color(0xFF64748B),
                         fontSize: 16.sp,
@@ -439,50 +468,6 @@ class _NursingAddStaffPageState extends State<NursingAddStaffPage> {
             ),
           );
         },
-      ),
-    );
-  }
-
-  Widget _buildLabel(String text) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 8.h),
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: 12.sp,
-          fontWeight: FontWeight.bold,
-          color: const Color(0xFF475569),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String hintText,
-    String? Function(String?)? validator,
-    TextInputType? keyboardType,
-  }) {
-    return TextFormField(
-      controller: controller,
-      validator: validator,
-      keyboardType: keyboardType,
-      decoration: InputDecoration(
-        hintText: hintText,
-        hintStyle: const TextStyle(color: Color(0xFF94A3B8)),
-        contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.r),
-          borderSide: const BorderSide(color: Color(0xFFCBD5E1)),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.r),
-          borderSide: const BorderSide(color: Color(0xFFCBD5E1)),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.r),
-          borderSide: const BorderSide(color: Color(0xFF3B82F6)),
-        ),
       ),
     );
   }

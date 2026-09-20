@@ -5,6 +5,9 @@ import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
 import 'package:rojeta_doctor/features/nursing/homelayout/data/models/nursing_service_model.dart';
 import 'package:rojeta_doctor/features/nursing/homelayout/presentation/bloc/nursing_bloc.dart';
 import 'package:rojeta_doctor/features/nursing/homelayout/presentation/bloc/nursing_event.dart';
+import 'package:rojeta_doctor/features/nursing/homelayout/presentation/pages/widgets/nursing_dropdown_field.dart';
+import 'package:rojeta_doctor/features/nursing/homelayout/presentation/pages/widgets/nursing_gender_radio.dart';
+import 'package:rojeta_doctor/features/nursing/homelayout/presentation/pages/widgets/nursing_labeled_text_field.dart';
 
 class NursingAddServicePage extends StatefulWidget {
   const NursingAddServicePage({super.key});
@@ -18,25 +21,10 @@ class _NursingAddServicePageState extends State<NursingAddServicePage> {
   final _descriptionController = TextEditingController();
   final _durationController = TextEditingController();
   final _priceController = TextEditingController();
-  String _selectedService = '12-Hour Nursing';
-  String _pricingType = 'Per Visit';
+  String? _selectedService;
+  String? _pricingType;
   String _selectedGender = 'Both';
   bool _isActive = true;
-
-  final List<String> _services = [
-    '12-Hour Nursing',
-    '24-Hour Nursing',
-    'Home Visit',
-    'Elderly Care',
-    'Baby Care',
-  ];
-
-  final List<String> _pricingTypes = [
-    'Per Visit',
-    'Per Hour',
-    'Per Day',
-    'Per Month',
-  ];
 
   @override
   void dispose() {
@@ -48,13 +36,12 @@ class _NursingAddServicePageState extends State<NursingAddServicePage> {
 
   void _saveService() {
     if (_formKey.currentState?.validate() ?? false) {
+      final s = context.strings;
       final newService = NursingServiceModel(
-        title: _selectedService,
+        title: _selectedService ?? s.service12Hour,
         subtitle: _descriptionController.text.trim(),
         durationTag: _durationController.text.trim(),
-        bulletPoints: const ['Custom service', 'Standard terms apply'],
-        // iconColorCode: 0xFF3B82F6, // Default Blue
-        // iconCodePoint: 0xe03a, // Default Time icon
+        bulletPoints: [s.customServiceTerms, s.standardTermsApply],
       );
 
       context.read<NursingBloc>().add(AddNursingServiceEvent(newService));
@@ -64,6 +51,21 @@ class _NursingAddServicePageState extends State<NursingAddServicePage> {
 
   @override
   Widget build(BuildContext context) {
+    final s = context.strings;
+
+    final services = [
+      s.service12Hour,
+      s.service24Hour,
+      s.serviceHomeVisit,
+      s.serviceElderlyCare,
+      s.serviceBabyCare,
+    ];
+
+    final pricingTypes = [s.perVisit, s.perHour, s.perDay, s.perMonth];
+
+    _selectedService ??= services.first;
+    _pricingType ??= pricingTypes.first;
+
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
       appBar: AppBar(
@@ -74,7 +76,7 @@ class _NursingAddServicePageState extends State<NursingAddServicePage> {
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
-          'Add New Service',
+          s.addNewService,
           style: context.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
             color: const Color(0xFF0F2D52),
@@ -95,7 +97,7 @@ class _NursingAddServicePageState extends State<NursingAddServicePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Service Details',
+                  s.serviceDetails,
                   style: context.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: const Color(0xFF3B82F6),
@@ -103,39 +105,38 @@ class _NursingAddServicePageState extends State<NursingAddServicePage> {
                 ),
                 SizedBox(height: 4.h),
                 Text(
-                  'Provide the specifics of the nursing service\nyou want to offer.',
+                  s.serviceDetailsSubtitle,
                   style: context.textTheme.bodyMedium?.copyWith(
                     color: const Color(0xFF64748B),
                   ),
                 ),
                 SizedBox(height: 24.h),
-                _buildDropdownField(
-                  label: 'Service',
-                  value: _selectedService,
-                  items: _services,
+                NursingDropdownField(
+                  label: s.service,
+                  value: _selectedService!,
+                  items: services,
                   onChanged: (val) {
                     if (val != null) setState(() => _selectedService = val);
                   },
                 ),
                 SizedBox(height: 16.h),
-                _buildTextField(
+                NursingLabeledTextField(
                   controller: _descriptionController,
-                  label: 'Service Description',
-                  hint:
-                      'Describe the care provided, responsibilities,\nand specific clinical tasks...',
+                  label: s.serviceDescription,
+                  hint: s.serviceDescriptionHint,
                   maxLines: 4,
                   validator: (val) =>
-                      val == null || val.isEmpty ? 'Required' : null,
+                      val == null || val.isEmpty ? s.requiredField : null,
                 ),
                 SizedBox(height: 16.h),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
-                      child: _buildDropdownField(
-                        label: 'Pricing Type',
-                        value: _pricingType,
-                        items: _pricingTypes,
+                      child: NursingDropdownField(
+                        label: s.pricingType,
+                        value: _pricingType!,
+                        items: pricingTypes,
                         onChanged: (val) {
                           if (val != null) setState(() => _pricingType = val);
                         },
@@ -143,15 +144,15 @@ class _NursingAddServicePageState extends State<NursingAddServicePage> {
                     ),
                     SizedBox(width: 16.w),
                     Expanded(
-                      child: _buildTextField(
+                      child: NursingLabeledTextField(
                         controller: _priceController,
-                        label: 'Price',
+                        label: s.price,
                         hint: '0.00',
-                        prefix: const Padding(
-                          padding: EdgeInsets.only(left: 16, right: 8),
+                        prefix: Padding(
+                          padding: const EdgeInsets.only(left: 16, right: 8),
                           child: Text(
-                            'EGP',
-                            style: TextStyle(
+                            s.egp,
+                            style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Color(0xFF1E293B),
                               fontSize: 14,
@@ -162,14 +163,14 @@ class _NursingAddServicePageState extends State<NursingAddServicePage> {
                           decimal: true,
                         ),
                         validator: (val) =>
-                            val == null || val.isEmpty ? 'Required' : null,
+                            val == null || val.isEmpty ? s.requiredField : null,
                       ),
                     ),
                   ],
                 ),
                 SizedBox(height: 16.h),
                 Text(
-                  'Available Gender',
+                  s.availableGender,
                   style: const TextStyle(
                     fontWeight: FontWeight.w600,
                     color: Color(0xFF475569),
@@ -179,20 +180,41 @@ class _NursingAddServicePageState extends State<NursingAddServicePage> {
                 SizedBox(height: 8.h),
                 Row(
                   children: [
-                    _buildGenderRadio('Male'),
+                    NursingGenderRadio(
+                      title: s.male,
+                      selectedValue: _selectedGender == 'Male'
+                          ? s.male
+                          : (_selectedGender == 'Female' ? s.female : s.both),
+                      onChanged: (_) =>
+                          setState(() => _selectedGender = 'Male'),
+                    ),
                     SizedBox(width: 16.w),
-                    _buildGenderRadio('Female'),
+                    NursingGenderRadio(
+                      title: s.female,
+                      selectedValue: _selectedGender == 'Male'
+                          ? s.male
+                          : (_selectedGender == 'Female' ? s.female : s.both),
+                      onChanged: (_) =>
+                          setState(() => _selectedGender = 'Female'),
+                    ),
                     SizedBox(width: 16.w),
-                    _buildGenderRadio('Both'),
+                    NursingGenderRadio(
+                      title: s.both,
+                      selectedValue: _selectedGender == 'Male'
+                          ? s.male
+                          : (_selectedGender == 'Female' ? s.female : s.both),
+                      onChanged: (_) =>
+                          setState(() => _selectedGender = 'Both'),
+                    ),
                   ],
                 ),
                 SizedBox(height: 16.h),
-                _buildTextField(
+                NursingLabeledTextField(
                   controller: _durationController,
-                  label: 'Duration',
-                  hint: 'e.g., 12 Hours, Daily',
+                  label: s.duration,
+                  hint: s.durationHint,
                   validator: (val) =>
-                      val == null || val.isEmpty ? 'Required' : null,
+                      val == null || val.isEmpty ? s.requiredField : null,
                   maxLines: 2,
                 ),
                 SizedBox(height: 24.h),
@@ -206,7 +228,7 @@ class _NursingAddServicePageState extends State<NursingAddServicePage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Active Status',
+                            s.activeStatus,
                             style: context.textTheme.titleSmall?.copyWith(
                               fontWeight: FontWeight.bold,
                               color: const Color(0xFF0284C7),
@@ -215,7 +237,7 @@ class _NursingAddServicePageState extends State<NursingAddServicePage> {
                           ),
                           SizedBox(height: 2.h),
                           Text(
-                            'Toggle visibility on the provider list',
+                            s.toggleVisibilityProviderList,
                             style: context.textTheme.bodySmall?.copyWith(
                               color: const Color(0xFF64748B),
                             ),
@@ -253,9 +275,9 @@ class _NursingAddServicePageState extends State<NursingAddServicePage> {
             children: [
               const Icon(Icons.add, color: Colors.white, size: 20),
               SizedBox(width: 8.w),
-              const Text(
-                'Add Service',
-                style: TextStyle(
+              Text(
+                s.addNewService,
+                style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
@@ -265,159 +287,6 @@ class _NursingAddServicePageState extends State<NursingAddServicePage> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildGenderRadio(String title) {
-    return InkWell(
-      onTap: () => setState(() => _selectedGender = title),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 18.w,
-            height: 18.w,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: _selectedGender == title
-                    ? const Color(0xFF3B82F6)
-                    : const Color(0xFFCBD5E1),
-                width: 1.5,
-              ),
-            ),
-            padding: EdgeInsets.all(3.w),
-            child: _selectedGender == title
-                ? Container(
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color(0xFF3B82F6),
-                    ),
-                  )
-                : null,
-          ),
-          SizedBox(width: 8.w),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 14,
-              color: Color(0xFF334155),
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String label,
-    required String hint,
-    int maxLines = 1,
-    Widget? prefix,
-    TextInputType? keyboardType,
-    String? Function(String?)? validator,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
-            color: Color(0xFF475569),
-            fontSize: 14,
-          ),
-        ),
-        SizedBox(height: 8.h),
-        TextFormField(
-          controller: controller,
-          maxLines: maxLines,
-          keyboardType: keyboardType,
-          validator: validator,
-          decoration: InputDecoration(
-            hintText: hint,
-            hintStyle: const TextStyle(color: Color(0xFF94A3B8), fontSize: 13),
-            prefixIcon: prefix != null
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [prefix],
-                  )
-                : null,
-            filled: true,
-            fillColor: Colors.white,
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: 16.w,
-              vertical: 12.h,
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.r),
-              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.r),
-              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.r),
-              borderSide: const BorderSide(color: Color(0xFF3B82F6)),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildDropdownField({
-    required String label,
-    required String value,
-    required List<String> items,
-    required void Function(String?) onChanged,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
-            color: Color(0xFF475569),
-            fontSize: 12,
-          ),
-        ),
-        SizedBox(height: 8.h),
-        DropdownButtonFormField<String>(
-          initialValue: value,
-          icon: const Icon(Icons.keyboard_arrow_down, color: Color(0xFF94A3B8)),
-          style: const TextStyle(color: Color(0xFF334155), fontSize: 14),
-          items: items.map((cat) {
-            return DropdownMenuItem(value: cat, child: Text(cat));
-          }).toList(),
-          onChanged: onChanged,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: Colors.white,
-            contentPadding: EdgeInsets.symmetric(
-              horizontal: 16.w,
-              vertical: 12.h,
-            ),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.r),
-              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.r),
-              borderSide: const BorderSide(color: Color(0xFFE2E8F0)),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.r),
-              borderSide: const BorderSide(color: Color(0xFF3B82F6)),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
-import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
+
+import '../../../../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../../../../core/utils/screen_util_like.dart';
 import '../../../../data/models/nursing_service_model.dart';
+import 'nursing_service_bullet_point.dart';
 
 class NursingServiceCard extends StatelessWidget {
   final NursingServiceModel service;
@@ -10,9 +12,6 @@ class NursingServiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final iconColor = Color(service.iconColorCode);
-    // final bgColor = iconColor.withOpacity(0.1);
-
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -20,7 +19,7 @@ class NursingServiceCard extends StatelessWidget {
         border: Border.all(color: const Color(0xFFE2E8F0)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.02),
+            color: Colors.black.withValues(alpha: 0.02),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -37,13 +36,12 @@ class NursingServiceCard extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.all(12.w),
                   decoration: BoxDecoration(
-                    // color: bgColor,
+                    color: const Color(0xFFEFF6FF),
                     borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Icon(
-                    Icons.accessibility_new,
-                    // IconData(service.iconCodePoint, fontFamily: 'MaterialIcons'),
-                    // color: iconColor,
+                    Icons.medical_services_outlined,
+                    color: const Color(0xFF3B82F6),
                     size: 28.r,
                   ),
                 ),
@@ -57,7 +55,7 @@ class NursingServiceCard extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              service.title,
+                              service.title ?? '',
                               style: context.textTheme.titleMedium?.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: const Color(0xFF0F2D52),
@@ -74,7 +72,7 @@ class NursingServiceCard extends StatelessWidget {
                               borderRadius: BorderRadius.circular(16.r),
                             ),
                             child: Text(
-                              service.durationTag,
+                              service.durationTag ?? '',
                               style: context.textTheme.labelSmall?.copyWith(
                                 color: const Color(0xFF475569),
                                 fontWeight: FontWeight.bold,
@@ -85,7 +83,7 @@ class NursingServiceCard extends StatelessWidget {
                       ),
                       SizedBox(height: 4.h),
                       Text(
-                        service.subtitle,
+                        service.subtitle ?? '',
                         style: context.textTheme.bodyMedium?.copyWith(
                           color: const Color(0xFF64748B),
                         ),
@@ -97,83 +95,52 @@ class NursingServiceCard extends StatelessWidget {
             ),
           ),
           const Divider(height: 1, color: Color(0xFFE2E8F0)),
-          Padding(
-            padding: EdgeInsets.all(16.w),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildBulletPoint(
-                        context,
-                        service.bulletPoints.isNotEmpty
-                            ? service.bulletPoints[0]
-                            : '',
-                      ),
-                      SizedBox(height: 8.h),
-                      _buildBulletPoint(
-                        context,
-                        service.bulletPoints.length > 1
-                            ? service.bulletPoints[1]
-                            : '',
-                      ),
-                    ],
+          if ((service.bulletPoints ?? []).isNotEmpty)
+            Padding(
+              padding: EdgeInsets.all(16.w),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        NursingServiceBulletPoint(
+                          text: (service.bulletPoints.isNotEmpty == true)
+                              ? service.bulletPoints[0]
+                              : '',
+                        ),
+                        SizedBox(height: 8.h),
+                        NursingServiceBulletPoint(
+                          text: ((service.bulletPoints.length ?? 0) > 1)
+                              ? service.bulletPoints[1]
+                              : '',
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildBulletPoint(
-                        context,
-                        service.bulletPoints.length > 2
-                            ? service.bulletPoints[2]
-                            : '',
-                      ),
-                      SizedBox(height: 8.h),
-                      _buildBulletPoint(
-                        context,
-                        service.bulletPoints.length > 3
-                            ? service.bulletPoints[3]
-                            : '',
-                      ),
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        NursingServiceBulletPoint(
+                          text: ((service.bulletPoints.length ?? 0) > 2)
+                              ? service.bulletPoints[2]
+                              : '',
+                        ),
+                        SizedBox(height: 8.h),
+                        NursingServiceBulletPoint(
+                          text: ((service.bulletPoints.length ?? 0) > 3)
+                              ? service.bulletPoints[3]
+                              : '',
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
         ],
       ),
-    );
-  }
-
-  Widget _buildBulletPoint(BuildContext context, String text) {
-    if (text.isEmpty) return const SizedBox.shrink();
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(top: 6.h, right: 8.w),
-          child: Container(
-            width: 4.r,
-            height: 4.r,
-            decoration: const BoxDecoration(
-              color: Color(0xFF64748B),
-              shape: BoxShape.circle,
-            ),
-          ),
-        ),
-        Expanded(
-          child: Text(
-            text,
-            style: context.textTheme.labelMedium?.copyWith(
-              color: const Color(0xFF475569),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

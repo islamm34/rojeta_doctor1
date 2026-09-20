@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rojeta_doctor/features/hospital/medical_services/data/models/icu_room_model.dart';
+
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
-import '../../../../../../core/utils/app_colors.dart';
 
 class ActiveIcuRoomCard extends StatelessWidget {
   final IcuRoomModel room;
@@ -140,8 +140,8 @@ class ActiveIcuRoomCard extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                     color: room.status == 'available'
-                        ? Colors.blueAccent.withOpacity(0.1)
-                        : Colors.blue.withOpacity(0.15),
+                        ? Colors.blueAccent.withValues(alpha: 0.1)
+                        : Colors.blue.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: Row(

@@ -755,6 +755,269 @@ When returning bookings via `GET /api/v1/bookings`:
 
 ---
 
+---
+
+## 15. Nursing Care Provider Role API Specifications (ROJ-044, ROJ-045, ROJ-046)
+
+### 15.1 Nursing Dashboard Synchronization (ROJ-046)
+
+- **Endpoints:**
+  - `GET /api/v1/nursing/dashboard` (or `GET /api/v1/dashboard?user_type=nursing`)
+- **Description:** Returns high-level statistics for the nursing provider office, including active staff count, active services count, today's appointments, completed appointments, and the next upcoming booking.
+
+#### Response (`200 OK`)
+
+```json
+{
+  "status": "success",
+  "data": {
+    "stats": {
+      "today_appointments": 14,
+      "completed_appointments": 38,
+      "active_staff": 8,
+      "active_services": 5
+    },
+    "upcoming_booking": {
+      "id": "book_nursing_101",
+      "booking_ref_id": "ROJ-NUR-101",
+      "patient_name": "Mariam Mahmoud",
+      "service_title": "12-Hour Nursing Care",
+      "assigned_nurse_name": "Sarah Ahmed",
+      "time_slot": "08:00 AM - 08:00 PM",
+      "status": "confirmed",
+      "payment_status": "paid",
+      "price": 600.00
+    },
+    "recent_bookings": [
+      {
+        "id": "book_nursing_102",
+        "booking_ref_id": "ROJ-NUR-102",
+        "patient_name": "Ali Hassan",
+        "service_title": "Home Visit / IV Injection",
+        "assigned_nurse_name": "Mohamed Omar",
+        "time_slot": "10:00 AM",
+        "status": "confirmed",
+        "payment_status": "unpaid",
+        "price": 200.00
+      }
+    ]
+  }
+}
+```
+
+---
+
+### 15.2 Nursing Services Management (ROJ-045 & ROJ-046)
+
+- **Endpoints:**
+  - `GET /api/v1/nursing/services`
+  - `POST /api/v1/nursing/services`
+  - `PUT /api/v1/nursing/services/{id}`
+  - `DELETE /api/v1/nursing/services/{id}`
+
+#### Request Body for Adding a Service (`POST /api/v1/nursing/services`)
+
+```json
+{
+  "title": "12-Hour Nursing Care",
+  "subtitle": "Continuous daytime clinical care, vitals monitoring, medication administration, and hygiene assistance.",
+  "duration_tag": "12 Hours",
+  "price": 600.00,
+  "pricing_type": "Per Visit",
+  "available_gender": "Both",
+  "is_active": true,
+  "bullet_points": [
+    "Medication administration & IV management",
+    "Post-surgical wound dressing",
+    "Vital signs routine check"
+  ]
+}
+```
+
+#### Response (`201 Created` or `200 OK`)
+
+```json
+{
+  "status": "success",
+  "message": "Nursing service added successfully",
+  "data": {
+    "id": "nsrv_101",
+    "title": "12-Hour Nursing Care",
+    "subtitle": "Continuous daytime clinical care, vitals monitoring, medication administration, and hygiene assistance.",
+    "duration_tag": "12 Hours",
+    "bullet_points": [
+      "Medication administration & IV management",
+      "Post-surgical wound dressing",
+      "Vital signs routine check"
+    ]
+  }
+}
+```
+
+---
+
+### 15.3 Nursing Staff Management (ROJ-045 & ROJ-046)
+
+- **Endpoints:**
+  - `GET /api/v1/nursing/staff`
+  - `POST /api/v1/nursing/staff`
+  - `PUT /api/v1/nursing/staff/{id}`
+  - `DELETE /api/v1/nursing/staff/{id}`
+
+#### Request Body for Adding a Nurse (`POST /api/v1/nursing/staff`)
+
+```json
+{
+  "name": "Sarah Ahmed",
+  "phone": "+201011223344",
+  "gender": "FEMALE",
+  "status": "AVAILABLE",
+  "years_of_experience": 5,
+  "skills": ["ICU", "Pediatrics", "Post-Op Care"],
+  "services": ["12-Hour Nursing", "Home Visit"],
+  "image_url": "https://rojeta.fassla.net/uploads/nursing/sarah.jpg"
+}
+```
+
+#### Response (`201 Created` or `200 OK`)
+
+```json
+{
+  "status": "success",
+  "message": "Nurse added successfully",
+  "data": {
+    "id": "nstaff_201",
+    "name": "Sarah Ahmed",
+    "phone": "+201011223344",
+    "gender": "FEMALE",
+    "status": "AVAILABLE",
+    "years_of_experience": 5,
+    "skills": ["ICU", "Pediatrics", "Post-Op Care"],
+    "image_url": "https://rojeta.fassla.net/uploads/nursing/sarah.jpg"
+  }
+}
+```
+
+---
+
+### 15.4 Nursing Office Profile & Information (ROJ-045 & ROJ-046)
+
+- **Endpoints:**
+  - `GET /api/v1/nursing/profile` (or `GET /api/v1/nursing/office-info`)
+  - `PUT /api/v1/nursing/profile` / `POST /api/v1/nursing/profile`
+
+#### Response (`200 OK`)
+
+```json
+{
+  "status": "success",
+  "data": {
+    "office_name": "Al-Nour Nursing Care Solutions",
+    "license_number": "NUR-LIC-2026-0042",
+    "primary_contact_email": "support@alnour-nursing.com",
+    "phone_number": "+201002233445",
+    "office_description": "Certified home nursing and healthcare provider offering specialized caregivers, ICU nurses, and post-operative attendants across Greater Cairo.",
+    "verification_year": "2026",
+    "is_verified": true
+  }
+}
+```
+
+---
+
+### 15.5 Working Hours Management (ROJ-045 & ROJ-046)
+
+- **Endpoints:**
+  - `GET /api/v1/nursing/working-hours`
+  - `PUT /api/v1/nursing/working-hours` / `POST /api/v1/nursing/working-hours`
+
+#### Request / Response Body (`200 OK`)
+
+```json
+{
+  "status": "success",
+  "data": {
+    "working_hours": [
+      {
+        "day": "Monday",
+        "is_active": true,
+        "start_time": "08:00 AM",
+        "end_time": "08:00 PM"
+      },
+      {
+        "day": "Tuesday",
+        "is_active": true,
+        "start_time": "08:00 AM",
+        "end_time": "08:00 PM"
+      },
+      {
+        "day": "Friday",
+        "is_active": false,
+        "start_time": "09:00 AM",
+        "end_time": "05:00 PM"
+      }
+    ]
+  }
+}
+```
+
+---
+
+### 15.6 App Settings & Preferences (ROJ-045)
+
+- **Endpoints:**
+  - `GET /api/v1/nursing/settings`
+  - `PUT /api/v1/nursing/settings` / `POST /api/v1/nursing/settings`
+
+#### Request / Response Body (`200 OK`)
+
+```json
+{
+  "status": "success",
+  "data": {
+    "email_notifications": true,
+    "sms_updates": true,
+    "push_notifications": true,
+    "appointment_reminders": true,
+    "marketing_emails": false
+  }
+}
+```
+
+---
+
+### 15.7 Nursing Bookings Synchronization (ROJ-044, ROJ-045, ROJ-046)
+
+- **Endpoints:**
+  - `GET /api/v1/bookings?user_type=nursing`
+  - `PATCH /api/v1/bookings/{id}/status`
+  - `POST /api/v1/bookings/{id}/confirm-cash-payment`
+
+#### Booking Object for Nursing Care
+
+```json
+{
+  "id": "book_nur_301",
+  "booking_ref_id": "ROJ-NUR-301",
+  "type": "nursing_care",
+  "patient_name": "Mahmoud Soliman",
+  "patient_phone": "+201288776655",
+  "patient_address": "Villa 12, Diplomatic District, New Cairo",
+  "service_name": "12-Hour Nursing Care",
+  "nurse_name": "Sarah Ahmed",
+  "booking_date": "2026-09-23",
+  "booking_time": "08:00 AM",
+  "duration": "12 Hours",
+  "price": 600.00,
+  "total_price": 600.00,
+  "status": "confirmed",
+  "payment_status": "paid",
+  "payment_method": "credit_card"
+}
+```
+
+---
+
 ## Summary of Client-Side Defensiveness
 
 The Flutter app has been updated to:
@@ -762,6 +1025,7 @@ The Flutter app has been updated to:
 - Fall back gracefully across `PUT`, `POST`, and `PATCH` methods on all profile, setting, and home visit endpoints.
 - Auto-calculate missing `total_price` as `service_price + home_visit_fee` on the client.
 - Display `patient_address` for home visits and `branch_name` for branch visits uniformly.
-- Support instant live language toggling (Arabic / English) throughout all Doctor, Lab, and Radiology screens.
-- Synthesize dashboard upcoming bookings and financial metrics directly from `/bookings` if primary financial endpoints are unpopulated.
-- Provide interactive in-app Cash Payment Confirmation for doctors and radiology/lab providers.
+- Support instant live language toggling (Arabic / English) throughout all Doctor, Lab, Radiology, and Nursing screens.
+- Synthesize dashboard upcoming bookings and financial metrics directly from `/bookings` if primary endpoints are unpopulated.
+- Provide interactive in-app Cash Payment Confirmation for doctors, radiology, lab, and nursing providers.
+- Maintain a strictly layered architecture (Presentation, Domain, Data) with isolated standalone widgets in `widgets/` and zero function-based UI helpers.

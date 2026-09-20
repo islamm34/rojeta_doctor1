@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
-import 'package:rojeta_doctor/core/utils/extensions/time_extensions.dart';
-import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
 import 'package:rojeta_doctor/features/nursing/homelayout/data/models/nursing_profile_model.dart';
-import 'package:rojeta_doctor/features/nursing/homelayout/presentation/bloc/nursing_bloc.dart';
-import 'package:rojeta_doctor/features/nursing/homelayout/presentation/bloc/nursing_event.dart';
+
+import '../../../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../../../core/utils/extensions/time_extensions.dart';
+import '../../../../../../core/utils/screen_util_like.dart';
+import '../../bloc/nursing_bloc.dart';
+import '../../bloc/nursing_event.dart';
+import 'widgets/nursing_time_picker_field.dart';
 
 class NursingWorkingHoursPage extends StatefulWidget {
   const NursingWorkingHoursPage({super.key});
@@ -35,7 +37,7 @@ class _NursingWorkingHoursPageState extends State<NursingWorkingHoursPage> {
   }
 
   void _updateDay(int index, DailyWorkingHoursModel day) {
-    final newDays = List<DailyWorkingHoursModel>.from(_workingHours.days);
+    final newDays = List<DailyWorkingHoursModel>.from(_workingHours.days ?? []);
     newDays[index] = day;
     setState(() {
       _workingHours = _workingHours.copyWith(days: newDays);
@@ -48,7 +50,8 @@ class _NursingWorkingHoursPageState extends State<NursingWorkingHoursPage> {
       initialTime: TimeOfDay.now(),
     );
     if (picked != null) {
-      final day = _workingHours.days[index];
+      final days = _workingHours.days ?? [];
+      final day = days[index];
       final formattedTime = picked.formatTimeOfDay();
       if (isOpenTime) {
         _updateDay(index, day.copyWith(openTime: formattedTime));
@@ -60,13 +63,16 @@ class _NursingWorkingHoursPageState extends State<NursingWorkingHoursPage> {
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.strings;
+    final days = _workingHours.days ?? [];
+
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         title: Text(
-          'Working Hours',
+          strings.workingHours,
           style: context.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
             color: const Color(0xFF0F2D52),
@@ -83,17 +89,17 @@ class _NursingWorkingHoursPageState extends State<NursingWorkingHoursPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Set your office working hours. Patients will only be able to book appointments during these times.',
+              strings.manageWorkingHoursSubtitle,
               style: context.textTheme.bodyMedium?.copyWith(
                 color: const Color(0xFF475569),
               ),
             ),
             SizedBox(height: 24.h),
-            if (_workingHours.days.isEmpty)
-              const Center(child: Text('No working hours data available.'))
+            if (days.isEmpty)
+              Center(child: Text(strings.noDataAvailable))
             else
-              ...List.generate(_workingHours.days.length, (index) {
-                final day = _workingHours.days[index];
+              ...List.generate(days.length, (index) {
+                final day = days[index];
                 return Padding(
                   padding: EdgeInsets.only(bottom: 16.h),
                   child: Container(
@@ -109,14 +115,14 @@ class _NursingWorkingHoursPageState extends State<NursingWorkingHoursPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              day.day,
+                              day.day ?? '',
                               style: context.textTheme.titleMedium?.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: const Color(0xFF0F172A),
                               ),
                             ),
                             Switch(
-                              value: day.isOpen,
+                              value: day.isOpen ?? true,
                               onChanged: (val) {
                                 _updateDay(index, day.copyWith(isOpen: val));
                               },
@@ -127,22 +133,22 @@ class _NursingWorkingHoursPageState extends State<NursingWorkingHoursPage> {
                             ),
                           ],
                         ),
-                        if (day.isOpen) ...[
+                        if (day.isOpen ?? true) ...[
                           SizedBox(height: 16.h),
                           Row(
                             children: [
                               Expanded(
-                                child: _buildTimePicker(
-                                  label: 'Opening Time',
-                                  time: day.openTime,
+                                child: NursingTimePickerField(
+                                  label: strings.openingTime,
+                                  time: day.openTime ?? '08:00 AM',
                                   onTap: () => _selectTime(index, true),
                                 ),
                               ),
                               SizedBox(width: 16.w),
                               Expanded(
-                                child: _buildTimePicker(
-                                  label: 'Closing Time',
-                                  time: day.closeTime,
+                                child: NursingTimePickerField(
+                                  label: strings.closingTime,
+                                  time: day.closeTime ?? '06:00 PM',
                                   onTap: () => _selectTime(index, false),
                                 ),
                               ),
@@ -159,7 +165,7 @@ class _NursingWorkingHoursPageState extends State<NursingWorkingHoursPage> {
                               ),
                               SizedBox(width: 8.w),
                               Text(
-                                'Closed',
+                                strings.closed,
                                 style: context.textTheme.bodyMedium?.copyWith(
                                   color: const Color(0xFF94A3B8),
                                 ),
@@ -195,7 +201,7 @@ class _NursingWorkingHoursPageState extends State<NursingWorkingHoursPage> {
                       side: const BorderSide(color: Color(0xFF94A3B8)),
                     ),
                     child: Text(
-                      'DISCARD',
+                      strings.discard.toUpperCase(),
                       style: TextStyle(
                         color: const Color(0xFF0F2D52),
                         fontWeight: FontWeight.bold,
@@ -214,7 +220,7 @@ class _NursingWorkingHoursPageState extends State<NursingWorkingHoursPage> {
                       size: 16.w,
                     ),
                     label: Text(
-                      'SAVE CHANGES',
+                      strings.saveChanges.toUpperCase(),
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -235,50 +241,6 @@ class _NursingWorkingHoursPageState extends State<NursingWorkingHoursPage> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildTimePicker({
-    required String label,
-    required String time,
-    required VoidCallback onTap,
-  }) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label.toUpperCase(),
-          style: TextStyle(
-            color: const Color(0xFF475569),
-            fontSize: 10.sp,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 0.5,
-          ),
-        ),
-        SizedBox(height: 6.h),
-        InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(24.r),
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-            decoration: BoxDecoration(
-              border: Border.all(color: const Color(0xFFCBD5E1)),
-              borderRadius: BorderRadius.circular(24.r),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(time, style: const TextStyle(color: Color(0xFF0F172A))),
-                Icon(
-                  Icons.access_time,
-                  color: const Color(0xFF64748B),
-                  size: 18.w,
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

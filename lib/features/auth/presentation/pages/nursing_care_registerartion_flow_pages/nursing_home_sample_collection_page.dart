@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rojeta_doctor/features/auth/presentation/widgets/registeraion_steps_app_bar.dart';
 import 'package:rojeta_doctor/features/auth/presentation/widgets/registeration_steps_indicator.dart';
+
 import '../../../../../config/routes/app_router.dart';
+import '../../../../../core/di/injector.dart';
 import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
 import '../../../../../shared/widgets/custom_elevated_button.dart';
-import '../../../../../core/di/injector.dart';
 import '../../bloc/auth_bloc.dart';
 import '../../bloc/auth_state.dart';
-import '../../widgets/radiology_registeration_flow_pages_widgets/radiology_home_sample_collection_form.dart';
 import '../../widgets/hospital_registeration_flow_pages_widgets/hospital_payment_form.dart';
+import '../../widgets/radiology_registeration_flow_pages_widgets/radiology_home_sample_collection_form.dart';
 
 class NursingHomeSampleCollectionPage extends StatelessWidget {
   const NursingHomeSampleCollectionPage({super.key});

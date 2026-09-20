@@ -45,6 +45,8 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
       queryParams['user_type'] = 'radiology';
     } else if (userType == UserType.laboratory) {
       queryParams['user_type'] = 'lab';
+    } else if (userType == UserType.nursingCareProviders) {
+      queryParams['user_type'] = 'nursing';
     }
 
     dynamic response;
@@ -90,14 +92,19 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
         .map((e) => BookingModel.fromJson(e))
         .toList();
 
-    // Fallback: If bookings list is empty, synthesize from lab/radiology dashboard upcoming booking
+    // Fallback: If bookings list is empty, synthesize from lab/radiology/nursing dashboard upcoming booking
     if (bookings.isEmpty) {
       try {
+        final endpoint = userType == UserType.nursingCareProviders
+            ? '/nursing/dashboard'
+            : Endpoints.labDashboard;
         final dashResponse = await apiConsumer.get(
-          Endpoints.labDashboard,
+          endpoint,
           queryParameters: userType == UserType.radiologyCenter
               ? {'user_type': 'radiology'}
-              : {'user_type': 'lab'},
+              : (userType == UserType.nursingCareProviders
+                  ? {'user_type': 'nursing'}
+                  : {'user_type': 'lab'}),
         );
         final dashData = dashResponse is Map<String, dynamic> &&
                 dashResponse['data'] != null

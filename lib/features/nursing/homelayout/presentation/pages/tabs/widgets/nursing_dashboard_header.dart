@@ -1,14 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
-import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
+
+import '../../../../../../../core/local/user_hive_helper.dart';
+import '../../../../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../../../../core/utils/screen_util_like.dart';
 
 class NursingDashboardHeader extends StatelessWidget {
   const NursingDashboardHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.strings;
+    final cachedUser = UserHiveHelper.getUser();
+    final nurseName = (cachedUser?.name?.isNotEmpty == true)
+        ? cachedUser!.name!
+        : ((cachedUser?.firstName?.isNotEmpty == true)
+              ? cachedUser!.firstName!
+              : strings.nursingCare);
+
     return Container(
-      padding: EdgeInsets.only(top: 60.h, left: 20.w, right: 20.w, bottom: 20.h),
+      padding: EdgeInsets.only(
+        top: 60.h,
+        left: 20.w,
+        right: 20.w,
+        bottom: 20.h,
+      ),
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0xFF3B82F6), Color(0xFF06B6D4)],
@@ -29,13 +44,13 @@ class NursingDashboardHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Good morning,',
+                  strings.goodMorning,
                   style: context.textTheme.bodyMedium?.copyWith(
-                    color: Colors.white.withOpacity(0.9),
+                    color: Colors.white.withValues(alpha: 0.9),
                   ),
                 ),
                 Text(
-                  'Graceful Care',
+                  nurseName,
                   style: context.textTheme.titleMedium?.copyWith(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -50,10 +65,13 @@ class NursingDashboardHeader extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(8.w),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
+                  color: Colors.white.withValues(alpha: 0.2),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.notifications_none, color: Colors.white),
+                child: const Icon(
+                  Icons.notifications_none,
+                  color: Colors.white,
+                ),
               ),
               Positioned(
                 top: 0,

@@ -473,7 +473,7 @@ abstract class AppLocalizations {
   /// No description provided for @fullNameHint.
   ///
   /// In en, this message translates to:
-  /// **'Dr. Ahmed Hassan'**
+  /// **'e.g. Ahmed Mohamed'**
   String get fullNameHint;
 
   /// No description provided for @emailAddress.
@@ -569,7 +569,7 @@ abstract class AppLocalizations {
   /// No description provided for @yearsOfExperience.
   ///
   /// In en, this message translates to:
-  /// **'Years of Experience *'**
+  /// **'Years of Experience'**
   String get yearsOfExperience;
 
   /// No description provided for @yearsOfExperienceHint.
@@ -2531,7 +2531,7 @@ abstract class AppLocalizations {
   /// No description provided for @licenseNumber.
   ///
   /// In en, this message translates to:
-  /// **'License Number *'**
+  /// **'LICENSE NUMBER'**
   String get licenseNumber;
 
   /// No description provided for @licenseNumberHint.
@@ -2717,7 +2717,7 @@ abstract class AppLocalizations {
   /// No description provided for @totalStaff.
   ///
   /// In en, this message translates to:
-  /// **'TOTAL STAFF'**
+  /// **'Total Staff'**
   String get totalStaff;
 
   /// No description provided for @hospitalSetupProgress.
@@ -4765,6 +4765,570 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Radius: {radius} km • {count} Techs'**
   String radiusAndTechs(Object count, Object radius);
+
+  /// No description provided for @nurseHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get nurseHome;
+
+  /// No description provided for @nursingServices.
+  ///
+  /// In en, this message translates to:
+  /// **'Nursing Services'**
+  String get nursingServices;
+
+  /// No description provided for @staffManagement.
+  ///
+  /// In en, this message translates to:
+  /// **'Staff Management'**
+  String get staffManagement;
+
+  /// No description provided for @nurseProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get nurseProfile;
+
+  /// No description provided for @nurseWelcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome, {name}'**
+  String nurseWelcome(Object name);
+
+  /// No description provided for @hereIsWhatsHappeningToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Here\'s what\'s happening today.'**
+  String get hereIsWhatsHappeningToday;
+
+  /// No description provided for @activeNurses.
+  ///
+  /// In en, this message translates to:
+  /// **'ACTIVE NURSES'**
+  String get activeNurses;
+
+  /// No description provided for @onDutyAcrossAllWards.
+  ///
+  /// In en, this message translates to:
+  /// **'On-duty across all wards'**
+  String get onDutyAcrossAllWards;
+
+  /// No description provided for @totalEarnings.
+  ///
+  /// In en, this message translates to:
+  /// **'TOTAL EARNINGS'**
+  String get totalEarnings;
+
+  /// No description provided for @monthlyRevenueToDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly revenue to date'**
+  String get monthlyRevenueToDate;
+
+  /// No description provided for @addNurse.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Nurse'**
+  String get addNurse;
+
+  /// No description provided for @upcomingBookings.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming Bookings'**
+  String get upcomingBookings;
+
+  /// No description provided for @noUpcomingBookings.
+  ///
+  /// In en, this message translates to:
+  /// **'No upcoming bookings'**
+  String get noUpcomingBookings;
+
+  /// No description provided for @manageServicesPricesAvailability.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage services, prices, and availability.'**
+  String get manageServicesPricesAvailability;
+
+  /// No description provided for @addNewService.
+  ///
+  /// In en, this message translates to:
+  /// **'Add New Service'**
+  String get addNewService;
+
+  /// No description provided for @serviceDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Service Details'**
+  String get serviceDetails;
+
+  /// No description provided for @serviceDetailsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Provide the specifics of the nursing service\nyou want to offer.'**
+  String get serviceDetailsSubtitle;
+
+  /// No description provided for @service.
+  ///
+  /// In en, this message translates to:
+  /// **'Service'**
+  String get service;
+
+  /// No description provided for @serviceDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Service Description'**
+  String get serviceDescription;
+
+  /// No description provided for @serviceDescriptionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe the care provided, responsibilities,\nand specific clinical tasks...'**
+  String get serviceDescriptionHint;
+
+  /// No description provided for @pricingType.
+  ///
+  /// In en, this message translates to:
+  /// **'Pricing Type'**
+  String get pricingType;
+
+  /// No description provided for @perVisit.
+  ///
+  /// In en, this message translates to:
+  /// **'Per Visit'**
+  String get perVisit;
+
+  /// No description provided for @perHour.
+  ///
+  /// In en, this message translates to:
+  /// **'Per Hour'**
+  String get perHour;
+
+  /// No description provided for @perDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Per Day'**
+  String get perDay;
+
+  /// No description provided for @perMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Per Month'**
+  String get perMonth;
+
+  /// No description provided for @availableGender.
+  ///
+  /// In en, this message translates to:
+  /// **'Available Gender'**
+  String get availableGender;
+
+  /// No description provided for @both.
+  ///
+  /// In en, this message translates to:
+  /// **'Both'**
+  String get both;
+
+  /// No description provided for @duration.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get duration;
+
+  /// No description provided for @durationHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., 12 Hours, Daily'**
+  String get durationHint;
+
+  /// No description provided for @activeStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Status'**
+  String get activeStatus;
+
+  /// No description provided for @toggleVisibilityProviderList.
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle visibility on the provider list'**
+  String get toggleVisibilityProviderList;
+
+  /// No description provided for @serviceAddedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Service added successfully'**
+  String get serviceAddedSuccessfully;
+
+  /// No description provided for @manageAndOrganizeNursing.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage and organize your nursing professionals.'**
+  String get manageAndOrganizeNursing;
+
+  /// No description provided for @onDuty.
+  ///
+  /// In en, this message translates to:
+  /// **'On Duty'**
+  String get onDuty;
+
+  /// No description provided for @onLeave.
+  ///
+  /// In en, this message translates to:
+  /// **'On Leave'**
+  String get onLeave;
+
+  /// No description provided for @busy.
+  ///
+  /// In en, this message translates to:
+  /// **'Busy'**
+  String get busy;
+
+  /// No description provided for @noStaffFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No staff found in this category.'**
+  String get noStaffFound;
+
+  /// No description provided for @uploadProfilePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload Profile Photo'**
+  String get uploadProfilePhoto;
+
+  /// No description provided for @genderSelection.
+  ///
+  /// In en, this message translates to:
+  /// **'Gender Selection'**
+  String get genderSelection;
+
+  /// No description provided for @professionalDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Professional Details'**
+  String get professionalDetails;
+
+  /// No description provided for @skillsSpecialty.
+  ///
+  /// In en, this message translates to:
+  /// **'Skills / Specialty'**
+  String get skillsSpecialty;
+
+  /// No description provided for @addSkill.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Skill'**
+  String get addSkill;
+
+  /// No description provided for @yearsExperienceText.
+  ///
+  /// In en, this message translates to:
+  /// **'{years} yrs experience'**
+  String yearsExperienceText(Object years);
+
+  /// No description provided for @statusSelection.
+  ///
+  /// In en, this message translates to:
+  /// **'Status Selection'**
+  String get statusSelection;
+
+  /// No description provided for @availableServices.
+  ///
+  /// In en, this message translates to:
+  /// **'Available Services'**
+  String get availableServices;
+
+  /// No description provided for @nurseAddedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Nurse added successfully'**
+  String get nurseAddedSuccessfully;
+
+  /// No description provided for @officeInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Office Information'**
+  String get officeInformation;
+
+  /// No description provided for @officeInformationSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Details, address, and contacts'**
+  String get officeInformationSubtitle;
+
+  /// No description provided for @coverageAreas.
+  ///
+  /// In en, this message translates to:
+  /// **'Coverage Areas'**
+  String get coverageAreas;
+
+  /// No description provided for @manageServiceLocations.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage service locations'**
+  String get manageServiceLocations;
+
+  /// No description provided for @staffShiftsAndOfficeHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Staff shifts and office hours'**
+  String get staffShiftsAndOfficeHours;
+
+  /// No description provided for @appPreferencesAndSecurity.
+  ///
+  /// In en, this message translates to:
+  /// **'App preferences and security'**
+  String get appPreferencesAndSecurity;
+
+  /// No description provided for @adminSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin Support'**
+  String get adminSupport;
+
+  /// No description provided for @adminSupportDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Need help with your profile or documents?\nOur support team is available 24/7.'**
+  String get adminSupportDesc;
+
+  /// No description provided for @manageOfficeProfileDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your office\'s public profile and administrative contact details.'**
+  String get manageOfficeProfileDesc;
+
+  /// No description provided for @officeName.
+  ///
+  /// In en, this message translates to:
+  /// **'OFFICE NAME'**
+  String get officeName;
+
+  /// No description provided for @officeDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'OFFICE DESCRIPTION'**
+  String get officeDescription;
+
+  /// No description provided for @officeVerifiedDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Office is currently verified for the 2026 calendar year.'**
+  String get officeVerifiedDesc;
+
+  /// No description provided for @unsavedChangesLossDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Unsaved changes will be lost if you leave this page.'**
+  String get unsavedChangesLossDesc;
+
+  /// No description provided for @discard.
+  ///
+  /// In en, this message translates to:
+  /// **'DISCARD'**
+  String get discard;
+
+  /// No description provided for @setOfficeWorkingHoursDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Set your office working hours. Patients will only be able to book appointments during these times.'**
+  String get setOfficeWorkingHoursDesc;
+
+  /// No description provided for @noWorkingHoursData.
+  ///
+  /// In en, this message translates to:
+  /// **'No working hours data available.'**
+  String get noWorkingHoursData;
+
+  /// No description provided for @openingTime.
+  ///
+  /// In en, this message translates to:
+  /// **'OPENING TIME'**
+  String get openingTime;
+
+  /// No description provided for @closingTime.
+  ///
+  /// In en, this message translates to:
+  /// **'CLOSING TIME'**
+  String get closingTime;
+
+  /// No description provided for @receiveNotificationsViaEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Receive notifications via email'**
+  String get receiveNotificationsViaEmail;
+
+  /// No description provided for @receiveSmsImportantUpdates.
+  ///
+  /// In en, this message translates to:
+  /// **'Receive SMS for important updates'**
+  String get receiveSmsImportantUpdates;
+
+  /// No description provided for @receivePushNotificationsDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Receive push notifications on your device'**
+  String get receivePushNotificationsDevice;
+
+  /// No description provided for @getRemindersBeforeAppointments.
+  ///
+  /// In en, this message translates to:
+  /// **'Get reminders before appointments'**
+  String get getRemindersBeforeAppointments;
+
+  /// No description provided for @receivePromotionalMarketingEmails.
+  ///
+  /// In en, this message translates to:
+  /// **'Receive promotional and marketing emails'**
+  String get receivePromotionalMarketingEmails;
+
+  /// No description provided for @service12Hour.
+  ///
+  /// In en, this message translates to:
+  /// **'12-Hour Nursing'**
+  String get service12Hour;
+
+  /// No description provided for @customServiceTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom service'**
+  String get customServiceTerms;
+
+  /// No description provided for @standardTermsApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Standard terms apply'**
+  String get standardTermsApply;
+
+  /// No description provided for @service24Hour.
+  ///
+  /// In en, this message translates to:
+  /// **'24-Hour Nursing'**
+  String get service24Hour;
+
+  /// No description provided for @serviceHomeVisit.
+  ///
+  /// In en, this message translates to:
+  /// **'Home Visit'**
+  String get serviceHomeVisit;
+
+  /// No description provided for @serviceElderlyCare.
+  ///
+  /// In en, this message translates to:
+  /// **'Elderly Care'**
+  String get serviceElderlyCare;
+
+  /// No description provided for @serviceBabyCare.
+  ///
+  /// In en, this message translates to:
+  /// **'Baby Care'**
+  String get serviceBabyCare;
+
+  /// No description provided for @requiredField.
+  ///
+  /// In en, this message translates to:
+  /// **'Required'**
+  String get requiredField;
+
+  /// No description provided for @bookings.
+  ///
+  /// In en, this message translates to:
+  /// **'Bookings'**
+  String get bookings;
+
+  /// No description provided for @manageOfficeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your office\'s public profile and administrative contact details.'**
+  String get manageOfficeSubtitle;
+
+  /// No description provided for @verifiedStatusDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Office is currently verified for the 2026 calendar year.'**
+  String get verifiedStatusDesc;
+
+  /// No description provided for @unsavedChangesWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Unsaved changes will be lost if you leave this page.'**
+  String get unsavedChangesWarning;
+
+  /// No description provided for @manageWorkingHoursSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Set your office working hours. Patients will only be able to book appointments during these times.'**
+  String get manageWorkingHoursSubtitle;
+
+  /// No description provided for @nursingCare.
+  ///
+  /// In en, this message translates to:
+  /// **'Nursing Care'**
+  String get nursingCare;
+
+  /// No description provided for @welcomeNursing.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to your Nursing Care dashboard'**
+  String get welcomeNursing;
+
+  /// No description provided for @officeInformationDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Details, address, and contacts'**
+  String get officeInformationDesc;
+
+  /// No description provided for @coverageAreasDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage service locations'**
+  String get coverageAreasDesc;
+
+  /// No description provided for @documentsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Licenses, certificates & permits'**
+  String get documentsDesc;
+
+  /// No description provided for @paymentSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Settings'**
+  String get paymentSettings;
+
+  /// No description provided for @paymentSettingsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank accounts, billing methods'**
+  String get paymentSettingsDesc;
+
+  /// No description provided for @earnings.
+  ///
+  /// In en, this message translates to:
+  /// **'Earnings'**
+  String get earnings;
+
+  /// No description provided for @settingsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'App preferences and security'**
+  String get settingsDesc;
+
+  /// No description provided for @manageStaffSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage and organize your nursing professionals.'**
+  String get manageStaffSubtitle;
+
+  /// No description provided for @addService.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Service'**
+  String get addService;
+
+  /// No description provided for @manageServicesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage services, prices, and availability.'**
+  String get manageServicesSubtitle;
 }
 
 class _AppLocalizationsDelegate

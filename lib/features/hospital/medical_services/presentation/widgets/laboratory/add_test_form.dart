@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
-import '../../../../../../core/utils/app_colors.dart';
-import '../../../../../../shared/widgets/custom_textfield.dart';
 import '../../../../../../shared/widgets/custom_elevated_button.dart';
+import '../../../../../../shared/widgets/custom_textfield.dart';
 
 class AddTestForm extends StatefulWidget {
   const AddTestForm({super.key});
@@ -91,7 +91,7 @@ class _AddTestFormState extends State<AddTestForm> {
                     _homeCollectionAvailable = val;
                   });
                 },
-                activeColor: Colors.amber,
+                activeThumbColor: Colors.amber,
               ),
             ],
           ),

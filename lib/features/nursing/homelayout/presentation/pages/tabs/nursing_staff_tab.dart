@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rojeta_doctor/config/routes/app_router.dart';
-import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
-import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
-import '../../../data/models/nursing_staff_model.dart';
+import 'package:rojeta_doctor/features/nursing/homelayout/data/models/nursing_staff_model.dart';
+
+import '../../../../../../config/routes/app_router.dart';
+import '../../../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../../../core/utils/screen_util_like.dart';
 import '../../bloc/nursing_bloc.dart';
 import '../../bloc/nursing_state.dart';
 import 'widgets/nursing_staff_card.dart';
+import 'widgets/nursing_staff_stat_card.dart';
 
 class NursingStaffTab extends StatefulWidget {
   const NursingStaffTab({super.key});
@@ -15,7 +17,8 @@ class NursingStaffTab extends StatefulWidget {
   State<NursingStaffTab> createState() => _NursingStaffTabState();
 }
 
-class _NursingStaffTabState extends State<NursingStaffTab> with SingleTickerProviderStateMixin {
+class _NursingStaffTabState extends State<NursingStaffTab>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -35,13 +38,15 @@ class _NursingStaffTabState extends State<NursingStaffTab> with SingleTickerProv
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.strings;
+
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         title: Text(
-          'Staff Management',
+          strings.staffManagement,
           style: context.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
             color: const Color(0xFF0F2D52),
@@ -54,16 +59,20 @@ class _NursingStaffTabState extends State<NursingStaffTab> with SingleTickerProv
             return const Center(child: CircularProgressIndicator());
           }
 
-          if (state.staffStats == null) {
-            return const Center(child: Text('No data available'));
+          if (state.staffStats == null && state.staff.isEmpty) {
+            return Center(child: Text(strings.noStaffFound));
           }
 
-          final stats = state.staffStats!;
+          final stats = state.staffStats;
           List<NursingStaffModel> filteredStaff = state.staff;
           if (_tabController.index == 1) {
-            filteredStaff = state.staff.where((s) => s.gender.toUpperCase() == 'MALE').toList();
+            filteredStaff = state.staff
+                .where((s) => (s.gender ?? '').toUpperCase() == 'MALE')
+                .toList();
           } else if (_tabController.index == 2) {
-            filteredStaff = state.staff.where((s) => s.gender.toUpperCase() == 'FEMALE').toList();
+            filteredStaff = state.staff
+                .where((s) => (s.gender ?? '').toUpperCase() == 'FEMALE')
+                .toList();
           }
 
           return Stack(
@@ -80,7 +89,7 @@ class _NursingStaffTabState extends State<NursingStaffTab> with SingleTickerProv
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Manage and organize your nursing professionals.',
+                            strings.manageStaffSubtitle,
                             style: context.textTheme.bodyMedium?.copyWith(
                               color: const Color(0xFF475569),
                             ),
@@ -90,9 +99,11 @@ class _NursingStaffTabState extends State<NursingStaffTab> with SingleTickerProv
                           Row(
                             children: [
                               Expanded(
-                                child: _buildStatCard(
-                                  title: 'Total Staff',
-                                  value: stats.totalStaff.toString(),
+                                child: NursingStaffStatCard(
+                                  title: strings.totalStaff,
+                                  value:
+                                      (stats?.totalStaff ?? state.staff.length)
+                                          .toString(),
                                   icon: Icons.people_outline,
                                   color: const Color(0xFF0EA5E9),
                                   textColor: Colors.white,
@@ -100,9 +111,9 @@ class _NursingStaffTabState extends State<NursingStaffTab> with SingleTickerProv
                               ),
                               SizedBox(width: 12.w),
                               Expanded(
-                                child: _buildStatCard(
-                                  title: 'Available',
-                                  value: stats.available.toString(),
+                                child: NursingStaffStatCard(
+                                  title: strings.available,
+                                  value: (stats?.available ?? 0).toString(),
                                   icon: Icons.check_circle_outline,
                                   color: const Color(0xFF6EE7B7),
                                   textColor: const Color(0xFF064E3B),
@@ -114,9 +125,9 @@ class _NursingStaffTabState extends State<NursingStaffTab> with SingleTickerProv
                           Row(
                             children: [
                               Expanded(
-                                child: _buildStatCard(
-                                  title: 'On Duty',
-                                  value: stats.onDuty.toString(),
+                                child: NursingStaffStatCard(
+                                  title: strings.onDuty,
+                                  value: (stats?.onDuty ?? 0).toString(),
                                   icon: Icons.more_horiz,
                                   color: const Color(0xFFE2E8F0),
                                   textColor: const Color(0xFF0F172A),
@@ -124,9 +135,9 @@ class _NursingStaffTabState extends State<NursingStaffTab> with SingleTickerProv
                               ),
                               SizedBox(width: 12.w),
                               Expanded(
-                                child: _buildStatCard(
-                                  title: 'On Leave',
-                                  value: stats.onLeave.toString(),
+                                child: NursingStaffStatCard(
+                                  title: strings.onLeave,
+                                  value: (stats?.onLeave ?? 0).toString(),
                                   icon: Icons.calendar_today_outlined,
                                   color: const Color(0xFFE0E7FF),
                                   textColor: const Color(0xFF1E1B4B),
@@ -145,10 +156,10 @@ class _NursingStaffTabState extends State<NursingStaffTab> with SingleTickerProv
                         labelColor: const Color(0xFF3B82F6),
                         unselectedLabelColor: const Color(0xFF64748B),
                         indicatorColor: const Color(0xFF3B82F6),
-                        tabs: const [
-                          Tab(text: 'All'),
-                          Tab(text: 'Male'),
-                          Tab(text: 'Female'),
+                        tabs: [
+                          Tab(text: strings.all),
+                          Tab(text: strings.male),
+                          Tab(text: strings.female),
                         ],
                       ),
                     ),
@@ -160,7 +171,7 @@ class _NursingStaffTabState extends State<NursingStaffTab> with SingleTickerProv
                               child: Padding(
                                 padding: EdgeInsets.only(top: 40.h),
                                 child: Text(
-                                  'No staff found in this category.',
+                                  strings.noStaffFound,
                                   style: context.textTheme.bodyMedium?.copyWith(
                                     color: const Color(0xFF64748B),
                                   ),
@@ -186,19 +197,25 @@ class _NursingStaffTabState extends State<NursingStaffTab> with SingleTickerProv
                 right: 16.w,
                 child: ElevatedButton.icon(
                   onPressed: () {
-                    context.pushNamed(AppRoutes.nursingAddNurse, extra: context.read<NursingBloc>());
+                    context.pushNamed(
+                      AppRoutes.nursingAddNurse,
+                      extra: context.read<NursingBloc>(),
+                    );
                   },
                   icon: const Icon(Icons.add, color: Colors.white),
-                  label: const Text(
-                    'Add Nurse',
-                    style: TextStyle(
+                  label: Text(
+                    strings.addNurse,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF3B82F6),
-                    padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20.w,
+                      vertical: 12.h,
+                    ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.r),
                     ),
@@ -209,50 +226,6 @@ class _NursingStaffTabState extends State<NursingStaffTab> with SingleTickerProv
             ],
           );
         },
-      ),
-    );
-  }
-
-  Widget _buildStatCard({
-    required String title,
-    required String value,
-    required IconData icon,
-    required Color color,
-    required Color textColor,
-  }) {
-    return Container(
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(12.r),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(icon, color: textColor, size: 20.w),
-              SizedBox(width: 8.w),
-              Text(
-                title,
-                style: TextStyle(
-                  color: textColor.withOpacity(0.8),
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 8.h),
-          Text(
-            value,
-            style: TextStyle(
-              color: textColor,
-              fontSize: 24.sp,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
       ),
     );
   }

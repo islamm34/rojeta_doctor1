@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
-import 'package:rojeta_doctor/core/utils/extensions/time_extensions.dart';
-import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
-import 'package:rojeta_doctor/features/nursing/homelayout/data/models/nursing_dashboard_model.dart';
+
+import '../../../../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../../../../core/utils/extensions/time_extensions.dart';
+import '../../../../../../../core/utils/screen_util_like.dart';
+import '../../../../data/models/nursing_dashboard_model.dart';
 
 class NursingUpcomingBookings extends StatelessWidget {
   final List<NursingBookingModel> bookings;
@@ -11,12 +12,14 @@ class NursingUpcomingBookings extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final strings = context.strings;
+
     if (bookings.isEmpty) {
       return Center(
         child: Padding(
           padding: EdgeInsets.all(24.w),
           child: Text(
-            'No upcoming bookings',
+            strings.noUpcomingBookings,
             style: context.textTheme.bodyMedium?.copyWith(
               color: const Color(0xFF64748B),
             ),
@@ -52,7 +55,7 @@ class NursingUpcomingBookings extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      booking.dateMonth,
+                      booking.dateMonth ?? 'MAY',
                       style: context.textTheme.labelSmall?.copyWith(
                         color: const Color(0xFF3B82F6),
                         fontWeight: FontWeight.bold,
@@ -60,7 +63,7 @@ class NursingUpcomingBookings extends StatelessWidget {
                     ),
                     SizedBox(height: 4.h),
                     Text(
-                      booking.dateDay,
+                      booking.dateDay ?? '1',
                       style: context.textTheme.titleLarge?.copyWith(
                         color: const Color(0xFF1E3A8A),
                         fontWeight: FontWeight.bold,
@@ -79,7 +82,7 @@ class NursingUpcomingBookings extends StatelessWidget {
                       children: [
                         Expanded(
                           child: Text(
-                            booking.patientName,
+                            booking.patientName ?? '',
                             style: context.textTheme.titleMedium?.copyWith(
                               fontWeight: FontWeight.bold,
                               color: const Color(0xFF0F2D52),
@@ -88,23 +91,24 @@ class NursingUpcomingBookings extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 8.w,
-                            vertical: 4.h,
-                          ),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFD1FAE5),
-                            borderRadius: BorderRadius.circular(12.r),
-                          ),
-                          child: Text(
-                            booking.time.formatTo12Hour(context),
-                            style: context.textTheme.labelSmall?.copyWith(
-                              color: const Color(0xFF065F46),
-                              fontWeight: FontWeight.bold,
+                        if ((booking.time ?? '').isNotEmpty)
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 8.w,
+                              vertical: 4.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFD1FAE5),
+                              borderRadius: BorderRadius.circular(12.r),
+                            ),
+                            child: Text(
+                              (booking.time ?? '').formatTo12Hour(context),
+                              style: context.textTheme.labelSmall?.copyWith(
+                                color: const Color(0xFF065F46),
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
                       ],
                     ),
                     SizedBox(height: 8.h),
@@ -112,7 +116,7 @@ class NursingUpcomingBookings extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          booking.serviceType,
+                          booking.serviceType ?? '',
                           style: context.textTheme.bodyMedium?.copyWith(
                             color: const Color(0xFF64748B),
                           ),
