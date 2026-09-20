@@ -2385,4 +2385,29 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get error => 'Error occurred';
+
+  @override
+  String get locationOnMap => 'Location on Map';
+
+  @override
+  String get locationWorkingHours => 'Location Working Hours';
+
+  @override
+  String get selectWorkingHours => 'Select working hours';
+
+  @override
+  String get homeCollectionAvailableLocation =>
+      'Home collection service is available at this location.';
+
+  @override
+  String get sampleExtractionRoadDesc =>
+      'Define when your team is on the road for sample extraction.';
+
+  @override
+  String get noBookingsFound => 'No bookings found';
+
+  @override
+  String radiusAndTechs(Object count, Object radius) {
+    return 'Radius: $radius km • $count Techs';
+  }
 }

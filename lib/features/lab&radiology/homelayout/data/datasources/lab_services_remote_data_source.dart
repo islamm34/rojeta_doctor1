@@ -22,17 +22,27 @@ class LabServicesRemoteDataSourceImpl implements LabServicesRemoteDataSource {
 
   @override
   Future<LabServicesResponseModel> getServices({UserType? userType}) async {
+    final isRadiology = userType == UserType.radiologyCenter;
     final queryParams = <String, dynamic>{};
     if (userType != null) {
-      queryParams['type'] = userType == UserType.radiologyCenter
-          ? 'radiology'
-          : 'lab';
+      queryParams['type'] = isRadiology ? 'radiology' : 'lab';
+      queryParams['user_type'] = isRadiology ? 'radiology' : 'lab';
     }
 
-    final response = await apiConsumer.get(
-      Endpoints.labServices,
-      queryParameters: queryParams.isNotEmpty ? queryParams : null,
-    );
+    final endpointsToTry = isRadiology
+        ? [Endpoints.labServices, '/radiology/services', '/radiology/scans', '/lab/services']
+        : [Endpoints.labServices, '/lab/services', '/laboratory/tests'];
+
+    dynamic response;
+    for (final endpoint in endpointsToTry) {
+      try {
+        response = await apiConsumer.get(
+          endpoint,
+          queryParameters: queryParams.isNotEmpty ? queryParams : null,
+        );
+        if (response != null) break;
+      } catch (_) {}
+    }
 
     if (response is List) {
       return LabServicesResponseModel.fromList(response);
@@ -61,8 +71,20 @@ class LabServicesRemoteDataSourceImpl implements LabServicesRemoteDataSource {
     final primaryEndpoint =
         isRadiology ? Endpoints.labServices : Endpoints.labTests;
     final fallbackEndpoints = isRadiology
-        ? [Endpoints.addLabService, '/radiology/services', '/lab/services']
-        : [Endpoints.laboratoryAddTest, '/lab/services', '/laboratory/tests', '/lab/tests/add'];
+        ? [
+            Endpoints.addLabService,
+            '/radiology/services',
+            '/radiology/scans',
+            '/radiology/service/add',
+            '/radiology/scan/add',
+            '/lab/services',
+          ]
+        : [
+            Endpoints.laboratoryAddTest,
+            '/lab/services',
+            '/laboratory/tests',
+            '/lab/tests/add',
+          ];
 
     try {
       await apiConsumer.post(primaryEndpoint, data: service.toJson());
@@ -88,16 +110,24 @@ class LabServicesRemoteDataSourceImpl implements LabServicesRemoteDataSource {
     UserType? userType,
   }) async {
     final isRadiology = userType == UserType.radiologyCenter;
-    final endpoint = isRadiology
-        ? Endpoints.labUpdateService(id)
-        : Endpoints.labUpdateTest(id);
-    try {
-      await apiConsumer.put(endpoint, data: service.toJson());
-    } catch (_) {
+    final endpoints = isRadiology
+        ? [Endpoints.labUpdateService(id), '/radiology/services/$id', '/radiology/scans/$id', '/lab/services/$id']
+        : [Endpoints.labUpdateTest(id), '/lab/services/$id', '/laboratory/tests/$id'];
+
+    for (final endpoint in endpoints) {
       try {
-        await apiConsumer.post(endpoint, data: service.toJson());
+        await apiConsumer.put(endpoint, data: service.toJson());
+        return;
       } catch (_) {
-        await apiConsumer.patch(endpoint, data: service.toJson());
+        try {
+          await apiConsumer.post(endpoint, data: service.toJson());
+          return;
+        } catch (_) {
+          try {
+            await apiConsumer.patch(endpoint, data: service.toJson());
+            return;
+          } catch (_) {}
+        }
       }
     }
   }
@@ -105,9 +135,15 @@ class LabServicesRemoteDataSourceImpl implements LabServicesRemoteDataSource {
   @override
   Future<void> deleteService(String id, {UserType? userType}) async {
     final isRadiology = userType == UserType.radiologyCenter;
-    final endpoint = isRadiology
-        ? Endpoints.labDeleteService(id)
-        : Endpoints.labDeleteTest(id);
-    await apiConsumer.delete(endpoint);
+    final endpoints = isRadiology
+        ? [Endpoints.labDeleteService(id), '/radiology/services/$id', '/radiology/scans/$id', '/lab/services/$id']
+        : [Endpoints.labDeleteTest(id), '/lab/services/$id', '/laboratory/tests/$id'];
+
+    for (final endpoint in endpoints) {
+      try {
+        await apiConsumer.delete(endpoint);
+        return;
+      } catch (_) {}
+    }
   }
 }

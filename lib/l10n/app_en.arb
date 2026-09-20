@@ -795,5 +795,12 @@
   "to": "To",
   "date": "Date",
   "labName": "LAB NAME",
-  "error": "Error occurred"
+  "error": "Error occurred",
+  "locationOnMap": "Location on Map",
+  "locationWorkingHours": "Location Working Hours",
+  "selectWorkingHours": "Select working hours",
+  "homeCollectionAvailableLocation": "Home collection service is available at this location.",
+  "sampleExtractionRoadDesc": "Define when your team is on the road for sample extraction.",
+  "noBookingsFound": "No bookings found",
+  "radiusAndTechs": "Radius: {radius} km • {count} Techs"
 }

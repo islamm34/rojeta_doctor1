@@ -615,11 +615,153 @@ When returning bookings via `GET /api/v1/bookings`:
 
 ---
 
+---
+
+## 14. Radiology Center Role API Specifications (ROJ-029 to ROJ-043)
+
+### 14.1 Radiology Scans & Services Management (ROJ-029 & ROJ-031)
+
+- **Endpoints:**
+  - `GET /api/v1/radiology/services` (or `GET /api/v1/lab/services?user_type=radiology`)
+  - `POST /api/v1/radiology/services` (or `POST /api/v1/lab/services` with `"type": "radiology"`)
+  - `PUT /api/v1/radiology/services/{id}`
+  - `DELETE /api/v1/radiology/services/{id}`
+- **Request Body for Creating a Scan:**
+
+```json
+{
+  "name": "Chest X-Ray (PA & Lateral)",
+  "name_ar": "أشعة سينية على الصدر",
+  "category": "X-Ray",
+  "price": 350.00,
+  "duration_minutes": 20,
+  "home_visit_available": true,
+  "instructions": "Remove metal objects before scan",
+  "is_active": true
+}
+```
+
+- **Response (`201 Created` or `200 OK`):**
+
+```json
+{
+  "status": "success",
+  "message": "Radiology service added successfully",
+  "data": {
+    "id": "scan_441",
+    "name": "Chest X-Ray (PA & Lateral)",
+    "price": 350.00,
+    "category": "X-Ray",
+    "home_visit_available": true,
+    "is_active": true
+  }
+}
+```
+
+---
+
+### 14.2 Radiology Booking Payment Confirmation (ROJ-030)
+
+- **Endpoint:** `POST /api/v1/bookings/{id}/confirm-cash-payment` (or `PATCH /api/v1/bookings/{id}/payment-status`)
+- **Request:**
+
+```json
+{
+  "payment_status": "paid",
+  "payment_method": "cash",
+  "amount_received": 350.00
+}
+```
+
+- **Response (`200 OK`):**
+
+```json
+{
+  "status": "success",
+  "message": "Booking payment confirmed",
+  "data": {
+    "id": "book_9921",
+    "status": "confirmed",
+    "payment_status": "paid",
+    "total_price": 350.00
+  }
+}
+```
+
+---
+
+### 14.3 Radiology Center Profile & Information (ROJ-033)
+
+- **Endpoints:**
+  - `GET /api/v1/radiology/profile` (or `GET /api/v1/lab/profile`)
+  - `PUT /api/v1/radiology/profile` / `POST /api/v1/radiology/profile` / `PATCH /api/v1/radiology/profile`
+- **Request Body:**
+
+```json
+{
+  "name": "Al-Amal Radiology & Scan Center",
+  "about": "Advanced medical imaging and diagnostic scans.",
+  "phone": "+201011223344",
+  "email": "contact@alamal-radiology.com",
+  "address": "15 Al-Nasr St, Nasr City, Cairo",
+  "license_number": "RAD-2026-991"
+}
+```
+
+---
+
+### 14.4 Radiology Financial Section & Revenue (ROJ-035)
+
+- **Endpoints:**
+  - `GET /api/v1/financial/summary`
+  - `GET /api/v1/financial/transactions`
+- **Specification:**
+  - When the authenticated user is a Radiology Center (`user_type == "radiology"` / `"radiology_center"`), include all completed scan bookings and home visit scan fees in `total_income`, `completed_appointments`, and the `transactions` array.
+
+---
+
+### 14.5 Home Visit Configuration for Radiology (ROJ-040, ROJ-041, ROJ-042)
+
+- **Endpoints:**
+  - `GET /api/v1/radiology/home-visits/config`
+  - `PUT /api/v1/radiology/home-visits/config` / `POST /api/v1/radiology/home-visits/config`
+- **Schema:**
+
+```json
+{
+  "is_home_visit_enabled": true,
+  "home_visit_fee": 75.00,
+  "minimum_booking_amount": 200.00,
+  "service_areas": [
+    { "name": "Nasr City & Heliopolis", "radius_km": 15, "techs_available": 3 }
+  ],
+  "weekday_slots": [
+    { "start_time": "08:00 AM", "end_time": "04:00 PM" }
+  ],
+  "weekend_slots": [
+    { "start_time": "10:00 AM", "end_time": "02:00 PM" }
+  ]
+}
+```
+
+---
+
+### 14.6 Bookings List & Dashboard Consistency (ROJ-043)
+
+- **Endpoint:** `GET /api/v1/bookings?user_type=radiology`
+- **Query Parameter Fix:**
+  - Ensure the query parameter `user_type=radiology` or `role=radiology` filters by the provider account rather than the appointment type column `type` (which holds `"branch_visit"` or `"home_visit"`).
+  - All upcoming bookings returned on `GET /api/v1/radiology/dashboard` (or `lab/dashboard`) must also be present in `GET /api/v1/bookings?user_type=radiology`.
+
+---
+
 ## Summary of Client-Side Defensiveness
 
 The Flutter app has been updated to:
 
-- Fall back gracefully across `PUT` and `POST` methods on all profile, setting, and home visit endpoints.
-- Auto-calculate missing `total_price` as `test_price + home_visit_fee` on the client.
+- Fall back gracefully across `PUT`, `POST`, and `PATCH` methods on all profile, setting, and home visit endpoints.
+- Auto-calculate missing `total_price` as `service_price + home_visit_fee` on the client.
 - Display `patient_address` for home visits and `branch_name` for branch visits uniformly.
-- Support instant live language toggling (Arabic / English) throughout all Lab and Radiology screens.
+- Support instant live language toggling (Arabic / English) throughout all Doctor, Lab, and Radiology screens.
+- Synthesize dashboard upcoming bookings and financial metrics directly from `/bookings` if primary financial endpoints are unpopulated.
+- Provide interactive in-app Cash Payment Confirmation for doctors and radiology/lab providers.

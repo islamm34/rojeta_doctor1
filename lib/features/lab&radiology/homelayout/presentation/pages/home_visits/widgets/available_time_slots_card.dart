@@ -57,7 +57,7 @@ class AvailableTimeSlotsCard extends StatelessWidget {
           ),
           SizedBox(height: 8.h),
           Text(
-            'Define when your phlebotomists are on the road for sample extraction.',
+            context.strings.sampleExtractionRoadDesc,
             style: context.textTheme.bodySmall?.copyWith(
               color: const Color(0xFF7A8FA6),
             ),

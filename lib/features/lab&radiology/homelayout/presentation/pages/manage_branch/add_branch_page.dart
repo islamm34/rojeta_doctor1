@@ -163,9 +163,9 @@ class _AddBranchPageState extends State<AddBranchPage> {
                     OutlinedButton.icon(
                       onPressed: () {},
                       icon: const Icon(Icons.map, color: Color(0xFF1877F2)),
-                      label: const Text(
-                        'Location on Map',
-                        style: TextStyle(color: Color(0xFF1877F2)),
+                      label: Text(
+                        context.strings.locationOnMap,
+                        style: const TextStyle(color: Color(0xFF1877F2)),
                       ),
                       style: OutlinedButton.styleFrom(
                         minimumSize: Size(double.infinity, 48.h),
@@ -176,13 +176,13 @@ class _AddBranchPageState extends State<AddBranchPage> {
                       ),
                     ),
                     SizedBox(height: 24.h),
-                    const AddBranchSectionTitle(
-                      title: 'Location Working Hours',
+                    AddBranchSectionTitle(
+                      title: context.strings.locationWorkingHours,
                     ),
                     SizedBox(height: 8.h),
                     DropdownButtonFormField<String>(
                       initialValue: _selectedWorkingHours,
-                      decoration: _inputDecoration('Select working hours'),
+                      decoration: _inputDecoration(context.strings.selectWorkingHours),
                       items: _workingHoursOptions
                           .map(
                             (hours) => DropdownMenuItem(
@@ -208,7 +208,7 @@ class _AddBranchPageState extends State<AddBranchPage> {
                         ),
                         Expanded(
                           child: Text(
-                            'Home collection service is available at this location.',
+                            context.strings.homeCollectionAvailableLocation,
                             style: context.textTheme.bodyMedium?.copyWith(
                               color: const Color(0xFF0F2D52),
                             ),

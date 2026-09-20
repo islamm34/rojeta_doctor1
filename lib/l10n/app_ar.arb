@@ -945,5 +945,12 @@
   "to": "إلى",
   "date": "التاريخ",
   "labName": "اسم المعمل",
-  "error": "حدث خطأ"
+  "error": "حدث خطأ",
+  "locationOnMap": "الموقع على الخريطة",
+  "locationWorkingHours": "ساعات عمل الموقع",
+  "selectWorkingHours": "اختر ساعات العمل",
+  "homeCollectionAvailableLocation": "خدمة السحب المنزلي متوفرة في هذا الموقع.",
+  "sampleExtractionRoadDesc": "حدد الأوقات التي يكون فيها الفريق متاحاً لسحب العينات والزيارات.",
+  "noBookingsFound": "لا توجد حجوزات",
+  "radiusAndTechs": "النطاق: {radius} كم • {count} فني"
 }

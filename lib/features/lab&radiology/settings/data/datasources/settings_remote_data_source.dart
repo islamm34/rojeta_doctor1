@@ -23,7 +23,15 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
 
   @override
   Future<LabProfileModel> getLabProfile() async {
-    final response = await apiConsumer.get(Endpoints.getLabProfile);
+    final endpoints = [Endpoints.getLabProfile, '/radiology/profile', '/radiology/info', '/lab/profile'];
+    dynamic response;
+    for (final ep in endpoints) {
+      try {
+        response = await apiConsumer.get(ep);
+        if (response != null) break;
+      } catch (_) {}
+    }
+
     if (response is Map<String, dynamic>) {
       if (response['data'] is Map<String, dynamic>) {
         return LabProfileModel.fromJson(response['data'] as Map<String, dynamic>);
@@ -35,16 +43,27 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
 
   @override
   Future<void> updateLabProfile(LabProfileModel profile) async {
-    try {
-      await apiConsumer.put(Endpoints.getLabProfile, data: profile.toJson());
-    } catch (_) {
+    final endpoints = [
+      Endpoints.getLabProfile,
+      Endpoints.updateLabProfile,
+      '/radiology/profile',
+      '/radiology/info',
+      '/lab/profile',
+    ];
+
+    for (final ep in endpoints) {
       try {
-        await apiConsumer.put(Endpoints.updateLabProfile, data: profile.toJson());
+        await apiConsumer.put(ep, data: profile.toJson());
+        return;
       } catch (_) {
         try {
-          await apiConsumer.post(Endpoints.updateLabProfile, data: profile.toJson());
+          await apiConsumer.post(ep, data: profile.toJson());
+          return;
         } catch (_) {
-          await apiConsumer.patch(Endpoints.getLabProfile, data: profile.toJson());
+          try {
+            await apiConsumer.patch(ep, data: profile.toJson());
+            return;
+          } catch (_) {}
         }
       }
     }
@@ -52,7 +71,15 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
 
   @override
   Future<GeneralSettingsModel> getGeneralSettings() async {
-    final response = await apiConsumer.get(Endpoints.getGeneralSettings);
+    final endpoints = [Endpoints.getGeneralSettings, '/radiology/settings/general', '/lab/settings/general'];
+    dynamic response;
+    for (final ep in endpoints) {
+      try {
+        response = await apiConsumer.get(ep);
+        if (response != null) break;
+      } catch (_) {}
+    }
+
     if (response is Map<String, dynamic>) {
       if (response['data'] is Map<String, dynamic>) {
         return GeneralSettingsModel.fromJson(response['data'] as Map<String, dynamic>);
@@ -64,16 +91,26 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
 
   @override
   Future<void> updateGeneralSettings(GeneralSettingsModel settings) async {
-    try {
-      await apiConsumer.put(Endpoints.getGeneralSettings, data: settings.toJson());
-    } catch (_) {
+    final endpoints = [
+      Endpoints.getGeneralSettings,
+      Endpoints.updateGeneralSettings,
+      '/radiology/settings/general',
+      '/lab/settings/general',
+    ];
+
+    for (final ep in endpoints) {
       try {
-        await apiConsumer.put(Endpoints.updateGeneralSettings, data: settings.toJson());
+        await apiConsumer.put(ep, data: settings.toJson());
+        return;
       } catch (_) {
         try {
-          await apiConsumer.post(Endpoints.updateGeneralSettings, data: settings.toJson());
+          await apiConsumer.post(ep, data: settings.toJson());
+          return;
         } catch (_) {
-          await apiConsumer.patch(Endpoints.getGeneralSettings, data: settings.toJson());
+          try {
+            await apiConsumer.patch(ep, data: settings.toJson());
+            return;
+          } catch (_) {}
         }
       }
     }
@@ -81,7 +118,15 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
 
   @override
   Future<LabInfoModel> getLabInfo() async {
-    final response = await apiConsumer.get(Endpoints.getLabProfile);
+    final endpoints = [Endpoints.getLabProfile, '/radiology/profile', '/radiology/info', '/lab/profile'];
+    dynamic response;
+    for (final ep in endpoints) {
+      try {
+        response = await apiConsumer.get(ep);
+        if (response != null) break;
+      } catch (_) {}
+    }
+
     if (response is Map<String, dynamic>) {
       if (response['data'] is Map<String, dynamic>) {
         return LabInfoModel.fromJson(response['data'] as Map<String, dynamic>);
@@ -93,16 +138,27 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
 
   @override
   Future<void> updateLabInfo(LabInfoModel info) async {
-    try {
-      await apiConsumer.put(Endpoints.getLabProfile, data: info.toJson());
-    } catch (_) {
+    final endpoints = [
+      Endpoints.getLabProfile,
+      Endpoints.updateLabProfile,
+      '/radiology/profile',
+      '/radiology/info',
+      '/lab/profile',
+    ];
+
+    for (final ep in endpoints) {
       try {
-        await apiConsumer.put(Endpoints.updateLabProfile, data: info.toJson());
+        await apiConsumer.put(ep, data: info.toJson());
+        return;
       } catch (_) {
         try {
-          await apiConsumer.post(Endpoints.updateLabProfile, data: info.toJson());
+          await apiConsumer.post(ep, data: info.toJson());
+          return;
         } catch (_) {
-          await apiConsumer.patch(Endpoints.getLabProfile, data: info.toJson());
+          try {
+            await apiConsumer.patch(ep, data: info.toJson());
+            return;
+          } catch (_) {}
         }
       }
     }
@@ -110,7 +166,15 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
 
   @override
   Future<WorkingHoursModel> getWorkingHours() async {
-    final response = await apiConsumer.get(Endpoints.getWorkingHours);
+    final endpoints = [Endpoints.getWorkingHours, '/radiology/working-hours', '/lab/working-hours'];
+    dynamic response;
+    for (final ep in endpoints) {
+      try {
+        response = await apiConsumer.get(ep);
+        if (response != null) break;
+      } catch (_) {}
+    }
+
     if (response is Map<String, dynamic>) {
       if (response['data'] is Map<String, dynamic>) {
         return WorkingHoursModel.fromJson(response['data'] as Map<String, dynamic>);
@@ -122,16 +186,26 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
 
   @override
   Future<void> updateWorkingHours(WorkingHoursModel workingHours) async {
-    try {
-      await apiConsumer.put(Endpoints.getWorkingHours, data: workingHours.toJson());
-    } catch (_) {
+    final endpoints = [
+      Endpoints.getWorkingHours,
+      Endpoints.updateWorkingHours,
+      '/radiology/working-hours',
+      '/lab/working-hours',
+    ];
+
+    for (final ep in endpoints) {
       try {
-        await apiConsumer.put(Endpoints.updateWorkingHours, data: workingHours.toJson());
+        await apiConsumer.put(ep, data: workingHours.toJson());
+        return;
       } catch (_) {
         try {
-          await apiConsumer.post(Endpoints.updateWorkingHours, data: workingHours.toJson());
+          await apiConsumer.post(ep, data: workingHours.toJson());
+          return;
         } catch (_) {
-          await apiConsumer.patch(Endpoints.getWorkingHours, data: workingHours.toJson());
+          try {
+            await apiConsumer.patch(ep, data: workingHours.toJson());
+            return;
+          } catch (_) {}
         }
       }
     }

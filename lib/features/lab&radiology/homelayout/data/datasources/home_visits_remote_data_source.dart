@@ -15,7 +15,18 @@ class HomeVisitsRemoteDataSourceImpl implements HomeVisitsRemoteDataSource {
 
   @override
   Future<HomeVisitConfigModel> getHomeVisitsConfig({UserType? userType}) async {
-    final response = await apiConsumer.get(Endpoints.getHomeVisitConfig);
+    final isRadiology = userType == UserType.radiologyCenter;
+    final endpoints = isRadiology
+        ? [Endpoints.getHomeVisitConfig, '/radiology/home-visits/config', '/radiology/home-visits', '/lab/home-visits/config']
+        : [Endpoints.getHomeVisitConfig, '/lab/home-visits/config', '/lab/home-visits'];
+
+    dynamic response;
+    for (final ep in endpoints) {
+      try {
+        response = await apiConsumer.get(ep);
+        if (response != null) break;
+      } catch (_) {}
+    }
 
     if (response is Map<String, dynamic>) {
       if (response['data'] is Map<String, dynamic>) {
@@ -32,28 +43,35 @@ class HomeVisitsRemoteDataSourceImpl implements HomeVisitsRemoteDataSource {
     HomeVisitConfigModel config, {
     UserType? userType,
   }) async {
-    try {
-      await apiConsumer.put(
-        Endpoints.getHomeVisitConfig,
-        data: config.toJson(),
-      );
-    } catch (_) {
+    final isRadiology = userType == UserType.radiologyCenter;
+    final endpoints = isRadiology
+        ? [
+            Endpoints.getHomeVisitConfig,
+            Endpoints.updateHomeVisitConfig,
+            '/radiology/home-visits/config',
+            '/radiology/home-visits',
+            '/lab/home-visits/config',
+          ]
+        : [
+            Endpoints.getHomeVisitConfig,
+            Endpoints.updateHomeVisitConfig,
+            '/lab/home-visits/config',
+            '/lab/home-visits',
+          ];
+
+    for (final ep in endpoints) {
       try {
-        await apiConsumer.put(
-          Endpoints.updateHomeVisitConfig,
-          data: config.toJson(),
-        );
+        await apiConsumer.put(ep, data: config.toJson());
+        return;
       } catch (_) {
         try {
-          await apiConsumer.post(
-            Endpoints.updateHomeVisitConfig,
-            data: config.toJson(),
-          );
+          await apiConsumer.post(ep, data: config.toJson());
+          return;
         } catch (_) {
-          await apiConsumer.patch(
-            Endpoints.getHomeVisitConfig,
-            data: config.toJson(),
-          );
+          try {
+            await apiConsumer.patch(ep, data: config.toJson());
+            return;
+          } catch (_) {}
         }
       }
     }

@@ -43,3 +43,13 @@ class RejectBookingEvent extends BookingEvent {
   @override
   List<Object> get props => [bookingId];
 }
+
+class ConfirmBookingPaymentEvent extends BookingEvent {
+  final String bookingId;
+
+  const ConfirmBookingPaymentEvent({required this.bookingId});
+
+  @override
+  List<Object> get props => [bookingId];
+}
+

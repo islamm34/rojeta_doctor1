@@ -142,7 +142,10 @@ class ServiceAreasCard extends StatelessWidget {
                                 ),
                                 SizedBox(height: 4.h),
                                 Text(
-                                  'Radius: ${area.radiusKm ?? 0}km • ${area.techsAvailable ?? 0} Techs',
+                                  context.strings.radiusAndTechs(
+                                    area.radiusKm ?? 0,
+                                    area.techsAvailable ?? 0,
+                                  ),
                                   style: context.textTheme.bodySmall?.copyWith(
                                     color: const Color(0xFF7A8FA6),
                                   ),

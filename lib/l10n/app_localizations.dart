@@ -4723,6 +4723,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error occurred'**
   String get error;
+
+  /// No description provided for @locationOnMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Location on Map'**
+  String get locationOnMap;
+
+  /// No description provided for @locationWorkingHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Location Working Hours'**
+  String get locationWorkingHours;
+
+  /// No description provided for @selectWorkingHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Select working hours'**
+  String get selectWorkingHours;
+
+  /// No description provided for @homeCollectionAvailableLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Home collection service is available at this location.'**
+  String get homeCollectionAvailableLocation;
+
+  /// No description provided for @sampleExtractionRoadDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Define when your team is on the road for sample extraction.'**
+  String get sampleExtractionRoadDesc;
+
+  /// No description provided for @noBookingsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No bookings found'**
+  String get noBookingsFound;
+
+  /// No description provided for @radiusAndTechs.
+  ///
+  /// In en, this message translates to:
+  /// **'Radius: {radius} km • {count} Techs'**
+  String radiusAndTechs(Object count, Object radius);
 }
 
 class _AppLocalizationsDelegate

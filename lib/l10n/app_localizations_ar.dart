@@ -2362,4 +2362,29 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get error => 'حدث خطأ';
+
+  @override
+  String get locationOnMap => 'الموقع على الخريطة';
+
+  @override
+  String get locationWorkingHours => 'ساعات عمل الموقع';
+
+  @override
+  String get selectWorkingHours => 'اختر ساعات العمل';
+
+  @override
+  String get homeCollectionAvailableLocation =>
+      'خدمة السحب المنزلي متوفرة في هذا الموقع.';
+
+  @override
+  String get sampleExtractionRoadDesc =>
+      'حدد الأوقات التي يكون فيها الفريق متاحاً لسحب العينات والزيارات.';
+
+  @override
+  String get noBookingsFound => 'لا توجد حجوزات';
+
+  @override
+  String radiusAndTechs(Object count, Object radius) {
+    return 'النطاق: $radius كم • $count فني';
+  }
 }

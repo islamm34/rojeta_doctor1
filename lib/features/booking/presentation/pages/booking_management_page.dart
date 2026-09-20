@@ -88,7 +88,7 @@ class BookingManagementPage extends StatelessWidget {
                         child: Padding(
                           padding: EdgeInsets.symmetric(vertical: 40.h),
                           child: Text(
-                            'No bookings found', // Ideally localized
+                            context.strings.noBookingsFound,
                             style: context.textTheme.bodyLarge?.copyWith(
                               color: Colors.grey,
                             ),

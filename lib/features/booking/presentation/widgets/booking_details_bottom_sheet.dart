@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/extensions/context_extensions.dart';
@@ -6,8 +7,11 @@ import '../../../../core/utils/extensions/time_extensions.dart';
 import '../../../../core/utils/screen_util_like.dart';
 import '../../../../features/auth/data/models/user_type_model.dart';
 import '../../data/models/booking_model.dart';
+import '../bloc/booking_bloc.dart';
 import 'booking_details_info_row.dart';
 import 'booking_status_chip.dart';
+import 'confirm_booking_cash_payment_dialog.dart';
+
 
 class BookingDetailsBottomSheet extends StatelessWidget {
   final BookingModel booking;
@@ -271,6 +275,45 @@ class BookingDetailsBottomSheet extends StatelessWidget {
               ),
             ),
             SizedBox(height: 24.h),
+
+            // Confirm Cash Payment action if not paid
+            if (!isPaid) ...[
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (dialogContext) => BlocProvider.value(
+                        value: context.read<BookingBloc>(),
+                        child: ConfirmBookingCashPaymentDialog(booking: booking),
+                      ),
+                    ).then((confirmed) {
+                      if (confirmed == true && context.mounted) {
+                        Navigator.pop(context);
+                      }
+                    });
+                  },
+                  icon: const Icon(Icons.payments_outlined, color: Colors.white),
+                  label: Text(
+                    context.strings.confirmCashPayment,
+                    style: context.textTheme.titleSmall?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green.shade600,
+                    foregroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(vertical: 14.h),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 12.h),
+            ],
 
             // Close button
             SizedBox(

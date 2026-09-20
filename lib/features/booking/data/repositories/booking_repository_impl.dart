@@ -36,4 +36,17 @@ class BookingRepositoryImpl implements BookingRepository {
       return Left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> confirmPayment(String bookingId) async {
+    try {
+      await remoteDataSource.confirmPayment(bookingId);
+      return const Right(null);
+    } catch (e) {
+      if (e is DioException) {
+        return Left(ServerFailure(e.message ?? 'Server error occurred'));
+      }
+      return Left(ServerFailure(e.toString()));
+    }
+  }
 }

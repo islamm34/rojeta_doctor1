@@ -12,6 +12,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     on<ChangeFilterEvent>(_onChangeFilter);
     on<AcceptBookingEvent>(_onAcceptBooking);
     on<RejectBookingEvent>(_onRejectBooking);
+    on<ConfirmBookingPaymentEvent>(_onConfirmBookingPayment);
   }
 
   Future<void> _onFetchBookings(FetchBookingsEvent event, Emitter<BookingState> emit) async {
@@ -91,6 +92,26 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     result.fold(
       (failure) => emit(state.copyWithError(errorMessage: failure.message)),
       (_) {},
+    );
+  }
+
+  Future<void> _onConfirmBookingPayment(ConfirmBookingPaymentEvent event, Emitter<BookingState> emit) async {
+    final updatedAll = state.allBookings.map((b) {
+      if (b.id == event.bookingId) {
+        return b.copyWith(paymentStatus: PaymentStatus.paid);
+      }
+      return b;
+    }).toList();
+
+    emit(state.copyWithClearError(
+      allBookings: updatedAll,
+      filteredBookings: _filterBookings(updatedAll, state.currentFilter),
+    ));
+
+    final result = await repository.confirmPayment(event.bookingId);
+    result.fold(
+      (failure) => emit(state.copyWithError(errorMessage: failure.message)),
+      (_) {}, // already updated optimistically
     );
   }
 }

@@ -56,17 +56,46 @@ class FinancialRemoteDataSourceImpl implements FinancialRemoteDataSource {
       // Fallback to synthesizing from appointments below
     }
 
-    // Fallback: derive financial summary from doctor appointments
+    // Fallback: derive financial summary from doctor appointments & provider bookings
     try {
-      final apptResponse = await apiConsumer.get(Endpoints.doctorAppointments);
-      final rawList = apptResponse is Map<String, dynamic> &&
-              apptResponse['data'] is List
-          ? apptResponse['data'] as List<dynamic>
-          : (apptResponse is List ? apptResponse : <dynamic>[]);
+      final allItems = <Map<String, dynamic>>[];
+
+      // Try doctor appointments
+      try {
+        final apptResponse = await apiConsumer.get(Endpoints.doctorAppointments);
+        final rawList = apptResponse is Map<String, dynamic> &&
+                apptResponse['data'] is List
+            ? apptResponse['data'] as List<dynamic>
+            : (apptResponse is List ? apptResponse : <dynamic>[]);
+        allItems.addAll(rawList.whereType<Map<String, dynamic>>());
+      } catch (_) {}
+
+      // Try bookings (lab & radiology)
+      final bookingEndpoints = [
+        Endpoints.bookings,
+        '/bookings?user_type=radiology',
+        '/radiology/bookings',
+        '/lab/bookings',
+      ];
+      for (final ep in bookingEndpoints) {
+        try {
+          final bResponse = await apiConsumer.get(ep);
+          final rawList = bResponse is Map<String, dynamic> &&
+                  bResponse['data'] is List
+              ? bResponse['data'] as List<dynamic>
+              : (bResponse is List ? bResponse : <dynamic>[]);
+          for (final item in rawList.whereType<Map<String, dynamic>>()) {
+            final id = (item['id'] ?? item['_id'] ?? '').toString();
+            if (!allItems.any((e) => (e['id'] ?? e['_id'] ?? '').toString() == id)) {
+              allItems.add(item);
+            }
+          }
+        } catch (_) {}
+      }
 
       double total = 0;
       int completed = 0;
-      for (final item in rawList.whereType<Map<String, dynamic>>()) {
+      for (final item in allItems) {
         final status =
             (item['status'] ?? item['payment_status'] ?? '').toString().toLowerCase();
         final isCompletedOrPaid = status == 'completed' ||
@@ -147,16 +176,42 @@ class FinancialRemoteDataSourceImpl implements FinancialRemoteDataSource {
       // Fallback below
     }
 
-    // Fallback: synthesize transactions from appointments
+    // Fallback: synthesize transactions from appointments & bookings
     try {
-      final apptResponse = await apiConsumer.get(Endpoints.doctorAppointments);
-      final rawList = apptResponse is Map<String, dynamic> &&
-              apptResponse['data'] is List
-          ? apptResponse['data'] as List<dynamic>
-          : (apptResponse is List ? apptResponse : <dynamic>[]);
+      final allItems = <Map<String, dynamic>>[];
 
-      return rawList
-          .whereType<Map<String, dynamic>>()
+      try {
+        final apptResponse = await apiConsumer.get(Endpoints.doctorAppointments);
+        final rawList = apptResponse is Map<String, dynamic> &&
+                apptResponse['data'] is List
+            ? apptResponse['data'] as List<dynamic>
+            : (apptResponse is List ? apptResponse : <dynamic>[]);
+        allItems.addAll(rawList.whereType<Map<String, dynamic>>());
+      } catch (_) {}
+
+      final bookingEndpoints = [
+        Endpoints.bookings,
+        '/bookings?user_type=radiology',
+        '/radiology/bookings',
+        '/lab/bookings',
+      ];
+      for (final ep in bookingEndpoints) {
+        try {
+          final bResponse = await apiConsumer.get(ep);
+          final rawList = bResponse is Map<String, dynamic> &&
+                  bResponse['data'] is List
+              ? bResponse['data'] as List<dynamic>
+              : (bResponse is List ? bResponse : <dynamic>[]);
+          for (final item in rawList.whereType<Map<String, dynamic>>()) {
+            final id = (item['id'] ?? item['_id'] ?? '').toString();
+            if (!allItems.any((e) => (e['id'] ?? e['_id'] ?? '').toString() == id)) {
+              allItems.add(item);
+            }
+          }
+        } catch (_) {}
+      }
+
+      return allItems
           .map((e) => TransactionModel.fromJson(e))
           .toList();
     } catch (_) {
