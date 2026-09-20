@@ -26,19 +26,70 @@ class PatientModel extends Equatable {
   });
 
   factory PatientModel.fromJson(Map<String, dynamic> json) {
+    DateTime parsedDate = DateTime.now();
+    final rawDate = json['lastVisitDate'] ??
+        json['last_visit_date'] ??
+        json['updated_at'] ??
+        json['created_at'] ??
+        json['date'];
+    if (rawDate != null) {
+      final parsed = DateTime.tryParse(rawDate.toString());
+      if (parsed != null) parsedDate = parsed;
+    }
+
+    int parsedAge = 0;
+    final rawAge = json['age'];
+    if (rawAge is num) {
+      parsedAge = rawAge.toInt();
+    } else if (rawAge != null) {
+      parsedAge = int.tryParse(rawAge.toString()) ?? 0;
+    }
+
+    int parsedVisits = 1;
+    final rawVisits = json['visitsCount'] ??
+        json['visits_count'] ??
+        json['appointments_count'] ??
+        json['total_visits'];
+    if (rawVisits is num) {
+      parsedVisits = rawVisits.toInt();
+    } else if (rawVisits != null) {
+      parsedVisits = int.tryParse(rawVisits.toString()) ?? 1;
+    }
+
+    String? parsedAddress;
+    final rawAddress = json['address'];
+    if (rawAddress is Map) {
+      parsedAddress = (rawAddress['formatted'] ??
+              rawAddress['address'] ??
+              rawAddress.toString())
+          .toString();
+    } else if (rawAddress != null) {
+      parsedAddress = rawAddress.toString();
+    }
+
     return PatientModel(
-      id: json['id'] as String? ?? '',
-      name: json['name'] as String? ?? '',
-      phone: json['phone'] as String? ?? '',
-      age: json['age'] as int? ?? 0,
-      gender: json['gender'] as String? ?? '',
-      visitsCount: json['visitsCount'] as int? ?? 0,
-      lastVisitDate: json['lastVisitDate'] != null
-          ? DateTime.parse(json['lastVisitDate'] as String)
-          : DateTime.now(),
-      lastDiagnosis: json['lastDiagnosis'] as String? ?? '',
-      address: json['address'] as String?,
-      bloodGroup: json['bloodGroup'] as String?,
+      id: (json['id'] ?? json['patient_id'] ?? json['user_id'] ?? '').toString(),
+      name: (json['name'] ??
+              json['patient_name'] ??
+              json['full_name'] ??
+              '')
+          .toString(),
+      phone: (json['phone'] ??
+              json['phone_number'] ??
+              json['mobile'] ??
+              '')
+          .toString(),
+      age: parsedAge,
+      gender: (json['gender'] ?? json['sex'] ?? '').toString(),
+      visitsCount: parsedVisits,
+      lastVisitDate: parsedDate,
+      lastDiagnosis: (json['lastDiagnosis'] ??
+              json['last_diagnosis'] ??
+              json['diagnosis'] ??
+              '')
+          .toString(),
+      address: parsedAddress,
+      bloodGroup: (json['bloodGroup'] ?? json['blood_group'])?.toString(),
     );
   }
 

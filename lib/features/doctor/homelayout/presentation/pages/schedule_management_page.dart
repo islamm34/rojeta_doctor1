@@ -64,13 +64,46 @@ class ScheduleManagementPage extends StatelessWidget {
                   onAddSlot: (index) {
                     context.read<ScheduleBloc>().add(AddSlotEvent(index));
                   },
+                  onUpdateSlot: (dayIndex, slotIndex, startTime, endTime) {
+                    context.read<ScheduleBloc>().add(
+                          UpdateTimeSlotEvent(
+                            dayIndex: dayIndex,
+                            slotIndex: slotIndex,
+                            startTime: startTime,
+                            endTime: endTime,
+                          ),
+                        );
+                  },
+                  onRemoveSlot: (dayIndex, slotIndex) {
+                    context.read<ScheduleBloc>().add(
+                          RemoveSlotEvent(
+                            dayIndex: dayIndex,
+                            slotIndex: slotIndex,
+                          ),
+                        );
+                  },
                   onSave: () {
                     context.read<ScheduleBloc>().add(UpdateScheduleEvent(schedule));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(context.strings.scheduleSavedSuccessfully),
+                        backgroundColor: Colors.green.shade700,
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
                   },
                 ),
                 SizedBox(height: 24.h),
                 VacationsSection(
                   vacations: schedule.vacations,
+                  onAddVacationWithDates: (startDate, endDate) {
+                    context.read<ScheduleBloc>().add(
+                          AddVacationWithDatesEvent(
+                            startDate: startDate,
+                            endDate: endDate,
+                          ),
+                        );
+                  },
                   onAddVacation: () {
                     context.read<ScheduleBloc>().add(AddVacationEvent());
                   },

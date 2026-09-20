@@ -82,7 +82,7 @@ class UpcomingAppointmentsSection extends StatelessWidget {
                 isActive: index == 0,
                 onTap: () {
                   context.pushNamed(
-                    AppRoutes.patientDetails,
+                    AppRoutes.appointmentDetails,
                     extra: appointment.id,
                   );
                 },

@@ -696,5 +696,16 @@
   "cash": "Cash",
   "goodMorning": "Good morning,",
   "deleteScanConfirm": "Are you sure you want to delete this scan?",
-  "deleteTestConfirm": "Are you sure you want to delete this test?"
+  "deleteTestConfirm": "Are you sure you want to delete this test?",
+  "confirmCashPayment": "Confirm Cash Payment",
+  "confirmCashPaymentDesc": "Are you sure you have received the cash payment for this appointment?",
+  "cashPaymentConfirmed": "Cash payment confirmed successfully",
+  "deleteTimeSlot": "Delete Slot",
+  "deleteTimeSlotConfirm": "Are you sure you want to delete this time slot?",
+  "scheduleSavedSuccessfully": "Schedule saved successfully",
+  "confirmButton": "Confirm",
+  "close": "Close",
+  "done": "Done",
+  "save": "Save",
+  "passwordsDoNotMatch": "Passwords do not match"
 }

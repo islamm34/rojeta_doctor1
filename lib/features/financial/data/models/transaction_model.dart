@@ -28,19 +28,62 @@ class TransactionModel extends Equatable {
   double get feesDeducted => platformCommission;
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
+    final patientObj = json['patient'] as Map<String, dynamic>?;
+    final userObj = json['user'] as Map<String, dynamic>?;
+    final patientName = (json['patientName'] ??
+            json['patient_name'] ??
+            patientObj?['name'] ??
+            patientObj?['full_name'] ??
+            userObj?['name'] ??
+            userObj?['full_name']) as String? ??
+        '';
+
+    final fee = (json['serviceFee'] ??
+            json['service_fee'] ??
+            json['grossAmount'] ??
+            json['gross_amount'] ??
+            json['fee'] ??
+            json['amount'] ??
+            json['price'] as num?)
+        ?.toDouble() ??
+        0.0;
+
+    final comm = (json['platformCommission'] ??
+            json['platform_commission'] ??
+            json['feesDeducted'] ??
+            json['fees_deducted'] ??
+            json['commission'] as num?)
+        ?.toDouble() ??
+        (fee > 0 ? (fee * 0.1) : 0.0);
+
+    final earn = (json['yourEarning'] ??
+            json['your_earning'] ??
+            json['netIncome'] ??
+            json['net_income'] ??
+            json['net_amount'] as num?)
+        ?.toDouble() ??
+        (fee > 0 ? (fee - comm) : 0.0);
+
     return TransactionModel(
-      id: json['id'] as String? ?? '',
-      patientName: json['patientName'] as String? ?? '',
-      visitType: (json['visitType'] ?? json['serviceType']) as String? ?? '',
-      status: json['status'] as String? ?? '',
-      date: json['date'] as String? ?? '',
-      time: json['time'] as String? ?? '',
-      serviceFee:
-          (json['serviceFee'] ?? json['grossAmount'] as num?)?.toDouble() ?? 0.0,
-      platformCommission: (json['platformCommission'] ?? json['feesDeducted'] as num?)
-              ?.toDouble() ??
-          0.0,
-      yourEarning: (json['yourEarning'] as num?)?.toDouble() ?? 0.0,
+      id: (json['id'] ?? json['transaction_id'] ?? json['_id'] ?? '')
+          .toString(),
+      patientName: patientName,
+      visitType: (json['visitType'] ??
+              json['visit_type'] ??
+              json['serviceType'] ??
+              json['service_type'] ??
+              json['type']) as String? ??
+          'Checkup',
+      status: (json['status'] ?? json['payment_status'] ?? json['state'])
+              as String? ??
+          'completed',
+      date: (json['date'] ?? json['appointment_date'] ?? json['created_at'])
+              as String? ??
+          '',
+      time: (json['time'] ?? json['appointment_time']) as String? ?? '',
+      serviceFee: fee,
+      platformCommission: comm,
+      yourEarning: earn,
     );
   }
 

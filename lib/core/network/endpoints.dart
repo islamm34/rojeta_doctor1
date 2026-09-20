@@ -17,6 +17,8 @@ class Endpoints {
       '/doctor/appointments/$appointmentId';
   static String doctorAppointmentStatus(String appointmentId) =>
       '/doctor/appointments/$appointmentId/status';
+  static String doctorAppointmentConfirmCashPayment(String appointmentId) =>
+      '/doctor/appointments/$appointmentId/confirm-cash-payment';
   static const String doctorPatients = '/doctor/patients';
   static String doctorPatientDetails(String patientId) =>
       '/doctor/patients/$patientId';

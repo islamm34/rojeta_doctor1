@@ -12,6 +12,7 @@ class AppointmentDetailsBloc
   AppointmentDetailsBloc({required this.repository})
     : super(const AppointmentDetailsState()) {
     on<FetchAppointmentDetailsEvent>(_onFetchDetails);
+    on<ConfirmCashPaymentEvent>(_onConfirmCashPayment);
   }
 
   Future<void> _onFetchDetails(
@@ -34,6 +35,39 @@ class AppointmentDetailsBloc
           appointmentDetails: details,
         ),
       );
+    } catch (e) {
+      final message = e is ServerException
+          ? e.message
+          : (e is NetworkException ? e.message : e.toString());
+      emit(
+        state.copyWith(
+          status: AppointmentDetailsStatus.failure,
+          errorMessage: message,
+        ),
+      );
+    }
+  }
+
+  Future<void> _onConfirmCashPayment(
+    ConfirmCashPaymentEvent event,
+    Emitter<AppointmentDetailsState> emit,
+  ) async {
+    try {
+      await repository.confirmCashPayment(
+        appointmentId: event.appointmentId,
+        amountPaid: event.amountPaid,
+      );
+      if (state.appointmentDetails != null) {
+        final current = state.appointmentDetails!;
+        final updated = current.copyWith(
+          paymentStatus: 'paid',
+          paymentMethod: 'cash',
+        );
+        emit(state.copyWith(
+          status: AppointmentDetailsStatus.success,
+          appointmentDetails: updated,
+        ));
+      }
     } catch (e) {
       final message = e is ServerException
           ? e.message

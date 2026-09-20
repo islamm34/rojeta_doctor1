@@ -6,15 +6,41 @@ import 'vacation_item_card.dart';
 
 class VacationsSection extends StatelessWidget {
   final List<VacationModel> vacations;
-  final VoidCallback onAddVacation;
+  final Function(String startDate, String endDate)? onAddVacationWithDates;
+  final VoidCallback? onAddVacation;
   final ValueChanged<String> onRemoveVacation;
 
   const VacationsSection({
     super.key,
     required this.vacations,
-    required this.onAddVacation,
+    this.onAddVacationWithDates,
+    this.onAddVacation,
     required this.onRemoveVacation,
   });
+
+  Future<void> _pickDateRange(BuildContext context) async {
+    final now = DateTime.now();
+    final picked = await showDateRangePicker(
+      context: context,
+      firstDate: now,
+      lastDate: now.add(const Duration(days: 365)),
+      initialDateRange: DateTimeRange(
+        start: now,
+        end: now.add(const Duration(days: 2)),
+      ),
+    );
+    if (picked != null) {
+      final startStr =
+          '${picked.start.year}-${picked.start.month.toString().padLeft(2, '0')}-${picked.start.day.toString().padLeft(2, '0')}';
+      final endStr =
+          '${picked.end.year}-${picked.end.month.toString().padLeft(2, '0')}-${picked.end.day.toString().padLeft(2, '0')}';
+      if (onAddVacationWithDates != null) {
+        onAddVacationWithDates!(startStr, endStr);
+      } else {
+        onAddVacation?.call();
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +58,7 @@ class VacationsSection extends StatelessWidget {
               ),
             ),
             InkWell(
-              onTap: onAddVacation,
+              onTap: () => _pickDateRange(context),
               borderRadius: BorderRadius.circular(8.r),
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),

@@ -2092,4 +2092,38 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get deleteTestConfirm => 'هل أنت متأكد من حذف هذا التحليل المخبري؟';
+
+  @override
+  String get confirmCashPayment => 'تأكيد الدفع النقدي';
+
+  @override
+  String get confirmCashPaymentDesc =>
+      'هل أنت متأكد من استلام المبلغ النقدي لهذا الموعد؟';
+
+  @override
+  String get cashPaymentConfirmed => 'تم تأكيد الدفع النقدي بنجاح';
+
+  @override
+  String get deleteTimeSlot => 'حذف الفترة';
+
+  @override
+  String get deleteTimeSlotConfirm => 'هل أنت متأكد من حذف هذه الفترة المحددة؟';
+
+  @override
+  String get scheduleSavedSuccessfully => 'تم حفظ جدول المواعيد بنجاح';
+
+  @override
+  String get confirmButton => 'تأكيد';
+
+  @override
+  String get close => 'إغلاق';
+
+  @override
+  String get done => 'تم';
+
+  @override
+  String get save => 'حفظ';
+
+  @override
+  String get passwordsDoNotMatch => 'كلمات المرور غير متطابقة';
 }

@@ -20,6 +20,11 @@ abstract class DoctorAppointmentsRemoteDataSource {
   Future<DoctorAppointmentDetailsModel> getAppointmentDetails(
     String appointmentId,
   );
+
+  Future<void> confirmCashPayment({
+    required String appointmentId,
+    double? amountPaid,
+  });
 }
 
 class DoctorAppointmentsRemoteDataSourceImpl
@@ -59,6 +64,9 @@ class DoctorAppointmentsRemoteDataSourceImpl
       } else if (response['data'] is Map<String, dynamic> &&
           response['data']['data'] is List) {
         rawList = response['data']['data'] as List<dynamic>;
+      } else if (response['data'] is Map<String, dynamic> &&
+          response['data']['appointments'] is List) {
+        rawList = response['data']['appointments'] as List<dynamic>;
       } else if (response['appointments'] is List) {
         rawList = response['appointments'] as List<dynamic>;
       } else if (response['bookings'] is List) {
@@ -84,6 +92,33 @@ class DoctorAppointmentsRemoteDataSourceImpl
   }
 
   @override
+  Future<void> confirmCashPayment({
+    required String appointmentId,
+    double? amountPaid,
+  }) async {
+    try {
+      await apiConsumer.post(
+        Endpoints.doctorAppointmentConfirmCashPayment(appointmentId),
+        data: {
+          'appointment_id': appointmentId,
+          'payment_method': 'cash',
+          'payment_status': 'paid',
+          if (amountPaid != null) 'amount_paid': amountPaid,
+        },
+      );
+    } catch (_) {
+      // Fallback: update status to paid / completed
+      await apiConsumer.patch(
+        Endpoints.doctorAppointmentStatus(appointmentId),
+        data: {
+          'status': 'confirmed',
+          'payment_status': 'paid',
+        },
+      );
+    }
+  }
+
+  @override
   Future<DoctorAppointmentDetailsModel> getAppointmentDetails(
     String appointmentId,
   ) async {
@@ -92,9 +127,19 @@ class DoctorAppointmentsRemoteDataSourceImpl
     );
 
     if (response is Map<String, dynamic>) {
-      final data = response['data'] is Map<String, dynamic>
-          ? response['data'] as Map<String, dynamic>
-          : response;
+      Map<String, dynamic> data = response;
+      if (response['data'] is Map<String, dynamic>) {
+        final nestedData = response['data'] as Map<String, dynamic>;
+        if (nestedData['appointment'] is Map<String, dynamic>) {
+          data = nestedData['appointment'] as Map<String, dynamic>;
+        } else if (nestedData['booking'] is Map<String, dynamic>) {
+          data = nestedData['booking'] as Map<String, dynamic>;
+        } else {
+          data = nestedData;
+        }
+      } else if (response['appointment'] is Map<String, dynamic>) {
+        data = response['appointment'] as Map<String, dynamic>;
+      }
       return DoctorAppointmentDetailsModel.fromJson(data);
     }
 

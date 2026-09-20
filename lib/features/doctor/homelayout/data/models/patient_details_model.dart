@@ -25,18 +25,51 @@ class PatientDetailsModel extends Equatable {
   });
 
   factory PatientDetailsModel.fromJson(Map<String, dynamic> json) {
+    final basicJson = json['basicInfo'] is Map<String, dynamic>
+        ? json['basicInfo'] as Map<String, dynamic>
+        : (json['patient'] is Map<String, dynamic>
+            ? json['patient'] as Map<String, dynamic>
+            : json);
+
+    final rawAllergies = json['allergies'] ?? json['patient_allergies'];
+    final allergiesList = rawAllergies is List
+        ? rawAllergies.map((e) => e.toString()).toList()
+        : <String>[];
+
+    final rawConditions = json['chronicConditions'] ??
+        json['chronic_conditions'] ??
+        json['conditions'];
+    final conditionsList = rawConditions is List
+        ? rawConditions.map((e) => e.toString()).toList()
+        : <String>[];
+
+    final rawVisits = json['visitHistory'] ??
+        json['visit_history'] ??
+        json['visits'] ??
+        json['appointments'];
+    final visitsList = rawVisits is List
+        ? rawVisits
+            .whereType<Map<String, dynamic>>()
+            .map((e) => VisitModel.fromJson(e))
+            .toList()
+        : <VisitModel>[];
+
+    final rawLabs = json['labResults'] ??
+        json['lab_results'] ??
+        json['tests'];
+    final labsList = rawLabs is List
+        ? rawLabs
+            .whereType<Map<String, dynamic>>()
+            .map((e) => LabResultModel.fromJson(e))
+            .toList()
+        : <LabResultModel>[];
+
     return PatientDetailsModel(
-      basicInfo:
-          PatientModel.fromJson(json['basicInfo'] as Map<String, dynamic>),
-      allergies: List<String>.from(json['allergies'] as List<dynamic>),
-      chronicConditions:
-          List<String>.from(json['chronicConditions'] as List<dynamic>),
-      visitHistory: (json['visitHistory'] as List<dynamic>)
-          .map((e) => VisitModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      labResults: (json['labResults'] as List<dynamic>)
-          .map((e) => LabResultModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      basicInfo: PatientModel.fromJson(basicJson),
+      allergies: allergiesList,
+      chronicConditions: conditionsList,
+      visitHistory: visitsList,
+      labResults: labsList,
     );
   }
 

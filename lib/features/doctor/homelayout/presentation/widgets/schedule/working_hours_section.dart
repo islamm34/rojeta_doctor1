@@ -9,6 +9,9 @@ class WorkingHoursSection extends StatelessWidget {
   final List<WorkingDayModel> workingDays;
   final Function(int, bool) onToggleDay;
   final Function(int) onAddSlot;
+  final Function(int dayIndex, int slotIndex, String startTime, String endTime)?
+      onUpdateSlot;
+  final Function(int dayIndex, int slotIndex)? onRemoveSlot;
   final VoidCallback onSave;
 
   const WorkingHoursSection({
@@ -16,6 +19,8 @@ class WorkingHoursSection extends StatelessWidget {
     required this.workingDays,
     required this.onToggleDay,
     required this.onAddSlot,
+    this.onUpdateSlot,
+    this.onRemoveSlot,
     required this.onSave,
   });
 
@@ -40,6 +45,10 @@ class WorkingHoursSection extends StatelessWidget {
             day: day,
             onToggle: (val) => onToggleDay(index, val),
             onAddSlot: () => onAddSlot(index),
+            onUpdateSlot: (slotIndex, start, end) =>
+                onUpdateSlot?.call(index, slotIndex, start, end),
+            onRemoveSlot: (slotIndex) =>
+                onRemoveSlot?.call(index, slotIndex),
           );
         }),
         SizedBox(height: 16.h),

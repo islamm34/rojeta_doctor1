@@ -19,13 +19,37 @@ class DoctorDashboardStats extends Equatable {
 
   factory DoctorDashboardStats.fromJson(Map<String, dynamic> json) {
     return DoctorDashboardStats(
-      todayAppointments: (json['todayAppointments'] as num?)?.toInt() ?? 0,
-      pendingRequests: (json['pendingRequests'] as num?)?.toInt() ?? 0,
-      completedAppointments:
-          (json['completedAppointments'] as num?)?.toInt() ?? 0,
-      newRequests: (json['newRequests'] as num?)?.toInt() ?? 0,
-      rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
-      totalEarnings: json['totalEarnings']?.toString() ?? '0',
+      todayAppointments: (json['todayAppointments'] ??
+              json['today_appointments'] ??
+              json['todays_appointments'] ??
+              json['todayBookings'] ??
+              json['today_bookings'] as num?)
+          ?.toInt() ??
+          0,
+      pendingRequests: (json['pendingRequests'] ??
+              json['pending_requests'] ??
+              json['pendingBookings'] ??
+              json['pending_bookings'] as num?)
+          ?.toInt() ??
+          0,
+      completedAppointments: (json['completedAppointments'] ??
+              json['completed_appointments'] ??
+              json['completed_bookings'] as num?)
+          ?.toInt() ??
+          0,
+      newRequests: (json['newRequests'] ??
+              json['new_requests'] ??
+              json['new_patients'] as num?)
+          ?.toInt() ??
+          0,
+      rating: (json['rating'] ?? json['average_rating'] as num?)?.toDouble() ??
+          0.0,
+      totalEarnings: (json['totalEarnings'] ??
+              json['total_earnings'] ??
+              json['total_income'] ??
+              json['totalRevenue'] ??
+              '0')
+          .toString(),
     );
   }
 

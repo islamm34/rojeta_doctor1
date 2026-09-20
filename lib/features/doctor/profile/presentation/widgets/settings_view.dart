@@ -14,6 +14,12 @@ import 'settings/settings_navigation_tile.dart';
 import 'settings/settings_section_card.dart';
 import 'settings/settings_switch_tile.dart';
 import 'settings/settings_tile_divider.dart';
+import 'settings/settings_change_password_sheet.dart';
+import 'settings/settings_two_factor_sheet.dart';
+import 'settings/settings_legal_sheet.dart';
+import 'settings/settings_help_center_sheet.dart';
+import 'settings/settings_contact_support_sheet.dart';
+import 'settings/settings_about_sheet.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
@@ -94,12 +100,12 @@ class SettingsView extends StatelessWidget {
               children: [
                 SettingsNavigationTile(
                   title: context.strings.changePassword,
-                  onTap: () {},
+                  onTap: () => SettingsChangePasswordSheet.show(context),
                 ),
                 const SizedBox(height: 8),
                 SettingsNavigationTile(
                   title: context.strings.twoFactorAuth,
-                  onTap: () {},
+                  onTap: () => SettingsTwoFactorSheet.show(context),
                 ),
               ],
             ),
@@ -110,12 +116,22 @@ class SettingsView extends StatelessWidget {
               children: [
                 SettingsNavigationTile(
                   title: context.strings.privacyPolicy,
-                  onTap: () {},
+                  onTap: () => SettingsLegalSheet.show(
+                    context,
+                    title: context.strings.privacyPolicy,
+                    content:
+                        'At Rojeta, we take your privacy and the confidentiality of medical data seriously. All patient records, consultations, and financial transactions are encrypted and processed in compliance with healthcare data protection standards.\n\nWe do not share your personal information or patient data with third parties without explicit consent.',
+                  ),
                 ),
                 const SizedBox(height: 8),
                 SettingsNavigationTile(
                   title: context.strings.termsAndConditions,
-                  onTap: () {},
+                  onTap: () => SettingsLegalSheet.show(
+                    context,
+                    title: context.strings.termsAndConditions,
+                    content:
+                        'By using the Rojeta Doctor platform, you agree to provide accurate medical qualification details, adhere to professional medical ethics, and honor confirmed patient bookings according to your published schedule.\n\nCancellations and rescheduling must be communicated in advance through the platform.',
+                  ),
                 ),
               ],
             ),
@@ -164,22 +180,22 @@ class SettingsView extends StatelessWidget {
               children: [
                 SettingsNavigationTile(
                   title: context.strings.helpCenter,
-                  onTap: () {},
+                  onTap: () => SettingsHelpCenterSheet.show(context),
                 ),
                 const SizedBox(height: 8),
                 SettingsNavigationTile(
                   title: context.strings.monthlyStatistics,
-                  onTap: () {},
+                  onTap: () => context.pushNamed(AppRoutes.financialManagement),
                 ),
                 const SizedBox(height: 8),
                 SettingsNavigationTile(
                   title: context.strings.contactSupport,
-                  onTap: () {},
+                  onTap: () => SettingsContactSupportSheet.show(context),
                 ),
                 const SizedBox(height: 8),
                 SettingsNavigationTile(
                   title: context.strings.aboutRujeta,
-                  onTap: () {},
+                  onTap: () => SettingsAboutSheet.show(context),
                 ),
               ],
             ),

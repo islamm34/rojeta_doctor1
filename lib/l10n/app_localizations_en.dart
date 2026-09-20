@@ -2111,4 +2111,39 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deleteTestConfirm => 'Are you sure you want to delete this test?';
+
+  @override
+  String get confirmCashPayment => 'Confirm Cash Payment';
+
+  @override
+  String get confirmCashPaymentDesc =>
+      'Are you sure you have received the cash payment for this appointment?';
+
+  @override
+  String get cashPaymentConfirmed => 'Cash payment confirmed successfully';
+
+  @override
+  String get deleteTimeSlot => 'Delete Slot';
+
+  @override
+  String get deleteTimeSlotConfirm =>
+      'Are you sure you want to delete this time slot?';
+
+  @override
+  String get scheduleSavedSuccessfully => 'Schedule saved successfully';
+
+  @override
+  String get confirmButton => 'Confirm';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get done => 'Done';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get passwordsDoNotMatch => 'Passwords do not match';
 }

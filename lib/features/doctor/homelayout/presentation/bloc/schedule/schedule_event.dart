@@ -38,6 +38,36 @@ class AddSlotEvent extends ScheduleEvent {
   List<Object?> get props => [dayIndex];
 }
 
+class UpdateTimeSlotEvent extends ScheduleEvent {
+  final int dayIndex;
+  final int slotIndex;
+  final String startTime;
+  final String endTime;
+
+  const UpdateTimeSlotEvent({
+    required this.dayIndex,
+    required this.slotIndex,
+    required this.startTime,
+    required this.endTime,
+  });
+
+  @override
+  List<Object?> get props => [dayIndex, slotIndex, startTime, endTime];
+}
+
+class RemoveSlotEvent extends ScheduleEvent {
+  final int dayIndex;
+  final int slotIndex;
+
+  const RemoveSlotEvent({
+    required this.dayIndex,
+    required this.slotIndex,
+  });
+
+  @override
+  List<Object?> get props => [dayIndex, slotIndex];
+}
+
 class RemoveVacationEvent extends ScheduleEvent {
   final String id;
 
@@ -48,3 +78,16 @@ class RemoveVacationEvent extends ScheduleEvent {
 }
 
 class AddVacationEvent extends ScheduleEvent {}
+
+class AddVacationWithDatesEvent extends ScheduleEvent {
+  final String startDate;
+  final String endDate;
+
+  const AddVacationWithDatesEvent({
+    required this.startDate,
+    required this.endDate,
+  });
+
+  @override
+  List<Object?> get props => [startDate, endDate];
+}

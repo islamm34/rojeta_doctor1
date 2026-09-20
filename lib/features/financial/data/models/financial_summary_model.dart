@@ -17,12 +17,44 @@ class FinancialSummaryModel extends Equatable {
   double get platformFees => commission;
 
   factory FinancialSummaryModel.fromJson(Map<String, dynamic> json) {
+    final total = (json['totalIncome'] ??
+            json['total_income'] ??
+            json['totalEarnings'] ??
+            json['total_earnings'] ??
+            json['totalRevenue'] ??
+            json['total_revenue'] ??
+            json['total_amount'] as num?)
+        ?.toDouble() ??
+        0.0;
+
+    final completed = (json['completedAppointments'] ??
+            json['completed_appointments'] ??
+            json['completed_count'] ??
+            json['completedAppointmentsCount'] as num?)
+        ?.toInt() ??
+        0;
+
+    final comm = (json['commission'] ??
+            json['platformFees'] ??
+            json['platform_fees'] ??
+            json['platformCommission'] ??
+            json['platform_commission'] as num?)
+        ?.toDouble() ??
+        0.0;
+
+    final net = (json['netIncome'] ??
+            json['net_income'] ??
+            json['yourEarning'] ??
+            json['your_earning'] ??
+            json['net_amount'] as num?)
+        ?.toDouble() ??
+        (total > 0 ? total - comm : 0.0);
+
     return FinancialSummaryModel(
-      totalIncome: (json['totalIncome'] as num?)?.toDouble() ?? 0.0,
-      completedAppointments:
-          (json['completedAppointments'] as num?)?.toInt() ?? 0,
-      commission: (json['commission'] as num?)?.toDouble() ?? 0.0,
-      netIncome: (json['netIncome'] as num?)?.toDouble() ?? 0.0,
+      totalIncome: total,
+      completedAppointments: completed,
+      commission: comm,
+      netIncome: net,
     );
   }
 

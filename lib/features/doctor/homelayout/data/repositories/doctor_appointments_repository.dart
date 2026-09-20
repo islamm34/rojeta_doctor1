@@ -19,6 +19,11 @@ abstract class DoctorAppointmentsRepository {
   Future<DoctorAppointmentDetailsModel> getAppointmentDetails(
     String appointmentId,
   );
+
+  Future<void> confirmCashPayment({
+    required String appointmentId,
+    double? amountPaid,
+  });
 }
 
 class DoctorAppointmentsRepositoryImpl implements DoctorAppointmentsRepository {
@@ -54,4 +59,13 @@ class DoctorAppointmentsRepositoryImpl implements DoctorAppointmentsRepository {
   Future<DoctorAppointmentDetailsModel> getAppointmentDetails(
     String appointmentId,
   ) => remoteDataSource.getAppointmentDetails(appointmentId);
+
+  @override
+  Future<void> confirmCashPayment({
+    required String appointmentId,
+    double? amountPaid,
+  }) => remoteDataSource.confirmCashPayment(
+    appointmentId: appointmentId,
+    amountPaid: amountPaid,
+  );
 }

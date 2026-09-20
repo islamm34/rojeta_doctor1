@@ -18,12 +18,20 @@ class WorkingDayModel extends Equatable {
   List<TimeSlotModel> get slots => timeSlots;
 
   factory WorkingDayModel.fromJson(Map<String, dynamic> json) {
+    final rawSlots = json['time_slots'] ?? json['timeSlots'] ?? json['slots'];
+    final List<TimeSlotModel> parsedSlots = [];
+    if (rawSlots is List) {
+      for (final s in rawSlots) {
+        if (s is Map<String, dynamic>) {
+          parsedSlots.add(TimeSlotModel.fromJson(s));
+        }
+      }
+    }
+
     return WorkingDayModel(
-      dayName: json['day_name'],
-      isActive: json['is_active'],
-      timeSlots: (json['time_slots'] as List)
-          .map((slot) => TimeSlotModel.fromJson(slot))
-          .toList(),
+      dayName: (json['day_name'] ?? json['day'] ?? json['name'] ?? '').toString(),
+      isActive: (json['is_active'] ?? json['isActive'] ?? (parsedSlots.isNotEmpty)) as bool? ?? false,
+      timeSlots: parsedSlots,
     );
   }
 
@@ -64,9 +72,9 @@ class VacationModel extends Equatable {
 
   factory VacationModel.fromJson(Map<String, dynamic> json) {
     return VacationModel(
-      id: json['id'],
-      startDate: json['start_date'],
-      endDate: json['end_date'],
+      id: (json['id'] ?? '').toString(),
+      startDate: (json['start_date'] ?? json['startDate'] ?? '').toString(),
+      endDate: (json['end_date'] ?? json['endDate'] ?? '').toString(),
     );
   }
 
@@ -91,14 +99,86 @@ class ScheduleModel extends Equatable {
     required this.vacations,
   });
 
+  static List<WorkingDayModel> defaultWorkingDays() => [
+        const WorkingDayModel(
+          dayName: 'Saturday',
+          isActive: true,
+          timeSlots: [
+            TimeSlotModel(startTime: '09:00', endTime: '17:00'),
+          ],
+        ),
+        const WorkingDayModel(
+          dayName: 'Sunday',
+          isActive: true,
+          timeSlots: [
+            TimeSlotModel(startTime: '09:00', endTime: '17:00'),
+          ],
+        ),
+        const WorkingDayModel(
+          dayName: 'Monday',
+          isActive: true,
+          timeSlots: [
+            TimeSlotModel(startTime: '09:00', endTime: '17:00'),
+          ],
+        ),
+        const WorkingDayModel(
+          dayName: 'Tuesday',
+          isActive: true,
+          timeSlots: [
+            TimeSlotModel(startTime: '09:00', endTime: '17:00'),
+          ],
+        ),
+        const WorkingDayModel(
+          dayName: 'Wednesday',
+          isActive: true,
+          timeSlots: [
+            TimeSlotModel(startTime: '09:00', endTime: '17:00'),
+          ],
+        ),
+        const WorkingDayModel(
+          dayName: 'Thursday',
+          isActive: true,
+          timeSlots: [
+            TimeSlotModel(startTime: '09:00', endTime: '17:00'),
+          ],
+        ),
+        const WorkingDayModel(
+          dayName: 'Friday',
+          isActive: false,
+          timeSlots: [],
+        ),
+      ];
+
   factory ScheduleModel.fromJson(Map<String, dynamic> json) {
+    final rawDays = json['working_days'] ??
+        json['workingDays'] ??
+        json['schedule'] ??
+        json['days'];
+    List<WorkingDayModel> parsedDays = [];
+    if (rawDays is List) {
+      for (final d in rawDays) {
+        if (d is Map<String, dynamic>) {
+          parsedDays.add(WorkingDayModel.fromJson(d));
+        }
+      }
+    }
+    if (parsedDays.isEmpty) {
+      parsedDays = defaultWorkingDays();
+    }
+
+    final rawVacations = json['vacations'] ?? json['leaves'] ?? [];
+    List<VacationModel> parsedVacations = [];
+    if (rawVacations is List) {
+      for (final v in rawVacations) {
+        if (v is Map<String, dynamic>) {
+          parsedVacations.add(VacationModel.fromJson(v));
+        }
+      }
+    }
+
     return ScheduleModel(
-      workingDays: (json['working_days'] as List)
-          .map((day) => WorkingDayModel.fromJson(day))
-          .toList(),
-      vacations: (json['vacations'] as List)
-          .map((vac) => VacationModel.fromJson(vac))
-          .toList(),
+      workingDays: parsedDays,
+      vacations: parsedVacations,
     );
   }
 

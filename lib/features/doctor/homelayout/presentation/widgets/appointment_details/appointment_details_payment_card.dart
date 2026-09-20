@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
 import '../../../data/models/doctor_appointment_details_model.dart';
+import '../../bloc/appointment_details/appointment_details_bloc.dart';
+import 'confirm_cash_payment_dialog.dart';
 
 class AppointmentDetailsPaymentCard extends StatelessWidget {
   final DoctorAppointmentDetailsModel details;
@@ -158,6 +161,40 @@ class AppointmentDetailsPaymentCard extends StatelessWidget {
               ),
             ],
           ),
+          if (!isPaid) ...[
+            SizedBox(height: 16.h),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (dialogContext) => BlocProvider.value(
+                      value: context.read<AppointmentDetailsBloc>(),
+                      child: ConfirmCashPaymentDialog(details: details),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.check_circle_outline, size: 18),
+                label: Text(
+                  context.strings.confirmCashPayment,
+                  style: TextStyle(
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green.shade600,
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.r),
+                  ),
+                  padding: EdgeInsets.symmetric(vertical: 12.h),
+                ),
+              ),
+            ),
+          ],
         ],
       ),
     );

@@ -8,12 +8,16 @@ class DayScheduleCard extends StatelessWidget {
   final WorkingDayModel day;
   final ValueChanged<bool> onToggle;
   final VoidCallback onAddSlot;
+  final Function(int slotIndex, String startTime, String endTime)? onUpdateSlot;
+  final Function(int slotIndex)? onRemoveSlot;
 
   const DayScheduleCard({
     super.key,
     required this.day,
     required this.onToggle,
     required this.onAddSlot,
+    this.onUpdateSlot,
+    this.onRemoveSlot,
   });
 
   @override
@@ -49,7 +53,16 @@ class DayScheduleCard extends StatelessWidget {
           ),
           if (day.isActive) ...[
             SizedBox(height: 12.h),
-            ...day.timeSlots.map((slot) => ScheduleTimeSlotRow(slot: slot)),
+            ...day.timeSlots.asMap().entries.map((entry) {
+              final slotIndex = entry.key;
+              final slot = entry.value;
+              return ScheduleTimeSlotRow(
+                slot: slot,
+                onUpdate: (start, end) =>
+                    onUpdateSlot?.call(slotIndex, start, end),
+                onRemove: () => onRemoveSlot?.call(slotIndex),
+              );
+            }),
             SizedBox(height: 8.h),
             Align(
               alignment: Alignment.centerLeft,

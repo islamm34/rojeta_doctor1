@@ -130,6 +130,50 @@ class DoctorAppointmentDetailsModel extends Equatable {
     );
   }
 
+  DoctorAppointmentDetailsModel copyWith({
+    String? id,
+    String? bookingId,
+    String? patientId,
+    String? providerId,
+    AppointmentPatientModel? patient,
+    String? appointmentDate,
+    String? appointmentTime,
+    String? serviceType,
+    String? visitType,
+    String? status,
+    String? paymentStatus,
+    String? paymentMethod,
+    String? feeOriginal,
+    String? feeCurrent,
+    num? totalPrice,
+    String? notes,
+    List<String>? attachments,
+    String? address,
+    AppointmentConsultationModel? consultation,
+  }) {
+    return DoctorAppointmentDetailsModel(
+      id: id ?? this.id,
+      bookingId: bookingId ?? this.bookingId,
+      patientId: patientId ?? this.patientId,
+      providerId: providerId ?? this.providerId,
+      patient: patient ?? this.patient,
+      appointmentDate: appointmentDate ?? this.appointmentDate,
+      appointmentTime: appointmentTime ?? this.appointmentTime,
+      serviceType: serviceType ?? this.serviceType,
+      visitType: visitType ?? this.visitType,
+      status: status ?? this.status,
+      paymentStatus: paymentStatus ?? this.paymentStatus,
+      paymentMethod: paymentMethod ?? this.paymentMethod,
+      feeOriginal: feeOriginal ?? this.feeOriginal,
+      feeCurrent: feeCurrent ?? this.feeCurrent,
+      totalPrice: totalPrice ?? this.totalPrice,
+      notes: notes ?? this.notes,
+      attachments: attachments ?? this.attachments,
+      address: address ?? this.address,
+      consultation: consultation ?? this.consultation,
+    );
+  }
+
   @override
   List<Object?> get props => [
     id,

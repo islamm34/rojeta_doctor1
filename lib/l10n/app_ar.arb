@@ -846,5 +846,16 @@
   "cash": "نقدي",
   "goodMorning": "صباح الخير،",
   "deleteScanConfirm": "هل أنت متأكد من حذف هذا الفحص الإشعاعي؟",
-  "deleteTestConfirm": "هل أنت متأكد من حذف هذا التحليل المخبري؟"
+  "deleteTestConfirm": "هل أنت متأكد من حذف هذا التحليل المخبري؟",
+  "confirmCashPayment": "تأكيد الدفع النقدي",
+  "confirmCashPaymentDesc": "هل أنت متأكد من استلام المبلغ النقدي لهذا الموعد؟",
+  "cashPaymentConfirmed": "تم تأكيد الدفع النقدي بنجاح",
+  "deleteTimeSlot": "حذف الفترة",
+  "deleteTimeSlotConfirm": "هل أنت متأكد من حذف هذه الفترة المحددة؟",
+  "scheduleSavedSuccessfully": "تم حفظ جدول المواعيد بنجاح",
+  "confirmButton": "تأكيد",
+  "close": "إغلاق",
+  "done": "تم",
+  "save": "حفظ",
+  "passwordsDoNotMatch": "كلمات المرور غير متطابقة"
 }

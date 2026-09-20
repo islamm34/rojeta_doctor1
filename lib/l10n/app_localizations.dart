@@ -4195,6 +4195,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to delete this test?'**
   String get deleteTestConfirm;
+
+  /// No description provided for @confirmCashPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Cash Payment'**
+  String get confirmCashPayment;
+
+  /// No description provided for @confirmCashPaymentDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you have received the cash payment for this appointment?'**
+  String get confirmCashPaymentDesc;
+
+  /// No description provided for @cashPaymentConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash payment confirmed successfully'**
+  String get cashPaymentConfirmed;
+
+  /// No description provided for @deleteTimeSlot.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Slot'**
+  String get deleteTimeSlot;
+
+  /// No description provided for @deleteTimeSlotConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this time slot?'**
+  String get deleteTimeSlotConfirm;
+
+  /// No description provided for @scheduleSavedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule saved successfully'**
+  String get scheduleSavedSuccessfully;
+
+  /// No description provided for @confirmButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirmButton;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// No description provided for @done.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get done;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @passwordsDoNotMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get passwordsDoNotMatch;
 }
 
 class _AppLocalizationsDelegate

@@ -15,3 +15,16 @@ class FetchAppointmentDetailsEvent extends AppointmentDetailsEvent {
   @override
   List<Object?> get props => [appointmentId];
 }
+
+class ConfirmCashPaymentEvent extends AppointmentDetailsEvent {
+  final String appointmentId;
+  final double? amountPaid;
+
+  const ConfirmCashPaymentEvent({
+    required this.appointmentId,
+    this.amountPaid,
+  });
+
+  @override
+  List<Object?> get props => [appointmentId, amountPaid];
+}
