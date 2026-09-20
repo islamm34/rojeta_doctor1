@@ -17,8 +17,7 @@ class BookingServiceDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hasLocation = booking.type == BookingType.branchVisit &&
-        booking.locationName != null &&
+    final hasLocation = booking.locationName != null &&
         booking.locationName!.isNotEmpty;
 
     return Column(

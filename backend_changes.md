@@ -363,10 +363,263 @@ Returns the complete appointment details for the given `id`.
 
 ---
 
-## Summary of Field Name Standardization
+---
 
-The client now supports both naming conventions seamlessly:
+## 7. Laboratory & Radiology Services Management (ROJ-017)
 
-- CamelCase: `patientName`, `serviceFee`, `platformCommission`, `yourEarning`, `isRead`, `startTime`, `endTime`, `isWorking`
-- Snake_case: `patient_name`, `service_fee`, `platform_commission`, `your_earning`, `is_read`, `start_time`, `end_time`, `is_working`
-- Response wrappers: Both `{ "data": ... }` and top-level lists/objects are supported.
+### 7.1 Add New Test / Scan Service
+
+- **Endpoints:** `POST /api/v1/lab/services` or `POST /api/v1/lab/tests` or `POST /api/v1/laboratory/tests` (for Radiology: `POST /api/v1/radiology/services` or `POST /api/v1/radiology/scans`)
+- **Headers:** `Authorization: Bearer <token>`, `Content-Type: application/json`
+
+#### Request Body (JSON)
+
+```json
+{
+  "name": "Complete Blood Count (CBC)",
+  "category": "Hematology",
+  "price": 180.00,
+  "description": "Measures several components and features of your blood.",
+  "turnaround_time_hours": 24,
+  "requires_fasting": false,
+  "sample_type": "Blood",
+  "is_home_visit_available": true
+}
+```
+
+#### Response (`201 Created` or `200 OK`)
+
+```json
+{
+  "status": "success",
+  "message": "Service added successfully",
+  "data": {
+    "id": "srv_7891",
+    "name": "Complete Blood Count (CBC)",
+    "category": "Hematology",
+    "price": 180.00,
+    "description": "Measures several components and features of your blood.",
+    "turnaround_time_hours": 24,
+    "requires_fasting": false,
+    "sample_type": "Blood",
+    "is_home_visit_available": true,
+    "created_at": "2026-09-20T21:45:00Z"
+  }
+}
+```
+
+---
+
+## 8. Lab / Radiology Profile & Information (ROJ-019 & ROJ-020)
+
+### 8.1 Get Lab / Radiology Info
+
+- **Endpoints:** `GET /api/v1/lab/profile` or `GET /api/v1/lab/info` or `GET /api/v1/radiology/profile`
+
+#### Response (`200 OK`)
+
+```json
+{
+  "status": "success",
+  "data": {
+    "id": "lab_441",
+    "lab_name": "Al Borg Laboratories - Maadi Branch",
+    "license_number": "LIC-EGY-2024-8891",
+    "primary_contact_email": "maadi@alborg.com",
+    "phone_number": "+201099887766",
+    "laboratory_description": "Leading medical laboratory providing international standard clinical diagnostics.",
+    "verification_status": "active",
+    "verification_year": "2026"
+  }
+}
+```
+
+### 8.2 Update Lab / Radiology Info (HTTP `PUT` or `POST`)
+
+- **Endpoints:** `PUT /api/v1/lab/profile` or `PUT /api/v1/lab/info` or `POST /api/v1/lab/profile` (for Radiology: `PUT /api/v1/radiology/profile`)
+- **Headers:** `Authorization: Bearer <token>`, `Content-Type: application/json`
+
+#### Request Body (JSON)
+
+```json
+{
+  "lab_name": "Al Borg Laboratories - Maadi Branch",
+  "license_number": "LIC-EGY-2024-8891",
+  "primary_contact_email": "maadi@alborg.com",
+  "phone_number": "+201099887766",
+  "laboratory_description": "Updated laboratory description."
+}
+```
+
+#### Response (`200 OK`)
+
+```json
+{
+  "status": "success",
+  "message": "Laboratory information updated successfully",
+  "data": {
+    "lab_name": "Al Borg Laboratories - Maadi Branch",
+    "license_number": "LIC-EGY-2024-8891",
+    "primary_contact_email": "maadi@alborg.com",
+    "phone_number": "+201099887766",
+    "laboratory_description": "Updated laboratory description."
+  }
+}
+```
+
+---
+
+## 9. Lab / Radiology General Settings (ROJ-019, ROJ-022, ROJ-023)
+
+### 9.1 Update General Settings (`PUT` or `POST`)
+
+- **Endpoints:** `PUT /api/v1/lab/settings` or `PUT /api/v1/settings` or `POST /api/v1/lab/settings`
+
+#### Request Body (JSON)
+
+```json
+{
+  "email_notifications": true,
+  "booking_updates": true,
+  "push_notifications": true,
+  "marketing_emails": false,
+  "two_factor_auth": false,
+  "language": "ar"
+}
+```
+
+#### Response (`200 OK`)
+
+```json
+{
+  "status": "success",
+  "message": "Settings updated successfully"
+}
+```
+
+---
+
+## 10. Home Visits Configuration (ROJ-028)
+
+### 10.1 Get Home Visits Configuration
+
+- **Endpoints:** `GET /api/v1/lab/home-visits/config` or `GET /api/v1/lab/home-visits`
+
+#### Response (`200 OK`)
+
+```json
+{
+  "status": "success",
+  "data": {
+    "is_service_visible": true,
+    "collection_fee": 50.00,
+    "minimum_booking_amount": 150.00,
+    "service_areas": [
+      {
+        "id": "area_1",
+        "name": "Maadi & Degla",
+        "delivery_fee": 50.00
+      },
+      {
+        "id": "area_2",
+        "name": "New Cairo & Rehab",
+        "delivery_fee": 70.00
+      }
+    ],
+    "weekday_slots": [
+      { "id": "slot_1", "start_time": "08:00 AM", "end_time": "12:00 PM" },
+      { "id": "slot_2", "start_time": "01:00 PM", "end_time": "05:00 PM" }
+    ],
+    "weekend_slots": [
+      { "id": "slot_3", "start_time": "09:00 AM", "end_time": "02:00 PM" }
+    ]
+  }
+}
+```
+
+### 10.2 Update Home Visits Configuration (HTTP `PUT` or `POST`)
+
+- **Endpoints:** `PUT /api/v1/lab/home-visits/config` or `POST /api/v1/lab/home-visits/config`
+
+#### Request Body (JSON)
+
+```json
+{
+  "is_service_visible": true,
+  "collection_fee": 50.00,
+  "minimum_booking_amount": 150.00,
+  "service_areas": [
+    { "name": "Maadi & Degla", "delivery_fee": 50.00 }
+  ],
+  "weekday_slots": [
+    { "start_time": "08:00 AM", "end_time": "12:00 PM" }
+  ],
+  "weekend_slots": [
+    { "start_time": "09:00 AM", "end_time": "02:00 PM" }
+  ]
+}
+```
+
+---
+
+## 11. Home Visit Booking Location & Fee Calculation (ROJ-026 & ROJ-027)
+
+### 11.1 Booking Schema Requirements
+
+When returning bookings via `GET /api/v1/bookings`:
+
+1. **Patient Residential Address:** For all home visit bookings (`type: "home_visit"` or `type: "home"`), the backend must include the patient's full address in `patient_address` or `address` or `location_name`.
+2. **Total Price Calculation:** The `total_price` (or `totalPrice` / `fee`) must be calculated as:
+   $$\text{total\_price} = \text{test\_price} + \text{home\_visit\_fee}$$
+   Example: If CBC is 180 EGP and Home Collection is 50 EGP, `total_price` should return `230.00`.
+
+#### Sample Booking JSON Object
+
+```json
+{
+  "id": "book_9921",
+  "booking_ref_id": "ROJ-LAB-9921",
+  "type": "home_visit",
+  "patient_name": "Nour El-Din",
+  "patient_phone": "+201122334455",
+  "patient_address": "Building 14, Street 9, Maadi, Cairo",
+  "service_name": "Comprehensive Lipid Profile",
+  "test_price": 220.00,
+  "home_visit_fee": 50.00,
+  "total_price": 270.00,
+  "booking_date": "2026-09-22",
+  "booking_time": "09:00 AM",
+  "status": "confirmed",
+  "payment_status": "pending"
+}
+```
+
+---
+
+## 12. Lab & Radiology Notifications (ROJ-024)
+
+### 12.1 Permissions & Endpoint
+
+- **Endpoint:** `GET /api/v1/notifications/get` or `GET /api/v1/lab/notifications`
+- Ensure authenticated accounts with `user_type == "laboratory"` or `user_type == "radiology_center"` have access permissions and do **not** receive `403 Forbidden`.
+
+---
+
+## 13. Lab & Radiology In-App Chat (ROJ-025)
+
+### 13.1 Chat Endpoints
+
+- `GET /api/v1/doctor/chat/conversations` or `GET /api/v1/chat/conversations`: Returns conversations between lab/radiology provider and patients who booked services.
+- `GET /api/v1/doctor/chat/messages?conversation_id={id}`
+- `POST /api/v1/doctor/chat/send-message`
+
+---
+
+## Summary of Client-Side Defensiveness
+
+The Flutter app has been updated to:
+
+- Fall back gracefully across `PUT` and `POST` methods on all profile, setting, and home visit endpoints.
+- Auto-calculate missing `total_price` as `test_price + home_visit_fee` on the client.
+- Display `patient_address` for home visits and `branch_name` for branch visits uniformly.
+- Support instant live language toggling (Arabic / English) throughout all Lab and Radiology screens.

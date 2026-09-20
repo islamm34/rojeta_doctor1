@@ -33,7 +33,7 @@ class UnsavedChangesBottomCard extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-              'You have unsaved changes',
+              context.strings.unsavedChanges,
               style: context.textTheme.bodyMedium?.copyWith(
                 color: Colors.white,
                 fontWeight: FontWeight.w500,
@@ -49,11 +49,11 @@ class UnsavedChangesBottomCard extends StatelessWidget {
                   foregroundColor: Colors.white,
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                 ),
-                child: const Text('Cancel'),
+                child: Text(context.strings.cancel),
               ),
               SizedBox(width: 8.w),
               CustomElevatedButton(
-                text: 'Save Details',
+                text: context.strings.saveChanges,
                 onPressed: onSave,
                 backgroundColor: Colors.white,
                 foregroundColor: const Color(0xFF1F2937),

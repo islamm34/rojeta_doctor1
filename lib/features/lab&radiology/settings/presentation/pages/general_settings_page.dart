@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rojeta_doctor/core/local/user_hive_helper.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
 import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
+import 'package:rojeta_doctor/features/doctor/profile/presentation/widgets/settings/settings_about_sheet.dart';
+import 'package:rojeta_doctor/features/doctor/profile/presentation/widgets/settings/settings_change_password_sheet.dart';
+import 'package:rojeta_doctor/features/doctor/profile/presentation/widgets/settings/settings_contact_support_sheet.dart';
 
 import '../../../../../../core/di/injector.dart';
 import '../../../../../../features/auth/data/models/user_type_model.dart';
@@ -17,8 +21,82 @@ class GeneralSettingsPage extends StatelessWidget {
 
   const GeneralSettingsPage({super.key, required this.userType});
 
+  void _showLanguageDialog(BuildContext context) {
+    final currentLang = UserHiveHelper.getUser()?.language ?? 'ar';
+
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
+      ),
+      builder: (bottomSheetContext) {
+        return Container(
+          padding: EdgeInsets.all(20.w),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                context.strings.language,
+                style: context.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: const Color(0xFF0F2D52),
+                ),
+              ),
+              SizedBox(height: 16.h),
+              ListTile(
+                title: const Text('العربية'),
+                trailing: currentLang == 'ar'
+                    ? const Icon(Icons.check_circle, color: Color(0xFF1877F2))
+                    : null,
+                onTap: () {
+                  Navigator.pop(bottomSheetContext);
+                  final user = UserHiveHelper.getUser();
+                  if (user != null) {
+                    UserHiveHelper.updateUser(user.copyWith(language: 'ar'));
+                  }
+                },
+              ),
+              ListTile(
+                title: const Text('English'),
+                trailing: currentLang == 'en'
+                    ? const Icon(Icons.check_circle, color: Color(0xFF1877F2))
+                    : null,
+                onTap: () {
+                  Navigator.pop(bottomSheetContext);
+                  final user = UserHiveHelper.getUser();
+                  if (user != null) {
+                    UserHiveHelper.updateUser(user.copyWith(language: 'en'));
+                  }
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _showInfoDialog(BuildContext context, String title, String message) {
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: Text(context.strings.close),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final currentLang = UserHiveHelper.getUser()?.language ?? 'ar';
+
     return BlocProvider(
       create: (context) => injector<SettingsBloc>()..add(LoadSettingsData()),
       child: Scaffold(
@@ -31,7 +109,7 @@ class GeneralSettingsPage extends StatelessWidget {
             onPressed: () => Navigator.pop(context),
           ),
           title: Text(
-            'Settings',
+            context.strings.generalSettings,
             style: context.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
               color: const Color(0xFF0F2D52),
@@ -53,38 +131,38 @@ class GeneralSettingsPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SettingsSection(
-                    title: 'Notifications',
+                    title: context.strings.notificationSettings,
                     children: [
                       SettingsSwitchTile(
-                        title: 'Email Notifications',
+                        title: context.strings.emailNotifications,
                         value: settings.emailNotifications ?? false,
                         onChanged: (val) => context.read<SettingsBloc>().add(
                           ToggleEmailNotifications(val),
                         ),
                       ),
                       SettingsSwitchTile(
-                        title: 'Booking Updates',
+                        title: context.strings.bookingUpdates,
                         value: settings.bookingUpdates ?? false,
                         onChanged: (val) => context.read<SettingsBloc>().add(
                           ToggleBookingUpdates(val),
                         ),
                       ),
                       SettingsSwitchTile(
-                        title: 'Push Notifications',
+                        title: context.strings.pushNotifications,
                         value: settings.pushNotifications ?? false,
                         onChanged: (val) => context.read<SettingsBloc>().add(
                           TogglePushNotifications(val),
                         ),
                       ),
                       SettingsSwitchTile(
-                        title: 'Appointment Reminders',
+                        title: context.strings.appointmentReminders,
                         value: settings.appointmentReminders ?? false,
                         onChanged: (val) => context.read<SettingsBloc>().add(
                           ToggleAppointmentReminders(val),
                         ),
                       ),
                       SettingsSwitchTile(
-                        title: 'Marketing Emails',
+                        title: context.strings.marketingEmails,
                         value: settings.marketingEmails ?? false,
                         onChanged: null,
                         hasDivider: false,
@@ -94,15 +172,23 @@ class GeneralSettingsPage extends StatelessWidget {
                   SizedBox(height: 24.h),
 
                   SettingsSection(
-                    title: 'Security',
+                    title: context.strings.security,
                     children: [
                       SettingsActionTile(
-                        title: 'Change Password',
-                        onTap: () {},
+                        title: context.strings.changePassword,
+                        onTap: () {
+                          SettingsChangePasswordSheet.show(context);
+                        },
                       ),
                       SettingsActionTile(
-                        title: 'Two-Factor Authentication',
-                        onTap: () {},
+                        title: context.strings.twoFactorAuthentication,
+                        onTap: () {
+                          _showInfoDialog(
+                            context,
+                            context.strings.twoFactorAuthentication,
+                            context.strings.keepNotificationsTurnedOn,
+                          );
+                        },
                         hasDivider: false,
                       ),
                     ],
@@ -110,12 +196,27 @@ class GeneralSettingsPage extends StatelessWidget {
                   SizedBox(height: 24.h),
 
                   SettingsSection(
-                    title: 'Privacy',
+                    title: context.strings.privacyPolicy,
                     children: [
-                      SettingsActionTile(title: 'Privacy Policy', onTap: () {}),
                       SettingsActionTile(
-                        title: 'Terms & Conditions',
-                        onTap: () {},
+                        title: context.strings.privacyPolicy,
+                        onTap: () {
+                          _showInfoDialog(
+                            context,
+                            context.strings.privacyPolicy,
+                            context.strings.yourPaymentDetailsAreSecure,
+                          );
+                        },
+                      ),
+                      SettingsActionTile(
+                        title: context.strings.termsAndConditions,
+                        onTap: () {
+                          _showInfoDialog(
+                            context,
+                            context.strings.termsAndConditions,
+                            context.strings.doctorDirectoryNotice,
+                          );
+                        },
                         hasDivider: false,
                       ),
                     ],
@@ -123,11 +224,11 @@ class GeneralSettingsPage extends StatelessWidget {
                   SizedBox(height: 24.h),
 
                   SettingsSection(
-                    title: 'Language',
+                    title: context.strings.language,
                     children: [
                       ListTile(
                         title: Text(
-                          settings.language ?? '',
+                          currentLang == 'ar' ? 'العربية' : 'English',
                           style: context.textTheme.bodyMedium?.copyWith(
                             color: const Color(0xFF0F2D52),
                           ),
@@ -136,27 +237,32 @@ class GeneralSettingsPage extends StatelessWidget {
                           Icons.keyboard_arrow_down,
                           color: Color(0xFF7A8FA6),
                         ),
-                        onTap: () {},
+                        onTap: () => _showLanguageDialog(context),
                       ),
                     ],
                   ),
                   SizedBox(height: 24.h),
 
                   SettingsSection(
-                    title: 'Help & Support',
+                    title: context.strings.support,
                     children: [
-                      SettingsActionTile(title: 'Help Center', onTap: () {}),
                       SettingsActionTile(
-                        title: 'Monthly statistics',
-                        onTap: () {},
+                        title: context.strings.helpCenter,
+                        onTap: () {
+                          SettingsContactSupportSheet.show(context);
+                        },
                       ),
                       SettingsActionTile(
-                        title: 'Contact Support',
-                        onTap: () {},
+                        title: context.strings.contactSupport,
+                        onTap: () {
+                          SettingsContactSupportSheet.show(context);
+                        },
                       ),
                       SettingsActionTile(
-                        title: 'About Rujeta',
-                        onTap: () {},
+                        title: context.strings.aboutRujeta,
+                        onTap: () {
+                          SettingsAboutSheet.show(context);
+                        },
                         hasDivider: false,
                       ),
                     ],
@@ -165,7 +271,7 @@ class GeneralSettingsPage extends StatelessWidget {
                   SizedBox(height: 40.h),
                   Center(
                     child: Text(
-                      'Rujeta Doctor App Version 1.0.0',
+                      context.strings.appVersion,
                       style: context.textTheme.bodySmall?.copyWith(
                         color: const Color(0xFF94A3B8),
                       ),

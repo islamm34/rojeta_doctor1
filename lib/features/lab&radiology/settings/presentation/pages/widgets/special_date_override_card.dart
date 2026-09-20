@@ -55,7 +55,7 @@ class SpecialDateOverrideCard extends StatelessWidget {
                   SizedBox(height: 4.h),
                   if (specialDate.isClosed == true)
                     Text(
-                      'Closed',
+                      context.strings.closed,
                       style: context.textTheme.labelMedium?.copyWith(
                         color: const Color(0xFFEF4444),
                         fontWeight: FontWeight.w600,

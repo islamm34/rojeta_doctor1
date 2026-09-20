@@ -31,7 +31,7 @@ class AdminSupportCard extends StatelessWidget {
               ),
               SizedBox(width: 8.w),
               Text(
-                'Admin Support',
+                context.strings.support,
                 style: context.textTheme.labelMedium?.copyWith(
                   color: const Color(0xFF0369A1),
                   fontWeight: FontWeight.bold,
@@ -41,7 +41,7 @@ class AdminSupportCard extends StatelessWidget {
           ),
           SizedBox(height: 8.h),
           Text(
-            'Need help with your profile or documents?\nOur support team is available 24/7.',
+            context.strings.marketingContactText + context.strings.supportTeam,
             style: context.textTheme.bodySmall?.copyWith(
               color: const Color(0xFF0F2D52),
             ),
@@ -58,9 +58,9 @@ class AdminSupportCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8.r),
                 ),
               ),
-              child: const Text(
-                'Contact Support',
-                style: TextStyle(color: Colors.white),
+              child: Text(
+                context.strings.contactSupport,
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           ),

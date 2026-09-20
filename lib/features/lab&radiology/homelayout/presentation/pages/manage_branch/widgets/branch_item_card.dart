@@ -89,7 +89,7 @@ class BranchItemCard extends StatelessWidget {
                         ),
                         SizedBox(width: 4.w),
                         Text(
-                          'Home Collection Available',
+                          context.strings.homeCollectionAvailable,
                           style: context.textTheme.labelSmall?.copyWith(
                             color: const Color(0xFF0F2D52),
                             fontWeight: FontWeight.w600,

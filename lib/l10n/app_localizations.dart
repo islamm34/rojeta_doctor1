@@ -4261,6 +4261,468 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Passwords do not match'**
   String get passwordsDoNotMatch;
+
+  /// No description provided for @generalInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'General Information'**
+  String get generalInformation;
+
+  /// No description provided for @radiologyInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Radiology Information'**
+  String get radiologyInformation;
+
+  /// No description provided for @labInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Lab Information'**
+  String get labInformation;
+
+  /// No description provided for @manageContactDetailsAndAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage contact details and address'**
+  String get manageContactDetailsAndAddress;
+
+  /// No description provided for @branches.
+  ///
+  /// In en, this message translates to:
+  /// **'Branches'**
+  String get branches;
+
+  /// No description provided for @setOperationalTimesAndHolidays.
+  ///
+  /// In en, this message translates to:
+  /// **'Set operational times and holidays'**
+  String get setOperationalTimesAndHolidays;
+
+  /// No description provided for @complianceAndFinancials.
+  ///
+  /// In en, this message translates to:
+  /// **'Compliance & Financials'**
+  String get complianceAndFinancials;
+
+  /// No description provided for @documents.
+  ///
+  /// In en, this message translates to:
+  /// **'Documents'**
+  String get documents;
+
+  /// No description provided for @documentsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Licenses, certifications'**
+  String get documentsSubtitle;
+
+  /// No description provided for @payoutSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Payout Settings'**
+  String get payoutSettings;
+
+  /// No description provided for @payoutSettingsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage bank accounts'**
+  String get payoutSettingsSubtitle;
+
+  /// No description provided for @earning.
+  ///
+  /// In en, this message translates to:
+  /// **'Earning'**
+  String get earning;
+
+  /// No description provided for @financialManagementSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Financial Management'**
+  String get financialManagementSubtitle;
+
+  /// No description provided for @generalSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'General Settings'**
+  String get generalSettings;
+
+  /// No description provided for @accountPreferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Account Preferences'**
+  String get accountPreferences;
+
+  /// No description provided for @overseeRadiologyDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Oversee Radiology locations, operational hours, and service availability.'**
+  String get overseeRadiologyDesc;
+
+  /// No description provided for @overseeLabDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Oversee laboratory locations, operational hours, and service availability.'**
+  String get overseeLabDesc;
+
+  /// No description provided for @addBranch.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Branch'**
+  String get addBranch;
+
+  /// No description provided for @addNewBranch.
+  ///
+  /// In en, this message translates to:
+  /// **'Add New Branch'**
+  String get addNewBranch;
+
+  /// No description provided for @branchName.
+  ///
+  /// In en, this message translates to:
+  /// **'Branch Name'**
+  String get branchName;
+
+  /// No description provided for @branchAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Branch Address'**
+  String get branchAddress;
+
+  /// No description provided for @branchPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Branch Phone'**
+  String get branchPhone;
+
+  /// No description provided for @totalBranches.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Branches'**
+  String get totalBranches;
+
+  /// No description provided for @activeCollections.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Collections'**
+  String get activeCollections;
+
+  /// No description provided for @homeVisitsConfigureDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Configure how your laboratory manages diagnostic sample pickups from patient residences.'**
+  String get homeVisitsConfigureDesc;
+
+  /// No description provided for @serviceStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Service Status'**
+  String get serviceStatus;
+
+  /// No description provided for @serviceAvailableForPatients.
+  ///
+  /// In en, this message translates to:
+  /// **'Service is currently available for patients'**
+  String get serviceAvailableForPatients;
+
+  /// No description provided for @serviceSuspendedForPatients.
+  ///
+  /// In en, this message translates to:
+  /// **'Service is currently suspended'**
+  String get serviceSuspendedForPatients;
+
+  /// No description provided for @serviceAreas.
+  ///
+  /// In en, this message translates to:
+  /// **'Service Areas'**
+  String get serviceAreas;
+
+  /// No description provided for @coverageZones.
+  ///
+  /// In en, this message translates to:
+  /// **'Coverage zones for home visits'**
+  String get coverageZones;
+
+  /// No description provided for @addArea.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Area'**
+  String get addArea;
+
+  /// No description provided for @collectionFee.
+  ///
+  /// In en, this message translates to:
+  /// **'Collection Fee'**
+  String get collectionFee;
+
+  /// No description provided for @collectionFeeDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Flat rate applied to all residential visits regardless of test volume.'**
+  String get collectionFeeDesc;
+
+  /// No description provided for @minimumBookingAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum Booking Amount'**
+  String get minimumBookingAmount;
+
+  /// No description provided for @minimumBookingAmountDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Service will only be available if subtotal exceeds this amount.'**
+  String get minimumBookingAmountDesc;
+
+  /// No description provided for @availableTimeSlots.
+  ///
+  /// In en, this message translates to:
+  /// **'Available Time Slots'**
+  String get availableTimeSlots;
+
+  /// No description provided for @weekdays.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekdays'**
+  String get weekdays;
+
+  /// No description provided for @weekends.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekends'**
+  String get weekends;
+
+  /// No description provided for @discardChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard Changes'**
+  String get discardChanges;
+
+  /// No description provided for @saveSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Settings'**
+  String get saveSettings;
+
+  /// No description provided for @settingsSavedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings saved successfully!'**
+  String get settingsSavedSuccessfully;
+
+  /// No description provided for @bookingUpdates.
+  ///
+  /// In en, this message translates to:
+  /// **'Booking Updates'**
+  String get bookingUpdates;
+
+  /// No description provided for @twoFactorAuthentication.
+  ///
+  /// In en, this message translates to:
+  /// **'Two-Factor Authentication'**
+  String get twoFactorAuthentication;
+
+  /// No description provided for @appVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Rujeta Doctor App Version 1.0.0'**
+  String get appVersion;
+
+  /// No description provided for @specialHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Special Hours & Holidays'**
+  String get specialHours;
+
+  /// No description provided for @addSpecialDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Special Date'**
+  String get addSpecialDate;
+
+  /// No description provided for @saveChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Changes'**
+  String get saveChanges;
+
+  /// No description provided for @unsavedChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Unsaved Changes'**
+  String get unsavedChanges;
+
+  /// No description provided for @verifiedAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified Account'**
+  String get verifiedAccount;
+
+  /// No description provided for @pendingVerification.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending Verification'**
+  String get pendingVerification;
+
+  /// No description provided for @laboratoryDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Laboratory Description'**
+  String get laboratoryDescription;
+
+  /// No description provided for @primaryContactEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Primary Contact Email'**
+  String get primaryContactEmail;
+
+  /// No description provided for @contactSupportSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Support'**
+  String get contactSupportSheetTitle;
+
+  /// No description provided for @liveSupportChat.
+  ///
+  /// In en, this message translates to:
+  /// **'Live Support Chat'**
+  String get liveSupportChat;
+
+  /// No description provided for @averageResponseTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Average response time: 5 mins'**
+  String get averageResponseTime;
+
+  /// No description provided for @phoneHotline.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Hotline'**
+  String get phoneHotline;
+
+  /// No description provided for @emailSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Email Support'**
+  String get emailSupport;
+
+  /// No description provided for @open.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get open;
+
+  /// No description provided for @specialDateOverrides.
+  ///
+  /// In en, this message translates to:
+  /// **'Special Date Overrides'**
+  String get specialDateOverrides;
+
+  /// No description provided for @standardWeeklyHours.
+  ///
+  /// In en, this message translates to:
+  /// **'Standard Weekly Hours'**
+  String get standardWeeklyHours;
+
+  /// No description provided for @branchAddedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Branch added successfully'**
+  String get branchAddedSuccessfully;
+
+  /// No description provided for @manageBranches.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Branches'**
+  String get manageBranches;
+
+  /// No description provided for @detailsSavedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Details saved successfully!'**
+  String get detailsSavedSuccessfully;
+
+  /// No description provided for @radiologyCenterInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Radiology Center Information'**
+  String get radiologyCenterInfo;
+
+  /// No description provided for @generalDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'General Details'**
+  String get generalDetails;
+
+  /// No description provided for @radiologyCenterName.
+  ///
+  /// In en, this message translates to:
+  /// **'RADIOLOGY CENTER NAME'**
+  String get radiologyCenterName;
+
+  /// No description provided for @aboutTheCenter.
+  ///
+  /// In en, this message translates to:
+  /// **'About the Center'**
+  String get aboutTheCenter;
+
+  /// No description provided for @aboutTheLab.
+  ///
+  /// In en, this message translates to:
+  /// **'About the Lab'**
+  String get aboutTheLab;
+
+  /// No description provided for @radiologyDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'RADIOLOGY DESCRIPTION'**
+  String get radiologyDescription;
+
+  /// No description provided for @verificationStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification Status'**
+  String get verificationStatus;
+
+  /// No description provided for @active.
+  ///
+  /// In en, this message translates to:
+  /// **'ACTIVE'**
+  String get active;
+
+  /// No description provided for @eventName.
+  ///
+  /// In en, this message translates to:
+  /// **'Event Name'**
+  String get eventName;
+
+  /// No description provided for @required.
+  ///
+  /// In en, this message translates to:
+  /// **'Required'**
+  String get required;
+
+  /// No description provided for @from.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get from;
+
+  /// No description provided for @date.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get date;
+
+  /// No description provided for @labName.
+  ///
+  /// In en, this message translates to:
+  /// **'LAB NAME'**
+  String get labName;
+
+  /// No description provided for @error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error occurred'**
+  String get error;
 }
 
 class _AppLocalizationsDelegate

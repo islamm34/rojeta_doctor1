@@ -57,10 +57,28 @@ class LabServicesRemoteDataSourceImpl implements LabServicesRemoteDataSource {
     CreateLabServiceModel service, {
     UserType? userType,
   }) async {
-    final endpoint = (userType == UserType.radiologyCenter)
-        ? Endpoints.addLabService
-        : Endpoints.laboratoryAddTest;
-    await apiConsumer.post(endpoint, data: service.toJson());
+    final isRadiology = userType == UserType.radiologyCenter;
+    final primaryEndpoint =
+        isRadiology ? Endpoints.labServices : Endpoints.labTests;
+    final fallbackEndpoints = isRadiology
+        ? [Endpoints.addLabService, '/radiology/services', '/lab/services']
+        : [Endpoints.laboratoryAddTest, '/lab/services', '/laboratory/tests', '/lab/tests/add'];
+
+    try {
+      await apiConsumer.post(primaryEndpoint, data: service.toJson());
+    } catch (_) {
+      bool succeeded = false;
+      for (final endpoint in fallbackEndpoints) {
+        try {
+          await apiConsumer.post(endpoint, data: service.toJson());
+          succeeded = true;
+          break;
+        } catch (_) {}
+      }
+      if (!succeeded) {
+        rethrow;
+      }
+    }
   }
 
   @override
@@ -69,15 +87,25 @@ class LabServicesRemoteDataSourceImpl implements LabServicesRemoteDataSource {
     CreateLabServiceModel service, {
     UserType? userType,
   }) async {
-    final endpoint = (userType == UserType.radiologyCenter)
+    final isRadiology = userType == UserType.radiologyCenter;
+    final endpoint = isRadiology
         ? Endpoints.labUpdateService(id)
         : Endpoints.labUpdateTest(id);
-    await apiConsumer.put(endpoint, data: service.toJson());
+    try {
+      await apiConsumer.put(endpoint, data: service.toJson());
+    } catch (_) {
+      try {
+        await apiConsumer.post(endpoint, data: service.toJson());
+      } catch (_) {
+        await apiConsumer.patch(endpoint, data: service.toJson());
+      }
+    }
   }
 
   @override
   Future<void> deleteService(String id, {UserType? userType}) async {
-    final endpoint = (userType == UserType.radiologyCenter)
+    final isRadiology = userType == UserType.radiologyCenter;
+    final endpoint = isRadiology
         ? Endpoints.labDeleteService(id)
         : Endpoints.labDeleteTest(id);
     await apiConsumer.delete(endpoint);

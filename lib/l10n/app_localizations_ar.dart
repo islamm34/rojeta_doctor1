@@ -123,7 +123,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pendingRequests => 'طلبات معلقة';
 
   @override
-  String get homeVisits => 'زيارات منزلية';
+  String get homeVisits => 'الزيارات المنزلية';
 
   @override
   String get quickActions => 'إجراءات سريعة';
@@ -132,7 +132,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get addTest => 'إضافة اختبار';
 
   @override
-  String get manageBranch => 'إدارة الفرع';
+  String get manageBranch => 'إدارة الفروع';
 
   @override
   String get viewBookings => 'عرض الحجوزات';
@@ -401,7 +401,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get emailLabel => 'البريد الإلكتروني:';
 
   @override
-  String get workingHours => 'ساعات العمل';
+  String get workingHours => 'مواعيد العمل';
 
   @override
   String get workingHoursDesc => 'السبت - الخميس (9 ص - 6 م)';
@@ -502,7 +502,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get appointmentRemindersDesc => 'ملخص يومي للزيارات المجدولة';
 
   @override
-  String get marketingEmails => 'رسائل تسويقية';
+  String get marketingEmails => 'رسائل البريد التسويقية';
 
   @override
   String get marketingEmailsDesc => 'تلقي رسائل ترويجية وتسويقية';
@@ -557,7 +557,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get contactSupport => 'التواصل مع الدعم';
 
   @override
-  String get aboutRujeta => 'عن روجيتا';
+  String get aboutRujeta => 'عن روجيتة';
 
   @override
   String get rujetaDoctorApp => 'تطبيق طبيب روجيتا';
@@ -2126,4 +2126,240 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get passwordsDoNotMatch => 'كلمات المرور غير متطابقة';
+
+  @override
+  String get generalInformation => 'المعلومات العامة';
+
+  @override
+  String get radiologyInformation => 'معلومات مركز الأشعة';
+
+  @override
+  String get labInformation => 'معلومات المختبر';
+
+  @override
+  String get manageContactDetailsAndAddress => 'إدارة بيانات التواصل والعنوان';
+
+  @override
+  String get branches => 'الفروع';
+
+  @override
+  String get setOperationalTimesAndHolidays => 'تحديد أوقات العمل والعطلات';
+
+  @override
+  String get complianceAndFinancials => 'الامتثال والمعاملات المالية';
+
+  @override
+  String get documents => 'المستندات';
+
+  @override
+  String get documentsSubtitle => 'التراخيص والشهادات';
+
+  @override
+  String get payoutSettings => 'إعدادات الدفع';
+
+  @override
+  String get payoutSettingsSubtitle => 'إدارة الحسابات البنكية';
+
+  @override
+  String get earning => 'الأرباح';
+
+  @override
+  String get financialManagementSubtitle => 'الإدارة المالية';
+
+  @override
+  String get generalSettings => 'الإعدادات العامة';
+
+  @override
+  String get accountPreferences => 'تفضيلات الحساب';
+
+  @override
+  String get overseeRadiologyDesc =>
+      'متابعة مواقع الأشعة ومواعيد العمل وتوافر الخدمات.';
+
+  @override
+  String get overseeLabDesc =>
+      'متابعة مواقع المختبر ومواعيد العمل وتوافر الخدمات.';
+
+  @override
+  String get addBranch => 'إضافة فرع';
+
+  @override
+  String get addNewBranch => 'إضافة فرع جديد';
+
+  @override
+  String get branchName => 'اسم الفرع';
+
+  @override
+  String get branchAddress => 'عنوان الفرع';
+
+  @override
+  String get branchPhone => 'هاتف الفرع';
+
+  @override
+  String get totalBranches => 'إجمالي الفروع';
+
+  @override
+  String get activeCollections => 'السحب النشط';
+
+  @override
+  String get homeVisitsConfigureDesc =>
+      'إعداد كيفية إدارة سحب العينات التشخيصية من منازل المرضى.';
+
+  @override
+  String get serviceStatus => 'حالة الخدمة';
+
+  @override
+  String get serviceAvailableForPatients => 'الخدمة متاحة حالياً للمرضى';
+
+  @override
+  String get serviceSuspendedForPatients => 'الخدمة متوقفة حالياً';
+
+  @override
+  String get serviceAreas => 'مناطق الخدمة';
+
+  @override
+  String get coverageZones => 'نطاقات تغطية الزيارات المنزلية';
+
+  @override
+  String get addArea => 'إضافة منطقة';
+
+  @override
+  String get collectionFee => 'رسوم السحب المنزلي';
+
+  @override
+  String get collectionFeeDesc =>
+      'رسوم ثابتة تطبق على جميع الزيارات المنزلية بغض النظر عن عدد الفحوصات.';
+
+  @override
+  String get minimumBookingAmount => 'الحد الأدنى لقيمة الحجز';
+
+  @override
+  String get minimumBookingAmountDesc =>
+      'تتاح الخدمة فقط إذا تجاوز إجمالي الطلب هذا المبلغ.';
+
+  @override
+  String get availableTimeSlots => 'الفترات الزمنية المتاحة';
+
+  @override
+  String get weekdays => 'أيام الأسبوع';
+
+  @override
+  String get weekends => 'عطلة نهاية الأسبوع';
+
+  @override
+  String get discardChanges => 'تجاهل التغييرات';
+
+  @override
+  String get saveSettings => 'حفظ الإعدادات';
+
+  @override
+  String get settingsSavedSuccessfully => 'تم حفظ الإعدادات بنجاح!';
+
+  @override
+  String get bookingUpdates => 'تحديثات الحجوزات';
+
+  @override
+  String get twoFactorAuthentication => 'المصادقة الثنائية';
+
+  @override
+  String get appVersion => 'تطبيق روجيتة الطبيب الإصدار 1.0.0';
+
+  @override
+  String get specialHours => 'ساعات العمل الخاصة والعطلات';
+
+  @override
+  String get addSpecialDate => 'إضافة تاريخ خاص';
+
+  @override
+  String get saveChanges => 'حفظ التغييرات';
+
+  @override
+  String get unsavedChanges => 'تغييرات غير محفوظة';
+
+  @override
+  String get verifiedAccount => 'حساب موثق';
+
+  @override
+  String get pendingVerification => 'قيد التوثيق';
+
+  @override
+  String get laboratoryDescription => 'وصف المختبر';
+
+  @override
+  String get primaryContactEmail => 'البريد الإلكتروني الرئيسي';
+
+  @override
+  String get contactSupportSheetTitle => 'التواصل مع الدعم';
+
+  @override
+  String get liveSupportChat => 'محادثة الدعم المباشر';
+
+  @override
+  String get averageResponseTime => 'متوسط وقت الرد: 5 دقائق';
+
+  @override
+  String get phoneHotline => 'الخط الساخن';
+
+  @override
+  String get emailSupport => 'دعم البريد الإلكتروني';
+
+  @override
+  String get open => 'مفتوح';
+
+  @override
+  String get specialDateOverrides => 'استثناءات التواريخ الخاصة';
+
+  @override
+  String get standardWeeklyHours => 'ساعات العمل الأسبوعية الاعتيادية';
+
+  @override
+  String get branchAddedSuccessfully => 'تمت إضافة الفرع بنجاح';
+
+  @override
+  String get manageBranches => 'إدارة الفروع';
+
+  @override
+  String get detailsSavedSuccessfully => 'تم حفظ التفاصيل بنجاح!';
+
+  @override
+  String get radiologyCenterInfo => 'معلومات مركز الأشعة';
+
+  @override
+  String get generalDetails => 'التفاصيل العامة';
+
+  @override
+  String get radiologyCenterName => 'اسم مركز الأشعة';
+
+  @override
+  String get aboutTheCenter => 'عن المركز';
+
+  @override
+  String get aboutTheLab => 'عن المعمل';
+
+  @override
+  String get radiologyDescription => 'وصف مركز الأشعة';
+
+  @override
+  String get verificationStatus => 'حالة التحقق';
+
+  @override
+  String get active => 'نشط';
+
+  @override
+  String get eventName => 'اسم المناسبة';
+
+  @override
+  String get required => 'مطلوب';
+
+  @override
+  String get from => 'من';
+
+  @override
+  String get date => 'التاريخ';
+
+  @override
+  String get labName => 'اسم المعمل';
+
+  @override
+  String get error => 'حدث خطأ';
 }

@@ -49,7 +49,7 @@ class DayScheduleTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20.r),
               ),
               child: Text(
-                'Closed',
+                context.strings.closed,
                 style: context.textTheme.labelMedium?.copyWith(
                   color: const Color(0xFF64748B),
                   fontWeight: FontWeight.w600,

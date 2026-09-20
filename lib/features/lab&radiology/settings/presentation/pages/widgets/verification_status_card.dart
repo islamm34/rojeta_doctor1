@@ -38,7 +38,7 @@ class VerificationStatusCard extends StatelessWidget {
           ),
           SizedBox(height: 16.h),
           Text(
-            'Verification Status',
+            context.strings.verificationStatus,
             style: context.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
               color: const Color(0xFF0F2D52),
@@ -46,7 +46,7 @@ class VerificationStatusCard extends StatelessWidget {
           ),
           SizedBox(height: 8.h),
           Text(
-            'Your ${isRadiology ? 'Radiology Center' : 'lab'} is currently verified for the $displayYear calendar year.',
+            '${context.strings.verifiedAccount} ($displayYear)',
             textAlign: TextAlign.center,
             style: context.textTheme.bodyMedium?.copyWith(
               color: const Color(0xFF475569),
@@ -60,10 +60,11 @@ class VerificationStatusCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(20.r),
             ),
             child: Text(
-              'ACTIVE STATUS',
-              style: context.textTheme.labelMedium?.copyWith(
+              context.strings.active,
+              style: context.textTheme.labelSmall?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: const Color(0xFF0F766E),
+                color: const Color(0xFF134E4A),
+                letterSpacing: 1.2,
               ),
             ),
           ),

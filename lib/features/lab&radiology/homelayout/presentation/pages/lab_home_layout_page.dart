@@ -31,10 +31,10 @@ class _LabHomeLayoutPageState extends State<LabHomeLayoutPage> {
       LabHomeTab(
         userType: widget.userType,
         onViewAllAppointments: () =>
-            _onItemTapped(2), // Switches to Booking tab
+            _onItemTapped(1), // Switches to Booking tab
       ),
-      LabTestsTab(userType: widget.userType),
       BookingManagementPage(userType: widget.userType),
+      LabTestsTab(userType: widget.userType),
       ProfileTab(userType: widget.userType),
     ];
   }

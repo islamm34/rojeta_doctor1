@@ -47,7 +47,7 @@ class AvailableTimeSlotsCard extends StatelessWidget {
               ),
               SizedBox(width: 8.w),
               Text(
-                'Available Time Slots',
+                context.strings.availableTimeSlots,
                 style: context.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: const Color(0xFF0F2D52),
@@ -66,13 +66,13 @@ class AvailableTimeSlotsCard extends StatelessWidget {
           Row(
             children: [
               HomeVisitSlotTab(
-                title: 'WEEKDAYS',
+                title: context.strings.weekdays,
                 isActive: isWeekdaysTabActive,
                 onTap: () => onTabChanged(true),
               ),
               SizedBox(width: 8.w),
               HomeVisitSlotTab(
-                title: 'WEEKENDS',
+                title: context.strings.weekends,
                 isActive: !isWeekdaysTabActive,
                 onTap: () => onTabChanged(false),
               ),

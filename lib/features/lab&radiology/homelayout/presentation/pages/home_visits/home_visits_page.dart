@@ -44,7 +44,7 @@ class HomeVisitsView extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Home Visits',
+          context.strings.homeVisits,
           style: context.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
             color: const Color(0xFF0F2D52),
@@ -55,7 +55,7 @@ class HomeVisitsView extends StatelessWidget {
         listener: (context, state) {
           if (state.status == HomeVisitsStatus.saveSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Settings saved successfully!')),
+              SnackBar(content: Text(context.strings.settingsSavedSuccessfully)),
             );
           }
         },
@@ -78,13 +78,6 @@ class HomeVisitsView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Configure how your laboratory manages diagnostic sample pickups from patient residences.',
-                      style: context.textTheme.bodyMedium?.copyWith(
-                        color: const Color(0xFF475569),
-                      ),
-                    ),
-                    SizedBox(height: 20.h),
                     ServiceStatusCard(
                       isVisible: config.isServiceVisible ?? false,
                       onToggle: (val) {
@@ -105,9 +98,8 @@ class HomeVisitsView extends StatelessWidget {
                     ),
                     SizedBox(height: 16.h),
                     FeeInputCard(
-                      title: 'Collection Fee',
-                      subtext:
-                          'Flat rate applied to all residential visits regardless of test volume.',
+                      title: context.strings.collectionFee,
+                      subtext: context.strings.collectionFeeDesc,
                       value: config.collectionFee ?? 0.0,
                       icon: Icons.money,
                       onChanged: (val) {
@@ -118,9 +110,8 @@ class HomeVisitsView extends StatelessWidget {
                     ),
                     SizedBox(height: 16.h),
                     FeeInputCard(
-                      title: 'Minimum Booking Amount',
-                      subtext:
-                          'Service will only be available if subtotal exceeds this amount.',
+                      title: context.strings.minimumBookingAmount,
+                      subtext: context.strings.minimumBookingAmountDesc,
                       value: config.minimumBookingAmount ?? 0.0,
                       icon: Icons.shopping_bag_outlined,
                       onChanged: (val) {
@@ -180,7 +171,7 @@ class HomeVisitsView extends StatelessWidget {
                             ),
                           ),
                           child: Text(
-                            'Discard Changes',
+                            context.strings.discardChanges,
                             style: TextStyle(
                               color: const Color(0xFF7A8FA6),
                               fontWeight: FontWeight.bold,
@@ -219,7 +210,7 @@ class HomeVisitsView extends StatelessWidget {
                                   ),
                                 )
                               : Text(
-                                  'Save Settings',
+                                  context.strings.saveSettings,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,

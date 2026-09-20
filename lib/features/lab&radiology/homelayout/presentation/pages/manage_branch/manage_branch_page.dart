@@ -26,7 +26,7 @@ class ManageBranchPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'Manage Branch',
+            context.strings.manageBranches,
             style: context.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
               color: const Color(0xFF0F2D52),
@@ -48,7 +48,7 @@ class ManageBranchPage extends StatelessWidget {
             }
             if (state.status == ManageBranchStatus.failure) {
               return Center(
-                child: Text(state.errorMessage ?? 'An error occurred'),
+                child: Text(state.errorMessage ?? context.strings.error),
               );
             }
 
@@ -57,15 +57,6 @@ class ManageBranchPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    userType == UserType.radiologyCenter
-                        ? 'Oversee Radiology locations, operational hours, and service availability.'
-                        : 'Oversee laboratory locations, operational hours, and service availability.',
-                    style: context.textTheme.bodyMedium?.copyWith(
-                      color: const Color(0xFF7A8FA6),
-                    ),
-                  ),
-                  SizedBox(height: 16.h),
                   BranchStatsCard(
                     totalBranches: state.totalBranches,
                     activeCollections: state.activeCollections,
@@ -98,7 +89,7 @@ class ManageBranchPage extends StatelessWidget {
                         color: Colors.white,
                       ),
                       label: Text(
-                        'Add Branch',
+                        context.strings.addBranch,
                         style: context.textTheme.titleMedium?.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,

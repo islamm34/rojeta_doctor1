@@ -29,7 +29,7 @@ class ServiceStatusCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Service Status',
+                  context.strings.serviceStatus,
                   style: context.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: const Color(0xFF0F2D52),
@@ -37,7 +37,9 @@ class ServiceStatusCard extends StatelessWidget {
                 ),
                 SizedBox(height: 4.h),
                 Text(
-                  'Toggle home collection service visibility',
+                  isVisible
+                      ? context.strings.serviceAvailableForPatients
+                      : context.strings.serviceSuspendedForPatients,
                   style: context.textTheme.bodyMedium?.copyWith(
                     color: const Color(0xFF7A8FA6),
                   ),

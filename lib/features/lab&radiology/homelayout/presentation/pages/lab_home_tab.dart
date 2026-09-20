@@ -145,22 +145,44 @@ class LabHomeTab extends StatelessWidget {
                           ),
                         ],
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          context.pushNamed(AppRoutes.notifications);
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(8.w),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.2),
-                            shape: BoxShape.circle,
+                      Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              context.pushNamed(AppRoutes.doctorConversations);
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(8.w),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.2),
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(
+                                Icons.chat_bubble_outline,
+                                color: Colors.white,
+                                size: 24,
+                              ),
+                            ),
                           ),
-                          child: const Icon(
-                            Icons.notifications_none_outlined,
-                            color: Colors.white,
-                            size: 24,
+                          SizedBox(width: 10.w),
+                          GestureDetector(
+                            onTap: () {
+                              context.pushNamed(AppRoutes.notifications);
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(8.w),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.2),
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(
+                                Icons.notifications_none_outlined,
+                                color: Colors.white,
+                                size: 24,
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ],
                   ),

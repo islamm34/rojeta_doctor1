@@ -62,7 +62,7 @@ class _AddSpecialDateBottomSheetState extends State<AddSpecialDateBottomSheet> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Add Date Override',
+              context.strings.addSpecialDate,
               style: context.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: const Color(0xFF0F2D52),
@@ -70,12 +70,12 @@ class _AddSpecialDateBottomSheetState extends State<AddSpecialDateBottomSheet> {
             ),
             SizedBox(height: 16.h),
             CustomTextField(
-              label: 'DATE (e.g. DEC 25)',
+              label: context.strings.date,
               controller: _dateController,
             ),
             SizedBox(height: 12.h),
             CustomTextField(
-              label: 'EVENT NAME (e.g. Christmas Day)',
+              label: context.strings.eventName,
               controller: _eventController,
             ),
             SizedBox(height: 16.h),
@@ -83,7 +83,7 @@ class _AddSpecialDateBottomSheetState extends State<AddSpecialDateBottomSheet> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Mark as Closed',
+                  context.strings.closed,
                   style: context.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
@@ -105,7 +105,7 @@ class _AddSpecialDateBottomSheetState extends State<AddSpecialDateBottomSheet> {
                 children: [
                   Expanded(
                     child: CustomTextField(
-                      label: 'OPENING TIME',
+                      label: context.strings.from,
                       controller: _openController,
                       hintText: '08:00 AM',
                     ),
@@ -113,7 +113,7 @@ class _AddSpecialDateBottomSheetState extends State<AddSpecialDateBottomSheet> {
                   SizedBox(width: 16.w),
                   Expanded(
                     child: CustomTextField(
-                      label: 'CLOSING TIME',
+                      label: context.strings.to,
                       controller: _closeController,
                       hintText: '06:00 PM',
                     ),
@@ -123,7 +123,7 @@ class _AddSpecialDateBottomSheetState extends State<AddSpecialDateBottomSheet> {
             ],
             SizedBox(height: 32.h),
             CustomElevatedButton(
-              text: 'Add Override',
+              text: context.strings.saveChanges,
               onPressed: _onSave,
               backgroundColor: const Color(0xFF0F766E),
             ),

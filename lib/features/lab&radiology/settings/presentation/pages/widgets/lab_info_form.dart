@@ -42,7 +42,7 @@ class LabInfoForm extends StatelessWidget {
                   Icon(Icons.playlist_add_check, color: const Color(0xFF0F2D52), size: 20.r),
                   SizedBox(width: 8.w),
                   Text(
-                    'General Details',
+                    context.strings.generalDetails,
                     style: context.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF0F2D52),
@@ -52,7 +52,7 @@ class LabInfoForm extends StatelessWidget {
               ),
               SizedBox(height: 16.h),
               CustomTextField(
-                label: isRadiology ? 'RADIOLOGY CENTER NAME' : 'LAB NAME',
+                label: isRadiology ? context.strings.radiologyCenterName : context.strings.labName,
                 controller: nameController,
                 labelStyle: context.textTheme.labelSmall?.copyWith(
                   fontWeight: FontWeight.bold,
@@ -61,7 +61,7 @@ class LabInfoForm extends StatelessWidget {
               ),
               SizedBox(height: 16.h),
               CustomTextField(
-                label: 'LICENSE NUMBER',
+                label: context.strings.licenseNumber,
                 controller: licenseController,
                 labelStyle: context.textTheme.labelSmall?.copyWith(
                   fontWeight: FontWeight.bold,
@@ -70,7 +70,7 @@ class LabInfoForm extends StatelessWidget {
               ),
               SizedBox(height: 16.h),
               CustomTextField(
-                label: 'PRIMARY CONTACT EMAIL',
+                label: context.strings.primaryContactEmail,
                 controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 labelStyle: context.textTheme.labelSmall?.copyWith(
@@ -80,7 +80,7 @@ class LabInfoForm extends StatelessWidget {
               ),
               SizedBox(height: 16.h),
               CustomTextField(
-                label: 'PHONE NUMBER',
+                label: context.strings.phoneNumber,
                 controller: phoneController,
                 keyboardType: TextInputType.phone,
                 labelStyle: context.textTheme.labelSmall?.copyWith(
@@ -108,7 +108,7 @@ class LabInfoForm extends StatelessWidget {
                   Icon(Icons.description_outlined, color: const Color(0xFF0F2D52), size: 20.r),
                   SizedBox(width: 8.w),
                   Text(
-                    isRadiology ? 'About the Center' : 'About the Lab',
+                    isRadiology ? context.strings.aboutTheCenter : context.strings.aboutTheLab,
                     style: context.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF0F2D52),
@@ -118,7 +118,7 @@ class LabInfoForm extends StatelessWidget {
               ),
               SizedBox(height: 16.h),
               CustomTextField(
-                label: 'LABORATORY DESCRIPTION',
+                label: isRadiology ? context.strings.radiologyDescription : context.strings.laboratoryDescription,
                 controller: descriptionController,
                 maxLines: 4,
                 labelStyle: context.textTheme.labelSmall?.copyWith(

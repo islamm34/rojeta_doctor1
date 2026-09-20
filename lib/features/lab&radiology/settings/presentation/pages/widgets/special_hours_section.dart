@@ -39,7 +39,7 @@ class SpecialHoursSection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Upcoming Date Overrides',
+                  context.strings.specialDateOverrides,
                   style: context.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: const Color(0xFF0F2D52),
@@ -47,7 +47,7 @@ class SpecialHoursSection extends StatelessWidget {
                 ),
                 SizedBox(height: 4.h),
                 Text(
-                  'Set special hours or closures for specific dates.',
+                  context.strings.specialHours,
                   style: context.textTheme.labelMedium?.copyWith(
                     color: const Color(0xFF64748B),
                   ),
@@ -66,7 +66,7 @@ class SpecialHoursSection extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.symmetric(vertical: 20.h),
               child: Text(
-                'No upcoming overrides set',
+                context.strings.noDataAvailable,
                 style: context.textTheme.bodyMedium?.copyWith(
                   color: const Color(0xFF94A3B8),
                 ),

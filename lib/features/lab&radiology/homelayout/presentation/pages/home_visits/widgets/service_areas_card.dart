@@ -40,7 +40,7 @@ class ServiceAreasCard extends StatelessWidget {
                   ),
                   SizedBox(width: 8.w),
                   Text(
-                    'Service Areas',
+                    context.strings.serviceAreas,
                     style: context.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF0F2D52),
@@ -56,7 +56,7 @@ class ServiceAreasCard extends StatelessWidget {
                   color: Colors.white,
                 ),
                 label: Text(
-                  'ADD AREA',
+                  context.strings.addArea,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 12.sp,

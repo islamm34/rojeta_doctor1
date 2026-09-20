@@ -28,7 +28,7 @@ class BranchStatsCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    'TOTAL\nBRANCHES',
+                    context.strings.totalBranches,
                     style: context.textTheme.labelSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF0F2D52),
@@ -60,7 +60,7 @@ class BranchStatsCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    'ACTIVE\nCOLLECTIONS',
+                    context.strings.activeCollections,
                     style: context.textTheme.labelSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: const Color(0xFF0F2D52),

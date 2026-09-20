@@ -64,15 +64,26 @@ class BookingModel extends Equatable {
       parsedStatus = BookingStatus.pending;
     }
 
-    final rawPayment = (json['paymentStatus'] ?? json['payment_status'])
+    final rawPayment = (json['paymentStatus'] ??
+            json['payment_status'] ??
+            json['payment_method_status'] ??
+            json['payment']?['status'])
         ?.toString()
         .toLowerCase();
     PaymentStatus? parsedPayment;
-    if (rawPayment == 'paid') {
+    final isExplicitlyPaid = json['is_paid'] == true ||
+        json['is_paid'] == 1 ||
+        json['paid'] == true ||
+        json['isPaid'] == true ||
+        rawPayment == 'paid' ||
+        rawPayment == 'completed' ||
+        rawPayment == 'success';
+
+    if (isExplicitlyPaid) {
       parsedPayment = PaymentStatus.paid;
-    } else if (rawPayment == 'pending') {
+    } else if (rawPayment == 'pending' || rawPayment == 'processing') {
       parsedPayment = PaymentStatus.pending;
-    } else if (rawPayment == 'unpaid') {
+    } else if (rawPayment == 'unpaid' || rawPayment == 'failed') {
       parsedPayment = PaymentStatus.unpaid;
     }
 
@@ -80,12 +91,24 @@ class BookingModel extends Equatable {
         json['totalPrice'] ??
         json['total_price'] ??
         json['fee'] ??
-        json['service_fee'];
+        json['service_fee'] ??
+        json['total'] ??
+        json['amount'];
     double? parsedFee;
     if (rawFee is num) {
       parsedFee = rawFee.toDouble();
     } else if (rawFee is String) {
       parsedFee = double.tryParse(rawFee);
+    }
+
+    if (parsedFee == null || parsedFee == 0) {
+      final testPrice = json['test_price'] ?? json['price'] ?? json['service_price'];
+      final homeVisitFee = json['home_visit_fee'] ?? json['visit_fee'] ?? json['delivery_fee'];
+      final num? tPrice = testPrice is num ? testPrice : (testPrice is String ? num.tryParse(testPrice) : null);
+      final num? hFee = homeVisitFee is num ? homeVisitFee : (homeVisitFee is String ? num.tryParse(homeVisitFee) : null);
+      if (tPrice != null || hFee != null) {
+        parsedFee = ((tPrice ?? 0) + (hFee ?? 0)).toDouble();
+      }
     }
 
     return BookingModel(
@@ -109,13 +132,17 @@ class BookingModel extends Equatable {
                   json['patient']?['phone'])
               ?.toString(),
       serviceName:
-          (json['serviceName'] ?? json['service_name'] ?? json['title'])
+          (json['serviceName'] ?? json['service_name'] ?? json['title'] ?? json['test_name'] ?? json['scan_name'])
               ?.toString(),
       locationName:
           (json['locationName'] ??
                   json['location_name'] ??
                   json['address'] ??
-                  json['patient_address'])
+                  json['patient_address'] ??
+                  json['patient']?['address'] ??
+                  json['area'] ??
+                  json['branch']?['name'] ??
+                  json['branch_name'])
               ?.toString(),
       date: (json['date'] ?? json['booking_date'])?.toString(),
       time: (json['time'] ?? json['booking_time'])?.toString(),

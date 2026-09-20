@@ -35,7 +35,19 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
 
   @override
   Future<void> updateLabProfile(LabProfileModel profile) async {
-    await apiConsumer.post(Endpoints.updateLabProfile, data: profile.toJson());
+    try {
+      await apiConsumer.put(Endpoints.getLabProfile, data: profile.toJson());
+    } catch (_) {
+      try {
+        await apiConsumer.put(Endpoints.updateLabProfile, data: profile.toJson());
+      } catch (_) {
+        try {
+          await apiConsumer.post(Endpoints.updateLabProfile, data: profile.toJson());
+        } catch (_) {
+          await apiConsumer.patch(Endpoints.getLabProfile, data: profile.toJson());
+        }
+      }
+    }
   }
 
   @override
@@ -52,7 +64,19 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
 
   @override
   Future<void> updateGeneralSettings(GeneralSettingsModel settings) async {
-    await apiConsumer.post(Endpoints.updateGeneralSettings, data: settings.toJson());
+    try {
+      await apiConsumer.put(Endpoints.getGeneralSettings, data: settings.toJson());
+    } catch (_) {
+      try {
+        await apiConsumer.put(Endpoints.updateGeneralSettings, data: settings.toJson());
+      } catch (_) {
+        try {
+          await apiConsumer.post(Endpoints.updateGeneralSettings, data: settings.toJson());
+        } catch (_) {
+          await apiConsumer.patch(Endpoints.getGeneralSettings, data: settings.toJson());
+        }
+      }
+    }
   }
 
   @override
@@ -69,7 +93,19 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
 
   @override
   Future<void> updateLabInfo(LabInfoModel info) async {
-    await apiConsumer.post(Endpoints.updateLabProfile, data: info.toJson());
+    try {
+      await apiConsumer.put(Endpoints.getLabProfile, data: info.toJson());
+    } catch (_) {
+      try {
+        await apiConsumer.put(Endpoints.updateLabProfile, data: info.toJson());
+      } catch (_) {
+        try {
+          await apiConsumer.post(Endpoints.updateLabProfile, data: info.toJson());
+        } catch (_) {
+          await apiConsumer.patch(Endpoints.getLabProfile, data: info.toJson());
+        }
+      }
+    }
   }
 
   @override
@@ -86,6 +122,18 @@ class SettingsRemoteDataSourceImpl implements SettingsRemoteDataSource {
 
   @override
   Future<void> updateWorkingHours(WorkingHoursModel workingHours) async {
-    await apiConsumer.post(Endpoints.updateWorkingHours, data: workingHours.toJson());
+    try {
+      await apiConsumer.put(Endpoints.getWorkingHours, data: workingHours.toJson());
+    } catch (_) {
+      try {
+        await apiConsumer.put(Endpoints.updateWorkingHours, data: workingHours.toJson());
+      } catch (_) {
+        try {
+          await apiConsumer.post(Endpoints.updateWorkingHours, data: workingHours.toJson());
+        } catch (_) {
+          await apiConsumer.patch(Endpoints.getWorkingHours, data: workingHours.toJson());
+        }
+      }
+    }
   }
 }

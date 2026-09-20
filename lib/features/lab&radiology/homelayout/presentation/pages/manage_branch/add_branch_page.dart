@@ -70,7 +70,7 @@ class _AddBranchPageState extends State<AddBranchPage> {
         listener: (context, state) {
           if (state.status == ManageBranchStatus.success) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Branch added successfully!')),
+              SnackBar(content: Text(context.strings.branchAddedSuccessfully)),
             );
             Navigator.pop(context, true);
           } else if (state.status == ManageBranchStatus.failure &&
@@ -86,7 +86,7 @@ class _AddBranchPageState extends State<AddBranchPage> {
           return Scaffold(
             appBar: AppBar(
               title: Text(
-                'Add Branch',
+                context.strings.addBranch,
                 style: context.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                   color: const Color(0xFF0F2D52),
@@ -108,20 +108,21 @@ class _AddBranchPageState extends State<AddBranchPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const AddBranchSectionTitle(title: 'Branch Name'),
+                    AddBranchSectionTitle(title: context.strings.branchName),
                     SizedBox(height: 8.h),
                     TextFormField(
                       controller: _nameController,
-                      decoration: _inputDecoration('Enter branch name'),
-                      validator: (value) =>
-                          value == null || value.isEmpty ? 'Required' : null,
+                      decoration: _inputDecoration(context.strings.branchName),
+                      validator: (value) => value == null || value.isEmpty
+                          ? context.strings.required
+                          : null,
                     ),
                     SizedBox(height: 16.h),
-                    const AddBranchSectionTitle(title: 'City / Area'),
+                    AddBranchSectionTitle(title: context.strings.city),
                     SizedBox(height: 8.h),
                     DropdownButtonFormField<String>(
                       initialValue: _selectedCity,
-                      decoration: _inputDecoration('Select city'),
+                      decoration: _inputDecoration(context.strings.city),
                       items: _cities
                           .map(
                             (city) => DropdownMenuItem(
@@ -131,27 +132,32 @@ class _AddBranchPageState extends State<AddBranchPage> {
                           )
                           .toList(),
                       onChanged: (val) => setState(() => _selectedCity = val),
-                      validator: (value) => value == null ? 'Required' : null,
+                      validator: (value) =>
+                          value == null ? context.strings.required : null,
                     ),
                     SizedBox(height: 16.h),
-                    const AddBranchSectionTitle(title: 'Detailed Address'),
+                    AddBranchSectionTitle(title: context.strings.branchAddress),
                     SizedBox(height: 8.h),
                     TextFormField(
                       controller: _addressController,
                       maxLines: 3,
-                      decoration: _inputDecoration('Enter detailed address'),
-                      validator: (value) =>
-                          value == null || value.isEmpty ? 'Required' : null,
+                      decoration: _inputDecoration(
+                        context.strings.branchAddress,
+                      ),
+                      validator: (value) => value == null || value.isEmpty
+                          ? context.strings.required
+                          : null,
                     ),
                     SizedBox(height: 16.h),
-                    const AddBranchSectionTitle(title: 'Phone Number'),
+                    AddBranchSectionTitle(title: context.strings.phoneNumber),
                     SizedBox(height: 8.h),
                     TextFormField(
                       controller: _phoneController,
                       keyboardType: TextInputType.phone,
-                      decoration: _inputDecoration('Enter phone number'),
-                      validator: (value) =>
-                          value == null || value.isEmpty ? 'Required' : null,
+                      decoration: _inputDecoration(context.strings.phoneNumber),
+                      validator: (value) => value == null || value.isEmpty
+                          ? context.strings.required
+                          : null,
                     ),
                     SizedBox(height: 16.h),
                     OutlinedButton.icon(
@@ -187,7 +193,8 @@ class _AddBranchPageState extends State<AddBranchPage> {
                           .toList(),
                       onChanged: (val) =>
                           setState(() => _selectedWorkingHours = val),
-                      validator: (value) => value == null ? 'Required' : null,
+                      validator: (value) =>
+                          value == null ? context.strings.required : null,
                     ),
                     SizedBox(height: 16.h),
                     Row(
@@ -229,7 +236,7 @@ class _AddBranchPageState extends State<AddBranchPage> {
                               ),
                             )
                           : Text(
-                              'Add Branch',
+                              context.strings.addBranch,
                               style: context.textTheme.titleMedium?.copyWith(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,

@@ -32,9 +32,30 @@ class HomeVisitsRemoteDataSourceImpl implements HomeVisitsRemoteDataSource {
     HomeVisitConfigModel config, {
     UserType? userType,
   }) async {
-    await apiConsumer.post(
-      Endpoints.updateHomeVisitConfig,
-      data: config.toJson(),
-    );
+    try {
+      await apiConsumer.put(
+        Endpoints.getHomeVisitConfig,
+        data: config.toJson(),
+      );
+    } catch (_) {
+      try {
+        await apiConsumer.put(
+          Endpoints.updateHomeVisitConfig,
+          data: config.toJson(),
+        );
+      } catch (_) {
+        try {
+          await apiConsumer.post(
+            Endpoints.updateHomeVisitConfig,
+            data: config.toJson(),
+          );
+        } catch (_) {
+          await apiConsumer.patch(
+            Endpoints.getHomeVisitConfig,
+            data: config.toJson(),
+          );
+        }
+      }
+    }
   }
 }

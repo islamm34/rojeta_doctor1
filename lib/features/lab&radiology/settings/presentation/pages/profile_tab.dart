@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
 import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
+import 'package:rojeta_doctor/features/doctor/profile/presentation/widgets/settings/settings_contact_support_sheet.dart';
 
 import '../../../../../../config/routes/app_router.dart';
 import '../../../../../../core/di/injector.dart';
@@ -34,7 +35,7 @@ class ProfileTab extends StatelessWidget {
             onPressed: () => Navigator.of(context).maybePop(),
           ),
           title: Text(
-            'Profile',
+            context.strings.profile,
             style: context.textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.bold,
               color: const Color(0xFF0F2D52),
@@ -93,16 +94,16 @@ class ProfileTab extends StatelessWidget {
                     SizedBox(height: 24.h),
 
                     SettingsSection(
-                      title: 'General Information',
+                      title: context.strings.generalInformation,
                       children: [
                         SettingsItemTile(
                           icon: Icons.info_outline,
                           iconColor: const Color(0xFF0F2D52),
                           iconBgColor: const Color(0xFFE2E8F0),
                           title: userType == UserType.radiologyCenter
-                              ? 'Radiology Information'
-                              : 'Lab Information',
-                          subtitle: 'Manage contact details and address',
+                              ? context.strings.radiologyInformation
+                              : context.strings.labInformation,
+                          subtitle: context.strings.manageContactDetailsAndAddress,
                           onTap: () {
                             context.pushNamed(
                               AppRoutes.labInfo,
@@ -114,9 +115,9 @@ class ProfileTab extends StatelessWidget {
                           icon: Icons.business_outlined,
                           iconColor: const Color(0xFF10B981),
                           iconBgColor: const Color(0xFFD1FAE5),
-                          title: 'Branches',
+                          title: context.strings.branches,
                           subtitle:
-                              'View and manage all ${profile.branchesCount} locations',
+                              '${context.strings.branches} (${profile.branchesCount ?? 0})',
                           onTap: () {
                             context.pushNamed(
                               AppRoutes.manageBranch,
@@ -128,8 +129,8 @@ class ProfileTab extends StatelessWidget {
                           icon: Icons.access_time,
                           iconColor: const Color(0xFF4B5563),
                           iconBgColor: const Color(0xFFE5E7EB),
-                          title: 'Working Hours',
-                          subtitle: 'Set operational times and holidays',
+                          title: context.strings.workingHours,
+                          subtitle: context.strings.setOperationalTimesAndHolidays,
                           hasDivider: false,
                           onTap: () {
                             context.pushNamed(AppRoutes.workingHours);
@@ -140,30 +141,37 @@ class ProfileTab extends StatelessWidget {
                     SizedBox(height: 24.h),
 
                     SettingsSection(
-                      title: 'Compliance & Financials',
+                      title: context.strings.complianceAndFinancials,
                       children: [
                         SettingsItemTile(
                           icon: Icons.folder_open_outlined,
                           iconColor: const Color(0xFF3B82F6),
                           iconBgColor: const Color(0xFFDBEAFE),
-                          title: 'Documents',
-                          subtitle: 'Licenses, certifications',
-                          onTap: () {},
+                          title: context.strings.documents,
+                          subtitle: context.strings.documentsSubtitle,
+                          onTap: () {
+                            final route = userType == UserType.radiologyCenter
+                                ? AppRoutes.radiologyDocumentUpload
+                                : AppRoutes.laboratoryDocumentUpload;
+                            context.pushNamed(route);
+                          },
                         ),
                         SettingsItemTile(
                           icon: Icons.account_balance_outlined,
                           iconColor: const Color(0xFF14B8A6),
                           iconBgColor: const Color(0xFFCCFBF1),
-                          title: 'Payout Settings',
-                          subtitle: 'Manage bank accounts',
-                          onTap: () {},
+                          title: context.strings.payoutSettings,
+                          subtitle: context.strings.payoutSettingsSubtitle,
+                          onTap: () {
+                            context.pushNamed(AppRoutes.financialManagement);
+                          },
                         ),
                         SettingsItemTile(
                           icon: Icons.monetization_on_outlined,
                           iconColor: const Color(0xFFF59E0B),
                           iconBgColor: const Color(0xFFFEF3C7),
-                          title: 'Earning',
-                          subtitle: 'Financial Management',
+                          title: context.strings.earning,
+                          subtitle: context.strings.financialManagementSubtitle,
                           hasDivider: false,
                           onTap: () {
                             context.pushNamed(AppRoutes.financialManagement);
@@ -174,13 +182,13 @@ class ProfileTab extends StatelessWidget {
                     SizedBox(height: 24.h),
 
                     SettingsSection(
-                      title: 'General Settings',
+                      title: context.strings.generalSettings,
                       children: [
                         SettingsItemTile(
                           icon: Icons.settings_outlined,
                           iconColor: const Color(0xFF0EA5E9),
                           iconBgColor: Colors.transparent,
-                          title: 'Account Preferences',
+                          title: context.strings.accountPreferences,
                           hasDivider: false,
                           onTap: () {
                             context.pushNamed(
@@ -193,7 +201,11 @@ class ProfileTab extends StatelessWidget {
                     ),
                     SizedBox(height: 24.h),
 
-                    AdminSupportCard(onContactSupport: () {}),
+                    AdminSupportCard(
+                      onContactSupport: () {
+                        SettingsContactSupportSheet.show(context);
+                      },
+                    ),
                     SizedBox(height: 24.h),
 
                     SizedBox(

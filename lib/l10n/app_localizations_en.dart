@@ -2146,4 +2146,243 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get passwordsDoNotMatch => 'Passwords do not match';
+
+  @override
+  String get generalInformation => 'General Information';
+
+  @override
+  String get radiologyInformation => 'Radiology Information';
+
+  @override
+  String get labInformation => 'Lab Information';
+
+  @override
+  String get manageContactDetailsAndAddress =>
+      'Manage contact details and address';
+
+  @override
+  String get branches => 'Branches';
+
+  @override
+  String get setOperationalTimesAndHolidays =>
+      'Set operational times and holidays';
+
+  @override
+  String get complianceAndFinancials => 'Compliance & Financials';
+
+  @override
+  String get documents => 'Documents';
+
+  @override
+  String get documentsSubtitle => 'Licenses, certifications';
+
+  @override
+  String get payoutSettings => 'Payout Settings';
+
+  @override
+  String get payoutSettingsSubtitle => 'Manage bank accounts';
+
+  @override
+  String get earning => 'Earning';
+
+  @override
+  String get financialManagementSubtitle => 'Financial Management';
+
+  @override
+  String get generalSettings => 'General Settings';
+
+  @override
+  String get accountPreferences => 'Account Preferences';
+
+  @override
+  String get overseeRadiologyDesc =>
+      'Oversee Radiology locations, operational hours, and service availability.';
+
+  @override
+  String get overseeLabDesc =>
+      'Oversee laboratory locations, operational hours, and service availability.';
+
+  @override
+  String get addBranch => 'Add Branch';
+
+  @override
+  String get addNewBranch => 'Add New Branch';
+
+  @override
+  String get branchName => 'Branch Name';
+
+  @override
+  String get branchAddress => 'Branch Address';
+
+  @override
+  String get branchPhone => 'Branch Phone';
+
+  @override
+  String get totalBranches => 'Total Branches';
+
+  @override
+  String get activeCollections => 'Active Collections';
+
+  @override
+  String get homeVisitsConfigureDesc =>
+      'Configure how your laboratory manages diagnostic sample pickups from patient residences.';
+
+  @override
+  String get serviceStatus => 'Service Status';
+
+  @override
+  String get serviceAvailableForPatients =>
+      'Service is currently available for patients';
+
+  @override
+  String get serviceSuspendedForPatients => 'Service is currently suspended';
+
+  @override
+  String get serviceAreas => 'Service Areas';
+
+  @override
+  String get coverageZones => 'Coverage zones for home visits';
+
+  @override
+  String get addArea => 'Add Area';
+
+  @override
+  String get collectionFee => 'Collection Fee';
+
+  @override
+  String get collectionFeeDesc =>
+      'Flat rate applied to all residential visits regardless of test volume.';
+
+  @override
+  String get minimumBookingAmount => 'Minimum Booking Amount';
+
+  @override
+  String get minimumBookingAmountDesc =>
+      'Service will only be available if subtotal exceeds this amount.';
+
+  @override
+  String get availableTimeSlots => 'Available Time Slots';
+
+  @override
+  String get weekdays => 'Weekdays';
+
+  @override
+  String get weekends => 'Weekends';
+
+  @override
+  String get discardChanges => 'Discard Changes';
+
+  @override
+  String get saveSettings => 'Save Settings';
+
+  @override
+  String get settingsSavedSuccessfully => 'Settings saved successfully!';
+
+  @override
+  String get bookingUpdates => 'Booking Updates';
+
+  @override
+  String get twoFactorAuthentication => 'Two-Factor Authentication';
+
+  @override
+  String get appVersion => 'Rujeta Doctor App Version 1.0.0';
+
+  @override
+  String get specialHours => 'Special Hours & Holidays';
+
+  @override
+  String get addSpecialDate => 'Add Special Date';
+
+  @override
+  String get saveChanges => 'Save Changes';
+
+  @override
+  String get unsavedChanges => 'Unsaved Changes';
+
+  @override
+  String get verifiedAccount => 'Verified Account';
+
+  @override
+  String get pendingVerification => 'Pending Verification';
+
+  @override
+  String get laboratoryDescription => 'Laboratory Description';
+
+  @override
+  String get primaryContactEmail => 'Primary Contact Email';
+
+  @override
+  String get contactSupportSheetTitle => 'Contact Support';
+
+  @override
+  String get liveSupportChat => 'Live Support Chat';
+
+  @override
+  String get averageResponseTime => 'Average response time: 5 mins';
+
+  @override
+  String get phoneHotline => 'Phone Hotline';
+
+  @override
+  String get emailSupport => 'Email Support';
+
+  @override
+  String get open => 'Open';
+
+  @override
+  String get specialDateOverrides => 'Special Date Overrides';
+
+  @override
+  String get standardWeeklyHours => 'Standard Weekly Hours';
+
+  @override
+  String get branchAddedSuccessfully => 'Branch added successfully';
+
+  @override
+  String get manageBranches => 'Manage Branches';
+
+  @override
+  String get detailsSavedSuccessfully => 'Details saved successfully!';
+
+  @override
+  String get radiologyCenterInfo => 'Radiology Center Information';
+
+  @override
+  String get generalDetails => 'General Details';
+
+  @override
+  String get radiologyCenterName => 'RADIOLOGY CENTER NAME';
+
+  @override
+  String get aboutTheCenter => 'About the Center';
+
+  @override
+  String get aboutTheLab => 'About the Lab';
+
+  @override
+  String get radiologyDescription => 'RADIOLOGY DESCRIPTION';
+
+  @override
+  String get verificationStatus => 'Verification Status';
+
+  @override
+  String get active => 'ACTIVE';
+
+  @override
+  String get eventName => 'Event Name';
+
+  @override
+  String get required => 'Required';
+
+  @override
+  String get from => 'From';
+
+  @override
+  String get date => 'Date';
+
+  @override
+  String get labName => 'LAB NAME';
+
+  @override
+  String get error => 'Error occurred';
 }

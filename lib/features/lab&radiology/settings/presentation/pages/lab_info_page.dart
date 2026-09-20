@@ -82,7 +82,7 @@ class _LabInfoPageState extends State<LabInfoPage> {
       _hasUnsavedChanges = false;
     });
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Details saved successfully!')),
+      SnackBar(content: Text(context.strings.detailsSavedSuccessfully)),
     );
   }
 
@@ -115,8 +115,8 @@ class _LabInfoPageState extends State<LabInfoPage> {
         ),
         title: Text(
           widget.isRadiology
-              ? 'Radiology Center Information'
-              : 'Lab Information',
+              ? context.strings.radiologyCenterInfo
+              : context.strings.labInformation,
           style: context.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
             color: Colors.black,
@@ -128,7 +128,7 @@ class _LabInfoPageState extends State<LabInfoPage> {
           if (state.status == SettingsStatus.failure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(state.errorMessage ?? 'Error loading data'),
+                content: Text(state.errorMessage ?? context.strings.error),
               ),
             );
           }

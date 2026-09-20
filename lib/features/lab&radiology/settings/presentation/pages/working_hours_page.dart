@@ -36,7 +36,7 @@ class _WorkingHoursPageState extends State<WorkingHoursPage> {
           onPressed: () => context.pop(),
         ),
         title: Text(
-          'Working Hours',
+          context.strings.workingHours,
           style: context.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
             color: Colors.black,
@@ -57,7 +57,7 @@ class _WorkingHoursPageState extends State<WorkingHoursPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Standard Week',
+                  context.strings.standardWeeklyHours,
                   style: context.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: const Color(0xFF0F2D52),
