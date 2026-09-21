@@ -1,3 +1,4 @@
+import '../../../../../../core/local/user_hive_helper.dart';
 import '../../../../../../core/network/api_consumer.dart';
 import '../../../../../../core/network/endpoints.dart';
 import '../../models/doctor_notification_model.dart';
@@ -34,115 +35,56 @@ class DoctorNotificationsRemoteDataSourceImpl
       query['type'] = type;
     }
 
-    // 1. Try dedicated notifications endpoints
-    final notifEndpoints = [
-      Endpoints.doctorNotifications,
-      '/lab/notifications',
-      '/radiology/notifications',
-      Endpoints.notifications,
-      '/notifications',
-    ];
+    final role = UserHiveHelper.getUser()?.role?.toLowerCase().trim() ?? '';
+    final String endpoint = (role == 'doctor' || role.contains('doctor'))
+        ? Endpoints.doctorNotifications
+        : Endpoints.notifications;
 
-    for (final ep in notifEndpoints) {
-      try {
-        final response = await apiConsumer.get(
-          ep,
-          queryParameters: query.isNotEmpty ? query : null,
-        );
+    try {
+      final response = await apiConsumer.get(
+        endpoint,
+        queryParameters: query.isNotEmpty ? query : null,
+      );
 
-        final rawList =
-            response is Map<String, dynamic> && response['data'] is List
-                ? response['data'] as List<dynamic>
-                : (response is List ? response : <dynamic>[]);
-
-        final list = rawList
-            .whereType<Map<String, dynamic>>()
-            .map((e) => DoctorNotificationModel.fromJson(e))
-            .toList();
-
-        if (list.isNotEmpty) return list;
-      } catch (_) {
-        // Try next endpoint
-      }
-    }
-
-    // 2. Fallback: synthesize notifications from recent bookings (for lab/radiology) or doctor appointments
-    final bookingEndpoints = [
-      Endpoints.bookings,
-      Endpoints.doctorAppointments,
-    ];
-
-    for (final bEp in bookingEndpoints) {
-      try {
-        final apptResponse = await apiConsumer.get(bEp);
-        final rawList = apptResponse is Map<String, dynamic> &&
-                apptResponse['data'] is List
-            ? apptResponse['data'] as List<dynamic>
-            : (apptResponse is List ? apptResponse : <dynamic>[]);
-
-        if (rawList.isEmpty) continue;
-
-        final notifications = <DoctorNotificationModel>[];
-        for (final item in rawList.whereType<Map<String, dynamic>>()) {
-          final id = (item['id'] ?? item['_id'] ?? item['bookingRefId'] ?? '').toString();
-          final patientObj = item['patient'] as Map<String, dynamic>?;
-          final patientName = (patientObj?['name'] ??
-                  item['patient_name'] ??
-                  item['patientName'] ??
-                  'Patient')
-              .toString();
-          final date = (item['date'] ??
-                  item['booking_date'] ??
-                  item['appointment_date'] ??
-                  item['created_at'] ??
-                  '')
-              .toString();
-          final status = (item['status'] ?? 'pending').toString();
-          final paymentStatus =
-              (item['payment_status'] ?? item['paymentStatus'] ?? '').toString();
-
-          notifications.add(
-            DoctorNotificationModel(
-              id: 'notif_$id',
-              title: status.toLowerCase() == 'confirmed'
-                  ? 'Booking Confirmed'
-                  : 'Booking Update',
-              body: 'Booking for $patientName on $date (${status.toUpperCase()}) - Payment: $paymentStatus',
-              time: date,
-              isRead: false,
-              priority: status.toLowerCase() == 'pending' ? 'High' : 'Medium',
-              type: 'appointment',
-            ),
-          );
+      List<dynamic> rawList = [];
+      if (response is List) {
+        rawList = response;
+      } else if (response is Map<String, dynamic>) {
+        if (response['data'] is List) {
+          rawList = response['data'] as List<dynamic>;
+        } else if (response['data'] is Map<String, dynamic> &&
+            response['data']['data'] is List) {
+          rawList = response['data']['data'] as List<dynamic>;
+        } else if (response['data'] is Map<String, dynamic> &&
+            response['data']['notifications'] is List) {
+          rawList = response['data']['notifications'] as List<dynamic>;
+        } else if (response['notifications'] is List) {
+          rawList = response['notifications'] as List<dynamic>;
         }
-
-        if (notifications.isNotEmpty) return notifications;
-      } catch (_) {
-        // Try next fallback
       }
-    }
 
-    return <DoctorNotificationModel>[];
+      return rawList
+          .whereType<Map<String, dynamic>>()
+          .map((e) => DoctorNotificationModel.fromJson(e))
+          .toList();
+    } catch (_) {
+      return <DoctorNotificationModel>[];
+    }
   }
 
   @override
   Future<void> markAsRead(String notificationId) async {
-    final readEndpoints = [
-      Endpoints.doctorNotificationRead(notificationId),
-      '/notifications/$notificationId/read',
-      '/notifications/read/$notificationId',
-      '/lab/notifications/$notificationId/read',
-    ];
-    for (final ep in readEndpoints) {
+    final role = UserHiveHelper.getUser()?.role?.toLowerCase().trim() ?? '';
+    final String endpoint = (role == 'doctor' || role.contains('doctor'))
+        ? Endpoints.doctorNotificationRead(notificationId)
+        : '/notifications/$notificationId/read';
+
+    try {
+      await apiConsumer.patch(endpoint);
+    } catch (_) {
       try {
-        await apiConsumer.patch(ep);
-        return;
-      } catch (_) {
-        try {
-          await apiConsumer.post(ep);
-          return;
-        } catch (_) {}
-      }
+        await apiConsumer.post(endpoint);
+      } catch (_) {}
     }
   }
 }

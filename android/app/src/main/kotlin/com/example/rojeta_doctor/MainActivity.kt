@@ -1,4 +1,4 @@
-package com.example.rojeta_doctor
+package com.fassladev.rujetaDoctor
 
 import io.flutter.embedding.android.FlutterActivity
 

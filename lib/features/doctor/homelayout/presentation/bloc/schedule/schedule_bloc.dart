@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rojeta_doctor/features/doctor/homelayout/data/models/schedule_model.dart';
+
 import '../../../data/repositories/schedule_repository.dart';
 import 'schedule_event.dart';
 import 'schedule_state.dart';
@@ -28,10 +29,12 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
       final schedule = await _repository.getSchedule();
       emit(state.copyWith(status: ScheduleStatus.success, schedule: schedule));
     } catch (e) {
-      emit(state.copyWith(
-        status: ScheduleStatus.failure,
-        errorMessage: e.toString(),
-      ));
+      emit(
+        state.copyWith(
+          status: ScheduleStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
     }
   }
 
@@ -42,19 +45,28 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
     emit(state.copyWith(status: ScheduleStatus.loading, errorMessage: null));
     try {
       await _repository.updateSchedule(event.schedule);
-      emit(state.copyWith(status: ScheduleStatus.success, schedule: event.schedule));
+      emit(
+        state.copyWith(
+          status: ScheduleStatus.success,
+          schedule: event.schedule,
+        ),
+      );
     } catch (e) {
       // Still persist updated schedule locally so the UI stays responsive
-      emit(state.copyWith(
-        status: ScheduleStatus.success,
-        schedule: event.schedule,
-      ));
+      emit(
+        state.copyWith(
+          status: ScheduleStatus.success,
+          schedule: event.schedule,
+        ),
+      );
     }
   }
 
   void _onToggleDay(ToggleDayEvent event, Emitter<ScheduleState> emit) {
     if (state.schedule == null) return;
-    final newWorkingDays = List<WorkingDayModel>.from(state.schedule!.workingDays);
+    final newWorkingDays = List<WorkingDayModel>.from(
+      state.schedule!.workingDays,
+    );
     final targetDay = newWorkingDays[event.dayIndex];
     List<TimeSlotModel> slots = List<TimeSlotModel>.from(targetDay.timeSlots);
     if (event.isActive && slots.isEmpty) {
@@ -64,14 +76,18 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
       isActive: event.isActive,
       timeSlots: slots,
     );
-    emit(state.copyWith(
-      schedule: state.schedule!.copyWith(workingDays: newWorkingDays),
-    ));
+    emit(
+      state.copyWith(
+        schedule: state.schedule!.copyWith(workingDays: newWorkingDays),
+      ),
+    );
   }
 
   void _onAddSlot(AddSlotEvent event, Emitter<ScheduleState> emit) {
     if (state.schedule == null) return;
-    final newWorkingDays = List<WorkingDayModel>.from(state.schedule!.workingDays);
+    final newWorkingDays = List<WorkingDayModel>.from(
+      state.schedule!.workingDays,
+    );
     final targetDay = newWorkingDays[event.dayIndex];
     final newSlots = List<TimeSlotModel>.from(targetDay.timeSlots)
       ..add(const TimeSlotModel(startTime: '09:00', endTime: '12:00'));
@@ -79,14 +95,21 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
       isActive: true,
       timeSlots: newSlots,
     );
-    emit(state.copyWith(
-      schedule: state.schedule!.copyWith(workingDays: newWorkingDays),
-    ));
+    emit(
+      state.copyWith(
+        schedule: state.schedule!.copyWith(workingDays: newWorkingDays),
+      ),
+    );
   }
 
-  void _onUpdateTimeSlot(UpdateTimeSlotEvent event, Emitter<ScheduleState> emit) {
+  void _onUpdateTimeSlot(
+    UpdateTimeSlotEvent event,
+    Emitter<ScheduleState> emit,
+  ) {
     if (state.schedule == null) return;
-    final newWorkingDays = List<WorkingDayModel>.from(state.schedule!.workingDays);
+    final newWorkingDays = List<WorkingDayModel>.from(
+      state.schedule!.workingDays,
+    );
     final targetDay = newWorkingDays[event.dayIndex];
     if (event.slotIndex < targetDay.timeSlots.length) {
       final newSlots = List<TimeSlotModel>.from(targetDay.timeSlots);
@@ -95,15 +118,19 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
         endTime: event.endTime,
       );
       newWorkingDays[event.dayIndex] = targetDay.copyWith(timeSlots: newSlots);
-      emit(state.copyWith(
-        schedule: state.schedule!.copyWith(workingDays: newWorkingDays),
-      ));
+      emit(
+        state.copyWith(
+          schedule: state.schedule!.copyWith(workingDays: newWorkingDays),
+        ),
+      );
     }
   }
 
   void _onRemoveSlot(RemoveSlotEvent event, Emitter<ScheduleState> emit) {
     if (state.schedule == null) return;
-    final newWorkingDays = List<WorkingDayModel>.from(state.schedule!.workingDays);
+    final newWorkingDays = List<WorkingDayModel>.from(
+      state.schedule!.workingDays,
+    );
     final targetDay = newWorkingDays[event.dayIndex];
     if (event.slotIndex < targetDay.timeSlots.length) {
       final newSlots = List<TimeSlotModel>.from(targetDay.timeSlots)
@@ -112,9 +139,11 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
         timeSlots: newSlots,
         isActive: newSlots.isNotEmpty,
       );
-      emit(state.copyWith(
-        schedule: state.schedule!.copyWith(workingDays: newWorkingDays),
-      ));
+      emit(
+        state.copyWith(
+          schedule: state.schedule!.copyWith(workingDays: newWorkingDays),
+        ),
+      );
     }
   }
 
@@ -123,35 +152,53 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
     final now = DateTime.now();
     final tomorrow = now.add(const Duration(days: 1));
     final newVacations = List<VacationModel>.from(state.schedule!.vacations);
-    newVacations.add(VacationModel(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      startDate: '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}',
-      endDate: '${tomorrow.year}-${tomorrow.month.toString().padLeft(2, '0')}-${tomorrow.day.toString().padLeft(2, '0')}',
-    ));
-    emit(state.copyWith(
-      schedule: state.schedule!.copyWith(vacations: newVacations),
-    ));
+    newVacations.add(
+      VacationModel(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        startDate:
+            '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}',
+        endDate:
+            '${tomorrow.year}-${tomorrow.month.toString().padLeft(2, '0')}-${tomorrow.day.toString().padLeft(2, '0')}',
+      ),
+    );
+    emit(
+      state.copyWith(
+        schedule: state.schedule!.copyWith(vacations: newVacations),
+      ),
+    );
   }
 
-  void _onAddVacationWithDates(AddVacationWithDatesEvent event, Emitter<ScheduleState> emit) {
+  void _onAddVacationWithDates(
+    AddVacationWithDatesEvent event,
+    Emitter<ScheduleState> emit,
+  ) {
     if (state.schedule == null) return;
     final newVacations = List<VacationModel>.from(state.schedule!.vacations);
-    newVacations.add(VacationModel(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      startDate: event.startDate,
-      endDate: event.endDate,
-    ));
-    emit(state.copyWith(
-      schedule: state.schedule!.copyWith(vacations: newVacations),
-    ));
+    newVacations.add(
+      VacationModel(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        startDate: event.startDate,
+        endDate: event.endDate,
+      ),
+    );
+    emit(
+      state.copyWith(
+        schedule: state.schedule!.copyWith(vacations: newVacations),
+      ),
+    );
   }
 
-  void _onRemoveVacation(RemoveVacationEvent event, Emitter<ScheduleState> emit) {
+  void _onRemoveVacation(
+    RemoveVacationEvent event,
+    Emitter<ScheduleState> emit,
+  ) {
     if (state.schedule == null) return;
     final newVacations = List<VacationModel>.from(state.schedule!.vacations);
     newVacations.removeWhere((v) => v.id == event.id);
-    emit(state.copyWith(
-      schedule: state.schedule!.copyWith(vacations: newVacations),
-    ));
+    emit(
+      state.copyWith(
+        schedule: state.schedule!.copyWith(vacations: newVacations),
+      ),
+    );
   }
 }

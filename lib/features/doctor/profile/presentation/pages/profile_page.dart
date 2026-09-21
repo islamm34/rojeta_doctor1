@@ -3,18 +3,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rojeta_doctor/core/di/injector.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
 import 'package:rojeta_doctor/features/doctor/profile/data/models/profile_model.dart';
+
 import '../../../../../../shared/widgets/custom_elevated_button.dart';
 import '../bloc/profile/profile_bloc.dart';
 import '../bloc/profile/profile_event.dart';
 import '../bloc/profile/profile_state.dart';
+import '../widgets/basic_info_section.dart';
+import '../widgets/clinics_management_section.dart';
+import '../widgets/education_section.dart';
+import '../widgets/payment_details_section.dart';
+import '../widgets/professional_info_section.dart';
 import '../widgets/profile_header_card.dart';
 import '../widgets/profile_tab_switcher.dart';
-import '../widgets/basic_info_section.dart';
-import '../widgets/professional_info_section.dart';
-import '../widgets/education_section.dart';
-import '../widgets/clinics_management_section.dart';
 import '../widgets/services_pricing_section.dart';
-import '../widgets/payment_details_section.dart';
 import '../widgets/settings_view.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -30,7 +31,9 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    _profileBloc = injector<ProfileBloc>()..add(const LoadProfileEvent());
+    _profileBloc = injector<ProfileBloc>()
+      ..add(const LoadProfileEvent())
+      ..add(const LoadSettingsEvent());
   }
 
   @override
@@ -153,6 +156,7 @@ class _ProfileViewState extends State<ProfileView> {
           return RefreshIndicator(
             onRefresh: () async {
               context.read<ProfileBloc>().add(const LoadProfileEvent());
+              context.read<ProfileBloc>().add(const LoadSettingsEvent());
             },
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(16.0),

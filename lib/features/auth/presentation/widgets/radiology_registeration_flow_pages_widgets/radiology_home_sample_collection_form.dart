@@ -1,5 +1,6 @@
-import '../../../../../core/utils/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
 import '../../../../../shared/widgets/custom_textfield.dart';
 
@@ -72,24 +73,26 @@ class _RadiologyHomeSampleCollectionFormState
           ),
           if (_isAvailable) ...[
             SizedBox(height: 20.h),
-            Row(
-              children: [
-                Expanded(
-                  child: CustomTextField(
-                    label: context.strings.homeSampleCollectionFee,
-                    hintText: context.strings.homeSampleCollectionFeeHint,
-                    keyboardType: TextInputType.number,
+            IntrinsicHeight(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: CustomTextField(
+                      label: context.strings.homeSampleCollectionFee,
+                      hintText: context.strings.homeSampleCollectionFeeHint,
+                      keyboardType: TextInputType.number,
+                    ),
                   ),
-                ),
-                SizedBox(width: 16.w),
-                Expanded(
-                  child: CustomTextField(
-                    label: context.strings.serviceAreaRadius,
-                    hintText: context.strings.serviceAreaRadiusHint,
-                    keyboardType: TextInputType.number,
+                  SizedBox(width: 16.w),
+                  Expanded(
+                    child: CustomTextField(
+                      label: context.strings.serviceAreaRadius,
+                      hintText: context.strings.serviceAreaRadiusHint,
+                      keyboardType: TextInputType.number,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ],

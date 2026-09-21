@@ -3,7 +3,10 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:rojeta_doctor/core/utils/firebase_messaging_service.dart';
+import 'package:rojeta_doctor/core/utils/local_notification_service.dart';
 
+import '../di/injector.dart';
 import 'user_data.dart';
 
 class UserHiveHelper {
@@ -12,8 +15,10 @@ class UserHiveHelper {
   static const String _userId = 'currentUser';
 
   static Future<void> initNotifications() async {
-    // await LocalNotificationService.init();
-    // await injector<FirebaseMessagingService>().init();
+    try {
+      await LocalNotificationService.init();
+      await injector<FirebaseMessagingService>().init();
+    } catch (_) {}
   }
 
   // Initialize Hive and register adapters

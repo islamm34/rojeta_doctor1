@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rojeta_doctor/core/error/exceptions.dart';
 import 'package:rojeta_doctor/core/local/user_data.dart';
 import 'package:rojeta_doctor/core/local/user_hive_helper.dart';
 import 'package:rojeta_doctor/features/doctor/profile/data/models/payment_details_model.dart';
 import 'package:rojeta_doctor/features/doctor/profile/data/models/profile_model.dart';
 import 'package:rojeta_doctor/features/doctor/profile/data/models/settings_model.dart';
+
 import '../../../domain/repositories/profile_repository.dart';
 import '../../../domain/usecases/get_profile_use_case.dart';
 import 'profile_event.dart';
@@ -85,27 +85,46 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       final response = await getProfileUseCase();
       var profileModel = response.toProfileModel();
       profileModel = _enrichWithCachedUser(profileModel);
+      SettingsModel? settings;
+      try {
+        settings = await profileRepository.getSettings();
+      } catch (_) {}
       emit(
         state.copyWith(
           status: ProfileStatus.success,
           profile: profileModel,
+          settings: settings ?? state.settings,
           errorMessage: null,
         ),
       );
     } catch (e) {
       final profileModel = _enrichWithCachedUser(null);
+      SettingsModel? settings;
+      try {
+        settings = await profileRepository.getSettings();
+      } catch (_) {}
       emit(
         state.copyWith(
           status: ProfileStatus.success,
           profile: profileModel,
+          settings: settings ?? state.settings,
           errorMessage: null,
         ),
       );
     }
   }
 
-  void _onSwitchTab(SwitchTabEvent event, Emitter<ProfileState> emit) {
+  Future<void> _onSwitchTab(
+    SwitchTabEvent event,
+    Emitter<ProfileState> emit,
+  ) async {
     emit(state.copyWith(isProfileTabSelected: event.isProfile));
+    if (!event.isProfile) {
+      try {
+        final settings = await profileRepository.getSettings();
+        emit(state.copyWith(settings: settings));
+      } catch (_) {}
+    }
   }
 
   Future<void> _onToggleService(

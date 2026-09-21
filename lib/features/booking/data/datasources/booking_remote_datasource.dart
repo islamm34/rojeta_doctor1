@@ -103,18 +103,19 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
           queryParameters: userType == UserType.radiologyCenter
               ? {'user_type': 'radiology'}
               : (userType == UserType.nursingCareProviders
-                  ? {'user_type': 'nursing'}
-                  : {'user_type': 'lab'}),
+                    ? {'user_type': 'nursing'}
+                    : {'user_type': 'lab'}),
         );
-        final dashData = dashResponse is Map<String, dynamic> &&
-                dashResponse['data'] != null
+        final dashData =
+            dashResponse is Map<String, dynamic> && dashResponse['data'] != null
             ? (dashResponse['data'] is Map<String, dynamic>
-                ? dashResponse['data'] as Map<String, dynamic>
-                : dashResponse)
+                  ? dashResponse['data'] as Map<String, dynamic>
+                  : dashResponse)
             : (dashResponse is Map<String, dynamic> ? dashResponse : null);
 
         if (dashData != null) {
-          final upcoming = dashData['upcomingBooking'] ??
+          final upcoming =
+              dashData['upcomingBooking'] ??
               dashData['upcoming_booking'] ??
               dashData['upcoming'];
           if (upcoming is Map<String, dynamic>) {
@@ -135,7 +136,6 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
     final endpoints = [
       Endpoints.bookingStatus(bookingId),
       '/bookings/$bookingId/status',
-      '/lab/bookings/$bookingId/status',
     ];
     for (final ep in endpoints) {
       try {

@@ -1,96 +1,164 @@
-// import 'dart:async';
-// import 'dart:developer';
+import 'dart:async';
+import 'dart:developer';
 
-// import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 
-// import 'local_notification_service.dart';
+import 'local_notification_service.dart';
 
-// class FirebaseMessagingService {
-//   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+/// Top-level background message handler required by Firebase Messaging
+@pragma('vm:entry-point')
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  log('🔥 [FCM Background Message] Message ID: ${message.messageId}');
+  log('🔥 [FCM Background Message] Data: ${message.data}');
+  if (message.notification != null) {
+    log(
+      '🔥 [FCM Background Message] Title: ${message.notification?.title}, Body: ${message.notification?.body}',
+    );
+  }
+}
 
-//   /// Stream that emits every foreground FCM message so other parts of the app
-//   /// (e.g. NotificationBloc) can react to new pushes.
-//   final StreamController<RemoteMessage> _foregroundMessageController =
-//       StreamController<RemoteMessage>.broadcast();
+class FirebaseMessagingService {
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
-//   Stream<RemoteMessage> get onForegroundMessage =>
-//       _foregroundMessageController.stream;
+  /// Stream that emits foreground FCM messages so BLoCs/Screens can react
+  final StreamController<RemoteMessage> _foregroundMessageController =
+      StreamController<RemoteMessage>.broadcast();
 
-//   Future<void> init() async {
-//     await _requestPermission();
-//     _onMessage(); // Foreground
-//     _onMessageOpenedApp(); // Background / Terminated (when clicked)
+  Stream<RemoteMessage> get onForegroundMessage =>
+      _foregroundMessageController.stream;
 
-//     // Check if app was opened from a terminated state via notification
-//     final RemoteMessage? initialMessage = await _firebaseMessaging
-//         .getInitialMessage();
-//     if (initialMessage != null) {
-//       _handleMessage(initialMessage);
-//     }
-//   }
+  Future<void> init() async {
+    // Initialize LocalNotificationService for foreground notification popups
+    await LocalNotificationService.init();
 
-//   Future<void> _requestPermission() async {
-//     final NotificationSettings settings = await _firebaseMessaging
-//         .requestPermission();
+    // Set background message handler
+    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
-//     log('User granted permission: ${settings.authorizationStatus}');
-//   }
+    // Request notification permissions
+    await _requestPermission();
 
-//   Future<String?> getToken() async {
-//     try {
-//       final String? token = await _firebaseMessaging.getToken();
-//       log("FCM Token: $token");
-//       return token;
-//     } catch (e) {
-//       log("Error getting FCM token: $e");
-//       return null;
-//     }
-//   }
+    // Enable foreground notification presentation options (iOS/Android)
+    await _firebaseMessaging.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
 
-//   Stream<String> get onTokenRefresh {
-//     return _firebaseMessaging.onTokenRefresh.map((event) {
-//       log("FCM Token Refreshed: $event");
-//       return event;
-//     });
-//   }
+    // Setup message listeners
+    _setupForegroundListener();
+    _setupMessageOpenedAppListener();
 
-//   void _onMessage() {
-//     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-//       log('Got a message whilst in the foreground!');
-//       log('Message data: ${message.data}');
+    // Check if app was opened from terminated state via notification click
+    final RemoteMessage? initialMessage = await _firebaseMessaging
+        .getInitialMessage();
+    if (initialMessage != null) {
+      _handleMessageClick(initialMessage);
+    }
 
-//       // Notify listeners (e.g. NotificationBloc) about the new message
-//       _foregroundMessageController.add(message);
+    // Fetch and log initial token
+    await getToken();
 
-//       if (message.notification != null) {
-//         log('Message also contained a notification: ${message.notification}');
+    // Listen for token refreshes
+    _listenToTokenRefresh();
+  }
 
-//         // Show local notification
-//         LocalNotificationService.showNotification(
-//           id: message.hashCode,
-//           title: message.notification!.title ?? 'No Title',
-//           body: message.notification!.body ?? 'No Body',
-//           payload: message.data.map(
-//             (key, value) => MapEntry(key, value.toString()),
-//           ),
-//         );
-//       }
-//     });
-//   }
+  Future<void> _requestPermission() async {
+    final NotificationSettings settings = await _firebaseMessaging
+        .requestPermission(
+          alert: true,
+          announcement: false,
+          badge: true,
+          carPlay: false,
+          criticalAlert: false,
+          provisional: false,
+          sound: true,
+        );
 
-//   void _onMessageOpenedApp() {
-//     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
-//   }
+    log('🔔 [FCM Permission Status]: ${settings.authorizationStatus}');
+  }
 
-//   void _handleMessage(RemoteMessage message) {
-//     log('Handling message open: ${message.messageId}');
+  Future<String?> getToken() async {
+    try {
+      final String? token = await _firebaseMessaging.getToken();
+      debugPrint('======================================================');
+      debugPrint('🔥 [FCM TOKEN - DOCTOR APP]');
+      debugPrint('$token');
+      debugPrint('======================================================');
+      log('🔥 [FCM TOKEN]: $token');
+      return token;
+    } catch (e, st) {
+      debugPrint('❌ [FCM Error] Failed to get FCM token: $e');
+      log('Error getting FCM token: $e\n$st');
+      return null;
+    }
+  }
 
-//     if (message.data['route'] != null) {
-//       // Navigation logic will go here
-//     }
-//   }
+  void _listenToTokenRefresh() {
+    _firebaseMessaging.onTokenRefresh.listen((newToken) {
+      debugPrint('======================================================');
+      debugPrint('🔄 [FCM TOKEN REFRESHED - DOCTOR APP]');
+      debugPrint(newToken);
+      debugPrint('======================================================');
+      log('🔄 [FCM TOKEN REFRESHED]: $newToken');
+    });
+  }
 
-//   void dispose() {
-//     _foregroundMessageController.close();
-//   }
-// }
+  Stream<String> get onTokenRefresh => _firebaseMessaging.onTokenRefresh;
+
+  void _setupForegroundListener() {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      debugPrint('📩 [FCM Foreground Message Received]');
+      debugPrint('Title: ${message.notification?.title}');
+      debugPrint('Body: ${message.notification?.body}');
+      debugPrint('Data: ${message.data}');
+
+      // Emit to stream listeners
+      _foregroundMessageController.add(message);
+
+      // Display system notification banner / popup in foreground
+      final title =
+          message.notification?.title ?? message.data['title'] ?? 'إشعار جديد';
+      final body = message.notification?.body ?? message.data['body'] ?? '';
+
+      if (title.isNotEmpty || body.isNotEmpty) {
+        LocalNotificationService.showNotification(
+          id: message.hashCode,
+          title: title,
+          body: body,
+          payload: message.data.map(
+            (key, value) => MapEntry(key, value.toString()),
+          ),
+        );
+      }
+    });
+  }
+
+  void _setupMessageOpenedAppListener() {
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      debugPrint('📲 [FCM Notification Clicked (Background)]');
+      _handleMessageClick(message);
+    });
+  }
+
+  void _handleMessageClick(RemoteMessage message) {
+    debugPrint('👉 [FCM Handling Message Open]: ${message.messageId}');
+    debugPrint('Data payload: ${message.data}');
+
+    final bookingId =
+        message.data['booking_id'] ??
+        message.data['appointment_id'] ??
+        message.data['id'];
+    final type = message.data['type'];
+    final role = message.data['role'];
+    final route = message.data['route'];
+
+    debugPrint(
+      '🎯 [FCM Routing Target] Role: $role, Type: $type, ID: $bookingId, Route: $route',
+    );
+  }
+
+  void dispose() {
+    _foregroundMessageController.close();
+  }
+}

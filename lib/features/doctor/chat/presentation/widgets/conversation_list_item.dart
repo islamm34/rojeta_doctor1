@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../../../../../core/utils/extensions/time_extensions.dart';
 import '../../data/models/doctor_chat_models.dart';
 
 class ConversationListItem extends StatelessWidget {
@@ -47,7 +49,11 @@ class ConversationListItem extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        conversation.lastMessageTime,
+                        TimeFormatter.formatDateTime(
+                          conversation.lastMessageTime,
+                          null,
+                          context: context,
+                        ),
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: Colors.grey.shade500,
                         ),

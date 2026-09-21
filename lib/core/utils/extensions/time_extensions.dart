@@ -134,8 +134,9 @@ class TimeFormatter {
     // 3. Full ISO or Date-time string: e.g. "2026-02-06T14:30:00" or "2026-02-06 14:30:00"
     final parsed = DateTime.tryParse(trimmed);
     if (parsed != null) {
-      final hour24 = parsed.hour;
-      final minute = parsed.minute.toString().padLeft(2, '0');
+      final local = parsed.toLocal();
+      final hour24 = local.hour;
+      final minute = local.minute.toString().padLeft(2, '0');
       final period = hour24 >= 12 ? 'PM' : 'AM';
       final hour12 = hour24 == 0 ? 12 : (hour24 > 12 ? hour24 - 12 : hour24);
       return formatResult(hour12, minute, period);
@@ -182,7 +183,10 @@ class TimeFormatter {
 
     if (dateInput is DateTime) {
       final p = pattern ?? 'yyyy-MM-dd';
-      final formatted = DateFormat(p, resolvedLocale).format(dateInput);
+      final formatted = DateFormat(
+        p,
+        resolvedLocale,
+      ).format(dateInput.toLocal());
       return isArabic ? toArabicDigits(formatted) : formatted;
     }
 
@@ -204,7 +208,10 @@ class TimeFormatter {
     final parsedDate = DateTime.tryParse(trimmed);
     if (parsedDate != null) {
       final p = pattern ?? 'yyyy-MM-dd';
-      final formatted = DateFormat(p, resolvedLocale).format(parsedDate);
+      final formatted = DateFormat(
+        p,
+        resolvedLocale,
+      ).format(parsedDate.toLocal());
       return isArabic ? toArabicDigits(formatted) : formatted;
     }
 
@@ -255,6 +262,39 @@ class TimeFormatter {
     }
 
     if (hasDate) {
+      if (dateStr is DateTime) {
+        final formattedDate = formatDate(
+          dateStr,
+          locale: resolvedLocale,
+          context: context,
+          pattern: pattern,
+        );
+        final formattedTime = formatTo12Hour(
+          dateStr.toIso8601String(),
+          locale: resolvedLocale,
+          context: context,
+        );
+        return '$formattedDate • $formattedTime';
+      }
+
+      final dateString = dateStr.toString().trim();
+      final parsed = DateTime.tryParse(dateString);
+      if (parsed != null &&
+          (dateString.contains('T') || dateString.contains(':'))) {
+        final formattedDate = formatDate(
+          parsed,
+          locale: resolvedLocale,
+          context: context,
+          pattern: pattern,
+        );
+        final formattedTime = formatTo12Hour(
+          dateString,
+          locale: resolvedLocale,
+          context: context,
+        );
+        return '$formattedDate • $formattedTime';
+      }
+
       return formatDate(
         dateStr,
         locale: resolvedLocale,

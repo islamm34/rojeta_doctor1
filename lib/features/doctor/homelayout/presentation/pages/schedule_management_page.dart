@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
 import '../bloc/schedule/schedule_bloc.dart';
 import '../bloc/schedule/schedule_event.dart';
 import '../bloc/schedule/schedule_state.dart';
-import '../widgets/schedule/working_hours_section.dart';
 import '../widgets/schedule/vacations_section.dart';
+import '../widgets/schedule/working_hours_section.dart';
 
 class ScheduleManagementPage extends StatelessWidget {
   const ScheduleManagementPage({super.key});
@@ -31,12 +32,24 @@ class ScheduleManagementPage extends StatelessWidget {
           ),
         ),
       ),
-      body: BlocBuilder<ScheduleBloc, ScheduleState>(
+      body: BlocConsumer<ScheduleBloc, ScheduleState>(
+        listener: (context, state) {
+          if (state.status == ScheduleStatus.success) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(context.strings.scheduleSavedSuccessfully),
+                backgroundColor: Colors.green.shade700,
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
+          }
+        },
         builder: (context, state) {
-          if (state.status == ScheduleStatus.loading || state.status == ScheduleStatus.initial) {
+          if (state.status == ScheduleStatus.loading ||
+              state.status == ScheduleStatus.initial) {
             return const Center(child: CircularProgressIndicator());
           }
-          
+
           if (state.status == ScheduleStatus.failure) {
             return Center(
               child: Text(
@@ -59,38 +72,33 @@ class ScheduleManagementPage extends StatelessWidget {
                 WorkingHoursSection(
                   workingDays: schedule.workingDays,
                   onToggleDay: (index, isActive) {
-                    context.read<ScheduleBloc>().add(ToggleDayEvent(index, isActive));
+                    context.read<ScheduleBloc>().add(
+                      ToggleDayEvent(index, isActive),
+                    );
                   },
                   onAddSlot: (index) {
                     context.read<ScheduleBloc>().add(AddSlotEvent(index));
                   },
                   onUpdateSlot: (dayIndex, slotIndex, startTime, endTime) {
                     context.read<ScheduleBloc>().add(
-                          UpdateTimeSlotEvent(
-                            dayIndex: dayIndex,
-                            slotIndex: slotIndex,
-                            startTime: startTime,
-                            endTime: endTime,
-                          ),
-                        );
+                      UpdateTimeSlotEvent(
+                        dayIndex: dayIndex,
+                        slotIndex: slotIndex,
+                        startTime: startTime,
+                        endTime: endTime,
+                      ),
+                    );
                   },
                   onRemoveSlot: (dayIndex, slotIndex) {
                     context.read<ScheduleBloc>().add(
-                          RemoveSlotEvent(
-                            dayIndex: dayIndex,
-                            slotIndex: slotIndex,
-                          ),
-                        );
+                      RemoveSlotEvent(dayIndex: dayIndex, slotIndex: slotIndex),
+                    );
                   },
                   onSave: () {
-                    context.read<ScheduleBloc>().add(UpdateScheduleEvent(schedule));
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(context.strings.scheduleSavedSuccessfully),
-                        backgroundColor: Colors.green.shade700,
-                        behavior: SnackBarBehavior.floating,
-                      ),
+                    context.read<ScheduleBloc>().add(
+                      UpdateScheduleEvent(schedule),
                     );
+                    context.pop();
                   },
                 ),
                 SizedBox(height: 24.h),
@@ -98,11 +106,11 @@ class ScheduleManagementPage extends StatelessWidget {
                   vacations: schedule.vacations,
                   onAddVacationWithDates: (startDate, endDate) {
                     context.read<ScheduleBloc>().add(
-                          AddVacationWithDatesEvent(
-                            startDate: startDate,
-                            endDate: endDate,
-                          ),
-                        );
+                      AddVacationWithDatesEvent(
+                        startDate: startDate,
+                        endDate: endDate,
+                      ),
+                    );
                   },
                   onAddVacation: () {
                     context.read<ScheduleBloc>().add(AddVacationEvent());

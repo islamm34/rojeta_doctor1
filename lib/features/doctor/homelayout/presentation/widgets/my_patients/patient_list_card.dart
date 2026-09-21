@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:rojeta_doctor/features/doctor/homelayout/data/models/patient_model.dart';
-import '../../../../../../core/utils/extensions/context_extensions.dart';
-import '../../../../../../core/utils/screen_util_like.dart';
+
 import '../../../../../../config/routes/app_router.dart';
+import '../../../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../../../core/utils/extensions/time_extensions.dart';
+import '../../../../../../core/utils/screen_util_like.dart';
 import 'patient_info_column.dart';
 
 class PatientListCard extends StatelessWidget {
   final PatientModel patient;
 
-  const PatientListCard({
-    super.key,
-    required this.patient,
-  });
+  const PatientListCard({super.key, required this.patient});
 
   @override
   Widget build(BuildContext context) {
@@ -104,18 +103,14 @@ class PatientListCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Icon(
-                  Icons.history,
-                  size: 16.sp,
-                  color: Colors.grey[400],
-                ),
+                Icon(Icons.history, size: 16.sp, color: Colors.grey[400]),
                 SizedBox(width: 8.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '${context.strings.lastVisit}: ${patient.lastVisitDate}',
+                        '${context.strings.lastVisit}: ${TimeFormatter.formatDateTime(patient.lastVisitDate, null, context: context)}',
                         style: context.textTheme.bodySmall?.copyWith(
                           color: Colors.grey[500],
                         ),

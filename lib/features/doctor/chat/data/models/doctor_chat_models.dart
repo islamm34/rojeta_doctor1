@@ -66,6 +66,7 @@ class DoctorConversationModel extends Equatable {
 
     final lastMessageTime =
         (json['lastMessageTime'] ??
+                json['last_message_at'] ??
                 json['last_message_time'] ??
                 json['updated_at'] ??
                 json['created_at'] ??

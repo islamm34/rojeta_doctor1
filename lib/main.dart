@@ -1,6 +1,9 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rojeta_doctor/core/utils/firebase_messaging_service.dart';
 import 'package:rojeta_doctor/features/doctor/homelayout/presentation/bloc/homelayout_bloc.dart';
+import 'package:rojeta_doctor/firebase_options.dart';
 
 import 'config/routes/app_router.dart';
 import 'config/theme/app_theme.dart';
@@ -12,10 +15,16 @@ import 'l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // Bloc.observer = AppBlocObserver();
   await UserHiveHelper.init(); // Initialize Hive and default user
   // Initialize dependencies
   await setupInjector();
+  try {
+    await injector<FirebaseMessagingService>().init();
+  } catch (e) {
+    debugPrint('Firebase Messaging initialization error: $e');
+  }
   runApp(const RojetaDoctorApp());
 }
 

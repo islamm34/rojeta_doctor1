@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../../../../../core/utils/extensions/time_extensions.dart';
 import '../../data/models/doctor_chat_models.dart';
 
 class ChatMessageBubble extends StatelessWidget {
@@ -29,8 +31,9 @@ class ChatMessageBubble extends StatelessWidget {
           ),
         ),
         child: Column(
-          crossAxisAlignment:
-              isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+          crossAxisAlignment: isMe
+              ? CrossAxisAlignment.end
+              : CrossAxisAlignment.start,
           children: [
             Text(
               message.content,
@@ -41,7 +44,11 @@ class ChatMessageBubble extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              message.createdAt,
+              TimeFormatter.formatDateTime(
+                message.createdAt,
+                null,
+                context: context,
+              ),
               style: TextStyle(
                 color: isMe ? Colors.white70 : Colors.grey.shade500,
                 fontSize: 10,

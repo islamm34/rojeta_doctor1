@@ -1,3 +1,4 @@
+import '../../../../core/local/user_hive_helper.dart';
 import '../../../../core/network/api_consumer.dart';
 import '../../../../core/network/endpoints.dart';
 import '../models/financial_summary_model.dart';
@@ -43,62 +44,66 @@ class FinancialRemoteDataSourceImpl implements FinancialRemoteDataSource {
       );
 
       final data = response is Map<String, dynamic> && response['data'] != null
-          ? response['data'] as Map<String, dynamic>
-          : (response is Map<String, dynamic>
-              ? response
-              : <String, dynamic>{});
+          ? (response['data'] is Map<String, dynamic>
+                ? response['data'] as Map<String, dynamic>
+                : response)
+          : (response is Map<String, dynamic> ? response : <String, dynamic>{});
 
-      final summary = FinancialSummaryModel.fromJson(data);
-      if (summary.totalIncome > 0 || summary.completedAppointments > 0) {
-        return summary;
-      }
+      return FinancialSummaryModel.fromJson(data);
     } catch (_) {
-      // Fallback to synthesizing from appointments below
+      // Fallback only if financial summary endpoint fails
     }
 
-    // Fallback: derive financial summary from doctor appointments & provider bookings
+    // Fallback: derive financial summary according to user role
     try {
+      final role = UserHiveHelper.getUser()?.role?.toLowerCase().trim() ?? '';
+      final isDoctor = role == 'doctor' || role.contains('doctor');
       final allItems = <Map<String, dynamic>>[];
 
-      // Try doctor appointments
-      try {
-        final apptResponse = await apiConsumer.get(Endpoints.doctorAppointments);
-        final rawList = apptResponse is Map<String, dynamic> &&
-                apptResponse['data'] is List
-            ? apptResponse['data'] as List<dynamic>
-            : (apptResponse is List ? apptResponse : <dynamic>[]);
-        allItems.addAll(rawList.whereType<Map<String, dynamic>>());
-      } catch (_) {}
-
-      // Try bookings (lab & radiology)
-      final bookingEndpoints = [
-        Endpoints.bookings,
-        '/bookings?user_type=radiology',
-        '/radiology/bookings',
-        '/lab/bookings',
-      ];
-      for (final ep in bookingEndpoints) {
+      if (isDoctor) {
         try {
-          final bResponse = await apiConsumer.get(ep);
-          final rawList = bResponse is Map<String, dynamic> &&
-                  bResponse['data'] is List
-              ? bResponse['data'] as List<dynamic>
-              : (bResponse is List ? bResponse : <dynamic>[]);
-          for (final item in rawList.whereType<Map<String, dynamic>>()) {
-            final id = (item['id'] ?? item['_id'] ?? '').toString();
-            if (!allItems.any((e) => (e['id'] ?? e['_id'] ?? '').toString() == id)) {
-              allItems.add(item);
+          final apptResponse = await apiConsumer.get(
+            Endpoints.doctorAppointments,
+          );
+          List<dynamic> rawList = [];
+          if (apptResponse is List) {
+            rawList = apptResponse;
+          } else if (apptResponse is Map<String, dynamic>) {
+            if (apptResponse['data'] is List) {
+              rawList = apptResponse['data'] as List<dynamic>;
+            } else if (apptResponse['data'] is Map<String, dynamic> &&
+                apptResponse['data']['data'] is List) {
+              rawList = apptResponse['data']['data'] as List<dynamic>;
             }
           }
+          allItems.addAll(rawList.whereType<Map<String, dynamic>>());
+        } catch (_) {}
+      } else {
+        try {
+          final bResponse = await apiConsumer.get(Endpoints.bookings);
+          List<dynamic> rawList = [];
+          if (bResponse is List) {
+            rawList = bResponse;
+          } else if (bResponse is Map<String, dynamic>) {
+            if (bResponse['data'] is List) {
+              rawList = bResponse['data'] as List<dynamic>;
+            } else if (bResponse['data'] is Map<String, dynamic> &&
+                bResponse['data']['data'] is List) {
+              rawList = bResponse['data']['data'] as List<dynamic>;
+            }
+          }
+          allItems.addAll(rawList.whereType<Map<String, dynamic>>());
         } catch (_) {}
       }
 
       double total = 0;
       int completed = 0;
       for (final item in allItems) {
-        final status =
-            (item['status'] ?? item['payment_status'] ?? '').toString().toLowerCase();
-        final isCompletedOrPaid = status == 'completed' ||
+        final status = (item['status'] ?? item['payment_status'] ?? '')
+            .toString()
+            .toLowerCase();
+        final isCompletedOrPaid =
+            status == 'completed' ||
             status == 'paid' ||
             status == 'confirmed' ||
             item['paymentStatus'] == 'paid' ||
@@ -106,12 +111,13 @@ class FinancialRemoteDataSourceImpl implements FinancialRemoteDataSource {
 
         if (isCompletedOrPaid) {
           completed++;
-          final fee = (item['price'] ??
-                  item['fee'] ??
-                  item['amount'] ??
-                  item['service_fee'] ??
-                  item['total_amount'] as num?)
-              ?.toDouble() ??
+          final fee =
+              (item['price'] ??
+                      item['fee'] ??
+                      item['amount'] ??
+                      item['service_fee'] ??
+                      item['total_amount'] as num?)
+                  ?.toDouble() ??
               200.0;
           total += fee;
         }
@@ -159,61 +165,69 @@ class FinancialRemoteDataSourceImpl implements FinancialRemoteDataSource {
         queryParameters: query.isNotEmpty ? query : null,
       );
 
-      final rawList =
-          response is Map<String, dynamic> && response['data'] is List
-              ? response['data'] as List<dynamic>
-              : (response is List ? response : <dynamic>[]);
+      List<dynamic> rawList = [];
+      if (response is List) {
+        rawList = response;
+      } else if (response is Map<String, dynamic>) {
+        if (response['data'] is List) {
+          rawList = response['data'] as List<dynamic>;
+        } else if (response['data'] is Map<String, dynamic> &&
+            response['data']['data'] is List) {
+          rawList = response['data']['data'] as List<dynamic>;
+        }
+      }
 
-      final list = rawList
+      return rawList
           .whereType<Map<String, dynamic>>()
           .map((e) => TransactionModel.fromJson(e))
           .toList();
-
-      if (list.isNotEmpty) {
-        return list;
-      }
     } catch (_) {
       // Fallback below
     }
 
-    // Fallback: synthesize transactions from appointments & bookings
+    // Fallback: synthesize transactions from appointments (for doctor) or bookings (for provider)
     try {
+      final role = UserHiveHelper.getUser()?.role?.toLowerCase().trim() ?? '';
+      final isDoctor = role == 'doctor' || role.contains('doctor');
       final allItems = <Map<String, dynamic>>[];
 
-      try {
-        final apptResponse = await apiConsumer.get(Endpoints.doctorAppointments);
-        final rawList = apptResponse is Map<String, dynamic> &&
-                apptResponse['data'] is List
-            ? apptResponse['data'] as List<dynamic>
-            : (apptResponse is List ? apptResponse : <dynamic>[]);
-        allItems.addAll(rawList.whereType<Map<String, dynamic>>());
-      } catch (_) {}
-
-      final bookingEndpoints = [
-        Endpoints.bookings,
-        '/bookings?user_type=radiology',
-        '/radiology/bookings',
-        '/lab/bookings',
-      ];
-      for (final ep in bookingEndpoints) {
+      if (isDoctor) {
         try {
-          final bResponse = await apiConsumer.get(ep);
-          final rawList = bResponse is Map<String, dynamic> &&
-                  bResponse['data'] is List
-              ? bResponse['data'] as List<dynamic>
-              : (bResponse is List ? bResponse : <dynamic>[]);
-          for (final item in rawList.whereType<Map<String, dynamic>>()) {
-            final id = (item['id'] ?? item['_id'] ?? '').toString();
-            if (!allItems.any((e) => (e['id'] ?? e['_id'] ?? '').toString() == id)) {
-              allItems.add(item);
+          final apptResponse = await apiConsumer.get(
+            Endpoints.doctorAppointments,
+          );
+          List<dynamic> rawList = [];
+          if (apptResponse is List) {
+            rawList = apptResponse;
+          } else if (apptResponse is Map<String, dynamic>) {
+            if (apptResponse['data'] is List) {
+              rawList = apptResponse['data'] as List<dynamic>;
+            } else if (apptResponse['data'] is Map<String, dynamic> &&
+                apptResponse['data']['data'] is List) {
+              rawList = apptResponse['data']['data'] as List<dynamic>;
             }
           }
+          allItems.addAll(rawList.whereType<Map<String, dynamic>>());
+        } catch (_) {}
+      } else {
+        try {
+          final bResponse = await apiConsumer.get(Endpoints.bookings);
+          List<dynamic> rawList = [];
+          if (bResponse is List) {
+            rawList = bResponse;
+          } else if (bResponse is Map<String, dynamic>) {
+            if (bResponse['data'] is List) {
+              rawList = bResponse['data'] as List<dynamic>;
+            } else if (bResponse['data'] is Map<String, dynamic> &&
+                bResponse['data']['data'] is List) {
+              rawList = bResponse['data']['data'] as List<dynamic>;
+            }
+          }
+          allItems.addAll(rawList.whereType<Map<String, dynamic>>());
         } catch (_) {}
       }
 
-      return allItems
-          .map((e) => TransactionModel.fromJson(e))
-          .toList();
+      return allItems.map((e) => TransactionModel.fromJson(e)).toList();
     } catch (_) {
       return <TransactionModel>[];
     }

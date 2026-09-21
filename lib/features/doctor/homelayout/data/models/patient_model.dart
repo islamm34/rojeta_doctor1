@@ -27,8 +27,10 @@ class PatientModel extends Equatable {
 
   factory PatientModel.fromJson(Map<String, dynamic> json) {
     DateTime parsedDate = DateTime.now();
-    final rawDate = json['lastVisitDate'] ??
+    final rawDate =
+        json['lastVisitDate'] ??
         json['last_visit_date'] ??
+        json['last_visit_at'] ??
         json['updated_at'] ??
         json['created_at'] ??
         json['date'];
@@ -46,7 +48,8 @@ class PatientModel extends Equatable {
     }
 
     int parsedVisits = 1;
-    final rawVisits = json['visitsCount'] ??
+    final rawVisits =
+        json['visitsCount'] ??
         json['visits_count'] ??
         json['appointments_count'] ??
         json['total_visits'];
@@ -59,35 +62,32 @@ class PatientModel extends Equatable {
     String? parsedAddress;
     final rawAddress = json['address'];
     if (rawAddress is Map) {
-      parsedAddress = (rawAddress['formatted'] ??
-              rawAddress['address'] ??
-              rawAddress.toString())
-          .toString();
+      parsedAddress =
+          (rawAddress['formatted'] ??
+                  rawAddress['address'] ??
+                  rawAddress.toString())
+              .toString();
     } else if (rawAddress != null) {
       parsedAddress = rawAddress.toString();
     }
 
     return PatientModel(
-      id: (json['id'] ?? json['patient_id'] ?? json['user_id'] ?? '').toString(),
-      name: (json['name'] ??
-              json['patient_name'] ??
-              json['full_name'] ??
-              '')
+      id: (json['id'] ?? json['patient_id'] ?? json['user_id'] ?? '')
           .toString(),
-      phone: (json['phone'] ??
-              json['phone_number'] ??
-              json['mobile'] ??
-              '')
+      name: (json['name'] ?? json['patient_name'] ?? json['full_name'] ?? '')
+          .toString(),
+      phone: (json['phone'] ?? json['phone_number'] ?? json['mobile'] ?? '')
           .toString(),
       age: parsedAge,
       gender: (json['gender'] ?? json['sex'] ?? '').toString(),
       visitsCount: parsedVisits,
       lastVisitDate: parsedDate,
-      lastDiagnosis: (json['lastDiagnosis'] ??
-              json['last_diagnosis'] ??
-              json['diagnosis'] ??
-              '')
-          .toString(),
+      lastDiagnosis:
+          (json['lastDiagnosis'] ??
+                  json['last_diagnosis'] ??
+                  json['diagnosis'] ??
+                  '')
+              .toString(),
       address: parsedAddress,
       bloodGroup: (json['bloodGroup'] ?? json['blood_group'])?.toString(),
     );
@@ -110,15 +110,15 @@ class PatientModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        name,
-        phone,
-        age,
-        gender,
-        visitsCount,
-        lastVisitDate,
-        lastDiagnosis,
-        address,
-        bloodGroup,
-      ];
+    id,
+    name,
+    phone,
+    age,
+    gender,
+    visitsCount,
+    lastVisitDate,
+    lastDiagnosis,
+    address,
+    bloodGroup,
+  ];
 }

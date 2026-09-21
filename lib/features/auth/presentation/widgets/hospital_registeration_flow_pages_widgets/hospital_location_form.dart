@@ -51,20 +51,20 @@ class HospitalLocationForm extends StatelessWidget {
                   ),
                 ],
               ),
-              GestureDetector(
-                onTap: () {
-                  // ponytail: open map picker; integrate map_picker package when available.
-                },
-                child: Text(
-                  context.strings.chooseOnMap,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.primary,
-                    fontWeight: FontWeight.w600,
-                    decoration: TextDecoration.underline,
-                    fontSize: 13.sp,
-                  ),
-                ),
-              ),
+              // GestureDetector(
+              //   onTap: () {
+              //     // ponytail: open map picker; integrate map_picker package when available.
+              //   },
+              //   child: Text(
+              //     context.strings.chooseOnMap,
+              //     style: theme.textTheme.bodyMedium?.copyWith(
+              //       color: theme.colorScheme.primary,
+              //       fontWeight: FontWeight.w600,
+              //       decoration: TextDecoration.underline,
+              //       fontSize: 13.sp,
+              //     ),
+              //   ),
+              // ),
             ],
           ),
 
