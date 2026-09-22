@@ -1,42 +1,45 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../data/models/hospital_service_model.dart';
+import '../../data/models/specialty_model.dart';
+import '../../domain/repositories/i_medical_services_repository.dart';
 import 'medical_services_event.dart';
 import 'medical_services_state.dart';
-import '../../data/mocks/medical_services_mock_data.dart';
-import '../../data/models/specialty_model.dart';
 
 class MedicalServicesBloc
     extends Bloc<MedicalServicesEvent, MedicalServicesState> {
-  MedicalServicesBloc() : super(const MedicalServicesState()) {
+  final IMedicalServicesRepository repository;
+
+  MedicalServicesBloc({required this.repository})
+    : super(const MedicalServicesState()) {
     on<FetchMedicalServicesEvent>(_onFetchMedicalServices);
     on<ToggleServiceEvent>(_onToggleService);
     on<AddSpecialtyEvent>(_onAddSpecialty);
   }
 
-  void _onFetchMedicalServices(
+  Future<void> _onFetchMedicalServices(
     FetchMedicalServicesEvent event,
     Emitter<MedicalServicesState> emit,
   ) async {
     emit(state.copyWith(status: MedicalServicesStatus.loading));
 
-    // Simulate network delay
-    await Future.delayed(const Duration(milliseconds: 600));
-
-    // Start with empty specialties to show the setup flow.
-    // Replace with MedicalServicesMockData.populatedSpecialties to see populated flow.
-    final specialties = MedicalServicesMockData.emptySpecialties;
-    final services = MedicalServicesMockData.initialServices;
-
-    _emitSuccessWithCalculations(emit, specialties, services);
+    try {
+      final result = await repository.getMedicalServices();
+      _emitSuccessWithCalculations(emit, result.specialties, result.services);
+    } catch (_) {
+      emit(state.copyWith(status: MedicalServicesStatus.failure));
+    }
   }
 
-  void _onToggleService(
+  Future<void> _onToggleService(
     ToggleServiceEvent event,
     Emitter<MedicalServicesState> emit,
-  ) {
+  ) async {
     final updatedServices = state.services.map((service) {
       if (service.id == event.serviceId) {
-        return service.copyWith(isEnabled: !service.isEnabled);
+        final newStatus = !service.isEnabled;
+        repository.toggleService(service.id, newStatus);
+        return service.copyWith(isEnabled: newStatus);
       }
       return service;
     }).toList();
@@ -49,13 +52,11 @@ class MedicalServicesBloc
     );
   }
 
-  void _onAddSpecialty(
+  Future<void> _onAddSpecialty(
     AddSpecialtyEvent event,
     Emitter<MedicalServicesState> emit,
   ) async {
     emit(state.copyWith(status: MedicalServicesStatus.loading));
-
-    await Future.delayed(const Duration(milliseconds: 600));
 
     final newSpecialty = SpecialtyModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
@@ -67,10 +68,15 @@ class MedicalServicesBloc
       staffList: [],
     );
 
-    final updatedSpecialties = List<SpecialtyModel>.from(state.specialties)
-      ..add(newSpecialty);
+    try {
+      final savedSpecialty = await repository.addSpecialty(newSpecialty);
+      final updatedSpecialties = List<SpecialtyModel>.from(state.specialties)
+        ..add(savedSpecialty);
 
-    _emitSuccessWithCalculations(emit, updatedSpecialties, state.services);
+      _emitSuccessWithCalculations(emit, updatedSpecialties, state.services);
+    } catch (_) {
+      emit(state.copyWith(status: MedicalServicesStatus.failure));
+    }
   }
 
   void _emitSuccessWithCalculations(

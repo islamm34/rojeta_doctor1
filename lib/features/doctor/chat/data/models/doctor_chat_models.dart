@@ -141,46 +141,54 @@ class DoctorConversationModel extends Equatable {
 }
 
 class DoctorChatMessageModel extends Equatable {
-  final String id;
-  final String senderId;
-  final String senderRole;
-  final String content;
-  final String createdAt;
+  final String? id;
+  final String? senderId;
+  final String? receiverId;
+  final String? senderRole;
+  final String? content;
+  final String? createdAt;
+  final String? timestamp;
+  final String? status;
   final bool isMe;
 
   const DoctorChatMessageModel({
-    required this.id,
-    required this.senderId,
-    required this.senderRole,
-    required this.content,
-    required this.createdAt,
-    required this.isMe,
+    this.id,
+    this.senderId,
+    this.receiverId,
+    this.senderRole,
+    this.content,
+    this.createdAt,
+    this.timestamp,
+    this.status,
+    this.isMe = false,
   });
 
   factory DoctorChatMessageModel.fromJson(Map<String, dynamic> json) {
     final senderRole =
-        (json['senderRole'] ?? json['sender_role'] ?? json['role'] ?? '')
-            .toString();
+        (json['senderRole'] ?? json['sender_role'] ?? json['role'])?.toString();
 
-    final isMeVal =
-        json['isMe'] == true ||
-        json['is_me'] == true ||
-        senderRole.toLowerCase() == 'doctor';
+    bool isMeVal = false;
+    if (json['is_sent_by_me'] != null) {
+      isMeVal = json['is_sent_by_me'] == true;
+    } else if (json['is_me'] != null) {
+      isMeVal = json['is_me'] == true;
+    } else if (json['isMe'] != null) {
+      isMeVal = json['isMe'] == true;
+    }
 
     return DoctorChatMessageModel(
-      id: json['id']?.toString() ?? '',
-      senderId: (json['senderId'] ?? json['sender_id'] ?? json['user_id'] ?? '')
-          .toString(),
+      id: json['id']?.toString(),
+      senderId: (json['senderId'] ?? json['sender_id'] ?? json['user_id'])
+          ?.toString(),
+      receiverId: (json['receiverId'] ?? json['receiver_id'])?.toString(),
       senderRole: senderRole,
       content:
-          (json['content'] ??
-                  json['message'] ??
-                  json['body'] ??
-                  json['text'] ??
-                  '')
-              .toString(),
-      createdAt: (json['createdAt'] ?? json['created_at'] ?? json['time'] ?? '')
-          .toString(),
+          (json['content'] ?? json['message'] ?? json['body'] ?? json['text'])
+              ?.toString(),
+      createdAt: (json['createdAt'] ?? json['created_at'] ?? json['time'])
+          ?.toString(),
+      timestamp: json['timestamp']?.toString(),
+      status: json['status']?.toString(),
       isMe: isMeVal,
     );
   }
@@ -189,20 +197,52 @@ class DoctorChatMessageModel extends Equatable {
     return {
       'id': id,
       'senderId': senderId,
+      'receiverId': receiverId,
       'senderRole': senderRole,
       'content': content,
       'createdAt': createdAt,
+      'timestamp': timestamp,
+      'status': status,
       'isMe': isMe,
+      'is_sent_by_me': isMe,
+      'is_me': isMe,
     };
+  }
+
+  DoctorChatMessageModel copyWith({
+    String? id,
+    String? senderId,
+    String? receiverId,
+    String? senderRole,
+    String? content,
+    String? createdAt,
+    String? timestamp,
+    String? status,
+    bool? isMe,
+  }) {
+    return DoctorChatMessageModel(
+      id: id ?? this.id,
+      senderId: senderId ?? this.senderId,
+      receiverId: receiverId ?? this.receiverId,
+      senderRole: senderRole ?? this.senderRole,
+      content: content ?? this.content,
+      createdAt: createdAt ?? this.createdAt,
+      timestamp: timestamp ?? this.timestamp,
+      status: status ?? this.status,
+      isMe: isMe ?? this.isMe,
+    );
   }
 
   @override
   List<Object?> get props => [
     id,
     senderId,
+    receiverId,
     senderRole,
     content,
     createdAt,
+    timestamp,
+    status,
     isMe,
   ];
 }

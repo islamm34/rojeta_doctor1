@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import '../../../../../../config/routes/app_router.dart';
 import '../../../../../../core/local/user_hive_helper.dart';
 import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
@@ -6,8 +8,13 @@ import '../../../../../../core/utils/screen_util_like.dart';
 
 class HospitalHomeHeader extends StatelessWidget {
   final VoidCallback? onNotificationTap;
+  final int unreadNotificationsCount;
 
-  const HospitalHomeHeader({super.key, this.onNotificationTap});
+  const HospitalHomeHeader({
+    super.key,
+    this.onNotificationTap,
+    this.unreadNotificationsCount = 0,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +24,8 @@ class HospitalHomeHeader extends StatelessWidget {
     final hospitalName = (cachedUser?.name?.isNotEmpty == true)
         ? cachedUser!.name!
         : ((cachedUser?.firstName?.isNotEmpty == true)
-            ? cachedUser!.firstName!
-            : context.strings.hospital);
+              ? cachedUser!.firstName!
+              : context.strings.hospital);
 
     return Container(
       width: double.infinity,
@@ -26,14 +33,9 @@ class HospitalHomeHeader extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            AppColors.headerGradientStart,
-            AppColors.headerGradientEnd,
-          ],
+          colors: [AppColors.headerGradientStart, AppColors.headerGradientEnd],
         ),
-        borderRadius: BorderRadius.vertical(
-          bottom: Radius.circular(24.r),
-        ),
+        borderRadius: BorderRadius.vertical(bottom: Radius.circular(24.r)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,33 +116,38 @@ class HospitalHomeHeader extends StatelessWidget {
                           Icons.notifications_none_outlined,
                           color: Colors.white,
                         ),
-                        onPressed: onNotificationTap ?? () {},
+                        onPressed:
+                            onNotificationTap ??
+                            () => context.pushNamed(AppRoutes.notifications),
                       ),
                     ),
-                    Positioned(
-                      top: -4.h,
-                      right: -4.w,
-                      child: Container(
-                        padding: EdgeInsets.all(4.w),
-                        decoration: const BoxDecoration(
-                          color: Colors.red,
-                          shape: BoxShape.circle,
-                        ),
-                        constraints: BoxConstraints(
-                          minWidth: 16.w,
-                          minHeight: 16.h,
-                        ),
-                        child: Text(
-                          '4',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 9.sp,
-                            fontWeight: FontWeight.bold,
+                    if (unreadNotificationsCount > 0)
+                      Positioned(
+                        top: -4.h,
+                        right: -4.w,
+                        child: Container(
+                          padding: EdgeInsets.all(4.w),
+                          decoration: const BoxDecoration(
+                            color: Colors.red,
+                            shape: BoxShape.circle,
                           ),
-                          textAlign: TextAlign.center,
+                          constraints: BoxConstraints(
+                            minWidth: 16.w,
+                            minHeight: 16.h,
+                          ),
+                          child: Text(
+                            unreadNotificationsCount > 99
+                                ? '99+'
+                                : unreadNotificationsCount.toString(),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 9.sp,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
-                    ),
                   ],
                 ),
               ],

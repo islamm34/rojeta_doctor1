@@ -110,4 +110,11 @@ class Endpoints {
   static const String getNursingProfile = '/nursing/profile';
   static const String getNursingWorkingHours = '/nursing/working-hours';
   static const String getNursingSettings = '/nursing/settings';
+
+  // --- Support & Admin Chat Endpoints ---
+  static const String supportContact = '/support/contact';
+  static const String supportChatAdmin = '/support/chat/admin';
+
+  // --- Hospital Endpoints ---
+  static const String hospitalDashboard = '/hospital/dashboard';
 }

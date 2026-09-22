@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:rojeta_doctor/config/routes/app_router.dart';
+import 'package:rojeta_doctor/features/hospital/medical_services/presentation/widgets/specialty_staff_item.dart';
+
+import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
-import '../../../../../../core/utils/app_colors.dart';
 import '../../data/models/specialty_model.dart';
-import '../../data/models/staff_model.dart';
 
 class SpecialtyCard extends StatefulWidget {
   final SpecialtyModel specialty;
@@ -28,7 +29,7 @@ class _SpecialtyCardState extends State<SpecialtyCard> {
         border: Border.all(color: Colors.grey[200]!),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.02),
+            color: Colors.black.withValues(alpha: 0.02),
             blurRadius: 5,
             offset: const Offset(0, 2),
           ),
@@ -148,7 +149,7 @@ class _SpecialtyCardState extends State<SpecialtyCard> {
                   ),
                   SizedBox(height: 12.h),
                   ...widget.specialty.staffList.map(
-                    (staff) => _buildStaffItem(context, staff),
+                    (staff) => SpecialtyStaffItem(staff: staff),
                   ),
                   if (widget.specialty.staffList.isNotEmpty)
                     Center(
@@ -164,55 +165,6 @@ class _SpecialtyCardState extends State<SpecialtyCard> {
               ),
             ),
           ],
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStaffItem(BuildContext context, StaffModel staff) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 12.h),
-      child: Row(
-        children: [
-          CircleAvatar(
-            radius: 20.r,
-            backgroundImage: staff.imagePath != null
-                ? AssetImage(staff.imagePath!)
-                : null,
-            child: staff.imagePath == null ? const Icon(Icons.person) : null,
-          ),
-          SizedBox(width: 12.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  staff.name,
-                  style: context.textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  '${staff.price} . ${staff.availability}',
-                  style: context.textTheme.bodySmall?.copyWith(
-                    color: Colors.grey[600],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          IconButton(
-            icon: const Icon(Icons.edit_outlined, color: Colors.grey, size: 20),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: const Icon(
-              Icons.person_outline,
-              color: Colors.grey,
-              size: 20,
-            ),
-            onPressed: () {},
-          ),
         ],
       ),
     );

@@ -7,8 +7,15 @@ import '../../../../data/models/home_visit_config_model.dart';
 
 class HomeVisitSlotCard extends StatelessWidget {
   final TimeSlotModel slot;
+  final VoidCallback? onTap;
+  final VoidCallback? onDelete;
 
-  const HomeVisitSlotCard({super.key, required this.slot});
+  const HomeVisitSlotCard({
+    super.key,
+    required this.slot,
+    this.onTap,
+    this.onDelete,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -41,50 +48,78 @@ class HomeVisitSlotCard extends StatelessWidget {
         ? '${parts[1]} SLOT'
         : (slot.amPm.isNotEmpty ? slot.amPm : '');
 
-    return Container(
-      width: 72.w,
-      padding: EdgeInsets.symmetric(vertical: 12.h),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.r),
-        border: Border.all(color: borderColor),
-      ),
-      child: Column(
-        children: [
-          Text(
-            displayTime,
-            style: context.textTheme.titleMedium?.copyWith(
-              color: slot.status == TimeSlotStatus.disabled
-                  ? const Color(0xFF7A8FA6)
-                  : const Color(0xFF1877F2),
-            ),
-          ),
-          SizedBox(height: 2.h),
-          Text(
-            displayAmPm,
-            style: context.textTheme.labelSmall?.copyWith(
-              color: const Color(0xFF7A8FA6),
-              fontWeight: FontWeight.bold,
-              fontSize: 9.sp,
-            ),
-          ),
-          SizedBox(height: 8.h),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        GestureDetector(
+          onTap: onTap,
+          child: Container(
+            width: 72.w,
+            padding: EdgeInsets.symmetric(vertical: 12.h),
             decoration: BoxDecoration(
-              color: statusBgColor,
-              borderRadius: BorderRadius.circular(4.r),
+              borderRadius: BorderRadius.circular(8.r),
+              border: Border.all(color: borderColor),
             ),
-            child: Text(
-              slot.status.name.toUpperCase(),
-              style: TextStyle(
-                color: statusTextColor,
-                fontSize: 8.sp,
-                fontWeight: FontWeight.bold,
+            child: Column(
+              children: [
+                Text(
+                  displayTime,
+                  style: context.textTheme.titleMedium?.copyWith(
+                    color: slot.status == TimeSlotStatus.disabled
+                        ? const Color(0xFF7A8FA6)
+                        : const Color(0xFF1877F2),
+                  ),
+                ),
+                SizedBox(height: 2.h),
+                Text(
+                  displayAmPm,
+                  style: context.textTheme.labelSmall?.copyWith(
+                    color: const Color(0xFF7A8FA6),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 9.sp,
+                  ),
+                ),
+                SizedBox(height: 8.h),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
+                  decoration: BoxDecoration(
+                    color: statusBgColor,
+                    borderRadius: BorderRadius.circular(4.r),
+                  ),
+                  child: Text(
+                    slot.status.name.toUpperCase(),
+                    style: TextStyle(
+                      color: statusTextColor,
+                      fontSize: 8.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        if (onDelete != null)
+          Positioned(
+            top: 2.h,
+            right: 2.w,
+            child: GestureDetector(
+              onTap: onDelete,
+              child: Container(
+                padding: EdgeInsets.all(2.r),
+                decoration: BoxDecoration(
+                  color: Colors.black.withValues(alpha: 0.05),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.close,
+                  size: 12.r,
+                  color: const Color(0xFF7A8FA6),
+                ),
               ),
             ),
           ),
-        ],
-      ),
+      ],
     );
   }
 }

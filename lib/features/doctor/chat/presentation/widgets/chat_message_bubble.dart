@@ -36,7 +36,7 @@ class ChatMessageBubble extends StatelessWidget {
               : CrossAxisAlignment.start,
           children: [
             Text(
-              message.content,
+              message.content ?? '',
               style: TextStyle(
                 color: isMe ? Colors.white : Colors.black87,
                 fontSize: 14,
@@ -44,11 +44,7 @@ class ChatMessageBubble extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              TimeFormatter.formatDateTime(
-                message.createdAt,
-                null,
-                context: context,
-              ),
+              _formatTimestamp(context, message.createdAt ?? message.timestamp),
               style: TextStyle(
                 color: isMe ? Colors.white70 : Colors.grey.shade500,
                 fontSize: 10,
@@ -58,5 +54,40 @@ class ChatMessageBubble extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _formatTimestamp(BuildContext context, String? raw) {
+    if (raw == null || raw.trim().isEmpty) return '';
+    final trimmed = raw.trim();
+
+    final parsed = DateTime.tryParse(trimmed);
+    if (parsed != null) {
+      final local = parsed.toLocal();
+      final hasTimeComponent = trimmed.contains(':') || trimmed.contains('T');
+      if (hasTimeComponent) {
+        final timeStr =
+            '${local.hour.toString().padLeft(2, '0')}:${local.minute.toString().padLeft(2, '0')}';
+        return TimeFormatter.formatDateTime(local, timeStr, context: context);
+      } else {
+        return TimeFormatter.formatDate(local, context: context);
+      }
+    }
+
+    final parts = trimmed.split(RegExp(r'\s+'));
+    if (parts.length >= 2 && parts.any((p) => p.contains(':'))) {
+      final datePart = parts[0];
+      final timePart = parts.sublist(1).join(' ');
+      return TimeFormatter.formatDateTime(datePart, timePart, context: context);
+    }
+
+    final formattedTime = TimeFormatter.formatTo12Hour(
+      trimmed,
+      context: context,
+    );
+    if (formattedTime.isNotEmpty && formattedTime != trimmed) {
+      return formattedTime;
+    }
+
+    return TimeFormatter.formatDateTime(trimmed, null, context: context);
   }
 }

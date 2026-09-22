@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rojeta_doctor/config/routes/app_router.dart';
 import 'package:rojeta_doctor/core/utils/app_colors.dart';
+
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
 import '../../../../../../shared/widgets/quick_action_card.dart';
@@ -33,7 +34,7 @@ class HospitalQuickActionsGrid extends StatelessWidget {
           children: [
             QuickActionCard(
               title: context.strings.appointments,
-              subtitle: 'Manage bookings',
+              subtitle: context.strings.manageBookings,
               icon: Icons.calendar_today_outlined,
               backgroundColor: AppColors.actionAppointments,
               onTap: onAppointmentsTap ?? () {},

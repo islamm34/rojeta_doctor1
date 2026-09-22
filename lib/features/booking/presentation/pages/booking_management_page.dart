@@ -112,13 +112,17 @@ class BookingManagementPage extends StatelessWidget {
                               RejectBookingEvent(bookingId: booking.id ?? ''),
                             ),
                             onViewDetails: () {
+                              final bookingBloc = context.read<BookingBloc>();
                               showModalBottomSheet(
                                 context: context,
                                 isScrollControlled: true,
                                 backgroundColor: Colors.transparent,
-                                builder: (_) => BookingDetailsBottomSheet(
-                                  booking: booking,
-                                  userType: userType,
+                                builder: (_) => BlocProvider.value(
+                                  value: bookingBloc,
+                                  child: BookingDetailsBottomSheet(
+                                    booking: booking,
+                                    userType: userType,
+                                  ),
                                 ),
                               );
                             },

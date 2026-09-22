@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
 import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
+
 import '../../../../data/models/home_visit_config_model.dart';
-import 'home_visit_slot_tab.dart';
-import 'home_visit_slot_card.dart';
 import 'home_visit_add_slot_card.dart';
+import 'home_visit_slot_card.dart';
+import 'home_visit_slot_tab.dart';
 
 class AvailableTimeSlotsCard extends StatelessWidget {
   final List<TimeSlotModel> slots;
   final bool isWeekdaysTabActive;
   final ValueChanged<bool> onTabChanged;
   final VoidCallback? onAddSlot;
+  final ValueChanged<int>? onDeleteSlot;
+  final ValueChanged<int>? onToggleSlotStatus;
 
   const AvailableTimeSlotsCard({
     super.key,
@@ -18,6 +21,8 @@ class AvailableTimeSlotsCard extends StatelessWidget {
     required this.isWeekdaysTabActive,
     required this.onTabChanged,
     this.onAddSlot,
+    this.onDeleteSlot,
+    this.onToggleSlotStatus,
   });
 
   @override
@@ -83,7 +88,13 @@ class AvailableTimeSlotsCard extends StatelessWidget {
             spacing: 12.w,
             runSpacing: 12.h,
             children: [
-              ...slots.map((slot) => HomeVisitSlotCard(slot: slot)),
+              ...slots.asMap().entries.map(
+                (entry) => HomeVisitSlotCard(
+                  slot: entry.value,
+                  onTap: () => onToggleSlotStatus?.call(entry.key),
+                  onDelete: () => onDeleteSlot?.call(entry.key),
+                ),
+              ),
               HomeVisitAddSlotCard(onTap: onAddSlot),
             ],
           ),

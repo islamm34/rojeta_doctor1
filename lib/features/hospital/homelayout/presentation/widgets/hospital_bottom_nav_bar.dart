@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
+import 'hospital_bottom_nav_item.dart';
 
 class HospitalBottomNavBar extends StatelessWidget {
   final int selectedIndex;
@@ -30,70 +32,37 @@ class HospitalBottomNavBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildNavItem(
-            context,
+          HospitalBottomNavItem(
             index: 0,
+            isSelected: selectedIndex == 0,
             icon: selectedIndex == 0 ? Icons.home : Icons.home_outlined,
-            label: context.strings.home, 
+            label: context.strings.home,
+            onTap: onDestinationSelected,
           ),
-          _buildNavItem(
-            context,
+          HospitalBottomNavItem(
             index: 1,
-            icon: selectedIndex == 1 ? Icons.calendar_today : Icons.calendar_today_outlined,
+            isSelected: selectedIndex == 1,
+            icon: selectedIndex == 1
+                ? Icons.calendar_today
+                : Icons.calendar_today_outlined,
             label: context.strings.appointments,
+            onTap: onDestinationSelected,
           ),
-          _buildNavItem(
-            context,
+          HospitalBottomNavItem(
             index: 2,
-            icon: selectedIndex == 2 ? Icons.grid_view : Icons.grid_view_outlined,
+            isSelected: selectedIndex == 2,
+            icon: selectedIndex == 2
+                ? Icons.grid_view
+                : Icons.grid_view_outlined,
             label: context.strings.depts,
+            onTap: onDestinationSelected,
           ),
-          _buildNavItem(
-            context,
+          HospitalBottomNavItem(
             index: 3,
+            isSelected: selectedIndex == 3,
             icon: selectedIndex == 3 ? Icons.settings : Icons.settings_outlined,
             label: context.strings.settings,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildNavItem(
-    BuildContext context, {
-    required int index,
-    required IconData icon,
-    required String label,
-  }) {
-    final isSelected = selectedIndex == index;
-    return GestureDetector(
-      onTap: () => onDestinationSelected(index),
-      behavior: HitTestBehavior.opaque,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 200),
-            height: 3.h,
-            width: 25.w,
-            decoration: BoxDecoration(
-              color: isSelected ? context.colors.primary : Colors.transparent,
-              borderRadius: BorderRadius.circular(2.r),
-            ),
-          ),
-          10.ver,
-          Icon(
-            icon,
-            color: isSelected ? context.colors.primary : Colors.grey.shade600,
-            size: 28.r,
-          ),
-          4.ver,
-          Text(
-            label,
-            style: context.textTheme.bodySmall?.copyWith(
-              color: isSelected ? context.colors.primary : Colors.grey.shade600,
-              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-            ),
+            onTap: onDestinationSelected,
           ),
         ],
       ),

@@ -31,12 +31,12 @@ class HomeVisitAddSlotCard extends StatelessWidget {
             ),
             SizedBox(height: 4.h),
             Text(
-              'NEW SLOT',
+              context.strings.addSlot.toUpperCase(),
               style: context.textTheme.labelSmall?.copyWith(
-                    color: const Color(0xFF7A8FA6),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 9.sp,
-                  ),
+                color: const Color(0xFF7A8FA6),
+                fontWeight: FontWeight.bold,
+                fontSize: 9.sp,
+              ),
             ),
           ],
         ),

@@ -8,6 +8,7 @@ import 'package:rojeta_doctor/features/lab&radiology/homelayout/presentation/blo
 
 import '../../../../../../core/di/injector.dart';
 import '../../../../../../features/auth/data/models/user_type_model.dart';
+import '../../../../../../shared/models/time_slot_model.dart';
 import 'widgets/available_time_slots_card.dart';
 import 'widgets/fee_input_card.dart';
 import 'widgets/service_areas_card.dart';
@@ -55,7 +56,9 @@ class HomeVisitsView extends StatelessWidget {
         listener: (context, state) {
           if (state.status == HomeVisitsStatus.saveSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(context.strings.settingsSavedSuccessfully)),
+              SnackBar(
+                content: Text(context.strings.settingsSavedSuccessfully),
+              ),
             );
           }
         },
@@ -131,8 +134,50 @@ class HomeVisitsView extends StatelessWidget {
                           ToggleWeekdaysTab(isWeekdays: isWeekdays),
                         );
                       },
-                      onAddSlot: () {
-                        // ponytail: implement add slot
+                      onAddSlot: () async {
+                        final picked = await showTimePicker(
+                          context: context,
+                          initialTime: const TimeOfDay(hour: 9, minute: 0),
+                        );
+                        if (picked != null && context.mounted) {
+                          final isWeekdays = config.isWeekdaysTabActive ?? true;
+                          final h = picked.hour.toString().padLeft(2, '0');
+                          final m = picked.minute.toString().padLeft(2, '0');
+                          final time24 = '$h:$m';
+                          final amPm = picked.hour >= 12 ? 'PM' : 'AM';
+
+                          final slot = TimeSlotModel(
+                            time: time24,
+                            startTime: time24,
+                            amPm: amPm,
+                            status: TimeSlotStatus.active,
+                          );
+
+                          context.read<HomeVisitsBloc>().add(
+                            AddHomeVisitTimeSlot(
+                              slot: slot,
+                              isWeekday: isWeekdays,
+                            ),
+                          );
+                        }
+                      },
+                      onDeleteSlot: (index) {
+                        final isWeekdays = config.isWeekdaysTabActive ?? true;
+                        context.read<HomeVisitsBloc>().add(
+                          RemoveHomeVisitTimeSlot(
+                            index: index,
+                            isWeekday: isWeekdays,
+                          ),
+                        );
+                      },
+                      onToggleSlotStatus: (index) {
+                        final isWeekdays = config.isWeekdaysTabActive ?? true;
+                        context.read<HomeVisitsBloc>().add(
+                          ToggleHomeVisitTimeSlotStatus(
+                            index: index,
+                            isWeekday: isWeekdays,
+                          ),
+                        );
                       },
                     ),
                   ],

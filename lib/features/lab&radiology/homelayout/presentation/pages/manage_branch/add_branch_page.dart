@@ -160,29 +160,31 @@ class _AddBranchPageState extends State<AddBranchPage> {
                           : null,
                     ),
                     SizedBox(height: 16.h),
-                    OutlinedButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(Icons.map, color: Color(0xFF1877F2)),
-                      label: Text(
-                        context.strings.locationOnMap,
-                        style: const TextStyle(color: Color(0xFF1877F2)),
-                      ),
-                      style: OutlinedButton.styleFrom(
-                        minimumSize: Size(double.infinity, 48.h),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8.r),
-                        ),
-                        side: const BorderSide(color: Color(0xFF1877F2)),
-                      ),
-                    ),
-                    SizedBox(height: 24.h),
+                    // OutlinedButton.icon(
+                    //   onPressed: () {},
+                    //   icon: const Icon(Icons.map, color: Color(0xFF1877F2)),
+                    //   label: Text(
+                    //     context.strings.locationOnMap,
+                    //     style: const TextStyle(color: Color(0xFF1877F2)),
+                    //   ),
+                    //   style: OutlinedButton.styleFrom(
+                    //     minimumSize: Size(double.infinity, 48.h),
+                    //     shape: RoundedRectangleBorder(
+                    //       borderRadius: BorderRadius.circular(8.r),
+                    //     ),
+                    //     side: const BorderSide(color: Color(0xFF1877F2)),
+                    //   ),
+                    // ),
+                    // SizedBox(height: 24.h),
                     AddBranchSectionTitle(
                       title: context.strings.locationWorkingHours,
                     ),
                     SizedBox(height: 8.h),
                     DropdownButtonFormField<String>(
                       initialValue: _selectedWorkingHours,
-                      decoration: _inputDecoration(context.strings.selectWorkingHours),
+                      decoration: _inputDecoration(
+                        context.strings.selectWorkingHours,
+                      ),
                       items: _workingHoursOptions
                           .map(
                             (hours) => DropdownMenuItem(

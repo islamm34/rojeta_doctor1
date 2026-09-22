@@ -20,8 +20,13 @@ class ServiceAreaModel extends Equatable {
     return ServiceAreaModel(
       id: (json['id'] ?? json['_id'])?.toString(),
       name: (json['name'] ?? json['area_name'] ?? json['city']) as String?,
-      radiusKm: (json['radiusKm'] ?? json['radius_km'] ?? json['radius']) as int?,
-      techsAvailable: (json['techsAvailable'] ?? json['techs_available'] ?? json['staff_count']) as int?,
+      radiusKm:
+          (json['radiusKm'] ?? json['radius_km'] ?? json['radius']) as int?,
+      techsAvailable:
+          (json['techsAvailable'] ??
+                  json['techs_available'] ??
+                  json['staff_count'])
+              as int?,
     );
   }
 
@@ -58,9 +63,12 @@ class HomeVisitConfigModel extends Equatable {
   });
 
   factory HomeVisitConfigModel.fromJson(Map<String, dynamic> json) {
-    final rawAreas = json['serviceAreas'] ?? json['service_areas'] ?? json['areas'];
-    final rawWeekdaySlots = json['weekdaySlots'] ?? json['weekday_slots'] ?? json['weekdays'];
-    final rawWeekendSlots = json['weekendSlots'] ?? json['weekend_slots'] ?? json['weekends'];
+    final rawAreas =
+        json['serviceAreas'] ?? json['service_areas'] ?? json['areas'];
+    final rawWeekdaySlots =
+        json['weekdaySlots'] ?? json['weekday_slots'] ?? json['weekdays'];
+    final rawWeekendSlots =
+        json['weekendSlots'] ?? json['weekend_slots'] ?? json['weekends'];
 
     return HomeVisitConfigModel(
       isServiceVisible:
@@ -70,24 +78,47 @@ class HomeVisitConfigModel extends Equatable {
           false,
       serviceAreas: (rawAreas is List)
           ? rawAreas
-              .whereType<Map<String, dynamic>>()
-              .map((e) => ServiceAreaModel.fromJson(e))
-              .toList()
+                .whereType<Map<String, dynamic>>()
+                .map((e) => ServiceAreaModel.fromJson(e))
+                .toList()
           : const [],
-      collectionFee: (json['collectionFee'] ?? json['collection_fee'] ?? json['fee'] as num?)?.toDouble() ?? 0.0,
+      collectionFee:
+          (json['collectionFee'] ??
+                  json['collection_fee'] ??
+                  json['fee'] as num?)
+              ?.toDouble() ??
+          0.0,
       minimumBookingAmount:
-          (json['minimumBookingAmount'] ?? json['minimum_booking_amount'] ?? json['min_amount'] as num?)?.toDouble() ?? 0.0,
+          (json['minimumBookingAmount'] ??
+                  json['minimum_booking_amount'] ??
+                  json['min_amount'] as num?)
+              ?.toDouble() ??
+          0.0,
       weekdaySlots: (rawWeekdaySlots is List)
           ? rawWeekdaySlots
-              .whereType<Map<String, dynamic>>()
-              .map((e) => TimeSlotModel.fromJson(e))
-              .toList()
+                .map((e) {
+                  if (e is Map<String, dynamic>) {
+                    return TimeSlotModel.fromJson(e);
+                  } else if (e is String) {
+                    return TimeSlotModel(time: e, startTime: e);
+                  }
+                  return null;
+                })
+                .whereType<TimeSlotModel>()
+                .toList()
           : const [],
       weekendSlots: (rawWeekendSlots is List)
           ? rawWeekendSlots
-              .whereType<Map<String, dynamic>>()
-              .map((e) => TimeSlotModel.fromJson(e))
-              .toList()
+                .map((e) {
+                  if (e is Map<String, dynamic>) {
+                    return TimeSlotModel.fromJson(e);
+                  } else if (e is String) {
+                    return TimeSlotModel(time: e, startTime: e);
+                  }
+                  return null;
+                })
+                .whereType<TimeSlotModel>()
+                .toList()
           : const [],
       isWeekdaysTabActive: json['isWeekdaysTabActive'] as bool? ?? true,
     );

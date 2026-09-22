@@ -8,11 +8,13 @@ import '../../features/booking/di/booking_di.dart';
 import '../../features/doctor/chat/di/chat_injector.dart';
 import '../../features/doctor/profile/di/profile_injector.dart';
 import '../../features/financial/di/financial_injector.dart';
+import '../../features/hospital/homelayout/di/hospital_injector.dart';
 import '../../features/hospital/medical_services/di/medical_services_injector.dart';
 import '../../features/hospital/settings/di/settings_injector.dart';
 import '../../features/lab&radiology/homelayout/di/lab_homelayout_injector.dart';
 import '../../features/lab&radiology/settings/di/settings_di.dart';
 import '../../features/nursing/homelayout/di/nursing_injector.dart';
+import '../../features/support/di/support_injector.dart';
 import '../network/api_consumer.dart';
 import '../network/dio_client.dart';
 import '../utils/firebase_messaging_service.dart';
@@ -37,6 +39,7 @@ Future<void> setupInjector() async {
   await initHomelayoutInjector();
   await initDoctorProfileInjector();
   await initFinancialInjector();
+  await initHospitalInjector();
   await initMedicalServicesInjector();
   await initSettingsInjector();
   await initLabHomeLayoutInjector();
@@ -44,5 +47,6 @@ Future<void> setupInjector() async {
   initSettingsDI();
   await initDoctorChatInjector();
   await initNursingInjector();
+  await initSupportInjector();
   // ... add other feature injectors
 }
