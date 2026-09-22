@@ -27,11 +27,14 @@ class _LabInfoPageState extends State<LabInfoPage> {
   final _descriptionController = TextEditingController();
 
   bool _hasUnsavedChanges = false;
+  bool _isPopulating = false;
 
   @override
   void initState() {
     super.initState();
-    context.read<SettingsBloc>().add(LoadLabInfoEvent());
+    final bloc = context.read<SettingsBloc>();
+    _populateData(bloc.state);
+    bloc.add(LoadLabInfoEvent());
 
     _nameController.addListener(_onTextChanged);
     _licenseController.addListener(_onTextChanged);
@@ -41,7 +44,7 @@ class _LabInfoPageState extends State<LabInfoPage> {
   }
 
   void _onTextChanged() {
-    if (!_hasUnsavedChanges) {
+    if (!_isPopulating && !_hasUnsavedChanges) {
       setState(() {
         _hasUnsavedChanges = true;
       });
@@ -50,6 +53,12 @@ class _LabInfoPageState extends State<LabInfoPage> {
 
   @override
   void dispose() {
+    _nameController.removeListener(_onTextChanged);
+    _licenseController.removeListener(_onTextChanged);
+    _emailController.removeListener(_onTextChanged);
+    _phoneController.removeListener(_onTextChanged);
+    _descriptionController.removeListener(_onTextChanged);
+
     _nameController.dispose();
     _licenseController.dispose();
     _emailController.dispose();
@@ -60,11 +69,13 @@ class _LabInfoPageState extends State<LabInfoPage> {
 
   void _populateData(SettingsState state) {
     if (state.labInfo != null && !_hasUnsavedChanges) {
+      _isPopulating = true;
       _nameController.text = state.labInfo!.labName ?? '';
       _licenseController.text = state.labInfo!.licenseNumber ?? '';
       _emailController.text = state.labInfo!.primaryContactEmail ?? '';
       _phoneController.text = state.labInfo!.phoneNumber ?? '';
       _descriptionController.text = state.labInfo!.laboratoryDescription ?? '';
+      _isPopulating = false;
     }
   }
 
@@ -91,12 +102,14 @@ class _LabInfoPageState extends State<LabInfoPage> {
     if (state.labInfo != null) {
       setState(() {
         _hasUnsavedChanges = false;
+        _isPopulating = true;
         _nameController.text = state.labInfo!.labName ?? '';
         _licenseController.text = state.labInfo!.licenseNumber ?? '';
         _emailController.text = state.labInfo!.primaryContactEmail ?? '';
         _phoneController.text = state.labInfo!.phoneNumber ?? '';
         _descriptionController.text =
             state.labInfo!.laboratoryDescription ?? '';
+        _isPopulating = false;
       });
     }
   }
@@ -131,11 +144,12 @@ class _LabInfoPageState extends State<LabInfoPage> {
                 content: Text(state.errorMessage ?? context.strings.error),
               ),
             );
+          } else if (state.status == SettingsStatus.success ||
+              state.labInfo != null) {
+            _populateData(state);
           }
         },
         builder: (context, state) {
-          _populateData(state);
-
           if (state.labInfo == null) {
             return const Center(child: CircularProgressIndicator());
           }

@@ -56,14 +56,27 @@ class NursingStaffCard extends StatelessWidget {
                     width: 60.w,
                     height: 60.w,
                     decoration: BoxDecoration(
+                      color: const Color(0xFFEFF6FF),
                       borderRadius: BorderRadius.circular(12.r),
-                      image: DecorationImage(
-                        image: NetworkImage(
-                          staff.imageUrl ?? 'https://i.pravatar.cc/150?img=1',
-                        ),
-                        fit: BoxFit.cover,
-                      ),
                     ),
+                    clipBehavior: Clip.antiAlias,
+                    child:
+                        staff.imageUrl != null &&
+                            staff.imageUrl!.startsWith('http')
+                        ? Image.network(
+                            staff.imageUrl!,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) => Icon(
+                              Icons.person,
+                              color: const Color(0xFF0EA5E9),
+                              size: 30.w,
+                            ),
+                          )
+                        : Icon(
+                            Icons.person,
+                            color: const Color(0xFF0EA5E9),
+                            size: 30.w,
+                          ),
                   ),
                   Positioned(
                     bottom: -2,

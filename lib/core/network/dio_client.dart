@@ -70,7 +70,13 @@ class DioClient implements ApiConsumer {
           log('📄 [DATA]: ${response.data}');
 
           // Show global success snackbar if a valid string 'message' is present
-          if (response.data is Map && response.data['message'] != null) {
+          final isSilent =
+              response.requestOptions.extra['silent'] == true ||
+              response.requestOptions.path.contains('device-token');
+
+          if (!isSilent &&
+              response.data is Map &&
+              response.data['message'] != null) {
             final message = response.data['message'];
             if (message is String && message.isNotEmpty) {
               final context = RojetaDoctorApp.navigatorKey.currentContext;
@@ -89,6 +95,14 @@ class DioClient implements ApiConsumer {
           log('💬 MESSAGE: ${e.message}');
           if (e.response?.data != null) {
             log('📥 ERROR DATA: ${e.response?.data}');
+          }
+
+          final isSilent =
+              e.requestOptions.extra['silent'] == true ||
+              e.requestOptions.path.contains('device-token');
+
+          if (isSilent) {
+            return handler.next(e);
           }
 
           final context = RojetaDoctorApp.navigatorKey.currentContext;
@@ -132,8 +146,8 @@ class DioClient implements ApiConsumer {
             }
           }
 
-          if (e.response?.statusCode == 401 || e.response?.statusCode == 403) {
-            log('🚫 [AUTH] 401/403 Unauthorized - Triggering session clear.');
+          if (e.response?.statusCode == 401) {
+            log('🚫 [AUTH] 401 Unauthorized - Triggering session clear.');
             FlutterSecureStorageHelper.clearAll();
             UserHiveHelper.clearSession();
 

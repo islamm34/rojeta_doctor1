@@ -7,6 +7,9 @@ import 'package:rojeta_doctor/core/utils/flutter_secure_storage_helper.dart';
 import 'package:rojeta_doctor/core/utils/snackbar_helper.dart';
 import 'package:rojeta_doctor/features/auth/data/models/user_type_model.dart';
 
+import '../di/injector.dart';
+import 'firebase_messaging_service.dart';
+
 class RoleNavigationHelper {
   static void navigateToRoleDashboard(
     BuildContext context, {
@@ -23,6 +26,15 @@ class RoleNavigationHelper {
         context.pushReplacementNamed(AppRoutes.login);
       }
       return;
+    }
+
+    // Register FCM device token with backend asynchronously
+    try {
+      if (injector.isRegistered<FirebaseMessagingService>()) {
+        injector<FirebaseMessagingService>().sendDeviceTokenToBackend();
+      }
+    } catch (e) {
+      debugPrint('⚠️ [FCM] Failed to trigger sendDeviceTokenToBackend: $e');
     }
 
     final userRole = currentUser?.role?.toLowerCase().trim() ?? '';

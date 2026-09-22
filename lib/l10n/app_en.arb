@@ -914,5 +914,16 @@
   "settingsDesc": "App preferences and security",
   "manageStaffSubtitle": "Manage and organize your nursing professionals.",
   "addService": "Add Service",
-  "manageServicesSubtitle": "Manage services, prices, and availability."
+  "manageServicesSubtitle": "Manage services, prices, and availability.",
+  "rojetaDoctor": "Rojeta Doctor",
+  "versionBuildInfo": "Version 1.0.0 (Build 100)",
+  "aboutDoctorAppDescription": "Rojeta is an integrated medical practice management solution for healthcare providers, doctors, and clinics to manage bookings, patient records, and financial settlements effortlessly.",
+  "faqManageScheduleQuestion": "How do I manage my clinic schedule?",
+  "faqManageScheduleAnswer": "You can go to the Schedule Management screen from your home dashboard to set working days, time slots, and vacations.",
+  "faqCashPaymentsQuestion": "How are cash payments confirmed?",
+  "faqCashPaymentsAnswer": "When a patient arrives with a cash booking, open the appointment details and tap \"Confirm Cash Payment\" once payment is received.",
+  "faqEarningsPayoutQuestion": "When do I receive my earnings payout?",
+  "faqEarningsPayoutAnswer": "Payouts are calculated from completed bookings and processed according to your payout cycle in Financial Management.",
+  "faqUpdateProfileQuestion": "How do I update my profile details?",
+  "faqUpdateProfileAnswer": "Navigate to the Profile tab to edit your medical title, bio, consultation fees, and clinic locations."
 }

@@ -69,7 +69,7 @@ class NursingSettingsPage extends StatelessWidget {
                     NursingSettingsSwitchItem(
                       title: strings.emailNotifications,
                       subtitle: strings.emailNotificationsDesc,
-                      value: settings.emailNotifications ?? true,
+                      value: settings.emailNotifications,
                       onChanged: (val) {
                         updateSettings(
                           settings.copyWith(emailNotifications: val),
@@ -84,7 +84,7 @@ class NursingSettingsPage extends StatelessWidget {
                     NursingSettingsSwitchItem(
                       title: strings.smsNotifications,
                       subtitle: strings.smsNotificationsDesc,
-                      value: settings.bookingUpdates ?? true,
+                      value: settings.bookingUpdates,
                       onChanged: (val) {
                         updateSettings(settings.copyWith(bookingUpdates: val));
                       },
@@ -97,7 +97,7 @@ class NursingSettingsPage extends StatelessWidget {
                     NursingSettingsSwitchItem(
                       title: strings.pushNotifications,
                       subtitle: strings.pushNotificationsDesc,
-                      value: settings.pushNotifications ?? true,
+                      value: settings.pushNotifications,
                       onChanged: (val) {
                         updateSettings(
                           settings.copyWith(pushNotifications: val),
@@ -112,7 +112,7 @@ class NursingSettingsPage extends StatelessWidget {
                     NursingSettingsSwitchItem(
                       title: strings.appointmentReminders,
                       subtitle: strings.appointmentRemindersDesc,
-                      value: settings.appointmentReminders ?? true,
+                      value: settings.appointmentReminders,
                       onChanged: (val) {
                         updateSettings(
                           settings.copyWith(appointmentReminders: val),
@@ -127,7 +127,7 @@ class NursingSettingsPage extends StatelessWidget {
                     NursingSettingsSwitchItem(
                       title: strings.marketingEmails,
                       subtitle: strings.marketingEmailsDesc,
-                      value: settings.marketingEmails ?? false,
+                      value: settings.marketingEmails,
                       onChanged: (val) {
                         updateSettings(settings.copyWith(marketingEmails: val));
                       },

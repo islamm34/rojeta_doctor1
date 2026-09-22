@@ -43,10 +43,7 @@ class NursingStatCardItem extends StatelessWidget {
             left: -12.w,
             top: -12.w,
             bottom: -12.w,
-            child: Container(
-              width: 4.w,
-              color: borderLeftColor,
-            ),
+            child: Container(width: 4.w, color: borderLeftColor),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,24 +75,26 @@ class NursingStatCardItem extends StatelessWidget {
                   color: borderLeftColor,
                 ),
               ),
-              SizedBox(height: 4.h),
-              Row(
-                children: [
-                  if (subtitle.contains('+'))
-                    Icon(Icons.trending_up, color: subtitleColor, size: 12.r),
-                  if (subtitle.contains('+')) SizedBox(width: 4.w),
-                  Expanded(
-                    child: Text(
-                      subtitle,
-                      style: context.textTheme.labelSmall?.copyWith(
-                        color: subtitleColor,
-                        fontSize: 10.sp,
+              if (subtitle.isNotEmpty) ...[
+                SizedBox(height: 4.h),
+                Row(
+                  children: [
+                    if (subtitle.contains('+'))
+                      Icon(Icons.trending_up, color: subtitleColor, size: 12.r),
+                    if (subtitle.contains('+')) SizedBox(width: 4.w),
+                    Expanded(
+                      child: Text(
+                        subtitle,
+                        style: context.textTheme.labelSmall?.copyWith(
+                          color: subtitleColor,
+                          fontSize: 10.sp,
+                        ),
+                        maxLines: 2,
                       ),
-                      maxLines: 2,
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+              ],
             ],
           ),
         ],

@@ -30,14 +30,19 @@ class ProfileHeaderCard extends StatelessWidget {
                       color: const Color(0xFFF1F5F9),
                       borderRadius: BorderRadius.circular(12.r),
                       image:
-                          profile.iconUrl != null && profile.iconUrl!.isNotEmpty
+                          profile.iconUrl != null &&
+                              profile.iconUrl!.isNotEmpty &&
+                              profile.iconUrl!.startsWith('http')
                           ? DecorationImage(
                               image: NetworkImage(profile.iconUrl!),
                               fit: BoxFit.cover,
                             )
                           : null,
                     ),
-                    child: profile.iconUrl == null || profile.iconUrl!.isEmpty
+                    child:
+                        profile.iconUrl == null ||
+                            profile.iconUrl!.isEmpty ||
+                            !profile.iconUrl!.startsWith('http')
                         ? Icon(
                             Icons.business,
                             color: const Color(0xFF7A8FA6),

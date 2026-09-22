@@ -50,18 +50,18 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDrcGbc66F1S2jZp3ZfPfLOuCZUqcnxzik',
-    appId: '1:684447888072:android:4e926ea25d32a232446bfd',
-    messagingSenderId: '684447888072',
-    projectId: 'rujeta-1bad7',
-    storageBucket: 'rujeta-1bad7.firebasestorage.app',
+    apiKey: 'AIzaSyCPzGFseBKrheh9SyZ58o3-HTD2nuZz8kY',
+    appId: '1:133997421008:android:e65d91e476ea1b052659d5',
+    messagingSenderId: '133997421008',
+    projectId: 'rujeta-ab7d8',
+    storageBucket: 'rujeta-ab7d8.firebasestorage.app',
   );
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAQ4k3arCcJKzpykhY_CRwMwrVzbzyIJR0',
-    appId: '1:684447888072:ios:3218e0a0305c0279446bfd',
-    messagingSenderId: '684447888072',
-    projectId: 'rujeta-1bad7',
-    storageBucket: 'rujeta-1bad7.firebasestorage.app',
+    apiKey: 'AIzaSyA0PY5yCNjTVWhNwI-lC_nHEurxG0OfRm4',
+    appId: '1:133997421008:ios:00d5bb5bf9363df82659d5',
+    messagingSenderId: '133997421008',
+    projectId: 'rujeta-ab7d8',
+    storageBucket: 'rujeta-ab7d8.firebasestorage.app',
     iosBundleId: 'com.fassladev.rujetaDoctor',
   );
 }

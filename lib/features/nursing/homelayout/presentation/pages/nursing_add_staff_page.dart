@@ -9,6 +9,7 @@ import 'package:rojeta_doctor/features/nursing/homelayout/presentation/bloc/nurs
 import 'package:rojeta_doctor/features/nursing/homelayout/presentation/pages/widgets/nursing_add_skill_dialog.dart';
 import 'package:rojeta_doctor/features/nursing/homelayout/presentation/pages/widgets/nursing_gender_toggle_row.dart';
 import 'package:rojeta_doctor/features/nursing/homelayout/presentation/pages/widgets/nursing_labeled_text_field.dart';
+import 'package:rojeta_doctor/features/nursing/homelayout/presentation/pages/widgets/nursing_profile_photo_picker.dart';
 
 class NursingAddStaffPage extends StatefulWidget {
   const NursingAddStaffPage({super.key});
@@ -23,9 +24,10 @@ class _NursingAddStaffPageState extends State<NursingAddStaffPage> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _experienceController = TextEditingController();
 
+  String? _selectedImagePath;
   String _selectedGender = 'Male';
   String _selectedStatus = 'Available';
-  final List<String> _skills = ['ICU', 'Pediatrics'];
+  final List<String> _skills = [];
   final List<String> _selectedServices = [];
 
   @override
@@ -56,12 +58,13 @@ class _NursingAddStaffPageState extends State<NursingAddStaffPage> {
       final newStaff = NursingStaffModel(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
         name: _nameController.text.trim(),
-        imageUrl:
-            'https://i.pravatar.cc/150?img=${DateTime.now().millisecondsSinceEpoch % 70}',
+        imageUrl: _selectedImagePath ?? '',
         gender: _selectedGender.toUpperCase(),
         status: _selectedStatus.toUpperCase(),
         skills: List.from(_skills),
         yearsOfExperience: int.tryParse(_experienceController.text) ?? 0,
+        phone: _phoneController.text.trim(),
+        selectedServices: List.from(_selectedServices),
       );
 
       context.read<NursingBloc>().add(AddNursingStaffEvent(newStaff));
@@ -99,62 +102,13 @@ class _NursingAddStaffPageState extends State<NursingAddStaffPage> {
               child: Column(
                 children: [
                   // Profile Photo Upload
-                  Center(
-                    child: Column(
-                      children: [
-                        Stack(
-                          children: [
-                            Container(
-                              width: 100.w,
-                              height: 100.w,
-                              decoration: BoxDecoration(
-                                color: const Color(0xFFE2E8F0),
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: const Color(0xFFCBD5E1),
-                                  width: 2,
-                                  style: BorderStyle.solid,
-                                ),
-                              ),
-                              child: Center(
-                                child: Icon(
-                                  Icons.camera_alt_outlined,
-                                  color: const Color(0xFF64748B),
-                                  size: 32.w,
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: Container(
-                                width: 28.w,
-                                height: 28.w,
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFF10B981),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: const Center(
-                                  child: Icon(
-                                    Icons.add,
-                                    color: Colors.white,
-                                    size: 18,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 8.h),
-                        Text(
-                          s.uploadProfilePhoto,
-                          style: context.textTheme.bodySmall?.copyWith(
-                            color: const Color(0xFF64748B),
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
+                  NursingProfilePhotoPicker(
+                    imagePath: _selectedImagePath,
+                    onImagePicked: (path) {
+                      setState(() {
+                        _selectedImagePath = path;
+                      });
+                    },
                   ),
                   SizedBox(height: 24.h),
 
@@ -383,28 +337,38 @@ class _NursingAddStaffPageState extends State<NursingAddStaffPage> {
                               ),
                               borderRadius: BorderRadius.circular(8.r),
                             ),
-                            child: CheckboxListTile(
-                              value: isChecked,
-                              onChanged: (val) {
-                                setState(() {
-                                  if (val == true) {
-                                    _selectedServices.add(service.title ?? '');
-                                  } else {
-                                    _selectedServices.remove(service.title);
-                                  }
-                                });
-                              },
-                              title: Text(
-                                service.title ?? '',
-                                style: context.textTheme.bodyMedium?.copyWith(
-                                  color: const Color(0xFF0F172A),
-                                  fontWeight: FontWeight.w600,
+                            child: Material(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8.r),
+                              clipBehavior: Clip.antiAlias,
+                              child: CheckboxListTile(
+                                value: isChecked,
+                                onChanged: (val) {
+                                  setState(() {
+                                    if (val == true) {
+                                      _selectedServices.add(
+                                        service.title ?? '',
+                                      );
+                                    } else {
+                                      _selectedServices.remove(service.title);
+                                    }
+                                  });
+                                },
+                                title: Text(
+                                  service.title ?? '',
+                                  style: context.textTheme.bodyMedium?.copyWith(
+                                    color: const Color(0xFF0F172A),
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
+                                activeColor: const Color(0xFF10B981),
+                                controlAffinity:
+                                    ListTileControlAffinity.leading,
+                                contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 8.w,
+                                ),
+                                visualDensity: VisualDensity.compact,
                               ),
-                              activeColor: const Color(0xFF10B981),
-                              controlAffinity: ListTileControlAffinity.leading,
-                              contentPadding: EdgeInsets.zero,
-                              visualDensity: VisualDensity.compact,
                             ),
                           );
                         }),

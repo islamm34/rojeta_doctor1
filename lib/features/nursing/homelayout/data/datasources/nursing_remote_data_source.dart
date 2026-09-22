@@ -32,94 +32,69 @@ class NursingRemoteDataSourceImpl implements NursingRemoteDataSource {
   @override
   Future<NursingDashboardModel> getDashboardData() async {
     try {
-      final endpoints = [
-        Endpoints.getNursingDashboard,
-        '/nursing/dashboard',
-        '/doctor/dashboard',
-      ];
+      final endpoints = [Endpoints.getNursingDashboard, '/nursing/dashboard'];
 
-      dynamic response;
       for (final ep in endpoints) {
         try {
-          response = await apiConsumer.get(
+          final response = await apiConsumer.get(
             ep,
             queryParameters: {'user_type': 'nursing'},
           );
-          if (response != null) break;
+          if (response != null) {
+            final data =
+                response is Map<String, dynamic> && response['data'] != null
+                ? (response['data'] is Map<String, dynamic>
+                      ? response['data'] as Map<String, dynamic>
+                      : response)
+                : (response is Map<String, dynamic>
+                      ? response
+                      : <String, dynamic>{});
+            return NursingDashboardModel.fromJson(data);
+          }
         } catch (_) {}
-      }
-
-      if (response != null) {
-        final data =
-            response is Map<String, dynamic> && response['data'] != null
-            ? (response['data'] is Map<String, dynamic>
-                  ? response['data'] as Map<String, dynamic>
-                  : response)
-            : (response is Map<String, dynamic>
-                  ? response
-                  : <String, dynamic>{});
-        final parsed = NursingDashboardModel.fromJson(data);
-        if (parsed.upcomingBookings.isNotEmpty ||
-            (parsed.todaysBookings ?? 0) > 0) {
-          return parsed;
-        }
       }
     } catch (_) {}
 
-    // Fallback template matching user session
-    return _buildFallbackDashboard();
+    return const NursingDashboardModel();
   }
 
   @override
   Future<List<NursingServiceModel>> getServices() async {
     try {
-      final endpoints = [
-        Endpoints.getNursingServices,
-        '/nursing/services',
-        '/doctor/services',
-      ];
+      final endpoints = [Endpoints.getNursingServices, '/nursing/services'];
 
-      dynamic response;
       for (final ep in endpoints) {
         try {
-          response = await apiConsumer.get(
+          final response = await apiConsumer.get(
             ep,
             queryParameters: {'user_type': 'nursing'},
           );
-          if (response != null) break;
-        } catch (_) {}
-      }
+          if (response != null) {
+            List<dynamic> items = [];
+            if (response is List) {
+              items = response;
+            } else if (response is Map<String, dynamic>) {
+              final data = response['data'] ?? response['services'];
+              if (data is List) {
+                items = data;
+              }
+            }
 
-      if (response != null) {
-        List<dynamic> items = [];
-        if (response is List) {
-          items = response;
-        } else if (response is Map<String, dynamic>) {
-          final data = response['data'] ?? response['services'];
-          if (data is List) {
-            items = data;
+            return items
+                .whereType<Map<String, dynamic>>()
+                .map((e) => NursingServiceModel.fromJson(e))
+                .toList();
           }
-        }
-
-        if (items.isNotEmpty) {
-          return items
-              .whereType<Map<String, dynamic>>()
-              .map((e) => NursingServiceModel.fromJson(e))
-              .toList();
-        }
+        } catch (_) {}
       }
     } catch (_) {}
 
-    return _buildFallbackServices();
+    return [];
   }
 
   @override
   Future<NursingServiceModel> addService(NursingServiceModel service) async {
-    final endpoints = [
-      Endpoints.addNursingService,
-      '/nursing/services',
-      '/doctor/services',
-    ];
+    final endpoints = [Endpoints.addNursingService, '/nursing/services'];
 
     for (final ep in endpoints) {
       try {
@@ -133,14 +108,12 @@ class NursingRemoteDataSourceImpl implements NursingRemoteDataSource {
       } catch (_) {}
     }
 
-    return service.copyWith(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-    );
+    return service;
   }
 
   @override
   Future<void> deleteService(String id) async {
-    final endpoints = ['/nursing/services/$id', '/doctor/services/$id'];
+    final endpoints = ['/nursing/services/$id'];
 
     for (final ep in endpoints) {
       try {
@@ -156,92 +129,74 @@ class NursingRemoteDataSourceImpl implements NursingRemoteDataSource {
     try {
       final endpoints = [Endpoints.getNursingStaff, '/nursing/staff'];
 
-      dynamic response;
       for (final ep in endpoints) {
         try {
-          response = await apiConsumer.get(ep);
-          if (response != null) break;
-        } catch (_) {}
-      }
+          final response = await apiConsumer.get(ep);
+          if (response != null) {
+            List<dynamic> items = [];
+            NursingStaffStatsModel? stats;
 
-      if (response != null) {
-        List<dynamic> items = [];
-        NursingStaffStatsModel? stats;
-
-        if (response is List) {
-          items = response;
-        } else if (response is Map<String, dynamic>) {
-          final data = response['data'] ?? response['staff'];
-          if (data is List) {
-            items = data;
-          } else if (data is Map<String, dynamic>) {
-            if (data['staff'] is List) items = data['staff'] as List;
-            if (data['stats'] is Map<String, dynamic>) {
-              stats = NursingStaffStatsModel.fromJson(
-                data['stats'] as Map<String, dynamic>,
-              );
+            if (response is List) {
+              items = response;
+            } else if (response is Map<String, dynamic>) {
+              final data = response['data'] ?? response['staff'];
+              if (data is List) {
+                items = data;
+              } else if (data is Map<String, dynamic>) {
+                if (data['staff'] is List) items = data['staff'] as List;
+                if (data['stats'] is Map<String, dynamic>) {
+                  stats = NursingStaffStatsModel.fromJson(
+                    data['stats'] as Map<String, dynamic>,
+                  );
+                }
+              }
+              if (response['stats'] is Map<String, dynamic>) {
+                stats = NursingStaffStatsModel.fromJson(
+                  response['stats'] as Map<String, dynamic>,
+                );
+              }
             }
-          }
-          if (response['stats'] is Map<String, dynamic>) {
-            stats = NursingStaffStatsModel.fromJson(
-              response['stats'] as Map<String, dynamic>,
-            );
-          }
-        }
 
-        if (items.isNotEmpty) {
-          final staffList = items
-              .whereType<Map<String, dynamic>>()
-              .map((e) => NursingStaffModel.fromJson(e))
-              .toList();
-          stats ??= NursingStaffStatsModel(
-            totalStaff: staffList.length,
-            available: staffList
-                .where((s) => s.status?.toUpperCase() == 'AVAILABLE')
-                .length,
-            onDuty: staffList
-                .where(
-                  (s) =>
-                      s.status?.toUpperCase() == 'ON DUTY' ||
-                      s.status?.toUpperCase() == 'BUSY',
-                )
-                .length,
-            onLeave: staffList
-                .where((s) => s.status?.toUpperCase() == 'ON LEAVE')
-                .length,
-          );
-          return (staff: staffList, stats: stats);
-        }
+            final staffList = items
+                .whereType<Map<String, dynamic>>()
+                .map((e) => NursingStaffModel.fromJson(e))
+                .toList();
+            stats ??= NursingStaffStatsModel(
+              totalStaff: staffList.length,
+              available: staffList
+                  .where((s) => s.status?.toUpperCase() == 'AVAILABLE')
+                  .length,
+              onDuty: staffList
+                  .where(
+                    (s) =>
+                        s.status?.toUpperCase() == 'ON DUTY' ||
+                        s.status?.toUpperCase() == 'BUSY',
+                  )
+                  .length,
+              onLeave: staffList
+                  .where((s) => s.status?.toUpperCase() == 'ON LEAVE')
+                  .length,
+            );
+            return (staff: staffList, stats: stats);
+          }
+        } catch (_) {}
       }
     } catch (_) {}
 
-    final defaultStaff = _buildFallbackStaff();
-    final defaultStats = NursingStaffStatsModel(
-      totalStaff: defaultStaff.length,
-      available: defaultStaff
-          .where((s) => s.status?.toUpperCase() == 'AVAILABLE')
-          .length,
-      onDuty: defaultStaff
-          .where(
-            (s) =>
-                s.status?.toUpperCase() == 'ON DUTY' ||
-                s.status?.toUpperCase() == 'BUSY',
-          )
-          .length,
-      onLeave: defaultStaff
-          .where((s) => s.status?.toUpperCase() == 'ON LEAVE')
-          .length,
+    return (
+      staff: const <NursingStaffModel>[],
+      stats: const NursingStaffStatsModel(),
     );
-    return (staff: defaultStaff, stats: defaultStats);
   }
 
   @override
   Future<NursingStaffModel> addStaff(NursingStaffModel staff) async {
     final endpoints = [Endpoints.addNursingStaff, '/nursing/staff'];
+    final body = await staff.toRequestBody();
 
     for (final ep in endpoints) {
       try {
-        final response = await apiConsumer.post(ep, data: staff.toJson());
+        final response = await apiConsumer.post(ep, data: body);
         if (response is Map<String, dynamic>) {
           final data = response['data'] is Map<String, dynamic>
               ? response['data'] as Map<String, dynamic>
@@ -251,7 +206,7 @@ class NursingRemoteDataSourceImpl implements NursingRemoteDataSource {
       } catch (_) {}
     }
 
-    return staff.copyWith(id: DateTime.now().millisecondsSinceEpoch.toString());
+    return staff;
   }
 
   @override
@@ -271,7 +226,7 @@ class NursingRemoteDataSourceImpl implements NursingRemoteDataSource {
     try {
       final endpoints = [
         Endpoints.profile,
-        Endpoints.getLabProfile,
+        Endpoints.getNursingProfile,
         '/nursing/profile',
       ];
 
@@ -279,24 +234,42 @@ class NursingRemoteDataSourceImpl implements NursingRemoteDataSource {
         try {
           final response = await apiConsumer.get(ep);
           if (response is Map<String, dynamic>) {
-            final data = response['data'] is Map<String, dynamic>
+            var data = response['data'] is Map<String, dynamic>
                 ? response['data'] as Map<String, dynamic>
                 : response;
+            if (data['user'] is Map<String, dynamic>) {
+              data = data['user'] as Map<String, dynamic>;
+            }
             return NursingProfileModel.fromJson(data);
           }
         } catch (_) {}
       }
     } catch (_) {}
 
-    return _buildFallbackProfile();
+    final cachedUser = UserHiveHelper.getUser();
+    final name = (cachedUser?.name?.isNotEmpty == true)
+        ? cachedUser!.name!
+        : ((cachedUser?.firstName?.isNotEmpty == true)
+              ? cachedUser!.firstName!
+              : '');
+    final avatar = cachedUser?.image ?? '';
+
+    return NursingProfileModel(
+      id: cachedUser?.id?.toString() ?? '',
+      name: name,
+      licenseNumber: '',
+      avatarUrl: avatar,
+      servicesCount: 0,
+      nursesCount: 0,
+    );
   }
 
   @override
   Future<NursingOfficeInfoModel> getOfficeInfo() async {
     try {
       final endpoints = [
-        Endpoints.getLabProfile,
         Endpoints.profile,
+        Endpoints.getNursingProfile,
         '/nursing/profile',
       ];
 
@@ -304,22 +277,41 @@ class NursingRemoteDataSourceImpl implements NursingRemoteDataSource {
         try {
           final response = await apiConsumer.get(ep);
           if (response is Map<String, dynamic>) {
-            final data = response['data'] is Map<String, dynamic>
+            var data = response['data'] is Map<String, dynamic>
                 ? response['data'] as Map<String, dynamic>
                 : response;
+            if (data['user'] is Map<String, dynamic>) {
+              data = data['user'] as Map<String, dynamic>;
+            }
             return NursingOfficeInfoModel.fromJson(data);
           }
         } catch (_) {}
       }
     } catch (_) {}
 
-    return _buildFallbackOfficeInfo();
+    final cachedUser = UserHiveHelper.getUser();
+    final name = (cachedUser?.name?.isNotEmpty == true)
+        ? cachedUser!.name!
+        : ((cachedUser?.firstName?.isNotEmpty == true)
+              ? cachedUser!.firstName!
+              : '');
+    final email = cachedUser?.email ?? '';
+    final phone = cachedUser?.phone ?? '';
+
+    return NursingOfficeInfoModel(
+      officeName: name,
+      licenseNumber: '',
+      email: email,
+      phone: phone,
+      description: '',
+      verificationStatus: '',
+    );
   }
 
   @override
   Future<void> updateOfficeInfo(NursingOfficeInfoModel officeInfo) async {
     final endpoints = [
-      Endpoints.updateLabProfile,
+      Endpoints.getNursingProfile,
       '/nursing/profile',
       Endpoints.profile,
     ];
@@ -340,7 +332,10 @@ class NursingRemoteDataSourceImpl implements NursingRemoteDataSource {
   @override
   Future<NursingWorkingHoursModel> getWorkingHours() async {
     try {
-      final endpoints = [Endpoints.getWorkingHours, '/nursing/working-hours'];
+      final endpoints = [
+        Endpoints.getNursingWorkingHours,
+        '/nursing/working-hours',
+      ];
 
       for (final ep in endpoints) {
         try {
@@ -360,12 +355,15 @@ class NursingRemoteDataSourceImpl implements NursingRemoteDataSource {
       }
     } catch (_) {}
 
-    return _buildFallbackWorkingHours();
+    return const NursingWorkingHoursModel(days: []);
   }
 
   @override
   Future<void> updateWorkingHours(NursingWorkingHoursModel workingHours) async {
-    final endpoints = [Endpoints.updateWorkingHours, '/nursing/working-hours'];
+    final endpoints = [
+      Endpoints.getNursingWorkingHours,
+      '/nursing/working-hours',
+    ];
 
     for (final ep in endpoints) {
       try {
@@ -383,7 +381,7 @@ class NursingRemoteDataSourceImpl implements NursingRemoteDataSource {
   @override
   Future<NursingSettingsModel> getSettings() async {
     try {
-      final endpoints = [Endpoints.getGeneralSettings, '/nursing/settings'];
+      final endpoints = [Endpoints.getNursingSettings, '/nursing/settings'];
 
       for (final ep in endpoints) {
         try {
@@ -409,7 +407,7 @@ class NursingRemoteDataSourceImpl implements NursingRemoteDataSource {
 
   @override
   Future<void> updateSettings(NursingSettingsModel settings) async {
-    final endpoints = [Endpoints.updateGeneralSettings, '/nursing/settings'];
+    final endpoints = [Endpoints.getNursingSettings, '/nursing/settings'];
 
     for (final ep in endpoints) {
       try {
@@ -422,238 +420,5 @@ class NursingRemoteDataSourceImpl implements NursingRemoteDataSource {
         } catch (_) {}
       }
     }
-  }
-
-  // --- Fallback Helpers ---
-
-  NursingDashboardModel _buildFallbackDashboard() {
-    return const NursingDashboardModel(
-      todaysBookings: 8,
-      bookingsTrend: '+12% from yesterday',
-      activeNurses: 24,
-      activeNursesDesc: 'On-duty across all wards',
-      totalEarnings: 12450.0,
-      earningsDesc: 'Monthly revenue to date',
-      upcomingBookings: [
-        NursingBookingModel(
-          dateMonth: 'MAY',
-          dateDay: '2',
-          patientName: 'Eleanor Thompson',
-          serviceType: '24-Hour Nursing Care',
-          time: '08:00 AM',
-        ),
-        NursingBookingModel(
-          dateMonth: 'MAY',
-          dateDay: '2',
-          patientName: 'Marcus Rodriguez',
-          serviceType: 'Post-Operative Support',
-          time: '11:30 AM',
-        ),
-        NursingBookingModel(
-          dateMonth: 'MAY',
-          dateDay: '3',
-          patientName: 'Sarah Jenkins',
-          serviceType: 'Elderly Care Routine',
-          time: '09:00 AM',
-        ),
-      ],
-    );
-  }
-
-  List<NursingServiceModel> _buildFallbackServices() {
-    return const [
-      NursingServiceModel(
-        id: 'srv_1',
-        title: '12-Hour Nursing',
-        subtitle: 'Professional nursing care for 12 hours',
-        durationTag: '12 Hours',
-        bulletPoints: [
-          'Day or Night shift',
-          'Vital signs monitoring',
-          'Medication management',
-          'Basic medical care',
-        ],
-        price: 350.0,
-      ),
-      NursingServiceModel(
-        id: 'srv_2',
-        title: '24-Hour Nursing',
-        subtitle: 'Round-the-clock nursing care',
-        durationTag: '24 Hours',
-        bulletPoints: [
-          '24/7 coverage',
-          'Complete patient care',
-          'Emergency response',
-          'Family support',
-        ],
-        price: 650.0,
-      ),
-      NursingServiceModel(
-        id: 'srv_3',
-        title: 'Medication Administration',
-        subtitle: 'Injection & medication services',
-        durationTag: 'Per Visit',
-        bulletPoints: [
-          'IM/IV injections',
-          'Insulin administration',
-          'Wound dressing',
-          'Home visits',
-        ],
-        price: 120.0,
-      ),
-      NursingServiceModel(
-        id: 'srv_4',
-        title: 'Newborn Baby Care',
-        subtitle: 'Specialized newborn nursing',
-        durationTag: 'Flexible',
-        bulletPoints: [
-          'Feeding assistance',
-          'Bathing & hygiene',
-          'Health monitoring',
-          'Mother support',
-        ],
-        price: 300.0,
-      ),
-      NursingServiceModel(
-        id: 'srv_5',
-        title: 'Elderly Care',
-        subtitle: 'Comprehensive elderly nursing',
-        durationTag: 'Flexible',
-        bulletPoints: [
-          'Daily living assistance',
-          'Medication reminders',
-          'Companionship',
-          'Health monitoring',
-        ],
-        price: 280.0,
-      ),
-    ];
-  }
-
-  List<NursingStaffModel> _buildFallbackStaff() {
-    return const [
-      NursingStaffModel(
-        id: '1',
-        name: 'Sarah Mohamed',
-        imageUrl: 'https://i.pravatar.cc/150?img=1',
-        gender: 'FEMALE',
-        status: 'AVAILABLE',
-        skills: ['ICU', 'Pediatrics'],
-        yearsOfExperience: 8,
-      ),
-      NursingStaffModel(
-        id: '2',
-        name: 'Mark john',
-        imageUrl: 'https://i.pravatar.cc/150?img=11',
-        gender: 'MALE',
-        status: 'BUSY',
-        skills: ['Geriatrics', 'Wound Care'],
-        yearsOfExperience: 12,
-      ),
-      NursingStaffModel(
-        id: '3',
-        name: 'Eman Ahmed',
-        imageUrl: 'https://i.pravatar.cc/150?img=5',
-        gender: 'FEMALE',
-        status: 'AVAILABLE',
-        skills: ['Post-Op', 'IV Therapy'],
-        yearsOfExperience: 5,
-      ),
-    ];
-  }
-
-  NursingProfileModel _buildFallbackProfile() {
-    final cachedUser = UserHiveHelper.getUser();
-    final name = (cachedUser?.name?.isNotEmpty == true)
-        ? cachedUser!.name!
-        : ((cachedUser?.firstName?.isNotEmpty == true)
-              ? cachedUser!.firstName!
-              : 'Graceful Care Nursing');
-    final avatar = (cachedUser?.image?.isNotEmpty == true)
-        ? cachedUser!.image!
-        : 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=200&h=200&fit=crop';
-
-    return NursingProfileModel(
-      id: cachedUser?.id?.toString() ?? '1',
-      name: name,
-      licenseNumber: 'NUR-2026-994821',
-      avatarUrl: avatar,
-      servicesCount: 5,
-      nursesCount: 24,
-    );
-  }
-
-  NursingOfficeInfoModel _buildFallbackOfficeInfo() {
-    final cachedUser = UserHiveHelper.getUser();
-    final name = (cachedUser?.name?.isNotEmpty == true)
-        ? cachedUser!.name!
-        : ((cachedUser?.firstName?.isNotEmpty == true)
-              ? cachedUser!.firstName!
-              : 'Graceful Care Nursing');
-    final email = (cachedUser?.email?.isNotEmpty == true)
-        ? cachedUser!.email!
-        : 'admin@gracefulcare.com';
-    final phone = (cachedUser?.phone?.isNotEmpty == true)
-        ? cachedUser!.phone!
-        : '+201012345678';
-
-    return NursingOfficeInfoModel(
-      officeName: name,
-      licenseNumber: 'NUR-EGY-2026-8829',
-      email: email,
-      phone: phone,
-      description:
-          'Providing premium nursing care, post-operative support, and home healthcare services with international standards.',
-      verificationStatus: 'ACTIVE STATUS',
-    );
-  }
-
-  NursingWorkingHoursModel _buildFallbackWorkingHours() {
-    return const NursingWorkingHoursModel(
-      days: [
-        DailyWorkingHoursModel(
-          day: 'Monday',
-          isOpen: true,
-          openTime: '08:00 AM',
-          closeTime: '06:00 PM',
-        ),
-        DailyWorkingHoursModel(
-          day: 'Tuesday',
-          isOpen: true,
-          openTime: '08:00 AM',
-          closeTime: '06:00 PM',
-        ),
-        DailyWorkingHoursModel(
-          day: 'Wednesday',
-          isOpen: true,
-          openTime: '08:00 AM',
-          closeTime: '06:00 PM',
-        ),
-        DailyWorkingHoursModel(
-          day: 'Thursday',
-          isOpen: true,
-          openTime: '08:00 AM',
-          closeTime: '06:00 PM',
-        ),
-        DailyWorkingHoursModel(
-          day: 'Friday',
-          isOpen: true,
-          openTime: '08:00 AM',
-          closeTime: '06:00 PM',
-        ),
-        DailyWorkingHoursModel(
-          day: 'Saturday',
-          isOpen: false,
-          openTime: '08:00 AM',
-          closeTime: '06:00 PM',
-        ),
-        DailyWorkingHoursModel(
-          day: 'Sunday',
-          isOpen: false,
-          openTime: '08:00 AM',
-          closeTime: '06:00 PM',
-        ),
-      ],
-    );
   }
 }

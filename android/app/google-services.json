@@ -1,13 +1,32 @@
 {
   "project_info": {
-    "project_number": "684447888072",
-    "project_id": "rujeta-1bad7",
-    "storage_bucket": "rujeta-1bad7.firebasestorage.app"
+    "project_number": "133997421008",
+    "project_id": "rujeta-ab7d8",
+    "storage_bucket": "rujeta-ab7d8.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:684447888072:android:4e926ea25d32a232446bfd",
+        "mobilesdk_app_id": "1:133997421008:android:4aa3f958f2cdfc9f2659d5",
+        "android_client_info": {
+          "package_name": "com.example.rojeta_patient"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPzGFseBKrheh9SyZ58o3-HTD2nuZz8kY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:133997421008:android:e65d91e476ea1b052659d5",
         "android_client_info": {
           "package_name": "com.fassladev.rujetaDoctor"
         }
@@ -15,7 +34,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDrcGbc66F1S2jZp3ZfPfLOuCZUqcnxzik"
+          "current_key": "AIzaSyCPzGFseBKrheh9SyZ58o3-HTD2nuZz8kY"
         }
       ],
       "services": {

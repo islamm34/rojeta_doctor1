@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../../core/utils/screen_util_like.dart';
 
 class NursingSettingsSectionContainer extends StatelessWidget {
@@ -16,6 +17,7 @@ class NursingSettingsSectionContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
@@ -28,14 +30,13 @@ class NursingSettingsSectionContainer extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(icon, color: const Color(0xFF3B82F6), size: 20.w),
+              Icon(icon, color: theme.colorScheme.primary, size: 20.w),
               SizedBox(width: 8.w),
               Text(
                 title,
-                style: TextStyle(
+                style: context.textTheme.titleSmall?.copyWith(
                   color: const Color(0xFF0F172A),
                   fontWeight: FontWeight.bold,
-                  fontSize: 14.sp,
                 ),
               ),
             ],
@@ -47,3 +48,4 @@ class NursingSettingsSectionContainer extends StatelessWidget {
     );
   }
 }
+

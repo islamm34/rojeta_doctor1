@@ -140,6 +140,7 @@ class _AddServiceFormState extends State<AddServiceForm> {
               AddServiceTextField(
                 controller: _turnaroundTimeController,
                 label: context.strings.turnaroundTimeLabel,
+                keyboardType: TextInputType.number,
                 icon: Icons.timer,
               ),
               SizedBox(height: 16.h),

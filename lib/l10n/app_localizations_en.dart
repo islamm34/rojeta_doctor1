@@ -2715,4 +2715,43 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get manageServicesSubtitle =>
       'Manage services, prices, and availability.';
+
+  @override
+  String get rojetaDoctor => 'Rojeta Doctor';
+
+  @override
+  String get versionBuildInfo => 'Version 1.0.0 (Build 100)';
+
+  @override
+  String get aboutDoctorAppDescription =>
+      'Rojeta is an integrated medical practice management solution for healthcare providers, doctors, and clinics to manage bookings, patient records, and financial settlements effortlessly.';
+
+  @override
+  String get faqManageScheduleQuestion => 'How do I manage my clinic schedule?';
+
+  @override
+  String get faqManageScheduleAnswer =>
+      'You can go to the Schedule Management screen from your home dashboard to set working days, time slots, and vacations.';
+
+  @override
+  String get faqCashPaymentsQuestion => 'How are cash payments confirmed?';
+
+  @override
+  String get faqCashPaymentsAnswer =>
+      'When a patient arrives with a cash booking, open the appointment details and tap \"Confirm Cash Payment\" once payment is received.';
+
+  @override
+  String get faqEarningsPayoutQuestion =>
+      'When do I receive my earnings payout?';
+
+  @override
+  String get faqEarningsPayoutAnswer =>
+      'Payouts are calculated from completed bookings and processed according to your payout cycle in Financial Management.';
+
+  @override
+  String get faqUpdateProfileQuestion => 'How do I update my profile details?';
+
+  @override
+  String get faqUpdateProfileAnswer =>
+      'Navigate to the Profile tab to edit your medical title, bio, consultation fees, and clinic locations.';
 }

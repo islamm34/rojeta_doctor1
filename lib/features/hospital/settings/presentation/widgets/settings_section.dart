@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../../core/utils/screen_util_like.dart';
+
 import '../../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../../core/utils/screen_util_like.dart';
 
 class SettingsSection extends StatelessWidget {
   final String title;
@@ -31,18 +32,22 @@ class SettingsSection extends StatelessWidget {
         Container(
           margin: EdgeInsets.symmetric(horizontal: 16.w),
           decoration: BoxDecoration(
-            color: context.theme.cardColor,
             borderRadius: BorderRadius.circular(12.r),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.black.withValues(alpha: 0.05),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
             ],
           ),
-          child: Column(
-            children: children,
+          child: Material(
+            color: context.theme.cardColor,
+            borderRadius: BorderRadius.circular(12.r),
+            clipBehavior: Clip.antiAlias,
+            child: Column(
+              children: children,
+            ),
           ),
         ),
       ],

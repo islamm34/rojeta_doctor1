@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 
 class NursingStaffModel extends Equatable {
@@ -23,6 +24,19 @@ class NursingStaffModel extends Equatable {
     this.selectedServices = const [],
   });
 
+  static String _formatImageUrl(dynamic url) {
+    if (url == null) return '';
+    final s = url.toString().trim();
+    if (s.isEmpty) return '';
+    if (s.startsWith('http://') || s.startsWith('https://')) {
+      return s;
+    }
+    if (s.startsWith('/')) {
+      return 'https://rojeta.fassla.net$s';
+    }
+    return 'https://rojeta.fassla.net/storage/$s';
+  }
+
   factory NursingStaffModel.fromJson(Map<String, dynamic>? json) {
     if (json == null) return const NursingStaffModel();
 
@@ -33,18 +47,30 @@ class NursingStaffModel extends Equatable {
 
     List<String> servicesList = [];
     if (json['selectedServices'] is List) {
-      servicesList = (json['selectedServices'] as List).map((e) => e.toString()).toList();
+      servicesList = (json['selectedServices'] as List)
+          .map((e) => e.toString())
+          .toList();
     } else if (json['services'] is List) {
-      servicesList = (json['services'] as List).map((e) => e.toString()).toList();
+      servicesList = (json['services'] as List)
+          .map((e) => e.toString())
+          .toList();
     }
 
-    final rawExp = json['yearsOfExperience'] ?? json['experience_years'] ?? json['experience'] ?? 0;
-    final exp = (rawExp is num) ? rawExp.toInt() : int.tryParse(rawExp.toString()) ?? 0;
+    final rawExp =
+        json['yearsOfExperience'] ??
+        json['experience_years'] ??
+        json['experience'] ??
+        0;
+    final exp = (rawExp is num)
+        ? rawExp.toInt()
+        : int.tryParse(rawExp.toString()) ?? 0;
 
     return NursingStaffModel(
       id: json['id']?.toString(),
       name: json['name'] ?? json['full_name'] ?? '',
-      imageUrl: json['imageUrl'] ?? json['image'] ?? json['avatar'] ?? '',
+      imageUrl: _formatImageUrl(
+        json['imageUrl'] ?? json['image'] ?? json['avatar'],
+      ),
       gender: (json['gender'] ?? 'MALE').toString().toUpperCase(),
       status: (json['status'] ?? 'AVAILABLE').toString().toUpperCase(),
       skills: skillsList,
@@ -73,6 +99,67 @@ class NursingStaffModel extends Equatable {
     };
   }
 
+  Future<dynamic> toRequestBody() async {
+    final hasLocalImage = imageUrl != null &&
+        imageUrl!.isNotEmpty &&
+        !imageUrl!.startsWith('http://') &&
+        !imageUrl!.startsWith('https://');
+
+    if (!hasLocalImage) {
+      return toJson();
+    }
+    return toFormData();
+  }
+
+  Future<FormData> toFormData() async {
+    final Map<String, dynamic> data = {
+      if (id != null && id!.isNotEmpty) 'id': id,
+      if (name != null) ...{'name': name, 'full_name': name},
+      if (gender != null) 'gender': gender,
+      if (status != null) 'status': status,
+      if (yearsOfExperience != null) ...{
+        'yearsOfExperience': yearsOfExperience,
+        'experience_years': yearsOfExperience,
+      },
+      if (phone != null && phone!.isNotEmpty) ...{
+        'phone': phone,
+        'phone_number': phone,
+      },
+    };
+
+    final formData = FormData.fromMap(data);
+
+    for (int i = 0; i < skills.length; i++) {
+      formData.fields.add(MapEntry('skills[]', skills[i]));
+    }
+
+    for (int i = 0; i < selectedServices.length; i++) {
+      formData.fields.add(MapEntry('services[]', selectedServices[i]));
+      formData.fields.add(MapEntry('selectedServices[]', selectedServices[i]));
+    }
+
+    if (imageUrl != null &&
+        imageUrl!.isNotEmpty &&
+        !imageUrl!.startsWith('http://') &&
+        !imageUrl!.startsWith('https://')) {
+      final filename = imageUrl!.split('/').last.split('\\').last;
+      formData.files.add(
+        MapEntry(
+          'image',
+          await MultipartFile.fromFile(imageUrl!, filename: filename),
+        ),
+      );
+      formData.files.add(
+        MapEntry(
+          'avatar',
+          await MultipartFile.fromFile(imageUrl!, filename: filename),
+        ),
+      );
+    }
+
+    return formData;
+  }
+
   NursingStaffModel copyWith({
     String? id,
     String? name,
@@ -99,16 +186,16 @@ class NursingStaffModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        name,
-        imageUrl,
-        gender,
-        status,
-        skills,
-        yearsOfExperience,
-        phone,
-        selectedServices,
-      ];
+    id,
+    name,
+    imageUrl,
+    gender,
+    status,
+    skills,
+    yearsOfExperience,
+    phone,
+    selectedServices,
+  ];
 }
 
 class NursingStaffStatsModel extends Equatable {
@@ -128,7 +215,8 @@ class NursingStaffStatsModel extends Equatable {
     if (json == null) return const NursingStaffStatsModel();
 
     return NursingStaffStatsModel(
-      totalStaff: json['totalStaff'] ?? json['total_staff'] ?? json['total'] ?? 0,
+      totalStaff:
+          json['totalStaff'] ?? json['total_staff'] ?? json['total'] ?? 0,
       available: json['available'] ?? json['available_staff'] ?? 0,
       onDuty: json['onDuty'] ?? json['on_duty'] ?? 0,
       onLeave: json['onLeave'] ?? json['on_leave'] ?? 0,

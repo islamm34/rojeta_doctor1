@@ -94,51 +94,25 @@ class NursingServiceCard extends StatelessWidget {
               ],
             ),
           ),
-          const Divider(height: 1, color: Color(0xFFE2E8F0)),
-          if ((service.bulletPoints ?? []).isNotEmpty)
+          if (service.bulletPoints.isNotEmpty) ...[
+            const Divider(height: 1, color: Color(0xFFE2E8F0)),
             Padding(
               padding: EdgeInsets.all(16.w),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        NursingServiceBulletPoint(
-                          text: (service.bulletPoints.isNotEmpty == true)
-                              ? service.bulletPoints[0]
-                              : '',
-                        ),
-                        SizedBox(height: 8.h),
-                        NursingServiceBulletPoint(
-                          text: ((service.bulletPoints.length ?? 0) > 1)
-                              ? service.bulletPoints[1]
-                              : '',
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        NursingServiceBulletPoint(
-                          text: ((service.bulletPoints.length ?? 0) > 2)
-                              ? service.bulletPoints[2]
-                              : '',
-                        ),
-                        SizedBox(height: 8.h),
-                        NursingServiceBulletPoint(
-                          text: ((service.bulletPoints.length ?? 0) > 3)
-                              ? service.bulletPoints[3]
-                              : '',
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+              child: Wrap(
+                spacing: 16.w,
+                runSpacing: 8.h,
+                children: service.bulletPoints
+                    .where((bp) => bp.trim().isNotEmpty)
+                    .map(
+                      (bp) => SizedBox(
+                        width: (MediaQuery.sizeOf(context).width - 72.w) / 2,
+                        child: NursingServiceBulletPoint(text: bp),
+                      ),
+                    )
+                    .toList(),
               ),
             ),
+          ],
         ],
       ),
     );

@@ -17,16 +17,46 @@ class NursingProfileModel extends Equatable {
     this.nursesCount = 0,
   });
 
+  static String _formatImageUrl(dynamic url) {
+    if (url == null) return '';
+    final s = url.toString().trim();
+    if (s.isEmpty) return '';
+    if (s.startsWith('http://') || s.startsWith('https://')) {
+      return s;
+    }
+    if (s.startsWith('/')) {
+      return 'https://rojeta.fassla.net$s';
+    }
+    return 'https://rojeta.fassla.net/storage/$s';
+  }
+
   factory NursingProfileModel.fromJson(Map<String, dynamic>? json) {
     if (json == null) return const NursingProfileModel();
 
     return NursingProfileModel(
       id: json['id']?.toString() ?? '',
       name: json['name'] ?? json['office_name'] ?? json['full_name'] ?? '',
-      licenseNumber: json['licenseNumber'] ?? json['license_number'] ?? json['license'] ?? '',
-      avatarUrl: json['avatarUrl'] ?? json['avatar_url'] ?? json['image'] ?? json['avatar'] ?? '',
-      servicesCount: json['servicesCount'] ?? json['services_count'] ?? json['total_services'] ?? 0,
-      nursesCount: json['nursesCount'] ?? json['nurses_count'] ?? json['total_nurses'] ?? 0,
+      licenseNumber:
+          json['licenseNumber'] ??
+          json['license_number'] ??
+          json['license'] ??
+          '',
+      avatarUrl: _formatImageUrl(
+        json['avatarUrl'] ??
+            json['avatar_url'] ??
+            json['image'] ??
+            json['avatar'],
+      ),
+      servicesCount:
+          json['servicesCount'] ??
+          json['services_count'] ??
+          json['total_services'] ??
+          0,
+      nursesCount:
+          json['nursesCount'] ??
+          json['nurses_count'] ??
+          json['total_nurses'] ??
+          0,
     );
   }
 
@@ -60,7 +90,14 @@ class NursingProfileModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, name, licenseNumber, avatarUrl, servicesCount, nursesCount];
+  List<Object?> get props => [
+    id,
+    name,
+    licenseNumber,
+    avatarUrl,
+    servicesCount,
+    nursesCount,
+  ];
 }
 
 class NursingOfficeInfoModel extends Equatable {
@@ -77,19 +114,21 @@ class NursingOfficeInfoModel extends Equatable {
     this.email = '',
     this.phone = '',
     this.description = '',
-    this.verificationStatus = 'ACTIVE STATUS',
+    this.verificationStatus = '',
   });
 
   factory NursingOfficeInfoModel.fromJson(Map<String, dynamic>? json) {
     if (json == null) return const NursingOfficeInfoModel();
 
     return NursingOfficeInfoModel(
-      officeName: json['officeName'] ?? json['office_name'] ?? json['name'] ?? '',
+      officeName:
+          json['officeName'] ?? json['office_name'] ?? json['name'] ?? '',
       licenseNumber: json['licenseNumber'] ?? json['license_number'] ?? '',
       email: json['email'] ?? json['contact_email'] ?? '',
       phone: json['phone'] ?? json['phone_number'] ?? '',
       description: json['description'] ?? json['about'] ?? '',
-      verificationStatus: json['verificationStatus'] ?? json['verification_status'] ?? 'ACTIVE STATUS',
+      verificationStatus:
+          json['verificationStatus'] ?? json['verification_status'] ?? '',
     );
   }
 
@@ -128,13 +167,13 @@ class NursingOfficeInfoModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        officeName,
-        licenseNumber,
-        email,
-        phone,
-        description,
-        verificationStatus,
-      ];
+    officeName,
+    licenseNumber,
+    email,
+    phone,
+    description,
+    verificationStatus,
+  ];
 }
 
 class DailyWorkingHoursModel extends Equatable {
@@ -146,18 +185,20 @@ class DailyWorkingHoursModel extends Equatable {
   const DailyWorkingHoursModel({
     required this.day,
     this.isOpen = true,
-    this.openTime = '08:00 AM',
-    this.closeTime = '06:00 PM',
+    this.openTime = '',
+    this.closeTime = '',
   });
 
   factory DailyWorkingHoursModel.fromJson(Map<String, dynamic>? json) {
-    if (json == null) return const DailyWorkingHoursModel(day: 'Monday');
+    if (json == null) return const DailyWorkingHoursModel(day: '');
 
     return DailyWorkingHoursModel(
-      day: json['day'] ?? 'Monday',
+      day: json['day'] ?? '',
       isOpen: json['isOpen'] ?? json['is_open'] ?? json['is_working'] ?? true,
-      openTime: json['openTime'] ?? json['open_time'] ?? json['start_time'] ?? '08:00 AM',
-      closeTime: json['closeTime'] ?? json['close_time'] ?? json['end_time'] ?? '06:00 PM',
+      openTime:
+          json['openTime'] ?? json['open_time'] ?? json['start_time'] ?? '',
+      closeTime:
+          json['closeTime'] ?? json['close_time'] ?? json['end_time'] ?? '',
     );
   }
 
@@ -218,12 +259,8 @@ class NursingWorkingHoursModel extends Equatable {
     };
   }
 
-  NursingWorkingHoursModel copyWith({
-    List<DailyWorkingHoursModel>? days,
-  }) {
-    return NursingWorkingHoursModel(
-      days: days ?? this.days,
-    );
+  NursingWorkingHoursModel copyWith({List<DailyWorkingHoursModel>? days}) {
+    return NursingWorkingHoursModel(days: days ?? this.days);
   }
 
   @override
@@ -241,22 +278,72 @@ class NursingSettingsModel extends Equatable {
   const NursingSettingsModel({
     this.emailNotifications = true,
     this.bookingUpdates = true,
-    this.pushNotifications = true,
+    this.pushNotifications = false,
     this.appointmentReminders = true,
     this.marketingEmails = false,
     this.language = 'ar',
   });
 
+  static bool _parseBool(dynamic value, {bool defaultValue = false}) {
+    if (value == null) return defaultValue;
+    if (value is bool) return value;
+    if (value is num) return value != 0;
+    if (value is String) {
+      final lower = value.toLowerCase().trim();
+      if (lower == 'true' || lower == '1') return true;
+      if (lower == 'false' || lower == '0') return false;
+    }
+    return defaultValue;
+  }
+
   factory NursingSettingsModel.fromJson(Map<String, dynamic>? json) {
     if (json == null) return const NursingSettingsModel();
+    final map = (json['data'] is Map<String, dynamic>)
+        ? json['data'] as Map<String, dynamic>
+        : (json['settings'] is Map<String, dynamic>
+            ? json['settings'] as Map<String, dynamic>
+            : json);
 
     return NursingSettingsModel(
-      emailNotifications: json['emailNotifications'] ?? json['email_notifications'] ?? true,
-      bookingUpdates: json['bookingUpdates'] ?? json['booking_updates'] ?? true,
-      pushNotifications: json['pushNotifications'] ?? json['push_notifications'] ?? true,
-      appointmentReminders: json['appointmentReminders'] ?? json['appointment_reminders'] ?? true,
-      marketingEmails: json['marketingEmails'] ?? json['marketing_emails'] ?? false,
-      language: json['language'] ?? 'ar',
+      emailNotifications: _parseBool(
+        map['emailNotifications'] ??
+            map['email_notifications'] ??
+            map['emailNotification'] ??
+            map['email_notification'],
+        defaultValue: true,
+      ),
+      bookingUpdates: _parseBool(
+        map['smsUpdates'] ??
+            map['sms_updates'] ??
+            map['smsNotifications'] ??
+            map['sms_notifications'] ??
+            map['bookingUpdates'] ??
+            map['booking_updates'] ??
+            map['sms_update'],
+        defaultValue: true,
+      ),
+      pushNotifications: _parseBool(
+        map['pushNotifications'] ??
+            map['push_notifications'] ??
+            map['pushNotification'] ??
+            map['push_notification'],
+        defaultValue: false,
+      ),
+      appointmentReminders: _parseBool(
+        map['appointmentReminders'] ??
+            map['appointment_reminders'] ??
+            map['appointmentReminder'] ??
+            map['appointment_reminder'],
+        defaultValue: true,
+      ),
+      marketingEmails: _parseBool(
+        map['marketingEmails'] ??
+            map['marketing_emails'] ??
+            map['marketingEmail'] ??
+            map['marketing_email'],
+        defaultValue: false,
+      ),
+      language: (map['language'] ?? 'ar').toString(),
     );
   }
 
@@ -264,6 +351,10 @@ class NursingSettingsModel extends Equatable {
     return {
       'emailNotifications': emailNotifications,
       'email_notifications': emailNotifications,
+      'sms_updates': bookingUpdates,
+      'smsUpdates': bookingUpdates,
+      'sms_notifications': bookingUpdates,
+      'smsNotifications': bookingUpdates,
       'bookingUpdates': bookingUpdates,
       'booking_updates': bookingUpdates,
       'pushNotifications': pushNotifications,
@@ -296,11 +387,11 @@ class NursingSettingsModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        emailNotifications,
-        bookingUpdates,
-        pushNotifications,
-        appointmentReminders,
-        marketingEmails,
-        language,
-      ];
+    emailNotifications,
+    bookingUpdates,
+    pushNotifications,
+    appointmentReminders,
+    marketingEmails,
+    language,
+  ];
 }

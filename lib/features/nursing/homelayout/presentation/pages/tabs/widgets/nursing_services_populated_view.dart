@@ -63,6 +63,7 @@ class NursingServicesPopulatedView extends StatelessWidget {
         ),
         Expanded(
           child: ListView.separated(
+            physics: const AlwaysScrollableScrollPhysics(),
             padding: EdgeInsets.all(16.w),
             itemCount: state.services.length,
             separatorBuilder: (_, _) => SizedBox(height: 16.h),

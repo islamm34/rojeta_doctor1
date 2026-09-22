@@ -30,47 +30,52 @@ class GeneralSettingsPage extends StatelessWidget {
         borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
       ),
       builder: (bottomSheetContext) {
-        return Container(
-          padding: EdgeInsets.all(20.w),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                context.strings.language,
-                style: context.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: const Color(0xFF0F2D52),
+        return Material(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
+          clipBehavior: Clip.antiAlias,
+          child: Container(
+            padding: EdgeInsets.all(20.w),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  context.strings.language,
+                  style: context.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: const Color(0xFF0F2D52),
+                  ),
                 ),
-              ),
-              SizedBox(height: 16.h),
-              ListTile(
-                title: const Text('العربية'),
-                trailing: currentLang == 'ar'
-                    ? const Icon(Icons.check_circle, color: Color(0xFF1877F2))
-                    : null,
-                onTap: () {
-                  Navigator.pop(bottomSheetContext);
-                  final user = UserHiveHelper.getUser();
-                  if (user != null) {
-                    UserHiveHelper.updateUser(user.copyWith(language: 'ar'));
-                  }
-                },
-              ),
-              ListTile(
-                title: const Text('English'),
-                trailing: currentLang == 'en'
-                    ? const Icon(Icons.check_circle, color: Color(0xFF1877F2))
-                    : null,
-                onTap: () {
-                  Navigator.pop(bottomSheetContext);
-                  final user = UserHiveHelper.getUser();
-                  if (user != null) {
-                    UserHiveHelper.updateUser(user.copyWith(language: 'en'));
-                  }
-                },
-              ),
-            ],
+                SizedBox(height: 16.h),
+                ListTile(
+                  title: const Text('العربية'),
+                  trailing: currentLang == 'ar'
+                      ? const Icon(Icons.check_circle, color: Color(0xFF1877F2))
+                      : null,
+                  onTap: () {
+                    Navigator.pop(bottomSheetContext);
+                    final user = UserHiveHelper.getUser();
+                    if (user != null) {
+                      UserHiveHelper.updateUser(user.copyWith(language: 'ar'));
+                    }
+                  },
+                ),
+                ListTile(
+                  title: const Text('English'),
+                  trailing: currentLang == 'en'
+                      ? const Icon(Icons.check_circle, color: Color(0xFF1877F2))
+                      : null,
+                  onTap: () {
+                    Navigator.pop(bottomSheetContext);
+                    final user = UserHiveHelper.getUser();
+                    if (user != null) {
+                      UserHiveHelper.updateUser(user.copyWith(language: 'en'));
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         );
       },

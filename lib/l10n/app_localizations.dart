@@ -5329,6 +5329,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Manage services, prices, and availability.'**
   String get manageServicesSubtitle;
+
+  /// No description provided for @rojetaDoctor.
+  ///
+  /// In en, this message translates to:
+  /// **'Rojeta Doctor'**
+  String get rojetaDoctor;
+
+  /// No description provided for @versionBuildInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Version 1.0.0 (Build 100)'**
+  String get versionBuildInfo;
+
+  /// No description provided for @aboutDoctorAppDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Rojeta is an integrated medical practice management solution for healthcare providers, doctors, and clinics to manage bookings, patient records, and financial settlements effortlessly.'**
+  String get aboutDoctorAppDescription;
+
+  /// No description provided for @faqManageScheduleQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I manage my clinic schedule?'**
+  String get faqManageScheduleQuestion;
+
+  /// No description provided for @faqManageScheduleAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'You can go to the Schedule Management screen from your home dashboard to set working days, time slots, and vacations.'**
+  String get faqManageScheduleAnswer;
+
+  /// No description provided for @faqCashPaymentsQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'How are cash payments confirmed?'**
+  String get faqCashPaymentsQuestion;
+
+  /// No description provided for @faqCashPaymentsAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'When a patient arrives with a cash booking, open the appointment details and tap \"Confirm Cash Payment\" once payment is received.'**
+  String get faqCashPaymentsAnswer;
+
+  /// No description provided for @faqEarningsPayoutQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'When do I receive my earnings payout?'**
+  String get faqEarningsPayoutQuestion;
+
+  /// No description provided for @faqEarningsPayoutAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Payouts are calculated from completed bookings and processed according to your payout cycle in Financial Management.'**
+  String get faqEarningsPayoutAnswer;
+
+  /// No description provided for @faqUpdateProfileQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I update my profile details?'**
+  String get faqUpdateProfileQuestion;
+
+  /// No description provided for @faqUpdateProfileAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Navigate to the Profile tab to edit your medical title, bio, consultation fees, and clinic locations.'**
+  String get faqUpdateProfileAnswer;
 }
 
 class _AppLocalizationsDelegate

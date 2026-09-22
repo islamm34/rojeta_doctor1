@@ -42,6 +42,10 @@ class _NursingAddServicePageState extends State<NursingAddServicePage> {
         subtitle: _descriptionController.text.trim(),
         durationTag: _durationController.text.trim(),
         bulletPoints: [s.customServiceTerms, s.standardTermsApply],
+        price: double.tryParse(_priceController.text.trim()),
+        pricingType: _pricingType,
+        availableGender: _selectedGender,
+        isActive: _isActive,
       );
 
       context.read<NursingBloc>().add(AddNursingServiceEvent(newService));

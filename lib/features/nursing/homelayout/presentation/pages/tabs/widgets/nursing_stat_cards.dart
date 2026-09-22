@@ -93,13 +93,15 @@ class NursingStatCards extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 4.h),
-              Text(
-                data.earningsDesc ?? '',
-                style: context.textTheme.labelMedium?.copyWith(
-                  color: const Color(0xFF64748B),
+              if ((data.earningsDesc ?? '').isNotEmpty) ...[
+                SizedBox(height: 4.h),
+                Text(
+                  data.earningsDesc!,
+                  style: context.textTheme.labelMedium?.copyWith(
+                    color: const Color(0xFF64748B),
+                  ),
                 ),
-              ),
+              ],
             ],
           ),
         ),

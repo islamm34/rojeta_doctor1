@@ -29,7 +29,7 @@ Future<void> setupInjector() async {
   // Core
   injector.registerSingleton<ApiConsumer>(DioClient(injector<Dio>()));
   injector.registerLazySingleton<FirebaseMessagingService>(
-    () => FirebaseMessagingService(),
+    () => FirebaseMessagingService(apiConsumer: injector<ApiConsumer>()),
   );
 
   // Features

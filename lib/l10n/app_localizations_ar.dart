@@ -2687,4 +2687,43 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get manageServicesSubtitle => 'إدارة الخدمات والأسعار والتوافر.';
+
+  @override
+  String get rojetaDoctor => 'روجيتا دكتور';
+
+  @override
+  String get versionBuildInfo => 'الإصدار 1.0.0 (بناء 100)';
+
+  @override
+  String get aboutDoctorAppDescription =>
+      'روجيتا هي حل متكامل لإدارة الممارسات الطبية لمقدمي الرعاية الصحية والأطباء والعيادات لإدارة الحجوزات وسجلات المرضى والتسويات المالية بكل سهولة.';
+
+  @override
+  String get faqManageScheduleQuestion =>
+      'كيف يمكنني إدارة جدول مواعيد عيادتي؟';
+
+  @override
+  String get faqManageScheduleAnswer =>
+      'يمكنك الانتقال إلى شاشة إدارة الجدول من لوحة التحكم الرئيسية لتحديد أيام العمل والفترات الزمنية والعطلات.';
+
+  @override
+  String get faqCashPaymentsQuestion => 'كيف يتم تأكيد المدفوعات النقدية؟';
+
+  @override
+  String get faqCashPaymentsAnswer =>
+      'عند حضور مريض بحجز نقدي، افتح تفاصيل الموعد واضغط على \"تأكيد الدفع النقدي\" بمجرد استلام المبلغ.';
+
+  @override
+  String get faqEarningsPayoutQuestion => 'متى أستلم مستحقاتي وأرباحي؟';
+
+  @override
+  String get faqEarningsPayoutAnswer =>
+      'يتم احتساب المستحقات من الحجوزات المكتملة ومعالجتها وفقاً لدورة الدفع المحددة في الإدارة المالية.';
+
+  @override
+  String get faqUpdateProfileQuestion => 'كيف يمكنني تحديث بيانات ملفي الشخصي؟';
+
+  @override
+  String get faqUpdateProfileAnswer =>
+      'انتقل إلى تبويب الملف الشخصي لتعديل لقبك المهني، والنبذة التعريفية، ورسوم الكشف، ومواقع العيادات.';
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rojeta_doctor/features/nursing/homelayout/presentation/bloc/nursing_event.dart';
+
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../bloc/nursing_bloc.dart';
 import '../../bloc/nursing_state.dart';
@@ -26,20 +28,25 @@ class NursingServicesTab extends StatelessWidget {
           ),
         ),
       ),
-      body: BlocBuilder<NursingBloc, NursingState>(
-        builder: (context, state) {
-          if (state.status == NursingStatus.loading && state.services.isEmpty) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          if (state.services.isEmpty) {
-            return const NursingServicesEmptyView();
-          }
-
-          return NursingServicesPopulatedView(state: state);
+      body: RefreshIndicator(
+        onRefresh: () async {
+          context.read<NursingBloc>().add(LoadNursingServices());
         },
+        child: BlocBuilder<NursingBloc, NursingState>(
+          builder: (context, state) {
+            if (state.status == NursingStatus.loading &&
+                state.services.isEmpty) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (state.services.isEmpty) {
+              return const NursingServicesEmptyView();
+            }
+
+            return NursingServicesPopulatedView(state: state);
+          },
+        ),
       ),
     );
   }
 }
-

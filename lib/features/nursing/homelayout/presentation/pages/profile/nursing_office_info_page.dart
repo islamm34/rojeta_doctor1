@@ -56,7 +56,7 @@ class _NursingOfficeInfoPageState extends State<NursingOfficeInfoPage> {
       description: _descController.text.trim(),
       verificationStatus:
           context.read<NursingBloc>().state.officeInfo?.verificationStatus ??
-          'ACTIVE STATUS',
+          '',
     );
     context.read<NursingBloc>().add(UpdateNursingOfficeInfoEvent(updatedInfo));
     context.pop();
@@ -228,25 +228,27 @@ class _NursingOfficeInfoPageState extends State<NursingOfficeInfoPage> {
                           color: const Color(0xFF0F2D52),
                         ),
                       ),
-                      SizedBox(height: 16.h),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16.w,
-                          vertical: 8.h,
-                        ),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF6EE7B7), // Mint
-                          borderRadius: BorderRadius.circular(16.r),
-                        ),
-                        child: Text(
-                          info.verificationStatus ?? 'ACTIVE STATUS',
-                          style: TextStyle(
-                            color: const Color(0xFF064E3B),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 10.sp,
+                      if (info.verificationStatus.isNotEmpty) ...[
+                        SizedBox(height: 16.h),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16.w,
+                            vertical: 8.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF6EE7B7), // Mint
+                            borderRadius: BorderRadius.circular(16.r),
+                          ),
+                          child: Text(
+                            info.verificationStatus,
+                            style: TextStyle(
+                              color: const Color(0xFF064E3B),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 10.sp,
+                            ),
                           ),
                         ),
-                      ),
+                      ],
                     ],
                   ),
                 ),

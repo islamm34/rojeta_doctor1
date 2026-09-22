@@ -117,8 +117,9 @@ class LabHomeTab extends StatelessWidget {
                               alpha: 0.2,
                             ),
                             backgroundImage:
-                                (cachedUser?.image?.isNotEmpty == true)
-                                ? NetworkImage(cachedUser!.image!)
+                                (cachedUser?.image?.isNotEmpty == true &&
+                                    cachedUser!.image!.startsWith('http'))
+                                ? NetworkImage(cachedUser.image!)
                                 : const NetworkImage(
                                         'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=200',
                                       )

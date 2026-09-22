@@ -22,39 +22,38 @@ class NursingDashboardModel extends Equatable {
   factory NursingDashboardModel.fromJson(Map<String, dynamic>? json) {
     if (json == null) return const NursingDashboardModel();
 
-    final todays = json['todaysBookings'] ??
+    final todays =
+        json['todaysBookings'] ??
         json['todays_bookings'] ??
         json['today_bookings'] ??
         json['total_appointments_today'] ??
         json['todayBookingsCount'] ??
         0;
 
-    final trend = json['bookingsTrend'] ??
-        json['bookings_trend'] ??
-        '+12% from yesterday';
+    final trend = json['bookingsTrend'] ?? json['bookings_trend'] ?? '';
 
-    final activeNursesCount = json['activeNurses'] ??
+    final activeNursesCount =
+        json['activeNurses'] ??
         json['active_nurses'] ??
         json['nurses_count'] ??
         json['total_nurses'] ??
         0;
 
-    final nursesDesc = json['activeNursesDesc'] ??
-        json['active_nurses_desc'] ??
-        'On-duty across all wards';
+    final nursesDesc =
+        json['activeNursesDesc'] ?? json['active_nurses_desc'] ?? '';
 
-    final earnings = (json['totalEarnings'] ??
-            json['total_earnings'] ??
-            json['earnings'] ??
-            json['total_revenue'] ??
-            0.0)
-        .toDouble();
+    final earnings =
+        (json['totalEarnings'] ??
+                json['total_earnings'] ??
+                json['earnings'] ??
+                json['total_revenue'] ??
+                0.0)
+            .toDouble();
 
-    final earnDesc = json['earningsDesc'] ??
-        json['earnings_desc'] ??
-        'Monthly revenue to date';
+    final earnDesc = json['earningsDesc'] ?? json['earnings_desc'] ?? '';
 
-    final bookingsRaw = json['upcomingBookings'] ??
+    final bookingsRaw =
+        json['upcomingBookings'] ??
         json['upcoming_bookings'] ??
         json['upcoming'] ??
         json['bookings'] ??
@@ -69,7 +68,9 @@ class NursingDashboardModel extends Equatable {
     }
 
     return NursingDashboardModel(
-      todaysBookings: (todays is num) ? todays.toInt() : int.tryParse(todays.toString()) ?? 0,
+      todaysBookings: (todays is num)
+          ? todays.toInt()
+          : int.tryParse(todays.toString()) ?? 0,
       bookingsTrend: trend.toString(),
       activeNurses: (activeNursesCount is num)
           ? activeNursesCount.toInt()
@@ -115,14 +116,14 @@ class NursingDashboardModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        todaysBookings,
-        bookingsTrend,
-        activeNurses,
-        activeNursesDesc,
-        totalEarnings,
-        earningsDesc,
-        upcomingBookings,
-      ];
+    todaysBookings,
+    bookingsTrend,
+    activeNurses,
+    activeNursesDesc,
+    totalEarnings,
+    earningsDesc,
+    upcomingBookings,
+  ];
 }
 
 class NursingBookingModel extends Equatable {
@@ -151,30 +152,47 @@ class NursingBookingModel extends Equatable {
     String day = json['dateDay'] ?? json['day'] ?? '';
 
     // If full date is provided (e.g. 2026-05-02)
-    final dateStr = json['date'] ?? json['booking_date'] ?? json['appointment_date'];
+    final dateStr =
+        json['date'] ?? json['booking_date'] ?? json['appointment_date'];
     if (dateStr is String && dateStr.isNotEmpty) {
       try {
         final parsed = DateTime.parse(dateStr);
-        final months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+        final months = [
+          'JAN',
+          'FEB',
+          'MAR',
+          'APR',
+          'MAY',
+          'JUN',
+          'JUL',
+          'AUG',
+          'SEP',
+          'OCT',
+          'NOV',
+          'DEC',
+        ];
         month = months[parsed.month - 1];
         day = parsed.day.toString();
       } catch (_) {}
     }
 
-    if (month.isEmpty) month = 'MAY';
-    if (day.isEmpty) day = '1';
-
     return NursingBookingModel(
       id: json['id']?.toString() ?? json['booking_id']?.toString(),
       dateMonth: month,
       dateDay: day,
-      patientName: json['patientName'] ?? json['patient_name'] ?? json['patient'] ?? 'Patient',
-      serviceType: json['serviceType'] ??
+      patientName:
+          json['patientName'] ?? json['patient_name'] ?? json['patient'] ?? '',
+      serviceType:
+          json['serviceType'] ??
           json['service_name'] ??
           json['service'] ??
           json['type'] ??
-          'Nursing Care',
-      time: json['time'] ?? json['booking_time'] ?? json['appointment_time'] ?? '09:00 AM',
+          '',
+      time:
+          json['time'] ??
+          json['booking_time'] ??
+          json['appointment_time'] ??
+          '',
       status: json['status']?.toString() ?? 'pending',
     );
   }
@@ -212,5 +230,13 @@ class NursingBookingModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, dateMonth, dateDay, patientName, serviceType, time, status];
+  List<Object?> get props => [
+    id,
+    dateMonth,
+    dateDay,
+    patientName,
+    serviceType,
+    time,
+    status,
+  ];
 }

@@ -1,21 +1,23 @@
 import 'package:rojeta_doctor/core/local/user_data.dart';
 
+import '../../../../core/di/injector.dart';
 import '../../../../core/local/user_hive_helper.dart';
+import '../../../../core/utils/firebase_messaging_service.dart';
 import '../../../../core/utils/flutter_secure_storage_helper.dart';
-import '../../domain/repositories/auth_repository.dart';
-import '../../domain/datasources/auth_remote_data_source.dart';
 import '../../domain/datasources/auth_local_data_source.dart';
+import '../../domain/datasources/auth_remote_data_source.dart';
+import '../../domain/repositories/auth_repository.dart';
 import '../models/authmodel.dart';
-import '../models/login/login_request_model.dart';
-import '../models/login/login_response_model.dart';
-import '../models/register/register_request_model.dart';
-import '../models/register/register_response_model.dart';
-import '../models/otp/verify_otp_request_model.dart';
-import '../models/otp/verify_otp_response_model.dart';
-import '../models/otp/resend_otp_request_model.dart';
-import '../models/otp/resend_otp_response_model.dart';
 import '../models/check_phone/check_phone_request_model.dart';
 import '../models/check_phone/check_phone_response_model.dart';
+import '../models/login/login_request_model.dart';
+import '../models/login/login_response_model.dart';
+import '../models/otp/resend_otp_request_model.dart';
+import '../models/otp/resend_otp_response_model.dart';
+import '../models/otp/verify_otp_request_model.dart';
+import '../models/otp/verify_otp_response_model.dart';
+import '../models/register/register_request_model.dart';
+import '../models/register/register_response_model.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remote;
@@ -48,7 +50,7 @@ class AuthRepositoryImpl implements AuthRepository {
     final savedUser = response.user ?? UserData();
     savedUser.name = (savedUser.name?.isNotEmpty == true)
         ? savedUser.name
-        : (requestModel.name?.isNotEmpty == true
+        : (requestModel.name.isNotEmpty == true
               ? requestModel.name
               : requestModel.organizationName);
     savedUser.firstName = (savedUser.firstName?.isNotEmpty == true)
@@ -70,6 +72,14 @@ class AuthRepositoryImpl implements AuthRepository {
       savedUser.token = response.token;
     }
     UserHiveHelper.saveUser(savedUser);
+
+    if (response.token != null && response.token!.isNotEmpty) {
+      try {
+        if (injector.isRegistered<FirebaseMessagingService>()) {
+          injector<FirebaseMessagingService>().sendDeviceTokenToBackend();
+        }
+      } catch (_) {}
+    }
 
     return response;
   }
@@ -122,6 +132,14 @@ class AuthRepositoryImpl implements AuthRepository {
     }
     UserHiveHelper.saveUser(userToSave);
 
+    if (response.token != null && response.token!.isNotEmpty) {
+      try {
+        if (injector.isRegistered<FirebaseMessagingService>()) {
+          injector<FirebaseMessagingService>().sendDeviceTokenToBackend();
+        }
+      } catch (_) {}
+    }
+
     return response;
   }
 
@@ -172,6 +190,14 @@ class AuthRepositoryImpl implements AuthRepository {
       userToSave.token = response.token;
     }
     UserHiveHelper.saveUser(userToSave);
+
+    if (response.token != null && response.token!.isNotEmpty) {
+      try {
+        if (injector.isRegistered<FirebaseMessagingService>()) {
+          injector<FirebaseMessagingService>().sendDeviceTokenToBackend();
+        }
+      } catch (_) {}
+    }
 
     return response;
   }

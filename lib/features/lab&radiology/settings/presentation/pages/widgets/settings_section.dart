@@ -25,14 +25,16 @@ class SettingsSection extends StatelessWidget {
           ),
         ),
         SizedBox(height: 12.h),
-        Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12.r),
-            border: Border.all(color: const Color(0xFFE2E8F0)),
-          ),
-          child: Column(
-            children: children,
+        Material(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12.r),
+          clipBehavior: Clip.antiAlias,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12.r),
+              border: Border.all(color: const Color(0xFFE2E8F0)),
+            ),
+            child: Column(children: children),
           ),
         ),
       ],
@@ -91,8 +93,17 @@ class SettingsItemTile extends StatelessWidget {
                   ),
                 )
               : null,
-          trailing: trailing ?? Icon(Icons.chevron_right, color: const Color(0xFF7A8FA6), size: 20.r),
-          contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: subtitle != null ? 4.h : 0),
+          trailing:
+              trailing ??
+              Icon(
+                Icons.chevron_right,
+                color: const Color(0xFF7A8FA6),
+                size: 20.r,
+              ),
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: 16.w,
+            vertical: subtitle != null ? 4.h : 0,
+          ),
         ),
         if (hasDivider)
           Divider(

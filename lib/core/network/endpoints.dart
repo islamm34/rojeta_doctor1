@@ -36,6 +36,8 @@ class Endpoints {
   static const String doctorNotifications = '/doctor/notifications';
   static String doctorNotificationRead(String notificationId) =>
       '/doctor/notifications/$notificationId/read';
+  static const String doctorDeviceToken = '/doctor/device-token';
+  static const String notificationsDeviceToken = '/notifications/device-token';
   static const String doctorSettings = '/doctor/settings';
   static const String doctorChatConversations = '/doctor/chat/conversations';
   static const String doctorChatMessages = '/doctor/chat/messages';
@@ -105,4 +107,7 @@ class Endpoints {
   static const String addNursingService = '/nursing/services/add';
   static const String getNursingStaff = '/nursing/staff';
   static const String addNursingStaff = '/nursing/staff/add';
+  static const String getNursingProfile = '/nursing/profile';
+  static const String getNursingWorkingHours = '/nursing/working-hours';
+  static const String getNursingSettings = '/nursing/settings';
 }

@@ -55,7 +55,7 @@ class NursingUpcomingBookings extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      booking.dateMonth ?? 'MAY',
+                      booking.dateMonth ?? '',
                       style: context.textTheme.labelSmall?.copyWith(
                         color: const Color(0xFF3B82F6),
                         fontWeight: FontWeight.bold,
@@ -63,7 +63,7 @@ class NursingUpcomingBookings extends StatelessWidget {
                     ),
                     SizedBox(height: 4.h),
                     Text(
-                      booking.dateDay ?? '1',
+                      booking.dateDay ?? '',
                       style: context.textTheme.titleLarge?.copyWith(
                         color: const Color(0xFF1E3A8A),
                         fontWeight: FontWeight.bold,
