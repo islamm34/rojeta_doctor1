@@ -214,36 +214,63 @@ class BookingDetailsBottomSheet extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12.r),
                   border: Border.all(color: const Color(0xFFE2E8F0)),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Column(
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          context.strings.paymentStatusLabel,
-                          style: context.textTheme.labelSmall?.copyWith(
-                            color: const Color(0xFF64748B),
-                          ),
-                        ),
-                        SizedBox(height: 4.h),
-                        Row(
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              width: 8.w,
-                              height: 8.w,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: isPaid ? Colors.green : Colors.orange,
+                            Text(
+                              context.strings.paymentStatusLabel,
+                              style: context.textTheme.labelSmall?.copyWith(
+                                color: const Color(0xFF64748B),
                               ),
                             ),
-                            SizedBox(width: 6.w),
+                            SizedBox(height: 4.h),
+                            Row(
+                              children: [
+                                Container(
+                                  width: 8.w,
+                                  height: 8.w,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: isPaid
+                                        ? Colors.green
+                                        : Colors.orange,
+                                  ),
+                                ),
+                                SizedBox(width: 6.w),
+                                Text(
+                                  isPaid
+                                      ? context.strings.paymentPaid
+                                      : context.strings.paymentPending,
+                                  style: context.textTheme.bodyMedium?.copyWith(
+                                    color: isPaid
+                                        ? Colors.green
+                                        : Colors.orange,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
                             Text(
-                              isPaid
-                                  ? context.strings.paymentPaid
-                                  : context.strings.paymentPending,
-                              style: context.textTheme.bodyMedium?.copyWith(
-                                color: isPaid ? Colors.green : Colors.orange,
+                              context.strings.feeLabel,
+                              style: context.textTheme.labelSmall?.copyWith(
+                                color: const Color(0xFF64748B),
+                              ),
+                            ),
+                            SizedBox(height: 4.h),
+                            Text(
+                              '${booking.fee ?? 0} ${context.strings.priceEgp.split(' ').last.replaceAll('(', '').replaceAll(')', '')}',
+                              style: context.textTheme.titleMedium?.copyWith(
+                                color: AppColors.primary,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -251,25 +278,57 @@ class BookingDetailsBottomSheet extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          context.strings.feeLabel,
-                          style: context.textTheme.labelSmall?.copyWith(
-                            color: const Color(0xFF64748B),
-                          ),
+                    if (booking.type == BookingType.homeVisit &&
+                        booking.homeVisitFee != null &&
+                        booking.homeVisitFee! > 0) ...[
+                      SizedBox(height: 12.h),
+                      const Divider(color: Color(0xFFE2E8F0)),
+                      SizedBox(height: 8.h),
+                      if (booking.testPrice != null &&
+                          booking.testPrice! > 0) ...[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              userType == UserType.radiologyCenter
+                                  ? context.strings.scanName
+                                  : (userType == UserType.laboratory
+                                        ? context.strings.testName
+                                        : context.strings.services),
+                              style: context.textTheme.bodySmall?.copyWith(
+                                color: const Color(0xFF64748B),
+                              ),
+                            ),
+                            Text(
+                              '${booking.testPrice} ${context.strings.priceEgp.split(' ').last.replaceAll('(', '').replaceAll(')', '')}',
+                              style: context.textTheme.bodySmall?.copyWith(
+                                color: const Color(0xFF334155),
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
                         ),
                         SizedBox(height: 4.h),
-                        Text(
-                          '${booking.fee ?? 0} ${context.strings.priceEgp.split(' ').last.replaceAll('(', '').replaceAll(')', '')}',
-                          style: context.textTheme.titleMedium?.copyWith(
-                            color: AppColors.primary,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
                       ],
-                    ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            context.strings.tagHomeVisit,
+                            style: context.textTheme.bodySmall?.copyWith(
+                              color: const Color(0xFF64748B),
+                            ),
+                          ),
+                          Text(
+                            '+${booking.homeVisitFee} ${context.strings.priceEgp.split(' ').last.replaceAll('(', '').replaceAll(')', '')}',
+                            style: context.textTheme.bodySmall?.copyWith(
+                              color: const Color(0xFF2563EB),
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ],
                 ),
               ),

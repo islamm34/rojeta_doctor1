@@ -19,7 +19,11 @@ class SettingsSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.only(left: 16.w, bottom: 8.h, top: 16.h),
+          padding: EdgeInsetsDirectional.only(
+            start: 16.w,
+            bottom: 8.h,
+            top: 16.h,
+          ),
           child: Text(
             title.toUpperCase(),
             style: context.textTheme.labelMedium?.copyWith(
@@ -45,9 +49,7 @@ class SettingsSection extends StatelessWidget {
             color: context.theme.cardColor,
             borderRadius: BorderRadius.circular(12.r),
             clipBehavior: Clip.antiAlias,
-            child: Column(
-              children: children,
-            ),
+            child: Column(children: children),
           ),
         ),
       ],

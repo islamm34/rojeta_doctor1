@@ -19,6 +19,8 @@ class BookingModel extends Equatable {
   final BookingStatus? status;
   final PaymentStatus? paymentStatus;
   final double? fee;
+  final double? testPrice;
+  final double? homeVisitFee;
 
   const BookingModel({
     this.id,
@@ -33,6 +35,8 @@ class BookingModel extends Equatable {
     this.status,
     this.paymentStatus,
     this.fee,
+    this.testPrice,
+    this.homeVisitFee,
   });
 
   factory BookingModel.fromJson(Map<String, dynamic> json) {
@@ -64,14 +68,16 @@ class BookingModel extends Equatable {
       parsedStatus = BookingStatus.pending;
     }
 
-    final rawPayment = (json['paymentStatus'] ??
-            json['payment_status'] ??
-            json['payment_method_status'] ??
-            json['payment']?['status'])
-        ?.toString()
-        .toLowerCase();
+    final rawPayment =
+        (json['paymentStatus'] ??
+                json['payment_status'] ??
+                json['payment_method_status'] ??
+                json['payment']?['status'])
+            ?.toString()
+            .toLowerCase();
     PaymentStatus? parsedPayment;
-    final isExplicitlyPaid = json['is_paid'] == true ||
+    final isExplicitlyPaid =
+        json['is_paid'] == true ||
         json['is_paid'] == 1 ||
         json['paid'] == true ||
         json['isPaid'] == true ||
@@ -86,6 +92,26 @@ class BookingModel extends Equatable {
     } else if (rawPayment == 'unpaid' || rawPayment == 'failed') {
       parsedPayment = PaymentStatus.unpaid;
     }
+
+    final rawTestPrice =
+        json['test_price'] ??
+        json['price'] ??
+        json['service_price'] ??
+        json['scan_price'];
+    final double? parsedTestPrice = (rawTestPrice is num)
+        ? rawTestPrice.toDouble()
+        : (rawTestPrice is String ? double.tryParse(rawTestPrice) : null);
+
+    final rawHomeVisitFee =
+        json['home_visit_fee'] ??
+        json['homeVisitFee'] ??
+        json['visit_fee'] ??
+        json['delivery_fee'] ??
+        json['collection_fee'] ??
+        json['collectionFee'];
+    final double? parsedHomeVisitFee = (rawHomeVisitFee is num)
+        ? rawHomeVisitFee.toDouble()
+        : (rawHomeVisitFee is String ? double.tryParse(rawHomeVisitFee) : null);
 
     final rawFee =
         json['totalPrice'] ??
@@ -102,12 +128,9 @@ class BookingModel extends Equatable {
     }
 
     if (parsedFee == null || parsedFee == 0) {
-      final testPrice = json['test_price'] ?? json['price'] ?? json['service_price'];
-      final homeVisitFee = json['home_visit_fee'] ?? json['visit_fee'] ?? json['delivery_fee'];
-      final num? tPrice = testPrice is num ? testPrice : (testPrice is String ? num.tryParse(testPrice) : null);
-      final num? hFee = homeVisitFee is num ? homeVisitFee : (homeVisitFee is String ? num.tryParse(homeVisitFee) : null);
-      if (tPrice != null || hFee != null) {
-        parsedFee = ((tPrice ?? 0) + (hFee ?? 0)).toDouble();
+      if (parsedTestPrice != null || parsedHomeVisitFee != null) {
+        parsedFee = ((parsedTestPrice ?? 0) + (parsedHomeVisitFee ?? 0))
+            .toDouble();
       }
     }
 
@@ -132,7 +155,11 @@ class BookingModel extends Equatable {
                   json['patient']?['phone'])
               ?.toString(),
       serviceName:
-          (json['serviceName'] ?? json['service_name'] ?? json['title'] ?? json['test_name'] ?? json['scan_name'])
+          (json['serviceName'] ??
+                  json['service_name'] ??
+                  json['title'] ??
+                  json['test_name'] ??
+                  json['scan_name'])
               ?.toString(),
       locationName:
           (json['locationName'] ??
@@ -149,6 +176,8 @@ class BookingModel extends Equatable {
       status: parsedStatus,
       paymentStatus: parsedPayment ?? PaymentStatus.pending,
       fee: parsedFee,
+      testPrice: parsedTestPrice,
+      homeVisitFee: parsedHomeVisitFee,
     );
   }
 
@@ -166,6 +195,8 @@ class BookingModel extends Equatable {
       'status': status?.name,
       'paymentStatus': paymentStatus?.name,
       'totalPrice': fee,
+      'test_price': testPrice,
+      'home_visit_fee': homeVisitFee,
     };
   }
 
@@ -182,6 +213,8 @@ class BookingModel extends Equatable {
     BookingStatus? status,
     PaymentStatus? paymentStatus,
     double? fee,
+    double? testPrice,
+    double? homeVisitFee,
   }) {
     return BookingModel(
       id: id ?? this.id,
@@ -196,6 +229,8 @@ class BookingModel extends Equatable {
       status: status ?? this.status,
       paymentStatus: paymentStatus ?? this.paymentStatus,
       fee: fee ?? this.fee,
+      testPrice: testPrice ?? this.testPrice,
+      homeVisitFee: homeVisitFee ?? this.homeVisitFee,
     );
   }
 
@@ -213,5 +248,7 @@ class BookingModel extends Equatable {
     status,
     paymentStatus,
     fee,
+    testPrice,
+    homeVisitFee,
   ];
 }

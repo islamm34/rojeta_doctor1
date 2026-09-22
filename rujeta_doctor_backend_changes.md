@@ -562,18 +562,31 @@ Returns the complete appointment details for the given `id`.
 
 ---
 
-## 11. Home Visit Booking Location & Fee Calculation (ROJ-026 & ROJ-027)
+## 11. Home Visit Booking Location, Extra Fees & Financial Synchronization (ROJ-026 & ROJ-027)
 
-### 11.1 Booking Schema Requirements
+### 11.1 End-to-End Home Visit Fee Pipeline
 
-When returning bookings via `GET /api/v1/bookings`:
+To ensure synchronization across Patient booking, Provider appointment management, and Financial earnings:
 
-1. **Patient Residential Address:** For all home visit bookings (`type: "home_visit"` or `type: "home"`), the backend must include the patient's full address in `patient_address` or `address` or `location_name`.
-2. **Total Price Calculation:** The `total_price` (or `totalPrice` / `fee`) must be calculated as:
-   $$\text{total\_price} = \text{test\_price} + \text{home\_visit\_fee}$$
-   Example: If CBC is 180 EGP and Home Collection is 50 EGP, `total_price` should return `230.00`.
+1. **Provider Catalog / Listing Endpoint (`GET /api/v1/service-providers` or `GET /api/v1/patient/laboratories` / `radiology-centers`):**
+   - Each provider object supporting home visits must return `home_visit_fee` (or `collection_fee`) along with `has_home_service: true`.
+   - Example: `"has_home_service": true, "home_visit_fee": 50.00`.
 
-#### Sample Booking JSON Object
+2. **Patient Booking Dispatch (`POST /api/v1/bookings/laboratory/create` & `POST /api/v1/bookings/radiology/create`):**
+   - When `visit_type == "homeVisit"`:
+     $$\text{total\_price} = \sum(\text{selected test/scan prices}) + \text{home\_visit\_fee} - \text{discounts}$$
+   - The payload will include `"home_visit_fee": 50.00`, `"total_price": 270.00`, `"visit_type": "homeVisit"`, and `"patient_address": "Building 14, Street 9, Maadi, Cairo"`.
+
+3. **Provider Bookings Endpoint (`GET /api/v1/bookings`):**
+   - For all home visit bookings (`type: "home_visit"` or `type: "home"`):
+     - **Patient Residential Address:** Return in `patient_address` or `location_name`.
+     - **Itemized Breakdown:** Return `test_price` (or `service_price`), `home_visit_fee`, and `total_price` (where $\text{total\_price} = \text{test\_price} + \text{home\_visit\_fee}$).
+
+4. **Financial Summary & Transaction History (`GET /api/v1/financial/summary` & `GET /api/v1/financial/transactions`):**
+   - `total_income` / `gross_amount` / `service_fee` for completed home visit bookings must use `total_price` (including the `home_visit_fee`).
+   - Provider net earning is calculated on the full collected amount minus agreed platform commission.
+
+#### Sample Booking JSON Object (`GET /api/v1/bookings`)
 
 ```json
 {
@@ -591,6 +604,22 @@ When returning bookings via `GET /api/v1/bookings`:
   "booking_time": "09:00 AM",
   "status": "confirmed",
   "payment_status": "pending"
+}
+```
+
+#### Sample Financial Transaction Object (`GET /api/v1/financial/transactions`)
+
+```json
+{
+  "id": "tx_5541",
+  "patient_name": "Nour El-Din",
+  "visit_type": "home_visit",
+  "status": "completed",
+  "date": "2026-09-22",
+  "time": "09:00 AM",
+  "service_fee": 270.00,
+  "platform_commission": 27.00,
+  "your_earning": 243.00
 }
 ```
 

@@ -518,8 +518,8 @@ class SettingsPage extends StatelessWidget {
 
                     // Payment Details Section
                     Padding(
-                      padding: EdgeInsets.only(
-                        left: 16.w,
+                      padding: EdgeInsetsDirectional.only(
+                        start: 16.w,
                         bottom: 8.h,
                         top: 16.h,
                       ),
@@ -556,8 +556,8 @@ class SettingsPage extends StatelessWidget {
 
                     // Danger Zone Section
                     Padding(
-                      padding: EdgeInsets.only(
-                        left: 16.w,
+                      padding: EdgeInsetsDirectional.only(
+                        start: 16.w,
                         bottom: 8.h,
                         top: 24.h,
                       ),
