@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rojeta_doctor/features/lab&radiology/homelayout/data/models/home_visit_config_model.dart';
 
-import '../../../../../../shared/models/time_slot_model.dart';
 import '../../../domain/repositories/home_visits_repository.dart';
 import 'home_visits_event.dart';
 import 'home_visits_state.dart';
@@ -17,7 +17,36 @@ class HomeVisitsBloc extends Bloc<HomeVisitsEvent, HomeVisitsState> {
     on<AddHomeVisitTimeSlot>(_onAddTimeSlot);
     on<RemoveHomeVisitTimeSlot>(_onRemoveTimeSlot);
     on<ToggleHomeVisitTimeSlotStatus>(_onToggleTimeSlotStatus);
+    on<AddHomeVisitServiceArea>(_onAddServiceArea);
+    on<DeleteHomeVisitServiceArea>(_onDeleteServiceArea);
     on<SaveHomeVisitsConfig>(_onSaveConfig);
+  }
+
+  void _onAddServiceArea(
+    AddHomeVisitServiceArea event,
+    Emitter<HomeVisitsState> emit,
+  ) {
+    final updated = List<ServiceAreaModel>.from(
+      state.config.serviceAreas ?? const [],
+    )..add(event.area);
+    emit(
+      state.copyWithClearError(
+        config: state.config.copyWith(serviceAreas: updated),
+      ),
+    );
+  }
+
+  void _onDeleteServiceArea(
+    DeleteHomeVisitServiceArea event,
+    Emitter<HomeVisitsState> emit,
+  ) {
+    final current = state.config.serviceAreas ?? const [];
+    final updated = current.where((a) => a.id != event.areaId).toList();
+    emit(
+      state.copyWithClearError(
+        config: state.config.copyWith(serviceAreas: updated),
+      ),
+    );
   }
 
   Future<void> _onLoadConfig(

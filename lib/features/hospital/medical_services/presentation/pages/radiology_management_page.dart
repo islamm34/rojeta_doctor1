@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+
+import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
-import '../../../../../../core/utils/app_colors.dart';
-import '../widgets/radiology/add_radiology_service_form.dart';
-import '../widgets/radiology/active_radiology_service_card.dart';
 import '../../data/models/radiology_service_model.dart';
+import '../widgets/radiology/active_radiology_service_card.dart';
+import '../widgets/radiology/add_radiology_service_form.dart';
 
 class RadiologyManagementPage extends StatelessWidget {
   const RadiologyManagementPage({super.key});
@@ -66,7 +67,7 @@ class RadiologyManagementPage extends StatelessWidget {
                     width: 60.w,
                     height: 60.w,
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withOpacity(0.1),
+                      color: AppColors.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12.r),
                     ),
                     child: Icon(
@@ -96,7 +97,7 @@ class RadiologyManagementPage extends StatelessWidget {
                                 vertical: 4.h,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.tealAccent.withOpacity(0.3),
+                                color: Colors.tealAccent.withValues(alpha: 0.3),
                                 borderRadius: BorderRadius.circular(12.r),
                               ),
                               child: Text(

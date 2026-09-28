@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
 import 'package:rojeta_doctor/core/utils/app_colors.dart';
+import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
+
 import '../../../data/models/marketing_package_model.dart';
 import 'package_card.dart';
 
@@ -46,7 +47,7 @@ class _PackagesTabViewState extends State<PackagesTabView> {
                   isYearly = val;
                 });
               },
-              activeColor: AppColors.primary,
+              activeThumbColor: AppColors.primary,
             ),
             const SizedBox(width: 8),
             Text(

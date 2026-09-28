@@ -8,8 +8,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PaymentDetailsSection extends StatelessWidget {
   final ProfileModel profile;
+  final TextEditingController? accountHolderController;
+  final TextEditingController? bankNameController;
+  final TextEditingController? accountNumberController;
 
-  const PaymentDetailsSection({super.key, required this.profile});
+  const PaymentDetailsSection({
+    super.key,
+    required this.profile,
+    this.accountHolderController,
+    this.bankNameController,
+    this.accountNumberController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +31,11 @@ class PaymentDetailsSection extends StatelessWidget {
       children: [
         Row(
           children: [
-            Icon(Icons.payment_outlined, color: theme.colorScheme.primary, size: 20),
+            Icon(
+              Icons.payment_outlined,
+              color: theme.colorScheme.primary,
+              size: 20,
+            ),
             const SizedBox(width: 8),
             Text(
               context.strings.paymentDetails,
@@ -37,26 +50,37 @@ class PaymentDetailsSection extends StatelessWidget {
           children: [
             Expanded(
               child: GestureDetector(
-                onTap: () => context.read<ProfileBloc>().add(const SwitchPaymentTypeEvent('bank_transfer')),
+                onTap: () => context.read<ProfileBloc>().add(
+                  const SwitchPaymentTypeEvent('bank_transfer'),
+                ),
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   decoration: BoxDecoration(
                     color: theme.colorScheme.surface,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: isBankTransfer ? theme.colorScheme.primary : theme.colorScheme.outline.withValues(alpha: 0.1),
+                      color: isBankTransfer
+                          ? theme.colorScheme.primary
+                          : theme.colorScheme.outline.withValues(alpha: 0.1),
                       width: isBankTransfer ? 2 : 1,
                     ),
                   ),
                   child: Column(
                     children: [
-                      Icon(Icons.account_balance, color: isBankTransfer ? theme.colorScheme.primary : theme.colorScheme.onSurfaceVariant),
+                      Icon(
+                        Icons.account_balance,
+                        color: isBankTransfer
+                            ? theme.colorScheme.primary
+                            : theme.colorScheme.onSurfaceVariant,
+                      ),
                       const SizedBox(height: 8),
                       Text(
                         context.strings.bankTransfer,
                         style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: isBankTransfer ? theme.colorScheme.primary : theme.colorScheme.onSurfaceVariant,
+                          color: isBankTransfer
+                              ? theme.colorScheme.primary
+                              : theme.colorScheme.onSurfaceVariant,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -76,26 +100,37 @@ class PaymentDetailsSection extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(
               child: GestureDetector(
-                onTap: () => context.read<ProfileBloc>().add(const SwitchPaymentTypeEvent('mobile_wallet')),
+                onTap: () => context.read<ProfileBloc>().add(
+                  const SwitchPaymentTypeEvent('mobile_wallet'),
+                ),
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 16),
                   decoration: BoxDecoration(
                     color: theme.colorScheme.surface,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: !isBankTransfer ? theme.colorScheme.primary : theme.colorScheme.outline.withValues(alpha: 0.1),
+                      color: !isBankTransfer
+                          ? theme.colorScheme.primary
+                          : theme.colorScheme.outline.withValues(alpha: 0.1),
                       width: !isBankTransfer ? 2 : 1,
                     ),
                   ),
                   child: Column(
                     children: [
-                      Icon(Icons.account_balance_wallet, color: !isBankTransfer ? theme.colorScheme.primary : theme.colorScheme.onSurfaceVariant),
+                      Icon(
+                        Icons.account_balance_wallet,
+                        color: !isBankTransfer
+                            ? theme.colorScheme.primary
+                            : theme.colorScheme.onSurfaceVariant,
+                      ),
                       const SizedBox(height: 8),
                       Text(
                         context.strings.mobileWallet,
                         style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: !isBankTransfer ? theme.colorScheme.primary : theme.colorScheme.onSurfaceVariant,
+                          color: !isBankTransfer
+                              ? theme.colorScheme.primary
+                              : theme.colorScheme.onSurfaceVariant,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -118,27 +153,38 @@ class PaymentDetailsSection extends StatelessWidget {
         if (isBankTransfer) ...[
           CustomTextField(
             label: context.strings.accountHolderName,
-            initialValue: profile.paymentDetails.accountHolderName,
+            controller: accountHolderController,
+            initialValue: accountHolderController == null
+                ? profile.paymentDetails.accountHolderName
+                : null,
           ),
           const SizedBox(height: 12),
           CustomTextField(
             label: context.strings.bankName,
-            initialValue: profile.paymentDetails.bankName,
+            controller: bankNameController,
+            initialValue: bankNameController == null
+                ? profile.paymentDetails.bankName
+                : null,
           ),
           const SizedBox(height: 12),
           CustomTextField(
             label: context.strings.accountNumber,
-            initialValue: profile.paymentDetails.accountNumber,
+            controller: accountNumberController,
+            initialValue: accountNumberController == null
+                ? profile.paymentDetails.accountNumber
+                : null,
             keyboardType: TextInputType.number,
           ),
         ] else ...[
-          // For mobile wallet, we might just need the phone number/wallet number
           CustomTextField(
             label: context.strings.mobileNumber,
-            initialValue: profile.paymentDetails.accountNumber,
+            controller: accountNumberController,
+            initialValue: accountNumberController == null
+                ? profile.paymentDetails.accountNumber
+                : null,
             keyboardType: TextInputType.phone,
           ),
-        ]
+        ],
       ],
     );
   }

@@ -45,11 +45,13 @@ class SettingsSwitchTile extends StatelessWidget {
           Switch(
             value: value,
             onChanged: onChanged,
-            activeColor: Colors.white,
+            activeThumbColor: Colors.white,
             activeTrackColor: theme.colorScheme.primary,
             inactiveTrackColor: Colors.grey.shade300,
             inactiveThumbColor: Colors.white,
-            trackOutlineColor: WidgetStateProperty.resolveWith<Color?>((states) {
+            trackOutlineColor: WidgetStateProperty.resolveWith<Color?>((
+              states,
+            ) {
               if (!states.contains(WidgetState.selected)) {
                 return Colors.grey.shade300;
               }

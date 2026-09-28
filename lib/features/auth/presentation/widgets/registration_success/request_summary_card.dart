@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
 import '../../../data/models/registration_status_model.dart';
@@ -147,24 +148,22 @@ class RequestSummaryCard extends StatelessWidget {
                   ).textTheme.bodySmall?.copyWith(color: Colors.purple),
                 ),
                 SizedBox(height: 8.h),
-                ...docs
-                    .map(
-                      (doc) => Padding(
-                        padding: EdgeInsets.only(bottom: 4.h),
-                        child: Row(
-                          children: [
-                            Icon(Icons.check, color: Colors.purple, size: 16.w),
-                            SizedBox(width: 4.w),
-                            Text(
-                              doc,
-                              style: Theme.of(context).textTheme.bodyMedium
-                                  ?.copyWith(fontWeight: FontWeight.bold),
-                            ),
-                          ],
+                ...docs.map(
+                  (doc) => Padding(
+                    padding: EdgeInsets.only(bottom: 4.h),
+                    child: Row(
+                      children: [
+                        Icon(Icons.check, color: Colors.purple, size: 16.w),
+                        SizedBox(width: 4.w),
+                        Text(
+                          doc,
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(fontWeight: FontWeight.bold),
                         ),
-                      ),
-                    )
-                    .toList(),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

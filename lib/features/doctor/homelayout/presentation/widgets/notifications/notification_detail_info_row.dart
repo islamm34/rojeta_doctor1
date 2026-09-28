@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../../../core/utils/extensions/context_extensions.dart';
+
 import '../../../../../../core/utils/screen_util_like.dart';
 
 class NotificationDetailInfoRow extends StatelessWidget {
@@ -32,11 +32,7 @@ class NotificationDetailInfoRow extends StatelessWidget {
               color: effectiveIconColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8.r),
             ),
-            child: Icon(
-              icon,
-              size: 16.w,
-              color: effectiveIconColor,
-            ),
+            child: Icon(icon, size: 16.w, color: effectiveIconColor),
           ),
           SizedBox(width: 10.w),
           Expanded(

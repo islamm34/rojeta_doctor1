@@ -43,6 +43,33 @@ class AddNursingStaffEvent extends NursingEvent {
   List<Object?> get props => [staff];
 }
 
+class UpdateNursingStaffEvent extends NursingEvent {
+  final NursingStaffModel staff;
+
+  const UpdateNursingStaffEvent(this.staff);
+
+  @override
+  List<Object?> get props => [staff];
+}
+
+class DeleteNursingStaffEvent extends NursingEvent {
+  final String staffId;
+
+  const DeleteNursingStaffEvent(this.staffId);
+
+  @override
+  List<Object?> get props => [staffId];
+}
+
+class DeleteNursingServiceEvent extends NursingEvent {
+  final String serviceId;
+
+  const DeleteNursingServiceEvent(this.serviceId);
+
+  @override
+  List<Object?> get props => [serviceId];
+}
+
 class LoadNursingProfileEvent extends NursingEvent {}
 
 class UpdateNursingOfficeInfoEvent extends NursingEvent {

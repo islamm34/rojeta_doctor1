@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+
+import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
-import '../../../../../../core/utils/app_colors.dart';
-import '../../../../../../shared/widgets/custom_textfield.dart';
 import '../../../../../../shared/widgets/custom_elevated_button.dart';
+import '../../../../../../shared/widgets/custom_textfield.dart';
 
 class AddRadiologyServiceForm extends StatefulWidget {
   const AddRadiologyServiceForm({super.key});
@@ -94,7 +95,7 @@ class _AddRadiologyServiceFormState extends State<AddRadiologyServiceForm> {
                       _contrastAgentRequired = val;
                     });
                   },
-                  activeColor: AppColors.primary,
+                  activeThumbColor: AppColors.primary,
                 ),
               ],
             ),

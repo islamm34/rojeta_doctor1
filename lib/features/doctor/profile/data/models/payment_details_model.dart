@@ -13,19 +13,37 @@ class PaymentDetailsModel {
 
   factory PaymentDetailsModel.fromJson(Map<String, dynamic> json) {
     return PaymentDetailsModel(
-      paymentType: json['paymentType'] as String? ?? 'bank_transfer',
-      accountHolderName: json['accountHolderName'] as String?,
-      bankName: json['bankName'] as String?,
-      accountNumber: json['accountNumber'] as String?,
+      paymentType:
+          (json['payment_type'] ?? json['paymentType'] ?? 'bank_transfer')
+              .toString(),
+      accountHolderName:
+          (json['account_holder_name'] ??
+                  json['accountHolderName'] ??
+                  json['holder_name'] ??
+                  json['account_name'])
+              as String?,
+      bankName: (json['bank_name'] ?? json['bankName']) as String?,
+      accountNumber:
+          (json['account_number'] ??
+                  json['accountNumber'] ??
+                  json['wallet_number'] ??
+                  json['mobile_wallet_number'] ??
+                  json['phone'])
+              as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
+      'payment_type': paymentType,
       'paymentType': paymentType,
+      'account_holder_name': accountHolderName,
       'accountHolderName': accountHolderName,
+      'bank_name': bankName,
       'bankName': bankName,
+      'account_number': accountNumber,
       'accountNumber': accountNumber,
+      'wallet_number': accountNumber,
     };
   }
 

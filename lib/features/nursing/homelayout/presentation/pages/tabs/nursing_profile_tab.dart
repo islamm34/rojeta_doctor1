@@ -116,7 +116,7 @@ class NursingProfileTab extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    profile.name ?? '',
+                                    profile.name,
                                     style: context.textTheme.titleMedium
                                         ?.copyWith(
                                           fontWeight: FontWeight.bold,
@@ -125,7 +125,7 @@ class NursingProfileTab extends StatelessWidget {
                                   ),
                                   SizedBox(height: 4.h),
                                   Text(
-                                    '${strings.licenseNumber}: ${profile.licenseNumber ?? ''}',
+                                    '${strings.licenseNumber}: ${profile.licenseNumber}',
                                     style: context.textTheme.bodySmall
                                         ?.copyWith(
                                           color: const Color(0xFF64748B),
@@ -156,7 +156,7 @@ class NursingProfileTab extends StatelessWidget {
                                     ),
                                     SizedBox(width: 4.w),
                                     Text(
-                                      '${profile.servicesCount ?? 0} ${strings.services}',
+                                      '${profile.servicesCount} ${strings.services}',
                                       style: context.textTheme.bodySmall
                                           ?.copyWith(
                                             color: const Color(0xFF0F2D52),
@@ -185,7 +185,7 @@ class NursingProfileTab extends StatelessWidget {
                                     ),
                                     SizedBox(width: 4.w),
                                     Text(
-                                      '${profile.nursesCount ?? 0} ${strings.nurses}',
+                                      '${profile.nursesCount} ${strings.nurses}',
                                       style: context.textTheme.bodySmall
                                           ?.copyWith(
                                             color: const Color(0xFF0F2D52),

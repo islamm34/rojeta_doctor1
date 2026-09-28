@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:rojeta_doctor/features/lab&radiology/homelayout/data/models/home_visit_config_model.dart';
 
 import '../../../../../../features/auth/data/models/user_type_model.dart';
-import '../../../../../../shared/models/time_slot_model.dart';
 
 abstract class HomeVisitsEvent extends Equatable {
   const HomeVisitsEvent();
@@ -79,6 +79,24 @@ class ToggleHomeVisitTimeSlotStatus extends HomeVisitsEvent {
 
   @override
   List<Object> get props => [index, isWeekday];
+}
+
+class AddHomeVisitServiceArea extends HomeVisitsEvent {
+  final ServiceAreaModel area;
+
+  const AddHomeVisitServiceArea({required this.area});
+
+  @override
+  List<Object> get props => [area];
+}
+
+class DeleteHomeVisitServiceArea extends HomeVisitsEvent {
+  final String areaId;
+
+  const DeleteHomeVisitServiceArea({required this.areaId});
+
+  @override
+  List<Object> get props => [areaId];
 }
 
 class SaveHomeVisitsConfig extends HomeVisitsEvent {}

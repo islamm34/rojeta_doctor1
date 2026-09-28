@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
-import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../shared/widgets/custom_elevated_button.dart';
 import '../bloc/medical_services_bloc.dart';
 import '../bloc/medical_services_event.dart';
@@ -117,7 +118,7 @@ class _AddSpecialtyPageState extends State<AddSpecialtyPage> {
         borderRadius: BorderRadius.circular(12.r),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.02),
+            color: Colors.black.withValues(alpha: 0.02),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -142,7 +143,7 @@ class _AddSpecialtyPageState extends State<AddSpecialtyPage> {
           ),
           SizedBox(height: 8.h),
           DropdownButtonFormField<String>(
-            value: selectedSpecialty,
+            initialValue: selectedSpecialty,
             hint: const Text('Select a specialty'),
             items: availableSpecialties.map((String value) {
               return DropdownMenuItem<String>(value: value, child: Text(value));
@@ -221,7 +222,7 @@ class _AddSpecialtyPageState extends State<AddSpecialtyPage> {
                     emergencyAvailable = val;
                   });
                 },
-                activeColor: Colors.white,
+                activeThumbColor: Colors.white,
                 activeTrackColor: AppColors.primary,
               ),
             ],

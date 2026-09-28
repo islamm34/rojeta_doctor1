@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
 
@@ -61,7 +62,7 @@ class ConsultationSectionCard extends StatelessWidget {
                   ),
                 ],
               ),
-              if (titleTrailing != null) titleTrailing!,
+              ?titleTrailing,
             ],
           ),
           SizedBox(height: 16.h),

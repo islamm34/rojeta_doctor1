@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rojeta_doctor/features/hospital/medical_services/data/models/radiology_service_model.dart';
+
+import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
-import '../../../../../../core/utils/app_colors.dart';
 
 class ActiveRadiologyServiceCard extends StatelessWidget {
   final RadiologyServiceModel service;
@@ -98,7 +99,7 @@ class ActiveRadiologyServiceCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.2),
+        color: color.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(4.r),
       ),
       child: Row(
@@ -120,7 +121,7 @@ class ActiveRadiologyServiceCard extends StatelessWidget {
               fontSize: 10.sp,
               color: color == Colors.blueGrey
                   ? Colors.blueGrey.shade700
-                  : color.withOpacity(0.8),
+                  : color.withValues(alpha: 0.8),
               fontWeight: FontWeight.bold,
             ),
           ),

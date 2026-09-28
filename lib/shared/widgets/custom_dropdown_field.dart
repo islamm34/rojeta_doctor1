@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../core/utils/screen_util_like.dart';
 
 class CustomDropdownField<T> extends StatelessWidget {
@@ -50,18 +51,12 @@ class CustomDropdownField<T> extends StatelessWidget {
 
     final defaultFocusedBorder = OutlineInputBorder(
       borderRadius: defaultBorderRadius,
-      borderSide: BorderSide(
-        color: theme.colorScheme.primary,
-        width: 1.5,
-      ),
+      borderSide: BorderSide(color: theme.colorScheme.primary, width: 1.5),
     );
 
     final defaultErrorBorder = OutlineInputBorder(
       borderRadius: defaultBorderRadius,
-      borderSide: BorderSide(
-        color: theme.colorScheme.error,
-        width: 1.0,
-      ),
+      borderSide: BorderSide(color: theme.colorScheme.error, width: 1.0),
     );
 
     return Column(
@@ -96,7 +91,7 @@ class CustomDropdownField<T> extends StatelessWidget {
           SizedBox(height: 8.h),
         ],
         DropdownButtonFormField<T>(
-          value: value,
+          initialValue: value,
           items: items,
           onChanged: enabled ? onChanged : null,
           validator: validator,
@@ -111,14 +106,18 @@ class CustomDropdownField<T> extends StatelessWidget {
           ),
           decoration: InputDecoration(
             filled: filled,
-            fillColor: fillColor ??
-                theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
+            fillColor:
+                fillColor ??
+                theme.colorScheme.surfaceContainerHighest.withValues(
+                  alpha: 0.3,
+                ),
             hintText: hintText,
             hintStyle: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.7),
             ),
             prefixIcon: prefixIcon,
-            contentPadding: contentPadding ??
+            contentPadding:
+                contentPadding ??
                 EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
             border: defaultEnabledBorder,
             enabledBorder: defaultEnabledBorder,

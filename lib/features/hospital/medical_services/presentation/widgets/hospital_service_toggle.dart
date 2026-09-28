@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
+import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
-import '../../../../../../core/utils/app_colors.dart';
 import '../../data/models/hospital_service_model.dart';
 
 class HospitalServiceToggle extends StatelessWidget {
@@ -129,7 +130,7 @@ class HospitalServiceToggle extends StatelessWidget {
           Switch(
             value: service.isEnabled,
             onChanged: onChanged,
-            activeColor: Colors.white,
+            activeThumbColor: Colors.white,
             activeTrackColor: AppColors.primary,
           ),
         ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 
 class ClinicServicePricingRow extends StatelessWidget {
@@ -33,7 +34,7 @@ class ClinicServicePricingRow extends StatelessWidget {
               Switch(
                 value: isEnabled,
                 onChanged: onChanged,
-                activeColor: theme.colorScheme.primary,
+                activeThumbColor: theme.colorScheme.primary,
               ),
               const SizedBox(width: 8),
               Expanded(
@@ -59,7 +60,9 @@ class ClinicServicePricingRow extends StatelessWidget {
             keyboardType: TextInputType.number,
             onChanged: onPriceChanged,
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: isEnabled ? theme.colorScheme.onSurface : Colors.grey.shade400,
+              color: isEnabled
+                  ? theme.colorScheme.onSurface
+                  : Colors.grey.shade400,
               fontWeight: FontWeight.w600,
             ),
             decoration: InputDecoration(
@@ -77,8 +80,10 @@ class ClinicServicePricingRow extends StatelessWidget {
               fillColor: isEnabled
                   ? theme.colorScheme.surface
                   : Colors.grey.shade100,
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 10,
+              ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: BorderSide(color: Colors.grey.shade300),

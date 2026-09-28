@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+
+import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
-import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../shared/widgets/custom_elevated_button.dart';
-import '../widgets/add_doctor/doctor_photo_upload.dart';
 import '../widgets/add_doctor/add_doctor_form.dart';
 import '../widgets/add_doctor/doctor_info_notice.dart';
+import '../widgets/add_doctor/doctor_photo_upload.dart';
 
 class AddDoctorPage extends StatefulWidget {
   const AddDoctorPage({super.key});
@@ -113,8 +114,10 @@ class _AddDoctorPageState extends State<AddDoctorPage> {
                   });
                 },
                 style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: AppColors.primary.withOpacity(0.2)),
-                  backgroundColor: AppColors.primary.withOpacity(0.05),
+                  side: BorderSide(
+                    color: AppColors.primary.withValues(alpha: 0.2),
+                  ),
+                  backgroundColor: AppColors.primary.withValues(alpha: 0.05),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14.r),
                   ),

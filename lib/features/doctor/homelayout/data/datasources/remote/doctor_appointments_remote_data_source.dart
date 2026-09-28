@@ -103,17 +103,14 @@ class DoctorAppointmentsRemoteDataSourceImpl
           'appointment_id': appointmentId,
           'payment_method': 'cash',
           'payment_status': 'paid',
-          if (amountPaid != null) 'amount_paid': amountPaid,
+          'amount_paid': ?amountPaid,
         },
       );
     } catch (_) {
       // Fallback: update status to paid / completed
       await apiConsumer.patch(
         Endpoints.doctorAppointmentStatus(appointmentId),
-        data: {
-          'status': 'confirmed',
-          'payment_status': 'paid',
-        },
+        data: {'status': 'confirmed', 'payment_status': 'paid'},
       );
     }
   }

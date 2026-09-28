@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rojeta_doctor/features/doctor/homelayout/data/models/schedule_model.dart';
+
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
 import 'schedule_time_slot_row.dart';
@@ -47,7 +48,7 @@ class DayScheduleCard extends StatelessWidget {
               Switch(
                 value: day.isActive,
                 onChanged: onToggle,
-                activeColor: Colors.blue,
+                activeThumbColor: Colors.blue,
               ),
             ],
           ),

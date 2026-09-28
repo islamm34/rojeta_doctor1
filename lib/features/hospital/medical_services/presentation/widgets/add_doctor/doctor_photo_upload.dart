@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
+import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
-import '../../../../../../core/utils/app_colors.dart';
 
 class DoctorPhotoUpload extends StatelessWidget {
   const DoctorPhotoUpload({super.key});
@@ -17,7 +18,7 @@ class DoctorPhotoUpload extends StatelessWidget {
                 width: 100.w,
                 height: 100.w,
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.1),
+                  color: AppColors.primary.withValues(alpha: 0.1),
                   shape: BoxShape.circle,
                 ),
                 child: Center(

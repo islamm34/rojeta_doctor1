@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
 import '../../data/models/financial_summary_model.dart';
-import 'package:intl/intl.dart';
 
 class NetIncomeCard extends StatelessWidget {
   final FinancialSummaryModel summary;
@@ -41,7 +42,11 @@ class NetIncomeCard extends StatelessWidget {
                   color: Colors.white.withValues(alpha: 0.2),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.attach_money, color: Colors.white, size: 24),
+                child: const Icon(
+                  Icons.attach_money,
+                  color: Colors.white,
+                  size: 24,
+                ),
               ),
               SizedBox(width: 12.w),
               Text(
@@ -64,7 +69,6 @@ class NetIncomeCard extends StatelessWidget {
           ),
           SizedBox(height: 8.h),
           Text(
-            // TODO: Extract "From X completed appointments" to localization later if needed
             'From ${summary.completedAppointments} completed appointments',
             style: theme.textTheme.bodyMedium?.copyWith(
               color: Colors.white.withValues(alpha: 0.8),

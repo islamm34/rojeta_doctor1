@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
 import 'package:rojeta_doctor/core/utils/screen_util_like.dart';
+import 'package:rojeta_doctor/features/lab&radiology/homelayout/data/models/home_visit_config_model.dart';
 import 'package:rojeta_doctor/features/lab&radiology/homelayout/presentation/bloc/home_visits/home_visits_bloc.dart';
 import 'package:rojeta_doctor/features/lab&radiology/homelayout/presentation/bloc/home_visits/home_visits_event.dart';
 import 'package:rojeta_doctor/features/lab&radiology/homelayout/presentation/bloc/home_visits/home_visits_state.dart';
 
 import '../../../../../../core/di/injector.dart';
 import '../../../../../../features/auth/data/models/user_type_model.dart';
-import '../../../../../../shared/models/time_slot_model.dart';
+import 'widgets/add_service_area_dialog.dart';
 import 'widgets/available_time_slots_card.dart';
 import 'widgets/fee_input_card.dart';
 import 'widgets/service_areas_card.dart';
@@ -92,11 +93,21 @@ class HomeVisitsView extends StatelessWidget {
                     SizedBox(height: 16.h),
                     ServiceAreasCard(
                       areas: config.serviceAreas ?? const [],
-                      onAddArea: () {
-                        // ponytail: navigate to add area page
+                      onAddArea: () async {
+                        final newArea = await showDialog<ServiceAreaModel>(
+                          context: context,
+                          builder: (ctx) => const AddServiceAreaDialog(),
+                        );
+                        if (newArea != null && context.mounted) {
+                          context.read<HomeVisitsBloc>().add(
+                            AddHomeVisitServiceArea(area: newArea),
+                          );
+                        }
                       },
                       onDeleteArea: (id) {
-                        // ponytail: handle area deletion
+                        context.read<HomeVisitsBloc>().add(
+                          DeleteHomeVisitServiceArea(areaId: id),
+                        );
                       },
                     ),
                     SizedBox(height: 16.h),

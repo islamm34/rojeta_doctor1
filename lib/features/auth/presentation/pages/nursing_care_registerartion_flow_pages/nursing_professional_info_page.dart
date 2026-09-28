@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rojeta_doctor/features/auth/presentation/widgets/registeraion_steps_app_bar.dart';
 import 'package:rojeta_doctor/features/auth/presentation/widgets/registeration_steps_indicator.dart';
+
 import '../../../../../config/routes/app_router.dart';
+import '../../../../../core/di/injector.dart';
 import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
 import '../../../../../shared/widgets/custom_elevated_button.dart';
-import '../../../../../core/di/injector.dart';
 import '../../bloc/auth_bloc.dart';
-import '../../bloc/auth_state.dart';
 import '../../widgets/radiology_registeration_flow_pages_widgets/radiology_professional_info_form.dart';
 import '../../widgets/radiology_registeration_flow_pages_widgets/radiology_working_hours_form.dart';
 
@@ -67,38 +67,26 @@ class _NursingProfessionalInfoView extends StatelessWidget {
                         ),
                         SizedBox(width: 16.w),
                         Expanded(
-                          child: BlocBuilder<AuthBloc, AuthState>(
-                            builder: (context, state) {
-                              final isValid = true;
-                              return Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(14.r),
-                                  gradient: isValid
-                                      ? const LinearGradient(
-                                          colors: [
-                                            Color(0xFF005BEA),
-                                            Color(0xFF00C6FB),
-                                          ],
-                                          begin: Alignment.centerLeft,
-                                          end: Alignment.centerRight,
-                                        )
-                                      : null,
-                                  color: isValid ? null : Colors.grey.shade300,
-                                ),
-                                child: CustomElevatedButton(
-                                  text: context.strings.next,
-                                  backgroundColor: Colors.transparent,
-                                  foregroundColor: isValid
-                                      ? Colors.white
-                                      : Colors.grey.shade500,
-                                  onPressed: isValid
-                                      ? () => context.pushNamed(
-                                          AppRoutes.nursingHomeSampleCollection,
-                                        )
-                                      : () {},
-                                ),
-                              );
-                            },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(14.r),
+                              gradient: const LinearGradient(
+                                colors: [
+                                  Color(0xFF005BEA),
+                                  Color(0xFF00C6FB),
+                                ],
+                                begin: Alignment.centerLeft,
+                                end: Alignment.centerRight,
+                              ),
+                            ),
+                            child: CustomElevatedButton(
+                              text: context.strings.next,
+                              backgroundColor: Colors.transparent,
+                              foregroundColor: Colors.white,
+                              onPressed: () => context.pushNamed(
+                                AppRoutes.nursingHomeSampleCollection,
+                              ),
+                            ),
                           ),
                         ),
                       ],

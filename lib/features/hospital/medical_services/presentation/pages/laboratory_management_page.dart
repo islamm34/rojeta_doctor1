@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+
+import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
-import '../../../../../../core/utils/app_colors.dart';
-import '../widgets/laboratory/add_test_form.dart';
-import '../widgets/laboratory/active_lab_test_card.dart';
 import '../../data/models/lab_test_model.dart';
+import '../widgets/laboratory/active_lab_test_card.dart';
+import '../widgets/laboratory/add_test_form.dart';
 
 class LaboratoryManagementPage extends StatelessWidget {
   const LaboratoryManagementPage({super.key});
@@ -66,7 +67,7 @@ class LaboratoryManagementPage extends StatelessWidget {
                     width: 60.w,
                     height: 60.w,
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withOpacity(0.1),
+                      color: AppColors.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12.r),
                     ),
                     child: Icon(
@@ -96,7 +97,7 @@ class LaboratoryManagementPage extends StatelessWidget {
                                 vertical: 4.h,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.tealAccent.withOpacity(0.3),
+                                color: Colors.tealAccent.withValues(alpha: 0.3),
                                 borderRadius: BorderRadius.circular(12.r),
                               ),
                               child: Text(

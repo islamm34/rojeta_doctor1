@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
-import 'package:rojeta_doctor/core/utils/app_colors.dart';
 import 'package:rojeta_doctor/features/doctor/profile/data/models/analytics_model.dart';
 
 class AnalyticsStatsCardsSection extends StatelessWidget {

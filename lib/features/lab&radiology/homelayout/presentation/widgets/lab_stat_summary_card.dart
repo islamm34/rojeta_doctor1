@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../../../core/utils/screen_util_like.dart';
 
 class LabStatSummaryCard extends StatelessWidget {
@@ -34,7 +35,7 @@ class LabStatSummaryCard extends StatelessWidget {
             child: Icon(
               icon,
               size: 80.w,
-              color: Colors.white.withOpacity(0.2),
+              color: Colors.white.withValues(alpha: 0.2),
             ),
           ),
           Column(
@@ -44,27 +45,27 @@ class LabStatSummaryCard extends StatelessWidget {
               Text(
                 title.toUpperCase(),
                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.0,
-                    ),
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.0,
+                ),
               ),
               SizedBox(height: 8.h),
               if (subtitle != null) ...[
                 Text(
                   subtitle!,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Colors.white.withOpacity(0.9),
-                      ),
+                    color: Colors.white.withValues(alpha: 0.9),
+                  ),
                 ),
                 SizedBox(height: 4.h),
               ],
               Text(
                 value,
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),

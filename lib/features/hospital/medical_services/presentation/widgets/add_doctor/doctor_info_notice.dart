@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../../../../core/utils/extensions/context_extensions.dart';
+
 import '../../../../../../core/utils/app_colors.dart';
+import '../../../../../../core/utils/extensions/context_extensions.dart';
 
 class DoctorInfoNotice extends StatelessWidget {
   const DoctorInfoNotice({super.key});
@@ -10,7 +11,7 @@ class DoctorInfoNotice extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.primary.withOpacity(0.05),
+        color: AppColors.primary.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(

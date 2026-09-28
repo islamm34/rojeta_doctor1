@@ -2,7 +2,6 @@ import '../../../../../../core/network/api_consumer.dart';
 import '../../../../../../core/network/endpoints.dart';
 import '../models/doctor_appointment_model.dart';
 import '../models/patient_details_model.dart';
-import '../models/patient_model.dart';
 
 class PatientsRepository {
   final ApiConsumer apiConsumer;
@@ -56,7 +55,9 @@ class PatientsRepository {
     // If patients endpoint returns empty, synthesize from appointments
     if (parsedPatients.isEmpty) {
       try {
-        final apptResponse = await apiConsumer.get(Endpoints.doctorAppointments);
+        final apptResponse = await apiConsumer.get(
+          Endpoints.doctorAppointments,
+        );
         List<dynamic> apptList = [];
         if (apptResponse is List) {
           apptList = apptResponse;
@@ -78,7 +79,8 @@ class PatientsRepository {
           if (item is Map<String, dynamic>) {
             final appt = DoctorAppointmentModel.fromJson(item);
             final pId = appt.patientId ?? appt.id;
-            if (!uniquePatients.containsKey(pId) && appt.patientName.isNotEmpty) {
+            if (!uniquePatients.containsKey(pId) &&
+                appt.patientName.isNotEmpty) {
               DateTime apptDate = DateTime.now();
               if (appt.appointmentDate.isNotEmpty) {
                 final d = DateTime.tryParse(appt.appointmentDate);
@@ -105,9 +107,11 @@ class PatientsRepository {
     if (search != null && search.trim().isNotEmpty) {
       final q = search.trim().toLowerCase();
       return parsedPatients
-          .where((p) =>
-              p.name.toLowerCase().contains(q) ||
-              p.phone.toLowerCase().contains(q))
+          .where(
+            (p) =>
+                p.name.toLowerCase().contains(q) ||
+                p.phone.toLowerCase().contains(q),
+          )
           .toList();
     }
 
@@ -122,8 +126,8 @@ class PatientsRepository {
 
       final data = response is Map<String, dynamic> && response['data'] != null
           ? (response['data'] is Map<String, dynamic>
-              ? response['data'] as Map<String, dynamic>
-              : response)
+                ? response['data'] as Map<String, dynamic>
+                : response)
           : (response is Map<String, dynamic> ? response : <String, dynamic>{});
 
       return PatientDetailsModel.fromJson(data);

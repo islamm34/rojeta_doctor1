@@ -12,7 +12,9 @@ import 'package:rojeta_doctor/features/nursing/homelayout/presentation/pages/wid
 import 'package:rojeta_doctor/features/nursing/homelayout/presentation/pages/widgets/nursing_profile_photo_picker.dart';
 
 class NursingAddStaffPage extends StatefulWidget {
-  const NursingAddStaffPage({super.key});
+  final NursingStaffModel? staff;
+
+  const NursingAddStaffPage({super.key, this.staff});
 
   @override
   State<NursingAddStaffPage> createState() => _NursingAddStaffPageState();
@@ -29,6 +31,28 @@ class _NursingAddStaffPageState extends State<NursingAddStaffPage> {
   String _selectedStatus = 'Available';
   final List<String> _skills = [];
   final List<String> _selectedServices = [];
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.staff != null) {
+      _nameController.text = widget.staff!.name ?? '';
+      _phoneController.text = widget.staff!.phone ?? '';
+      _experienceController.text = (widget.staff!.yearsOfExperience ?? 0)
+          .toString();
+      _selectedImagePath = widget.staff!.imageUrl;
+      _selectedGender =
+          (widget.staff!.gender ?? 'MALE').toUpperCase() == 'FEMALE'
+          ? 'Female'
+          : 'Male';
+      _selectedStatus =
+          (widget.staff!.status ?? 'AVAILABLE').toUpperCase() == 'BUSY'
+          ? 'Busy'
+          : 'Available';
+      _skills.addAll(widget.staff!.skills);
+      _selectedServices.addAll(widget.staff!.selectedServices);
+    }
+  }
 
   @override
   void dispose() {
@@ -56,7 +80,9 @@ class _NursingAddStaffPageState extends State<NursingAddStaffPage> {
   void _save() {
     if (_formKey.currentState?.validate() ?? false) {
       final newStaff = NursingStaffModel(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        id:
+            widget.staff?.id ??
+            DateTime.now().millisecondsSinceEpoch.toString(),
         name: _nameController.text.trim(),
         imageUrl: _selectedImagePath ?? '',
         gender: _selectedGender.toUpperCase(),
@@ -67,7 +93,11 @@ class _NursingAddStaffPageState extends State<NursingAddStaffPage> {
         selectedServices: List.from(_selectedServices),
       );
 
-      context.read<NursingBloc>().add(AddNursingStaffEvent(newStaff));
+      if (widget.staff != null) {
+        context.read<NursingBloc>().add(UpdateNursingStaffEvent(newStaff));
+      } else {
+        context.read<NursingBloc>().add(AddNursingStaffEvent(newStaff));
+      }
       context.pop();
     }
   }
@@ -82,7 +112,7 @@ class _NursingAddStaffPageState extends State<NursingAddStaffPage> {
         backgroundColor: Colors.white,
         elevation: 0,
         title: Text(
-          s.addNurse,
+          widget.staff != null ? 'Edit Nurse' : s.addNurse,
           style: context.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
             color: const Color(0xFF0F2D52),

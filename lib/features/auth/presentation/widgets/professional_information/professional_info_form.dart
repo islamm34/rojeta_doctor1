@@ -1,15 +1,16 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../core/utils/image_picker_helper.dart';
 import '../../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../../core/utils/image_picker_helper.dart';
 import '../../../../../core/utils/screen_util_like.dart';
 import '../../../../../shared/widgets/custom_textfield.dart';
-import 'specialty_dropdown_field.dart';
 import '../../bloc/auth_bloc.dart';
 import '../../bloc/auth_event.dart';
 import '../../bloc/auth_state.dart';
+import 'specialty_dropdown_field.dart';
 
 class ProfessionalInfoForm extends StatelessWidget {
   const ProfessionalInfoForm({super.key});
@@ -63,7 +64,7 @@ class ProfessionalInfoForm extends StatelessWidget {
                 return GestureDetector(
                   onTap: () async {
                     final path = await ImagePickerHelper.pickImagePath();
-                    if (path != null) {
+                    if (path != null && context.mounted) {
                       context.read<AuthBloc>().add(PickProfileImageEvent(path));
                     }
                   },

@@ -2,12 +2,12 @@ import 'package:dio/dio.dart';
 
 import '../../../../../../core/network/api_consumer.dart';
 import '../../../../../../core/network/endpoints.dart';
-import 'profile_remote_data_source.dart';
-import '../models/user_profile_response_model.dart';
 import '../models/clinic_model.dart';
-import '../models/service_pricing_model.dart';
 import '../models/payment_details_model.dart';
+import '../models/service_pricing_model.dart';
 import '../models/settings_model.dart';
+import '../models/user_profile_response_model.dart';
+import 'profile_remote_data_source.dart';
 
 class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   final ApiConsumer apiConsumer;
@@ -25,7 +25,7 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
       try {
         final response = await apiConsumer.get(Endpoints.doctorProfile);
         final json = response is Map
-            ? Map<String, dynamic>.from(response as Map)
+            ? Map<String, dynamic>.from(response)
             : <String, dynamic>{};
         return UserProfileResponseModel.fromJson(json);
       } finally {

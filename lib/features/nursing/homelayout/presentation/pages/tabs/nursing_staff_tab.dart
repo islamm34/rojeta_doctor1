@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rojeta_doctor/features/nursing/homelayout/data/models/nursing_staff_model.dart';
 import 'package:rojeta_doctor/features/nursing/homelayout/presentation/bloc/nursing_event.dart';
+import 'package:rojeta_doctor/features/nursing/homelayout/presentation/pages/nursing_add_staff_page.dart';
 
 import '../../../../../../config/routes/app_router.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
@@ -186,8 +187,9 @@ class _NursingStaffTabState extends State<NursingStaffTab>
                                 children: filteredStaff.map((staff) {
                                   return NursingStaffCard(
                                     staff: staff,
-                                    onEdit: () {},
-                                    onDelete: () {},
+                                    onEdit: () => _editStaff(context, staff),
+                                    onDelete: () =>
+                                        _confirmDeleteStaff(context, staff),
                                   );
                                 }).toList(),
                               ),
@@ -233,5 +235,47 @@ class _NursingStaffTabState extends State<NursingStaffTab>
         },
       ),
     );
+  }
+
+  void _editStaff(BuildContext context, NursingStaffModel staff) {
+    final bloc = context.read<NursingBloc>();
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => BlocProvider.value(
+          value: bloc,
+          child: NursingAddStaffPage(staff: staff),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _confirmDeleteStaff(
+    BuildContext context,
+    NursingStaffModel staff,
+  ) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(context.strings.confirmButton),
+        content: Text('Are you sure you want to remove ${staff.name}?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(false),
+            child: Text(context.strings.cancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(ctx).pop(true),
+            child: Text(
+              context.strings.delete,
+              style: const TextStyle(color: Colors.red),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed == true && context.mounted) {
+      context.read<NursingBloc>().add(DeleteNursingStaffEvent(staff.id ?? ''));
+    }
   }
 }

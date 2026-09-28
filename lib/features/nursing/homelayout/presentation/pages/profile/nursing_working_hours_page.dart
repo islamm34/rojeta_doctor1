@@ -37,7 +37,7 @@ class _NursingWorkingHoursPageState extends State<NursingWorkingHoursPage> {
   }
 
   void _updateDay(int index, DailyWorkingHoursModel day) {
-    final newDays = List<DailyWorkingHoursModel>.from(_workingHours.days ?? []);
+    final newDays = List<DailyWorkingHoursModel>.from(_workingHours.days);
     newDays[index] = day;
     setState(() {
       _workingHours = _workingHours.copyWith(days: newDays);
@@ -50,7 +50,7 @@ class _NursingWorkingHoursPageState extends State<NursingWorkingHoursPage> {
       initialTime: TimeOfDay.now(),
     );
     if (picked != null) {
-      final days = _workingHours.days ?? [];
+      final days = _workingHours.days;
       final day = days[index];
       final formattedTime = picked.formatTimeOfDay();
       if (isOpenTime) {
@@ -64,7 +64,7 @@ class _NursingWorkingHoursPageState extends State<NursingWorkingHoursPage> {
   @override
   Widget build(BuildContext context) {
     final strings = context.strings;
-    final days = _workingHours.days ?? [];
+    final days = _workingHours.days;
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
@@ -115,14 +115,14 @@ class _NursingWorkingHoursPageState extends State<NursingWorkingHoursPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              day.day ?? '',
+                              day.day,
                               style: context.textTheme.titleMedium?.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: const Color(0xFF0F172A),
                               ),
                             ),
                             Switch(
-                              value: day.isOpen ?? true,
+                              value: day.isOpen,
                               onChanged: (val) {
                                 _updateDay(index, day.copyWith(isOpen: val));
                               },
@@ -133,14 +133,14 @@ class _NursingWorkingHoursPageState extends State<NursingWorkingHoursPage> {
                             ),
                           ],
                         ),
-                        if (day.isOpen ?? true) ...[
+                        if (day.isOpen) ...[
                           SizedBox(height: 16.h),
                           Row(
                             children: [
                               Expanded(
                                 child: NursingTimePickerField(
                                   label: strings.openingTime,
-                                  time: day.openTime ?? '08:00 AM',
+                                  time: day.openTime,
                                   onTap: () => _selectTime(index, true),
                                 ),
                               ),
@@ -148,7 +148,7 @@ class _NursingWorkingHoursPageState extends State<NursingWorkingHoursPage> {
                               Expanded(
                                 child: NursingTimePickerField(
                                   label: strings.closingTime,
-                                  time: day.closeTime ?? '06:00 PM',
+                                  time: day.closeTime,
                                   onTap: () => _selectTime(index, false),
                                 ),
                               ),

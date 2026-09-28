@@ -85,7 +85,7 @@ class _SettingsTwoFactorSheetState extends State<SettingsTwoFactorSheet> {
                 ),
                 Switch.adaptive(
                   value: _is2faEnabled,
-                  activeColor: context.colors.primary,
+                  activeThumbColor: context.colors.primary,
                   onChanged: (val) {
                     setState(() => _is2faEnabled = val);
                   },

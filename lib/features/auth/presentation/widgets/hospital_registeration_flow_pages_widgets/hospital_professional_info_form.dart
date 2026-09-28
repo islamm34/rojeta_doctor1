@@ -214,7 +214,7 @@ class HospitalProfessionalInfoForm extends StatelessWidget {
                 imagePath: state.profileImagePath,
                 onTap: () async {
                   final path = await ImagePickerHelper.pickImagePath();
-                  if (path != null) {
+                  if (path != null && context.mounted) {
                     context.read<AuthBloc>().add(PickProfileImageEvent(path));
                   }
                 },
@@ -242,7 +242,7 @@ class HospitalProfessionalInfoForm extends StatelessWidget {
                 imagePath: state.organizationImagePath,
                 onTap: () async {
                   final path = await ImagePickerHelper.pickImagePath();
-                  if (path != null) {
+                  if (path != null && context.mounted) {
                     context.read<AuthBloc>().add(
                       PickOrganizationImageEvent(path),
                     );

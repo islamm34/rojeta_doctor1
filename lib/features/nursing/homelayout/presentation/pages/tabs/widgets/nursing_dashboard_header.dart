@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../../../../config/routes/app_router.dart';
 import '../../../../../../../core/local/user_hive_helper.dart';
 import '../../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../../core/utils/screen_util_like.dart';
@@ -59,13 +60,16 @@ class NursingDashboardHeader extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            padding: EdgeInsets.all(8.w),
-            decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.2),
-              shape: BoxShape.circle,
+          GestureDetector(
+            onTap: () => Navigator.pushNamed(context, AppRoutes.notifications),
+            child: Container(
+              padding: EdgeInsets.all(8.w),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.2),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.notifications_none, color: Colors.white),
             ),
-            child: const Icon(Icons.notifications_none, color: Colors.white),
           ),
         ],
       ),

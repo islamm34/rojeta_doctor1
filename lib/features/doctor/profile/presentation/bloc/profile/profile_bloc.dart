@@ -332,6 +332,15 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     }
     UserHiveHelper.saveUser(cachedUser);
 
+    final rawPayment =
+        event.data['payment_details'] ?? event.data['paymentDetails'];
+    final paymentMap =
+        rawPayment is Map ? Map<String, dynamic>.from(rawPayment) : null;
+    final updatedPayment =
+        paymentMap != null
+            ? PaymentDetailsModel.fromJson(paymentMap)
+            : state.profile?.paymentDetails;
+
     final updatedProfile = state.profile?.copyWith(
       fullName:
           (event.data['name'] ?? event.data['full_name'])?.toString() ??
@@ -340,6 +349,27 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       phone:
           (event.data['phone'] ?? event.data['phone_number'])?.toString() ??
           state.profile?.phone,
+      specialty:
+          event.data['specialty']?.toString() ?? state.profile?.specialty,
+      subSpecialty:
+          (event.data['sub_specialty'] ?? event.data['subSpecialty'])
+              ?.toString() ??
+          state.profile?.subSpecialty,
+      yearsOfExperience:
+          (event.data['years_of_experience'] ??
+                  event.data['yearsOfExperience'] ??
+                  event.data['experience_years'])
+              ?.toString() ??
+          state.profile?.yearsOfExperience,
+      about:
+          (event.data['about'] ??
+                  event.data['bio'] ??
+                  event.data['description'])
+              ?.toString() ??
+          state.profile?.about,
+      education:
+          event.data['education']?.toString() ?? state.profile?.education,
+      paymentDetails: updatedPayment,
     );
 
     emit(

@@ -63,6 +63,9 @@ class _ProfileViewState extends State<ProfileView> {
   late final TextEditingController _experienceController;
   late final TextEditingController _aboutController;
   late final TextEditingController _educationController;
+  late final TextEditingController _accountHolderController;
+  late final TextEditingController _bankNameController;
+  late final TextEditingController _accountNumberController;
   String? _lastProfileId;
 
   @override
@@ -75,6 +78,9 @@ class _ProfileViewState extends State<ProfileView> {
     _experienceController = TextEditingController();
     _aboutController = TextEditingController();
     _educationController = TextEditingController();
+    _accountHolderController = TextEditingController();
+    _bankNameController = TextEditingController();
+    _accountNumberController = TextEditingController();
   }
 
   @override
@@ -86,6 +92,9 @@ class _ProfileViewState extends State<ProfileView> {
     _experienceController.dispose();
     _aboutController.dispose();
     _educationController.dispose();
+    _accountHolderController.dispose();
+    _bankNameController.dispose();
+    _accountNumberController.dispose();
     super.dispose();
   }
 
@@ -97,6 +106,11 @@ class _ProfileViewState extends State<ProfileView> {
     _experienceController.text = profile.yearsOfExperience ?? '';
     _aboutController.text = profile.about ?? '';
     _educationController.text = profile.education ?? '';
+    _accountHolderController.text =
+        profile.paymentDetails.accountHolderName ?? '';
+    _bankNameController.text = profile.paymentDetails.bankName ?? '';
+    _accountNumberController.text =
+        profile.paymentDetails.accountNumber ?? '';
     _lastProfileId = profile.id;
   }
 
@@ -207,7 +221,12 @@ class _ProfileViewState extends State<ProfileView> {
                     const SizedBox(height: 24),
                     ServicesPricingSection(profile: profile),
                     const SizedBox(height: 24),
-                    PaymentDetailsSection(profile: profile),
+                    PaymentDetailsSection(
+                      profile: profile,
+                      accountHolderController: _accountHolderController,
+                      bankNameController: _bankNameController,
+                      accountNumberController: _accountNumberController,
+                    ),
                     const SizedBox(height: 32),
                     CustomElevatedButton(
                       text: context.strings.saveProfile,
@@ -226,10 +245,27 @@ class _ProfileViewState extends State<ProfileView> {
                                 .trim(),
                             'yearsOfExperience': _experienceController.text
                                 .trim(),
+                            'experience_years': _experienceController.text
+                                .trim(),
                             'about': _aboutController.text.trim(),
                             'bio': _aboutController.text.trim(),
                             'education': _educationController.text.trim(),
+                            'payment_details': {
+                              'payment_type': profile.paymentDetails.paymentType,
+                              'account_holder_name': _accountHolderController.text.trim(),
+                              'bank_name': _bankNameController.text.trim(),
+                              'account_number': _accountNumberController.text.trim(),
+                            },
                           }),
+                        );
+                        context.read<ProfileBloc>().add(
+                          SavePaymentDetailsEvent(
+                            profile.paymentDetails.copyWith(
+                              accountHolderName: _accountHolderController.text.trim(),
+                              bankName: _bankNameController.text.trim(),
+                              accountNumber: _accountNumberController.text.trim(),
+                            ),
+                          ),
                         );
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(

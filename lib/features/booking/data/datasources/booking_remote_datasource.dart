@@ -92,38 +92,40 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
         .map((e) => BookingModel.fromJson(e))
         .toList();
 
-    // Fallback: If bookings list is empty, synthesize from lab/radiology/nursing dashboard upcoming booking
-    if (bookings.isEmpty) {
-      try {
-        final endpoint = userType == UserType.nursingCareProviders
-            ? '/nursing/dashboard'
-            : Endpoints.labDashboard;
-        final dashResponse = await apiConsumer.get(
-          endpoint,
-          queryParameters: userType == UserType.radiologyCenter
-              ? {'user_type': 'radiology'}
-              : (userType == UserType.nursingCareProviders
-                    ? {'user_type': 'nursing'}
-                    : {'user_type': 'lab'}),
-        );
-        final dashData =
-            dashResponse is Map<String, dynamic> && dashResponse['data'] != null
-            ? (dashResponse['data'] is Map<String, dynamic>
-                  ? dashResponse['data'] as Map<String, dynamic>
-                  : dashResponse)
-            : (dashResponse is Map<String, dynamic> ? dashResponse : null);
+    // Ensure upcoming bookings from dashboard are merged and deduplicated
+    try {
+      final endpoint = userType == UserType.nursingCareProviders
+          ? '/nursing/dashboard'
+          : Endpoints.labDashboard;
+      final dashResponse = await apiConsumer.get(
+        endpoint,
+        queryParameters: userType == UserType.radiologyCenter
+            ? {'user_type': 'radiology'}
+            : (userType == UserType.nursingCareProviders
+                  ? {'user_type': 'nursing'}
+                  : {'user_type': 'lab'}),
+      );
+      final dashData =
+          dashResponse is Map<String, dynamic> && dashResponse['data'] != null
+          ? (dashResponse['data'] is Map<String, dynamic>
+                ? dashResponse['data'] as Map<String, dynamic>
+                : dashResponse)
+          : (dashResponse is Map<String, dynamic> ? dashResponse : null);
 
-        if (dashData != null) {
-          final upcoming =
-              dashData['upcomingBooking'] ??
-              dashData['upcoming_booking'] ??
-              dashData['upcoming'];
-          if (upcoming is Map<String, dynamic>) {
-            bookings.add(BookingModel.fromJson(upcoming));
+      if (dashData != null) {
+        final upcoming =
+            dashData['upcomingBooking'] ??
+            dashData['upcoming_booking'] ??
+            dashData['upcoming'];
+        if (upcoming is Map<String, dynamic>) {
+          final upModel = BookingModel.fromJson(upcoming);
+          final exists = bookings.any((b) => b.id == upModel.id);
+          if (!exists) {
+            bookings.insert(0, upModel);
           }
         }
-      } catch (_) {}
-    }
+      }
+    } catch (_) {}
 
     return bookings;
   }

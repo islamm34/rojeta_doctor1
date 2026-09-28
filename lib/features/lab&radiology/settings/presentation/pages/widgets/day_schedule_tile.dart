@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
 import '../../../data/models/working_hours_model.dart';
@@ -81,7 +82,7 @@ class DayScheduleTile extends StatelessWidget {
                   ),
                 );
               },
-              activeColor: const Color(0xFF0F766E),
+              activeThumbColor: const Color(0xFF0F766E),
             ),
           ),
         ],

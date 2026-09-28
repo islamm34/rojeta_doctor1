@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rojeta_doctor/features/hospital/medical_services/data/models/incubator_model.dart';
+
+import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
-import '../../../../../../core/utils/app_colors.dart';
 
 class ActiveIncubatorCard extends StatelessWidget {
   final IncubatorModel incubator;
@@ -36,7 +37,7 @@ class ActiveIncubatorCard extends StatelessWidget {
             width: 60.w,
             height: 60.w,
             decoration: BoxDecoration(
-              color: Colors.blue.withOpacity(0.1),
+              color: Colors.blue.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(Icons.child_care, color: Colors.blueGrey, size: 30.w),
@@ -67,8 +68,8 @@ class ActiveIncubatorCard extends StatelessWidget {
                             ),
                             decoration: BoxDecoration(
                               color: isReady
-                                  ? Colors.tealAccent.withOpacity(0.3)
-                                  : AppColors.primary.withOpacity(0.2),
+                                  ? Colors.tealAccent.withValues(alpha: 0.3)
+                                  : AppColors.primary.withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(12.r),
                             ),
                             child: Text(

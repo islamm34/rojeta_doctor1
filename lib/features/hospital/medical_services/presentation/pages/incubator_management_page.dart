@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:rojeta_doctor/features/hospital/medical_services/presentation/widgets/incubator/active_incubator_card.dart';
+
+import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
-import '../../../../../../core/utils/app_colors.dart';
-import '../widgets/incubator/add_incubator_form.dart';
 import '../../data/models/incubator_model.dart';
+import '../widgets/incubator/add_incubator_form.dart';
 
 class IncubatorManagementPage extends StatelessWidget {
   const IncubatorManagementPage({super.key});
@@ -102,7 +103,9 @@ class IncubatorManagementPage extends StatelessWidget {
                                     vertical: 4.h,
                                   ),
                                   decoration: BoxDecoration(
-                                    color: Colors.tealAccent.withOpacity(0.3),
+                                    color: Colors.tealAccent.withValues(
+                                      alpha: 0.3,
+                                    ),
                                     borderRadius: BorderRadius.circular(12.r),
                                   ),
                                   child: Text(

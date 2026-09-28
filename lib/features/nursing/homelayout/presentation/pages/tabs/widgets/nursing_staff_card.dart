@@ -149,7 +149,7 @@ class NursingStaffCard extends StatelessWidget {
           ),
           SizedBox(height: 12.h),
           // Skills
-          if ((staff.skills ?? []).isNotEmpty)
+          if (staff.skills.isNotEmpty)
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -163,7 +163,7 @@ class NursingStaffCard extends StatelessWidget {
                   child: Wrap(
                     spacing: 6.w,
                     runSpacing: 6.h,
-                    children: (staff.skills ?? [])
+                    children: staff.skills
                         .map(
                           (skill) => Container(
                             padding: EdgeInsets.symmetric(

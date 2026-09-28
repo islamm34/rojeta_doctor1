@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+
+import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
-import '../../../../../../core/utils/app_colors.dart';
-import '../widgets/icu/add_icu_room_form.dart';
-import '../widgets/icu/active_icu_room_card.dart';
 import '../../data/models/icu_room_model.dart';
+import '../widgets/icu/active_icu_room_card.dart';
+import '../widgets/icu/add_icu_room_form.dart';
 
 class IcuManagementPage extends StatelessWidget {
   const IcuManagementPage({super.key});
@@ -94,7 +95,9 @@ class IcuManagementPage extends StatelessWidget {
                                     vertical: 4.h,
                                   ),
                                   decoration: BoxDecoration(
-                                    color: Colors.tealAccent.withOpacity(0.3),
+                                    color: Colors.tealAccent.withValues(
+                                      alpha: 0.3,
+                                    ),
                                     borderRadius: BorderRadius.circular(12.r),
                                   ),
                                   child: Text(

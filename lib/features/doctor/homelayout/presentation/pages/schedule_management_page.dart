@@ -34,15 +34,15 @@ class ScheduleManagementPage extends StatelessWidget {
       ),
       body: BlocConsumer<ScheduleBloc, ScheduleState>(
         listener: (context, state) {
-          if (state.status == ScheduleStatus.success) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(context.strings.scheduleSavedSuccessfully),
-                backgroundColor: Colors.green.shade700,
-                behavior: SnackBarBehavior.floating,
-              ),
-            );
-          }
+          // if (state.status == ScheduleStatus.success) {
+          //   ScaffoldMessenger.of(context).showSnackBar(
+          //     SnackBar(
+          //       content: Text(context.strings.scheduleSavedSuccessfully),
+          //       backgroundColor: Colors.green.shade700,
+          //       behavior: SnackBarBehavior.floating,
+          //     ),
+          //   );
+          // }
         },
         builder: (context, state) {
           if (state.status == ScheduleStatus.loading ||

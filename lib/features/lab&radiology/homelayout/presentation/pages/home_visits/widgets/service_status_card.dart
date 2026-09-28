@@ -50,7 +50,7 @@ class ServiceStatusCard extends StatelessWidget {
           Switch(
             value: isVisible,
             onChanged: (val) => onToggle(val),
-            activeColor: const Color(0xFFFC5600), // Orange switch
+            activeThumbColor: const Color(0xFFFC5600), // Orange switch
           ),
         ],
       ),

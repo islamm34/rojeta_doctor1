@@ -17,6 +17,9 @@ class NursingBloc extends Bloc<NursingEvent, NursingState> {
     on<AddNursingServiceEvent>(_onAddService);
     on<LoadNursingStaffEvent>(_onLoadStaff);
     on<AddNursingStaffEvent>(_onAddStaff);
+    on<UpdateNursingStaffEvent>(_onUpdateStaff);
+    on<DeleteNursingStaffEvent>(_onDeleteStaff);
+    on<DeleteNursingServiceEvent>(_onDeleteService);
     on<LoadNursingProfileEvent>(_onLoadProfile);
     on<UpdateNursingOfficeInfoEvent>(_onUpdateOfficeInfo);
     on<UpdateNursingWorkingHoursEvent>(_onUpdateWorkingHours);
@@ -159,6 +162,75 @@ class NursingBloc extends Bloc<NursingEvent, NursingState> {
           status: NursingStatus.success,
           staff: updatedStaff,
           staffStats: updatedStats,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: NursingStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onUpdateStaff(
+    UpdateNursingStaffEvent event,
+    Emitter<NursingState> emit,
+  ) async {
+    emit(state.copyWith(status: NursingStatus.loading));
+    try {
+      final updatedStaffList = state.staff.map((s) {
+        return s.id == event.staff.id ? event.staff : s;
+      }).toList();
+      emit(
+        state.copyWith(status: NursingStatus.success, staff: updatedStaffList),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: NursingStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onDeleteStaff(
+    DeleteNursingStaffEvent event,
+    Emitter<NursingState> emit,
+  ) async {
+    emit(state.copyWith(status: NursingStatus.loading));
+    try {
+      await _repository.deleteStaff(event.staffId);
+      final updatedStaff = state.staff
+          .where((s) => s.id != event.staffId)
+          .toList();
+      emit(state.copyWith(status: NursingStatus.success, staff: updatedStaff));
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: NursingStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onDeleteService(
+    DeleteNursingServiceEvent event,
+    Emitter<NursingState> emit,
+  ) async {
+    emit(state.copyWith(status: NursingStatus.loading));
+    try {
+      await _repository.deleteService(event.serviceId);
+      final updatedServices = state.services
+          .where((s) => s.id != event.serviceId)
+          .toList();
+      emit(
+        state.copyWith(
+          status: NursingStatus.success,
+          services: updatedServices,
         ),
       );
     } catch (e) {

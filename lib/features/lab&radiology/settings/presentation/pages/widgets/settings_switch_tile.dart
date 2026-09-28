@@ -30,7 +30,7 @@ class SettingsSwitchTile extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
           ),
-          activeColor: Colors.white,
+          activeThumbColor: Colors.white,
           activeTrackColor: const Color(0xFF1877F2),
           inactiveThumbColor: Colors.white,
           inactiveTrackColor: const Color(0xFFE2E8F0),

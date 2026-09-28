@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../../../../core/utils/screen_util_like.dart';
 
 class NursingDropdownField extends StatelessWidget {
@@ -30,7 +31,9 @@ class NursingDropdownField extends StatelessWidget {
         ),
         SizedBox(height: 8.h),
         DropdownButtonFormField<String>(
-          value: items.contains(value) ? value : (items.isNotEmpty ? items.first : null),
+          initialValue: items.contains(value)
+              ? value
+              : (items.isNotEmpty ? items.first : null),
           icon: const Icon(Icons.keyboard_arrow_down, color: Color(0xFF94A3B8)),
           style: const TextStyle(color: Color(0xFF334155), fontSize: 14),
           items: items.map((cat) {

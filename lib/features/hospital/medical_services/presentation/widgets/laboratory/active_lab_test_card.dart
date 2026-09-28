@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rojeta_doctor/features/hospital/medical_services/data/models/lab_test_model.dart';
+
+import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
-import '../../../../../../core/utils/app_colors.dart';
 
 class ActiveLabTestCard extends StatelessWidget {
   final LabTestModel test;
@@ -97,7 +98,7 @@ class ActiveLabTestCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
       decoration: BoxDecoration(
-        color: AppColors.primary.withOpacity(0.1),
+        color: AppColors.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(20.r),
       ),
       child: Row(
