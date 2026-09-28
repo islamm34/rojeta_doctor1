@@ -192,6 +192,7 @@ class _NursingOfficeInfoPageState extends State<NursingOfficeInfoPage> {
                 // Verification Status
                 Container(
                   padding: EdgeInsets.all(16.w),
+                  width: double.infinity,
                   decoration: BoxDecoration(
                     color: const Color(0xFFE0F2FE), // Light blue
                     borderRadius: BorderRadius.circular(16.r),

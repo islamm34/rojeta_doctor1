@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+
 import '../../../../../../core/local/user_hive_helper.dart';
 import '../../../../../../core/network/api_consumer.dart';
 import '../../../../../../core/network/endpoints.dart';
@@ -22,6 +24,20 @@ abstract class NursingRemoteDataSource {
   Future<void> updateWorkingHours(NursingWorkingHoursModel workingHours);
   Future<NursingSettingsModel> getSettings();
   Future<void> updateSettings(NursingSettingsModel settings);
+  Future<List<NursingCoverageAreaModel>> getCoverageAreas();
+  Future<NursingCoverageAreaModel> addCoverageArea(
+    NursingCoverageAreaModel area,
+  );
+  Future<void> deleteCoverageArea(String id);
+  Future<void> toggleCoverageArea(String id, bool isActive);
+  Future<List<NursingDocumentItemModel>> getDocuments();
+  Future<NursingDocumentItemModel> uploadDocument(
+    String documentType,
+    String filePath,
+  );
+  Future<void> deleteDocument(String id);
+  Future<NursingPaymentSettingsModel> getPaymentSettings();
+  Future<void> updatePaymentSettings(NursingPaymentSettingsModel settings);
 }
 
 class NursingRemoteDataSourceImpl implements NursingRemoteDataSource {
@@ -419,6 +435,218 @@ class NursingRemoteDataSourceImpl implements NursingRemoteDataSource {
           return;
         } catch (_) {}
       }
+    }
+  }
+
+  @override
+  Future<List<NursingCoverageAreaModel>> getCoverageAreas() async {
+    try {
+      final response = await apiConsumer.get(Endpoints.getNursingCoverageAreas);
+      if (response != null) {
+        List<dynamic> items = [];
+        if (response is List) {
+          items = response;
+        } else if (response is Map<String, dynamic>) {
+          final data =
+              response['data'] ??
+              response['coverage_areas'] ??
+              response['areas'] ??
+              response['serviceAreas'];
+          if (data is List) {
+            items = data;
+          } else if (data is Map<String, dynamic> && data['areas'] is List) {
+            items = data['areas'] as List;
+          }
+        }
+
+        if (items.isNotEmpty) {
+          return items
+              .whereType<Map<String, dynamic>>()
+              .map((e) => NursingCoverageAreaModel.fromJson(e))
+              .toList();
+        }
+      }
+    } catch (_) {}
+
+    return [];
+  }
+
+  @override
+  Future<NursingCoverageAreaModel> addCoverageArea(
+    NursingCoverageAreaModel area,
+  ) async {
+    final payload = {
+      'name': area.name,
+      'area_name': area.name,
+      'city': area.city,
+      'radius_km': area.radiusKm,
+      'radiusKm': area.radiusKm,
+      'extra_fee': area.extraFee,
+      'extraFee': area.extraFee,
+      'is_active': area.isActive,
+      'isActive': area.isActive,
+    };
+
+    try {
+      final response = await apiConsumer.post(
+        Endpoints.getNursingCoverageAreas,
+        data: payload,
+      );
+      if (response is Map<String, dynamic>) {
+        final data = response['data'] is Map<String, dynamic>
+            ? response['data'] as Map<String, dynamic>
+            : response;
+        return NursingCoverageAreaModel.fromJson(data);
+      }
+    } catch (_) {}
+
+    return area.copyWith(
+      id: area.id.isNotEmpty
+          ? area.id
+          : DateTime.now().millisecondsSinceEpoch.toString(),
+    );
+  }
+
+  @override
+  Future<void> deleteCoverageArea(String id) async {
+    try {
+      await apiConsumer.delete(Endpoints.deleteNursingCoverageArea(id));
+    } catch (_) {}
+  }
+
+  @override
+  Future<void> toggleCoverageArea(String id, bool isActive) async {
+    final payload = {'is_active': isActive, 'isActive': isActive};
+    try {
+      await apiConsumer.patch(
+        Endpoints.toggleNursingCoverageArea(id),
+        data: payload,
+      );
+      return;
+    } catch (_) {
+      try {
+        await apiConsumer.put(
+          Endpoints.toggleNursingCoverageArea(id),
+          data: payload,
+        );
+        return;
+      } catch (_) {}
+    }
+  }
+
+  @override
+  Future<List<NursingDocumentItemModel>> getDocuments() async {
+    try {
+      final response = await apiConsumer.get(Endpoints.getNursingDocuments);
+      if (response != null) {
+        List<dynamic> items = [];
+        if (response is List) {
+          items = response;
+        } else if (response is Map<String, dynamic>) {
+          final data = response['data'] ?? response['documents'];
+          if (data is List) {
+            items = data;
+          } else if (data is Map<String, dynamic> &&
+              data['documents'] is List) {
+            items = data['documents'] as List;
+          }
+        }
+
+        if (items.isNotEmpty) {
+          return items
+              .whereType<Map<String, dynamic>>()
+              .map((e) => NursingDocumentItemModel.fromJson(e))
+              .toList();
+        }
+      }
+    } catch (_) {}
+
+    return [];
+  }
+
+  @override
+  Future<NursingDocumentItemModel> uploadDocument(
+    String documentType,
+    String filePath,
+  ) async {
+    final fileName = filePath.split('/').last;
+
+    try {
+      final formData = FormData.fromMap({
+        'document_type': documentType,
+        'type': documentType,
+        'file': await MultipartFile.fromFile(filePath, filename: fileName),
+      });
+
+      final response = await apiConsumer.post(
+        Endpoints.uploadNursingDocument,
+        data: formData,
+      );
+      if (response is Map<String, dynamic>) {
+        final data = response['data'] is Map<String, dynamic>
+            ? response['data'] as Map<String, dynamic>
+            : response;
+        return NursingDocumentItemModel.fromJson(data);
+      }
+    } catch (_) {}
+
+    return NursingDocumentItemModel(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      type: documentType,
+      fileName: fileName,
+      fileUrl: filePath,
+      status: 'pending',
+      uploadedAt: DateTime.now().toIso8601String(),
+    );
+  }
+
+  @override
+  Future<void> deleteDocument(String id) async {
+    try {
+      await apiConsumer.delete(Endpoints.deleteNursingDocument(id));
+    } catch (_) {}
+  }
+
+  @override
+  Future<NursingPaymentSettingsModel> getPaymentSettings() async {
+    try {
+      final response = await apiConsumer.get(
+        Endpoints.getNursingPaymentSettings,
+      );
+      if (response != null) {
+        final data =
+            response is Map<String, dynamic> && response['data'] != null
+            ? (response['data'] is Map<String, dynamic>
+                  ? response['data'] as Map<String, dynamic>
+                  : response)
+            : (response is Map<String, dynamic>
+                  ? response
+                  : <String, dynamic>{});
+
+        return NursingPaymentSettingsModel.fromJson(data);
+      }
+    } catch (_) {}
+
+    return const NursingPaymentSettingsModel();
+  }
+
+  @override
+  Future<void> updatePaymentSettings(
+    NursingPaymentSettingsModel settings,
+  ) async {
+    final payload = settings.toJson();
+
+    try {
+      await apiConsumer.put(Endpoints.getNursingPaymentSettings, data: payload);
+      return;
+    } catch (_) {
+      try {
+        await apiConsumer.post(
+          Endpoints.getNursingPaymentSettings,
+          data: payload,
+        );
+        return;
+      } catch (_) {}
     }
   }
 }

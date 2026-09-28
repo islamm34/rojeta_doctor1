@@ -61,7 +61,19 @@ class NursingDashboardHeader extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () => Navigator.pushNamed(context, AppRoutes.notifications),
+            onTap: () => context.pushNamed(AppRoutes.doctorConversations),
+            child: Container(
+              padding: EdgeInsets.all(8.w),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.2),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.chat_bubble_outline, color: Colors.white),
+            ),
+          ),
+          SizedBox(width: 10.w),
+          GestureDetector(
+            onTap: () => context.pushNamed(AppRoutes.notifications),
             child: Container(
               padding: EdgeInsets.all(8.w),
               decoration: BoxDecoration(

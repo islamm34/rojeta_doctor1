@@ -1,3 +1,4 @@
+import '../../../../../../core/local/user_hive_helper.dart';
 import '../../../../../../core/network/api_consumer.dart';
 import '../../../../../../core/network/endpoints.dart';
 import '../models/doctor_appointment_model.dart';
@@ -55,9 +56,11 @@ class PatientsRepository {
     // If patients endpoint returns empty, synthesize from appointments
     if (parsedPatients.isEmpty) {
       try {
-        final apptResponse = await apiConsumer.get(
-          Endpoints.doctorAppointments,
-        );
+        final role = UserHiveHelper.getUser()?.role?.toLowerCase().trim() ?? '';
+        final endpoint = (role == 'hospital' || role.contains('hospital'))
+            ? Endpoints.hospitalAppointments
+            : Endpoints.doctorAppointments;
+        final apptResponse = await apiConsumer.get(endpoint);
         List<dynamic> apptList = [];
         if (apptResponse is List) {
           apptList = apptResponse;

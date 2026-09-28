@@ -79,4 +79,49 @@ class NursingRepositoryImpl implements INursingRepository {
   Future<void> updateSettings(NursingSettingsModel settings) {
     return remoteDataSource.updateSettings(settings);
   }
+
+  @override
+  Future<List<NursingCoverageAreaModel>> getCoverageAreas() {
+    return remoteDataSource.getCoverageAreas();
+  }
+
+  @override
+  Future<NursingCoverageAreaModel> addCoverageArea(NursingCoverageAreaModel area) {
+    return remoteDataSource.addCoverageArea(area);
+  }
+
+  @override
+  Future<void> deleteCoverageArea(String id) {
+    return remoteDataSource.deleteCoverageArea(id);
+  }
+
+  @override
+  Future<void> toggleCoverageArea(String id, bool isActive) {
+    return remoteDataSource.toggleCoverageArea(id, isActive);
+  }
+
+  @override
+  Future<List<NursingDocumentItemModel>> getDocuments() {
+    return remoteDataSource.getDocuments();
+  }
+
+  @override
+  Future<NursingDocumentItemModel> uploadDocument(String documentType, String filePath) {
+    return remoteDataSource.uploadDocument(documentType, filePath);
+  }
+
+  @override
+  Future<void> deleteDocument(String id) {
+    return remoteDataSource.deleteDocument(id);
+  }
+
+  @override
+  Future<NursingPaymentSettingsModel> getPaymentSettings() {
+    return remoteDataSource.getPaymentSettings();
+  }
+
+  @override
+  Future<void> updatePaymentSettings(NursingPaymentSettingsModel settings) {
+    return remoteDataSource.updatePaymentSettings(settings);
+  }
 }

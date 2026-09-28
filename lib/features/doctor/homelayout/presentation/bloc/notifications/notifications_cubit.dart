@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rojeta_doctor/features/doctor/homelayout/data/repositories/doctor_notifications_repository.dart';
+
 import 'notifications_state.dart';
 
 class NotificationsCubit extends Cubit<NotificationsState> {
@@ -11,12 +12,14 @@ class NotificationsCubit extends Cubit<NotificationsState> {
   }
 
   Future<void> loadNotifications() async {
+    if (isClosed) return;
     emit(
       state.copyWith(status: NotificationsStatus.loading, errorMessage: null),
     );
 
     try {
       final notifications = await repository.getNotifications();
+      if (isClosed) return;
       emit(
         state.copyWith(
           status: NotificationsStatus.success,
@@ -24,6 +27,7 @@ class NotificationsCubit extends Cubit<NotificationsState> {
         ),
       );
     } catch (e) {
+      if (isClosed) return;
       emit(
         state.copyWith(
           status: NotificationsStatus.failure,
@@ -34,6 +38,7 @@ class NotificationsCubit extends Cubit<NotificationsState> {
   }
 
   void setFilter(NotificationFilter filter) {
+    if (isClosed) return;
     emit(state.copyWith(filter: filter));
   }
 
@@ -45,6 +50,7 @@ class NotificationsCubit extends Cubit<NotificationsState> {
       return n;
     }).toList();
 
+    if (isClosed) return;
     emit(state.copyWith(notifications: updatedList));
 
     try {
@@ -62,6 +68,7 @@ class NotificationsCubit extends Cubit<NotificationsState> {
       return n.copyWith(isRead: true);
     }).toList();
 
+    if (isClosed) return;
     emit(state.copyWith(notifications: updatedList));
 
     for (final id in unreadList) {
@@ -73,6 +80,7 @@ class NotificationsCubit extends Cubit<NotificationsState> {
 
   void deleteNotification(String id) {
     final updatedList = state.notifications.where((n) => n.id != id).toList();
+    if (isClosed) return;
     emit(state.copyWith(notifications: updatedList));
   }
 }

@@ -58,13 +58,15 @@ class FinancialRemoteDataSourceImpl implements FinancialRemoteDataSource {
     try {
       final role = UserHiveHelper.getUser()?.role?.toLowerCase().trim() ?? '';
       final isDoctor = role == 'doctor' || role.contains('doctor');
+      final isHospital = role == 'hospital' || role.contains('hospital');
       final allItems = <Map<String, dynamic>>[];
 
-      if (isDoctor) {
+      if (isDoctor || isHospital) {
         try {
-          final apptResponse = await apiConsumer.get(
-            Endpoints.doctorAppointments,
-          );
+          final endpoint = isHospital
+              ? Endpoints.hospitalAppointments
+              : Endpoints.doctorAppointments;
+          final apptResponse = await apiConsumer.get(endpoint);
           List<dynamic> rawList = [];
           if (apptResponse is List) {
             rawList = apptResponse;
@@ -189,13 +191,15 @@ class FinancialRemoteDataSourceImpl implements FinancialRemoteDataSource {
     try {
       final role = UserHiveHelper.getUser()?.role?.toLowerCase().trim() ?? '';
       final isDoctor = role == 'doctor' || role.contains('doctor');
+      final isHospital = role == 'hospital' || role.contains('hospital');
       final allItems = <Map<String, dynamic>>[];
 
-      if (isDoctor) {
+      if (isDoctor || isHospital) {
         try {
-          final apptResponse = await apiConsumer.get(
-            Endpoints.doctorAppointments,
-          );
+          final endpoint = isHospital
+              ? Endpoints.hospitalAppointments
+              : Endpoints.doctorAppointments;
+          final apptResponse = await apiConsumer.get(endpoint);
           List<dynamic> rawList = [];
           if (apptResponse is List) {
             rawList = apptResponse;

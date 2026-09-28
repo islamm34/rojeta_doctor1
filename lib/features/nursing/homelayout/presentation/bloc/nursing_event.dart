@@ -99,3 +99,69 @@ class UpdateNursingSettingsEvent extends NursingEvent {
   List<Object?> get props => [settings];
 }
 
+class LoadNursingCoverageAreasEvent extends NursingEvent {}
+
+class AddNursingCoverageAreaEvent extends NursingEvent {
+  final NursingCoverageAreaModel area;
+
+  const AddNursingCoverageAreaEvent(this.area);
+
+  @override
+  List<Object?> get props => [area];
+}
+
+class DeleteNursingCoverageAreaEvent extends NursingEvent {
+  final String areaId;
+
+  const DeleteNursingCoverageAreaEvent(this.areaId);
+
+  @override
+  List<Object?> get props => [areaId];
+}
+
+class ToggleNursingCoverageAreaEvent extends NursingEvent {
+  final String areaId;
+  final bool isActive;
+
+  const ToggleNursingCoverageAreaEvent({required this.areaId, required this.isActive});
+
+  @override
+  List<Object?> get props => [areaId, isActive];
+}
+
+class LoadNursingDocumentsEvent extends NursingEvent {}
+
+class UploadNursingDocumentEvent extends NursingEvent {
+  final String documentType;
+  final String filePath;
+
+  const UploadNursingDocumentEvent({
+    required this.documentType,
+    required this.filePath,
+  });
+
+  @override
+  List<Object?> get props => [documentType, filePath];
+}
+
+class DeleteNursingDocumentEvent extends NursingEvent {
+  final String documentId;
+
+  const DeleteNursingDocumentEvent(this.documentId);
+
+  @override
+  List<Object?> get props => [documentId];
+}
+
+class LoadNursingPaymentSettingsEvent extends NursingEvent {}
+
+class UpdateNursingPaymentSettingsEvent extends NursingEvent {
+  final NursingPaymentSettingsModel paymentSettings;
+
+  const UpdateNursingPaymentSettingsEvent(this.paymentSettings);
+
+  @override
+  List<Object?> get props => [paymentSettings];
+}
+
+

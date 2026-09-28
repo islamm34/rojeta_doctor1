@@ -17,21 +17,25 @@ class NursingState extends Equatable {
   final NursingOfficeInfoModel? officeInfo;
   final NursingWorkingHoursModel? workingHours;
   final NursingSettingsModel? settings;
+  final List<NursingCoverageAreaModel> coverageAreas;
+  final List<NursingDocumentItemModel> documents;
+  final NursingPaymentSettingsModel? paymentSettings;
   final String? errorMessage;
 
   const NursingState({
     this.status = NursingStatus.initial,
     this.currentTabIndex = 0,
     this.dashboardData,
-    this.services = const [
-      
-    ],
+    this.services = const [],
     this.staff = const [],
     this.staffStats,
     this.profile,
     this.officeInfo,
     this.workingHours,
     this.settings,
+    this.coverageAreas = const [],
+    this.documents = const [],
+    this.paymentSettings,
     this.errorMessage,
   });
 
@@ -46,6 +50,9 @@ class NursingState extends Equatable {
     NursingOfficeInfoModel? officeInfo,
     NursingWorkingHoursModel? workingHours,
     NursingSettingsModel? settings,
+    List<NursingCoverageAreaModel>? coverageAreas,
+    List<NursingDocumentItemModel>? documents,
+    NursingPaymentSettingsModel? paymentSettings,
     String? errorMessage,
   }) {
     return NursingState(
@@ -59,6 +66,9 @@ class NursingState extends Equatable {
       officeInfo: officeInfo ?? this.officeInfo,
       workingHours: workingHours ?? this.workingHours,
       settings: settings ?? this.settings,
+      coverageAreas: coverageAreas ?? this.coverageAreas,
+      documents: documents ?? this.documents,
+      paymentSettings: paymentSettings ?? this.paymentSettings,
       errorMessage: status == NursingStatus.failure
           ? errorMessage
           : (status == NursingStatus.loading ? null : this.errorMessage),
@@ -77,6 +87,9 @@ class NursingState extends Equatable {
     officeInfo,
     workingHours,
     settings,
+    coverageAreas,
+    documents,
+    paymentSettings,
     errorMessage,
   ];
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../../../../../core/utils/screen_util_like.dart';
 
@@ -8,6 +9,8 @@ class NursingTextField extends StatelessWidget {
   final String? hintText;
   final String? Function(String?)? validator;
   final TextInputType? keyboardType;
+  final List<TextInputFormatter>? inputFormatters;
+  final int? maxLength;
 
   const NursingTextField({
     super.key,
@@ -16,6 +19,8 @@ class NursingTextField extends StatelessWidget {
     this.hintText,
     this.validator,
     this.keyboardType,
+    this.inputFormatters,
+    this.maxLength,
   });
 
   @override
@@ -24,10 +29,13 @@ class NursingTextField extends StatelessWidget {
       controller: controller,
       maxLines: maxLines,
       keyboardType: keyboardType,
+      inputFormatters: inputFormatters,
+      maxLength: maxLength,
       validator: validator,
       style: const TextStyle(color: Color(0xFF0F172A)),
       decoration: InputDecoration(
         hintText: hintText,
+        counterText: '',
         hintStyle: const TextStyle(color: Color(0xFF94A3B8)),
         contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
         border: OutlineInputBorder(

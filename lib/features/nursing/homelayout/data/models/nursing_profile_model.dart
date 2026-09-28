@@ -395,3 +395,315 @@ class NursingSettingsModel extends Equatable {
     language,
   ];
 }
+
+class NursingCoverageAreaModel extends Equatable {
+  final String id;
+  final String name;
+  final String city;
+  final int radiusKm;
+  final double extraFee;
+  final bool isActive;
+  final int nursesCount;
+
+  const NursingCoverageAreaModel({
+    this.id = '',
+    this.name = '',
+    this.city = '',
+    this.radiusKm = 10,
+    this.extraFee = 0.0,
+    this.isActive = true,
+    this.nursesCount = 0,
+  });
+
+  factory NursingCoverageAreaModel.fromJson(Map<String, dynamic>? json) {
+    if (json == null) return const NursingCoverageAreaModel();
+
+    return NursingCoverageAreaModel(
+      id: (json['id'] ?? json['_id'] ?? '').toString(),
+      name: (json['name'] ?? json['area_name'] ?? json['title'] ?? '').toString(),
+      city: (json['city'] ?? json['governorate'] ?? json['state'] ?? '').toString(),
+      radiusKm: (json['radiusKm'] ?? json['radius_km'] ?? json['radius'] ?? 10) is num
+          ? (json['radiusKm'] ?? json['radius_km'] ?? json['radius'] ?? 10).toInt()
+          : int.tryParse((json['radiusKm'] ?? json['radius_km'] ?? json['radius'] ?? '10').toString()) ?? 10,
+      extraFee: (json['extraFee'] ?? json['extra_fee'] ?? json['delivery_fee'] ?? json['fee'] ?? 0.0) is num
+          ? (json['extraFee'] ?? json['extra_fee'] ?? json['delivery_fee'] ?? json['fee'] ?? 0.0).toDouble()
+          : double.tryParse((json['extraFee'] ?? json['extra_fee'] ?? json['delivery_fee'] ?? json['fee'] ?? '0.0').toString()) ?? 0.0,
+      isActive: json['isActive'] ?? json['is_active'] ?? json['active'] ?? true,
+      nursesCount: (json['nursesCount'] ?? json['nurses_count'] ?? json['staff_count'] ?? 0) is num
+          ? (json['nursesCount'] ?? json['nurses_count'] ?? json['staff_count'] ?? 0).toInt()
+          : int.tryParse((json['nursesCount'] ?? json['nurses_count'] ?? json['staff_count'] ?? '0').toString()) ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'area_name': name,
+      'city': city,
+      'radius_km': radiusKm,
+      'radiusKm': radiusKm,
+      'extra_fee': extraFee,
+      'extraFee': extraFee,
+      'is_active': isActive,
+      'isActive': isActive,
+      'nurses_count': nursesCount,
+      'nursesCount': nursesCount,
+    };
+  }
+
+  NursingCoverageAreaModel copyWith({
+    String? id,
+    String? name,
+    String? city,
+    int? radiusKm,
+    double? extraFee,
+    bool? isActive,
+    int? nursesCount,
+  }) {
+    return NursingCoverageAreaModel(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      city: city ?? this.city,
+      radiusKm: radiusKm ?? this.radiusKm,
+      extraFee: extraFee ?? this.extraFee,
+      isActive: isActive ?? this.isActive,
+      nursesCount: nursesCount ?? this.nursesCount,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+    id,
+    name,
+    city,
+    radiusKm,
+    extraFee,
+    isActive,
+    nursesCount,
+  ];
+}
+
+class NursingDocumentItemModel extends Equatable {
+  final String id;
+  final String type; // 'commercial_registration', 'medical_license', 'facility_permit', 'tax_card', 'national_id'
+  final String title;
+  final String description;
+  final String fileUrl;
+  final String fileName;
+  final String status; // 'verified', 'pending', 'rejected', 'not_uploaded'
+  final String rejectionReason;
+  final String uploadedAt;
+
+  const NursingDocumentItemModel({
+    this.id = '',
+    this.type = '',
+    this.title = '',
+    this.description = '',
+    this.fileUrl = '',
+    this.fileName = '',
+    this.status = 'not_uploaded',
+    this.rejectionReason = '',
+    this.uploadedAt = '',
+  });
+
+  static String _formatImageUrl(dynamic url) {
+    if (url == null) return '';
+    final s = url.toString().trim();
+    if (s.isEmpty) return '';
+    if (s.startsWith('http://') || s.startsWith('https://')) {
+      return s;
+    }
+    if (s.startsWith('/')) {
+      return 'https://rojeta.fassla.net$s';
+    }
+    return 'https://rojeta.fassla.net/storage/$s';
+  }
+
+  factory NursingDocumentItemModel.fromJson(Map<String, dynamic>? json) {
+    if (json == null) return const NursingDocumentItemModel();
+
+    return NursingDocumentItemModel(
+      id: (json['id'] ?? json['_id'] ?? '').toString(),
+      type: (json['type'] ?? json['document_type'] ?? json['key'] ?? '').toString(),
+      title: (json['title'] ?? json['document_name'] ?? json['name'] ?? '').toString(),
+      description: (json['description'] ?? json['desc'] ?? '').toString(),
+      fileUrl: _formatImageUrl(
+        json['fileUrl'] ?? json['file_url'] ?? json['file'] ?? json['document_path'] ?? json['url'],
+      ),
+      fileName: (json['fileName'] ?? json['file_name'] ?? '').toString(),
+      status: (json['status'] ?? json['verification_status'] ?? 'pending').toString().toLowerCase(),
+      rejectionReason: (json['rejectionReason'] ?? json['rejection_reason'] ?? json['notes'] ?? '').toString(),
+      uploadedAt: (json['uploadedAt'] ?? json['uploaded_at'] ?? json['created_at'] ?? '').toString(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'type': type,
+      'document_type': type,
+      'title': title,
+      'description': description,
+      'file_url': fileUrl,
+      'fileUrl': fileUrl,
+      'file_name': fileName,
+      'fileName': fileName,
+      'status': status,
+      'verification_status': status,
+      'rejection_reason': rejectionReason,
+      'uploaded_at': uploadedAt,
+    };
+  }
+
+  NursingDocumentItemModel copyWith({
+    String? id,
+    String? type,
+    String? title,
+    String? description,
+    String? fileUrl,
+    String? fileName,
+    String? status,
+    String? rejectionReason,
+    String? uploadedAt,
+  }) {
+    return NursingDocumentItemModel(
+      id: id ?? this.id,
+      type: type ?? this.type,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      fileUrl: fileUrl ?? this.fileUrl,
+      fileName: fileName ?? this.fileName,
+      status: status ?? this.status,
+      rejectionReason: rejectionReason ?? this.rejectionReason,
+      uploadedAt: uploadedAt ?? this.uploadedAt,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+    id,
+    type,
+    title,
+    description,
+    fileUrl,
+    fileName,
+    status,
+    rejectionReason,
+    uploadedAt,
+  ];
+}
+
+class NursingPaymentSettingsModel extends Equatable {
+  final String paymentType; // 'bank_transfer', 'mobile_wallet'
+  final String accountHolderName;
+  final String bankName;
+  final String accountNumber;
+  final String iban;
+  final String swiftCode;
+  final String walletProvider; // 'vodafone_cash', 'instapay', 'orange_cash', 'etisalat_cash'
+  final String walletNumber;
+  final bool isAutoPayout;
+  final String payoutSchedule;
+
+  const NursingPaymentSettingsModel({
+    this.paymentType = 'bank_transfer',
+    this.accountHolderName = '',
+    this.bankName = '',
+    this.accountNumber = '',
+    this.iban = '',
+    this.swiftCode = '',
+    this.walletProvider = 'instapay',
+    this.walletNumber = '',
+    this.isAutoPayout = true,
+    this.payoutSchedule = 'weekly',
+  });
+
+  factory NursingPaymentSettingsModel.fromJson(Map<String, dynamic>? json) {
+    if (json == null) return const NursingPaymentSettingsModel();
+
+    final map = (json['data'] is Map<String, dynamic>)
+        ? json['data'] as Map<String, dynamic>
+        : (json['payment_details'] is Map<String, dynamic>
+            ? json['payment_details'] as Map<String, dynamic>
+            : json);
+
+    return NursingPaymentSettingsModel(
+      paymentType: (map['paymentType'] ?? map['payment_type'] ?? 'bank_transfer').toString(),
+      accountHolderName: (map['accountHolderName'] ?? map['account_holder_name'] ?? map['holder_name'] ?? '').toString(),
+      bankName: (map['bankName'] ?? map['bank_name'] ?? '').toString(),
+      accountNumber: (map['accountNumber'] ?? map['account_number'] ?? '').toString(),
+      iban: (map['iban'] ?? map['iban_number'] ?? '').toString(),
+      swiftCode: (map['swiftCode'] ?? map['swift_code'] ?? '').toString(),
+      walletProvider: (map['walletProvider'] ?? map['wallet_provider'] ?? 'instapay').toString(),
+      walletNumber: (map['walletNumber'] ?? map['wallet_number'] ?? map['phone'] ?? '').toString(),
+      isAutoPayout: map['isAutoPayout'] ?? map['is_auto_payout'] ?? map['auto_payout'] ?? true,
+      payoutSchedule: (map['payoutSchedule'] ?? map['payout_schedule'] ?? 'weekly').toString(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'payment_type': paymentType,
+      'paymentType': paymentType,
+      'account_holder_name': accountHolderName,
+      'accountHolderName': accountHolderName,
+      'bank_name': bankName,
+      'bankName': bankName,
+      'account_number': accountNumber,
+      'accountNumber': accountNumber,
+      'iban': iban,
+      'swift_code': swiftCode,
+      'swiftCode': swiftCode,
+      'wallet_provider': walletProvider,
+      'walletProvider': walletProvider,
+      'wallet_number': walletNumber,
+      'walletNumber': walletNumber,
+      'is_auto_payout': isAutoPayout,
+      'isAutoPayout': isAutoPayout,
+      'payout_schedule': payoutSchedule,
+      'payoutSchedule': payoutSchedule,
+    };
+  }
+
+  NursingPaymentSettingsModel copyWith({
+    String? paymentType,
+    String? accountHolderName,
+    String? bankName,
+    String? accountNumber,
+    String? iban,
+    String? swiftCode,
+    String? walletProvider,
+    String? walletNumber,
+    bool? isAutoPayout,
+    String? payoutSchedule,
+  }) {
+    return NursingPaymentSettingsModel(
+      paymentType: paymentType ?? this.paymentType,
+      accountHolderName: accountHolderName ?? this.accountHolderName,
+      bankName: bankName ?? this.bankName,
+      accountNumber: accountNumber ?? this.accountNumber,
+      iban: iban ?? this.iban,
+      swiftCode: swiftCode ?? this.swiftCode,
+      walletProvider: walletProvider ?? this.walletProvider,
+      walletNumber: walletNumber ?? this.walletNumber,
+      isAutoPayout: isAutoPayout ?? this.isAutoPayout,
+      payoutSchedule: payoutSchedule ?? this.payoutSchedule,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+    paymentType,
+    accountHolderName,
+    bankName,
+    accountNumber,
+    iban,
+    swiftCode,
+    walletProvider,
+    walletNumber,
+    isAutoPayout,
+    payoutSchedule,
+  ];
+}
+

@@ -226,7 +226,10 @@ class NursingProfileTab extends StatelessWidget {
                           icon: Icons.map_outlined,
                           title: strings.coverageAreas,
                           subtitle: strings.coverageAreasDesc,
-                          onTap: () {},
+                          onTap: () => context.pushNamed(
+                            AppRoutes.nursingCoverageAreas,
+                            extra: context.read<NursingBloc>(),
+                          ),
                         ),
                         const NursingProfileDivider(),
                         NursingProfileListItem(
@@ -243,14 +246,20 @@ class NursingProfileTab extends StatelessWidget {
                           icon: Icons.description_outlined,
                           title: strings.documents,
                           subtitle: strings.documentsDesc,
-                          onTap: () {},
+                          onTap: () => context.pushNamed(
+                            AppRoutes.nursingDocuments,
+                            extra: context.read<NursingBloc>(),
+                          ),
                         ),
                         const NursingProfileDivider(),
                         NursingProfileListItem(
                           icon: Icons.account_balance_outlined,
                           title: strings.paymentSettings,
                           subtitle: strings.paymentSettingsDesc,
-                          onTap: () {},
+                          onTap: () => context.pushNamed(
+                            AppRoutes.nursingPaymentSettings,
+                            extra: context.read<NursingBloc>(),
+                          ),
                         ),
                         const NursingProfileDivider(),
                         NursingProfileListItem(

@@ -1,3 +1,4 @@
+import '../../../../../../core/local/user_hive_helper.dart';
 import '../../../../../../core/network/api_consumer.dart';
 import '../../../../../../core/network/endpoints.dart';
 import '../../models/doctor_appointment_details_model.dart';
@@ -33,6 +34,28 @@ class DoctorAppointmentsRemoteDataSourceImpl
 
   DoctorAppointmentsRemoteDataSourceImpl({required this.apiConsumer});
 
+  bool get _isHospitalRole {
+    final role = UserHiveHelper.getUser()?.role?.toLowerCase().trim() ?? '';
+    return role == 'hospital' || role.contains('hospital');
+  }
+
+  String get _appointmentsEndpoint => _isHospitalRole
+      ? Endpoints.hospitalAppointments
+      : Endpoints.doctorAppointments;
+
+  String _appointmentStatusEndpoint(String appointmentId) => _isHospitalRole
+      ? Endpoints.hospitalAppointmentStatus(appointmentId)
+      : Endpoints.doctorAppointmentStatus(appointmentId);
+
+  String _appointmentConfirmCashPaymentEndpoint(String appointmentId) =>
+      _isHospitalRole
+      ? Endpoints.hospitalAppointmentConfirmCashPayment(appointmentId)
+      : Endpoints.doctorAppointmentConfirmCashPayment(appointmentId);
+
+  String _appointmentDetailsEndpoint(String appointmentId) => _isHospitalRole
+      ? Endpoints.hospitalAppointmentDetails(appointmentId)
+      : Endpoints.doctorAppointmentDetails(appointmentId);
+
   @override
   Future<List<DoctorAppointmentModel>> getAppointments({
     int? page,
@@ -51,7 +74,7 @@ class DoctorAppointmentsRemoteDataSourceImpl
     if (type != null && type.isNotEmpty) queryParameters['type'] = type;
 
     final response = await apiConsumer.get(
-      Endpoints.doctorAppointments,
+      _appointmentsEndpoint,
       queryParameters: queryParameters.isNotEmpty ? queryParameters : null,
     );
 
@@ -86,7 +109,7 @@ class DoctorAppointmentsRemoteDataSourceImpl
     required String status,
   }) async {
     await apiConsumer.patch(
-      Endpoints.doctorAppointmentStatus(appointmentId),
+      _appointmentStatusEndpoint(appointmentId),
       data: {'status': status},
     );
   }
@@ -98,7 +121,7 @@ class DoctorAppointmentsRemoteDataSourceImpl
   }) async {
     try {
       await apiConsumer.post(
-        Endpoints.doctorAppointmentConfirmCashPayment(appointmentId),
+        _appointmentConfirmCashPaymentEndpoint(appointmentId),
         data: {
           'appointment_id': appointmentId,
           'payment_method': 'cash',
@@ -109,7 +132,7 @@ class DoctorAppointmentsRemoteDataSourceImpl
     } catch (_) {
       // Fallback: update status to paid / completed
       await apiConsumer.patch(
-        Endpoints.doctorAppointmentStatus(appointmentId),
+        _appointmentStatusEndpoint(appointmentId),
         data: {'status': 'confirmed', 'payment_status': 'paid'},
       );
     }
@@ -120,7 +143,7 @@ class DoctorAppointmentsRemoteDataSourceImpl
     String appointmentId,
   ) async {
     final response = await apiConsumer.get(
-      Endpoints.doctorAppointmentDetails(appointmentId),
+      _appointmentDetailsEndpoint(appointmentId),
     );
 
     if (response is Map<String, dynamic>) {

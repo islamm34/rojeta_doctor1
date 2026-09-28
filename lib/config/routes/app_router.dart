@@ -74,7 +74,10 @@ import '../../features/nursing/homelayout/presentation/bloc/nursing_bloc.dart';
 import '../../features/nursing/homelayout/presentation/pages/nursing_add_service_page.dart';
 import '../../features/nursing/homelayout/presentation/pages/nursing_add_staff_page.dart';
 import '../../features/nursing/homelayout/presentation/pages/nursing_home_layout.dart';
+import '../../features/nursing/homelayout/presentation/pages/profile/nursing_coverage_areas_page.dart';
+import '../../features/nursing/homelayout/presentation/pages/profile/nursing_documents_page.dart';
 import '../../features/nursing/homelayout/presentation/pages/profile/nursing_office_info_page.dart';
+import '../../features/nursing/homelayout/presentation/pages/profile/nursing_payment_settings_page.dart';
 import '../../features/nursing/homelayout/presentation/pages/profile/nursing_settings_page.dart';
 import '../../features/nursing/homelayout/presentation/pages/profile/nursing_working_hours_page.dart';
 import 'custom_routes.dart';
@@ -152,6 +155,9 @@ class AppRoutes {
   static const String nursingHomeLayout = '/nursing-home-layout';
   static const String nursingAddService = '/nursing-add-service';
   static const String nursingAddNurse = '/nursing-add-nurse';
+  static const String nursingCoverageAreas = '/nursing-coverage-areas';
+  static const String nursingDocuments = '/nursing-documents';
+  static const String nursingPaymentSettings = '/nursing-payment-settings';
   static const String doctorConversations = '/doctor-conversations';
   static const String doctorChatMessages = '/doctor-chat-messages';
   static const String notifications = '/notifications';
@@ -453,6 +459,27 @@ class AppRouter {
           builder: (_) => BlocProvider.value(
             value: settings.arguments as NursingBloc,
             child: const NursingWorkingHoursPage(),
+          ),
+        );
+      case AppRoutes.nursingCoverageAreas:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: settings.arguments as NursingBloc,
+            child: const NursingCoverageAreasPage(),
+          ),
+        );
+      case AppRoutes.nursingDocuments:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: settings.arguments as NursingBloc,
+            child: const NursingDocumentsPage(),
+          ),
+        );
+      case AppRoutes.nursingPaymentSettings:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: settings.arguments as NursingBloc,
+            child: const NursingPaymentSettingsPage(),
           ),
         );
       default:

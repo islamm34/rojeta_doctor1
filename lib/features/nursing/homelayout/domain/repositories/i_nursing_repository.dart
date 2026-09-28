@@ -18,4 +18,13 @@ abstract class INursingRepository {
   Future<void> updateWorkingHours(NursingWorkingHoursModel workingHours);
   Future<NursingSettingsModel> getSettings();
   Future<void> updateSettings(NursingSettingsModel settings);
+  Future<List<NursingCoverageAreaModel>> getCoverageAreas();
+  Future<NursingCoverageAreaModel> addCoverageArea(NursingCoverageAreaModel area);
+  Future<void> deleteCoverageArea(String id);
+  Future<void> toggleCoverageArea(String id, bool isActive);
+  Future<List<NursingDocumentItemModel>> getDocuments();
+  Future<NursingDocumentItemModel> uploadDocument(String documentType, String filePath);
+  Future<void> deleteDocument(String id);
+  Future<NursingPaymentSettingsModel> getPaymentSettings();
+  Future<void> updatePaymentSettings(NursingPaymentSettingsModel settings);
 }

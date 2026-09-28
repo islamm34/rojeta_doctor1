@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rojeta_doctor/features/nursing/homelayout/data/models/nursing_profile_model.dart';
 import 'package:rojeta_doctor/features/nursing/homelayout/data/models/nursing_staff_model.dart';
 
 import '../../domain/repositories/i_nursing_repository.dart';
@@ -24,6 +25,15 @@ class NursingBloc extends Bloc<NursingEvent, NursingState> {
     on<UpdateNursingOfficeInfoEvent>(_onUpdateOfficeInfo);
     on<UpdateNursingWorkingHoursEvent>(_onUpdateWorkingHours);
     on<UpdateNursingSettingsEvent>(_onUpdateSettings);
+    on<LoadNursingCoverageAreasEvent>(_onLoadCoverageAreas);
+    on<AddNursingCoverageAreaEvent>(_onAddCoverageArea);
+    on<DeleteNursingCoverageAreaEvent>(_onDeleteCoverageArea);
+    on<ToggleNursingCoverageAreaEvent>(_onToggleCoverageArea);
+    on<LoadNursingDocumentsEvent>(_onLoadDocuments);
+    on<UploadNursingDocumentEvent>(_onUploadDocument);
+    on<DeleteNursingDocumentEvent>(_onDeleteDocument);
+    on<LoadNursingPaymentSettingsEvent>(_onLoadPaymentSettings);
+    on<UpdateNursingPaymentSettingsEvent>(_onUpdatePaymentSettings);
   }
 
   void _onChangeTab(ChangeNursingTabEvent event, Emitter<NursingState> emit) {
@@ -254,6 +264,9 @@ class NursingBloc extends Bloc<NursingEvent, NursingState> {
       final office = await _repository.getOfficeInfo();
       final hours = await _repository.getWorkingHours();
       final settings = await _repository.getSettings();
+      final coverage = await _repository.getCoverageAreas();
+      final docs = await _repository.getDocuments();
+      final payment = await _repository.getPaymentSettings();
 
       emit(
         state.copyWith(
@@ -262,6 +275,9 @@ class NursingBloc extends Bloc<NursingEvent, NursingState> {
           officeInfo: office,
           workingHours: hours,
           settings: settings,
+          coverageAreas: coverage,
+          documents: docs,
+          paymentSettings: payment,
         ),
       );
     } catch (e) {
@@ -329,6 +345,204 @@ class NursingBloc extends Bloc<NursingEvent, NursingState> {
       await _repository.updateSettings(event.settings);
       emit(
         state.copyWith(status: NursingStatus.success, settings: event.settings),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: NursingStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onLoadCoverageAreas(
+    LoadNursingCoverageAreasEvent event,
+    Emitter<NursingState> emit,
+  ) async {
+    emit(state.copyWith(status: NursingStatus.loading));
+    try {
+      final areas = await _repository.getCoverageAreas();
+      emit(state.copyWith(status: NursingStatus.success, coverageAreas: areas));
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: NursingStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onAddCoverageArea(
+    AddNursingCoverageAreaEvent event,
+    Emitter<NursingState> emit,
+  ) async {
+    emit(state.copyWith(status: NursingStatus.loading));
+    try {
+      final created = await _repository.addCoverageArea(event.area);
+      final updated = List.of(state.coverageAreas)..insert(0, created);
+      emit(
+        state.copyWith(status: NursingStatus.success, coverageAreas: updated),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: NursingStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onDeleteCoverageArea(
+    DeleteNursingCoverageAreaEvent event,
+    Emitter<NursingState> emit,
+  ) async {
+    emit(state.copyWith(status: NursingStatus.loading));
+    try {
+      await _repository.deleteCoverageArea(event.areaId);
+      final updated = state.coverageAreas
+          .where((a) => a.id != event.areaId)
+          .toList();
+      emit(
+        state.copyWith(status: NursingStatus.success, coverageAreas: updated),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: NursingStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onToggleCoverageArea(
+    ToggleNursingCoverageAreaEvent event,
+    Emitter<NursingState> emit,
+  ) async {
+    try {
+      final updated = state.coverageAreas.map((a) {
+        if (a.id == event.areaId) {
+          return a.copyWith(isActive: event.isActive);
+        }
+        return a;
+      }).toList();
+      emit(state.copyWith(coverageAreas: updated));
+      await _repository.toggleCoverageArea(event.areaId, event.isActive);
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: NursingStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onLoadDocuments(
+    LoadNursingDocumentsEvent event,
+    Emitter<NursingState> emit,
+  ) async {
+    emit(state.copyWith(status: NursingStatus.loading));
+    try {
+      final docs = await _repository.getDocuments();
+      emit(state.copyWith(status: NursingStatus.success, documents: docs));
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: NursingStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onUploadDocument(
+    UploadNursingDocumentEvent event,
+    Emitter<NursingState> emit,
+  ) async {
+    emit(state.copyWith(status: NursingStatus.loading));
+    try {
+      final uploaded = await _repository.uploadDocument(
+        event.documentType,
+        event.filePath,
+      );
+      final existingIndex = state.documents.indexWhere(
+        (d) => d.type == event.documentType,
+      );
+      List<NursingDocumentItemModel> updated;
+      if (existingIndex >= 0) {
+        updated = List.of(state.documents);
+        updated[existingIndex] = uploaded;
+      } else {
+        updated = List.of(state.documents)..insert(0, uploaded);
+      }
+      emit(state.copyWith(status: NursingStatus.success, documents: updated));
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: NursingStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onDeleteDocument(
+    DeleteNursingDocumentEvent event,
+    Emitter<NursingState> emit,
+  ) async {
+    emit(state.copyWith(status: NursingStatus.loading));
+    try {
+      await _repository.deleteDocument(event.documentId);
+      final updated = state.documents
+          .where((d) => d.id != event.documentId)
+          .toList();
+      emit(state.copyWith(status: NursingStatus.success, documents: updated));
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: NursingStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onLoadPaymentSettings(
+    LoadNursingPaymentSettingsEvent event,
+    Emitter<NursingState> emit,
+  ) async {
+    emit(state.copyWith(status: NursingStatus.loading));
+    try {
+      final payment = await _repository.getPaymentSettings();
+      emit(
+        state.copyWith(status: NursingStatus.success, paymentSettings: payment),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: NursingStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onUpdatePaymentSettings(
+    UpdateNursingPaymentSettingsEvent event,
+    Emitter<NursingState> emit,
+  ) async {
+    emit(state.copyWith(status: NursingStatus.loading));
+    try {
+      await _repository.updatePaymentSettings(event.paymentSettings);
+      emit(
+        state.copyWith(
+          status: NursingStatus.success,
+          paymentSettings: event.paymentSettings,
+        ),
       );
     } catch (e) {
       emit(

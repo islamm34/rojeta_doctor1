@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rojeta_doctor/core/utils/extensions/context_extensions.dart';
+
 import '../../../../../../shared/widgets/custom_textfield.dart';
 import '../../data/models/profile_model.dart';
 import '../bloc/profile/profile_bloc.dart';
 import '../bloc/profile/profile_event.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PaymentDetailsSection extends StatelessWidget {
   final ProfileModel profile;
@@ -174,6 +176,8 @@ class PaymentDetailsSection extends StatelessWidget {
                 ? profile.paymentDetails.accountNumber
                 : null,
             keyboardType: TextInputType.number,
+            maxLength: 16,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           ),
         ] else ...[
           CustomTextField(
@@ -183,6 +187,8 @@ class PaymentDetailsSection extends StatelessWidget {
                 ? profile.paymentDetails.accountNumber
                 : null,
             keyboardType: TextInputType.phone,
+            maxLength: 11,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           ),
         ],
       ],

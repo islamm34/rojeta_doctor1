@@ -105,11 +105,22 @@ class Endpoints {
   static const String getNursingDashboard = '/nursing/dashboard';
   static const String getNursingServices = '/nursing/services';
   static const String addNursingService = '/nursing/services/add';
+  static String deleteNursingService(String id) => '/nursing/services/$id';
   static const String getNursingStaff = '/nursing/staff';
   static const String addNursingStaff = '/nursing/staff/add';
+  static String deleteNursingStaff(String id) => '/nursing/staff/$id';
   static const String getNursingProfile = '/nursing/profile';
   static const String getNursingWorkingHours = '/nursing/working-hours';
   static const String getNursingSettings = '/nursing/settings';
+  static const String getNursingCoverageAreas = '/nursing/coverage-areas';
+  static String toggleNursingCoverageArea(String id) =>
+      '/nursing/coverage-areas/$id/toggle';
+  static String deleteNursingCoverageArea(String id) =>
+      '/nursing/coverage-areas/$id';
+  static const String getNursingDocuments = '/nursing/documents';
+  static const String uploadNursingDocument = '/nursing/documents';
+  static String deleteNursingDocument(String id) => '/nursing/documents/$id';
+  static const String getNursingPaymentSettings = '/nursing/payment-settings';
 
   // --- Support & Admin Chat Endpoints ---
   static const String supportContact = '/support/contact';
@@ -117,4 +128,11 @@ class Endpoints {
 
   // --- Hospital Endpoints ---
   static const String hospitalDashboard = '/hospital/dashboard';
+  static const String hospitalAppointments = '/hospital/appointments';
+  static String hospitalAppointmentDetails(String appointmentId) =>
+      '/hospital/appointments/$appointmentId';
+  static String hospitalAppointmentStatus(String appointmentId) =>
+      '/hospital/appointments/$appointmentId/status';
+  static String hospitalAppointmentConfirmCashPayment(String appointmentId) =>
+      '/hospital/appointments/$appointmentId/confirm-cash-payment';
 }
