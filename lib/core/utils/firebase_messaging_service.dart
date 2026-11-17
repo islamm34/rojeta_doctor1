@@ -8,7 +8,16 @@ import '../di/injector.dart';
 import '../network/api_consumer.dart';
 import '../network/endpoints.dart';
 import '../utils/flutter_secure_storage_helper.dart';
+import '../../config/routes/app_router.dart';
+import '../../main.dart';
 import 'local_notification_service.dart';
+
+class NotificationDisplayData {
+  final String title;
+  final String body;
+
+  const NotificationDisplayData({required this.title, required this.body});
+}
 
 /// Top-level background message handler required by Firebase Messaging
 @pragma('vm:entry-point')
@@ -19,6 +28,25 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
     log(
       '🔥 [FCM Background Message] Title: ${message.notification?.title}, Body: ${message.notification?.body}',
     );
+  } else {
+    try {
+      final displayData =
+          FirebaseMessagingService.formatIncomingBookingNotification(message);
+      final payload = message.data.map(
+        (key, value) => MapEntry(key, value.toString()),
+      );
+      payload['title'] = displayData.title;
+      payload['body'] = displayData.body;
+
+      await LocalNotificationService.showNotification(
+        id: message.hashCode,
+        title: displayData.title,
+        body: displayData.body,
+        payload: payload,
+      );
+    } catch (e) {
+      log('Error showing background notification: $e');
+    }
   }
 }
 
@@ -187,6 +215,194 @@ class FirebaseMessagingService {
 
   Stream<String> get onTokenRefresh => _firebaseMessaging.onTokenRefresh;
 
+  static NotificationDisplayData formatIncomingBookingNotification(
+    RemoteMessage message,
+  ) {
+    final data = message.data;
+    final patientName =
+        (data['patient_name'] ??
+                data['patientName'] ??
+                data['patient']?['name'] ??
+                data['name'] ??
+                data['userName'] ??
+                data['user_name'])
+            ?.toString()
+            .trim();
+
+    final phone =
+        (data['patient_phone'] ??
+                data['patientPhone'] ??
+                data['phone'] ??
+                data['contact_phone'] ??
+                data['patient']?['phone'])
+            ?.toString()
+            .trim();
+
+    final date =
+        (data['date'] ??
+                data['booking_date'] ??
+                data['appointment_date'] ??
+                data['day'])
+            ?.toString()
+            .trim();
+
+    final time =
+        (data['time'] ?? data['booking_time'] ?? data['appointment_time'])
+            ?.toString()
+            .trim();
+
+    final notes =
+        (data['notes'] ??
+                data['reason'] ??
+                data['complaint'] ??
+                data['patient_notes'] ??
+                data['symptoms'] ??
+                data['medical_condition'])
+            ?.toString()
+            .trim();
+
+    final location =
+        (data['location'] ??
+                data['clinic_name'] ??
+                data['clinic_address'] ??
+                data['address'] ??
+                data['area'])
+            ?.toString()
+            .trim();
+
+    final fee =
+        (data['fee'] ??
+                data['price'] ??
+                data['total_amount'] ??
+                data['total_price'] ??
+                data['amount'] ??
+                data['consultation_fee'])
+            ?.toString()
+            .trim();
+
+    final paymentMethod =
+        (data['payment_method'] ??
+                data['paymentMethod'] ??
+                data['payment_type'] ??
+                data['payment'])
+            ?.toString()
+            .trim();
+
+    final rawTitle =
+        message.notification?.title ?? data['title']?.toString() ?? '';
+    final rawBody =
+        message.notification?.body ?? data['body']?.toString() ?? '';
+
+    final hasPatientInfo = patientName != null && patientName.isNotEmpty;
+    final typeStr = (data['type'] ?? data['notification_type'] ?? '')
+        .toString()
+        .toLowerCase();
+    final isPayment =
+        typeStr == 'payment' ||
+        typeStr == 'payment_received' ||
+        typeStr == 'payment_success' ||
+        typeStr == 'cash_payment_confirmed' ||
+        data.containsKey('amount_paid') ||
+        rawTitle.toLowerCase().contains('payment') ||
+        rawTitle.contains('دفع') ||
+        rawBody.contains('تم دفع') ||
+        rawBody.contains('استلام دفعة');
+
+    if (isPayment) {
+      final amountPaid = data['amount_paid']?.toString() ?? fee;
+      final bookingId =
+          (data['booking_id'] ??
+                  data['bookingId'] ??
+                  data['appointment_id'] ??
+                  data['appointmentId'] ??
+                  data['id'])
+              ?.toString();
+
+      final payTitle = hasPatientInfo
+          ? '💰 تم استلام دفعة جديدة من $patientName'
+          : (rawTitle.isNotEmpty ? rawTitle : '💰 تم استلام دفعة جديدة');
+
+      final lines = <String>[];
+      if (hasPatientInfo) {
+        lines.add('👤 المريض: $patientName');
+      }
+      if (amountPaid != null && amountPaid.isNotEmpty) {
+        lines.add('💵 المبلغ المدفوع: $amountPaid ج.م');
+      }
+      if (paymentMethod != null && paymentMethod.isNotEmpty) {
+        final pmClean = paymentMethod.toLowerCase().contains('card')
+            ? 'بطاقة ائتمان'
+            : (paymentMethod.toLowerCase().contains('cash')
+                  ? 'نقدي'
+                  : paymentMethod);
+        lines.add('💳 طريقة الدفع: $pmClean');
+      }
+      if (bookingId != null && bookingId.isNotEmpty) {
+        lines.add('📋 رقم الحجز: #$bookingId');
+      }
+
+      final payBody = lines.isNotEmpty
+          ? lines.join('\n')
+          : (rawBody.isNotEmpty ? rawBody : 'تم استلام دفعة مالية جديدة بنجاح');
+
+      return NotificationDisplayData(title: payTitle, body: payBody);
+    }
+
+    final isBooking =
+        data.containsKey('booking_id') ||
+        data.containsKey('appointment_id') ||
+        data['type'] == 'booking' ||
+        data['type'] == 'new_booking' ||
+        data['type'] == 'appointment' ||
+        data['type'] == 'new_appointment' ||
+        hasPatientInfo;
+
+    if (!isBooking && !hasPatientInfo) {
+      return NotificationDisplayData(
+        title: rawTitle.isNotEmpty ? rawTitle : 'إشعار جديد',
+        body: rawBody,
+      );
+    }
+
+    final title = hasPatientInfo
+        ? 'طلب حجز جديد من $patientName'
+        : (rawTitle.isNotEmpty ? rawTitle : 'طلب حجز جديد');
+
+    final lines = <String>[];
+    if (hasPatientInfo) {
+      lines.add('👤 المريض: $patientName');
+    }
+    if (phone != null && phone.isNotEmpty) {
+      lines.add('📞 الهاتف: $phone');
+    }
+    if ((date != null && date.isNotEmpty) ||
+        (time != null && time.isNotEmpty)) {
+      final dt = [
+        if (date != null && date.isNotEmpty) date,
+        if (time != null && time.isNotEmpty) time,
+      ].join(' - ');
+      lines.add('📅 الموعد: $dt');
+    }
+    if (location != null && location.isNotEmpty) {
+      lines.add('📍 العيادة: $location');
+    }
+    if (notes != null && notes.isNotEmpty) {
+      lines.add('📝 الشكوى: $notes');
+    }
+    if (fee != null && fee.isNotEmpty) {
+      final payStr = paymentMethod != null && paymentMethod.isNotEmpty
+          ? ' ($paymentMethod)'
+          : '';
+      lines.add('💵 الرسوم: $fee ج.م$payStr');
+    }
+
+    final body = lines.isNotEmpty
+        ? lines.join('\n')
+        : (rawBody.isNotEmpty ? rawBody : 'لديك طلب حجز جديد بانتظار التأكيد');
+
+    return NotificationDisplayData(title: title, body: body);
+  }
+
   void _setupForegroundListener() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       debugPrint('📩 [FCM Foreground Message Received]');
@@ -197,19 +413,21 @@ class FirebaseMessagingService {
       // Emit to stream listeners
       _foregroundMessageController.add(message);
 
-      // Display system notification banner / popup in foreground
-      final title =
-          message.notification?.title ?? message.data['title'] ?? 'إشعار جديد';
-      final body = message.notification?.body ?? message.data['body'] ?? '';
+      // Display system notification banner / popup in foreground with patient name & details
+      final displayData = formatIncomingBookingNotification(message);
 
-      if (title.isNotEmpty || body.isNotEmpty) {
+      if (displayData.title.isNotEmpty || displayData.body.isNotEmpty) {
+        final payload = message.data.map(
+          (key, value) => MapEntry(key, value.toString()),
+        );
+        payload['title'] = displayData.title;
+        payload['body'] = displayData.body;
+
         LocalNotificationService.showNotification(
           id: message.hashCode,
-          title: title,
-          body: body,
-          payload: message.data.map(
-            (key, value) => MapEntry(key, value.toString()),
-          ),
+          title: displayData.title,
+          body: displayData.body,
+          payload: payload,
         );
       }
     });
@@ -229,7 +447,8 @@ class FirebaseMessagingService {
     final bookingId =
         message.data['booking_id'] ??
         message.data['appointment_id'] ??
-        message.data['id'];
+        message.data['id'] ??
+        message.data['bookingRef'];
     final type = message.data['type'];
     final role = message.data['role'];
     final route = message.data['route'];
@@ -237,6 +456,13 @@ class FirebaseMessagingService {
     debugPrint(
       '🎯 [FCM Routing Target] Role: $role, Type: $type, ID: $bookingId, Route: $route',
     );
+
+    if (bookingId != null && bookingId.toString().isNotEmpty) {
+      RojetaDoctorApp.navigatorKey.currentState?.pushNamed(
+        AppRoutes.appointmentDetails,
+        arguments: bookingId.toString(),
+      );
+    }
   }
 
   void dispose() {

@@ -11,15 +11,48 @@ import '../../bloc/auth_bloc.dart';
 import '../../bloc/auth_event.dart';
 import '../../bloc/auth_state.dart';
 import 'specialty_dropdown_field.dart';
+import 'sub_specialty_dropdown_field.dart';
+import '../location/city_dropdown_field.dart';
+import '../location/governorate_dropdown_field.dart';
+import '../location/map_location_picker_button.dart';
 
-class ProfessionalInfoForm extends StatelessWidget {
+class ProfessionalInfoForm extends StatefulWidget {
   const ProfessionalInfoForm({super.key});
+
+  @override
+  State<ProfessionalInfoForm> createState() => _ProfessionalInfoFormState();
+}
+
+class _ProfessionalInfoFormState extends State<ProfessionalInfoForm> {
+  late final TextEditingController _addressController;
+
+  @override
+  void initState() {
+    super.initState();
+    _addressController = TextEditingController(
+      text: context.read<AuthBloc>().state.fullAddress,
+    );
+  }
+
+  @override
+  void dispose() {
+    _addressController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Container(
+    return BlocListener<AuthBloc, AuthState>(
+      listenWhen: (previous, current) =>
+          previous.fullAddress != current.fullAddress,
+      listener: (context, state) {
+        if (_addressController.text != state.fullAddress) {
+          _addressController.text = state.fullAddress;
+        }
+      },
+      child: Container(
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16.r),
@@ -131,16 +164,39 @@ class ProfessionalInfoForm extends StatelessWidget {
           SizedBox(height: 16.h),
 
           // Sub-Specialty
-          BlocBuilder<AuthBloc, AuthState>(
-            buildWhen: (previous, current) =>
-                previous.subSpecialty != current.subSpecialty,
-            builder: (context, state) {
-              return CustomTextField(
-                label: context.strings.subSpecialty,
-                hintText: context.strings.subSpecialtyHint,
-                onChanged: (val) =>
-                    context.read<AuthBloc>().add(SubSpecialtyChangedEvent(val)),
-              );
+          const SubSpecialtyDropdownField(),
+
+          SizedBox(height: 16.h),
+
+          // Governorate
+          const GovernorateDropdownField(isRequired: false),
+
+          SizedBox(height: 16.h),
+
+          // City / Area
+          const CityDropdownField(isRequired: false),
+
+          SizedBox(height: 16.h),
+
+          // Clinic / Institution Full Address
+          CustomTextField(
+            label: context.strings.fullAddress,
+            hintText: context.strings.fullAddressHint,
+            controller: _addressController,
+            minLines: 2,
+            maxLines: 3,
+            onChanged: (val) =>
+                context.read<AuthBloc>().add(FullAddressChangedEvent(val)),
+          ),
+
+          SizedBox(height: 16.h),
+
+          // + Location (Choose on Map)
+          MapLocationPickerButton(
+            onLocationChanged: (loc) {
+              if (loc.address?.isNotEmpty == true) {
+                _addressController.text = loc.address!;
+              }
             },
           ),
 
@@ -216,6 +272,7 @@ class ProfessionalInfoForm extends StatelessWidget {
           ),
         ],
       ),
+    ),
     );
   }
 }

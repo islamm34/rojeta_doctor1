@@ -287,14 +287,6 @@ class DioClient implements ApiConsumer {
       return defaultMsg;
     }
     if (data is Map) {
-      final msg =
-          data['message'] ?? data['error'] ?? data['msg'] ?? data['detail'];
-      if (msg != null && msg.toString().trim().isNotEmpty) {
-        return _sanitizeErrorMessage(
-          msg.toString().trim(),
-          defaultMsg: defaultMsg,
-        );
-      }
       final errors = data['errors'];
       if (errors is List && errors.isNotEmpty) {
         final messages = errors.map((e) {
@@ -317,6 +309,15 @@ class DioClient implements ApiConsumer {
         if (messages.isNotEmpty) {
           return messages.join('\n');
         }
+      }
+
+      final msg =
+          data['message'] ?? data['error'] ?? data['msg'] ?? data['detail'];
+      if (msg != null && msg.toString().trim().isNotEmpty) {
+        return _sanitizeErrorMessage(
+          msg.toString().trim(),
+          defaultMsg: defaultMsg,
+        );
       }
     }
     return defaultMsg;

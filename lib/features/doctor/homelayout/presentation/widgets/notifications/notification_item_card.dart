@@ -157,8 +157,8 @@ class NotificationItemCard extends StatelessWidget {
                                   notification.priority == 'High'
                                       ? context.strings.high
                                       : (notification.priority == 'Medium'
-                                          ? context.strings.medium
-                                          : context.strings.low),
+                                            ? context.strings.medium
+                                            : context.strings.low),
                                   style: theme.textTheme.bodySmall?.copyWith(
                                     color: _getPriorityColor(),
                                     fontWeight: FontWeight.bold,
@@ -186,6 +186,145 @@ class NotificationItemCard extends StatelessWidget {
                               height: 1.4,
                             ),
                           ),
+                          if (notification.patientName != null ||
+                              notification.notes != null ||
+                              notification.bookingDate != null) ...[
+                            SizedBox(height: 10.h),
+                            Container(
+                              width: double.infinity,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 10.w,
+                                vertical: 8.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFF3F9FF),
+                                borderRadius: BorderRadius.circular(10.r),
+                                border: Border.all(
+                                  color: const Color(0xFFD4E7FA),
+                                ),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  if (notification.patientName != null &&
+                                      notification.patientName!.isNotEmpty)
+                                    Padding(
+                                      padding: EdgeInsets.only(bottom: 4.h),
+                                      child: Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.person_outline,
+                                            size: 14,
+                                            color: Color(0xFF0087BA),
+                                          ),
+                                          SizedBox(width: 6.w),
+                                          Expanded(
+                                            child: Text(
+                                              notification.patientName!,
+                                              style: TextStyle(
+                                                fontSize: 12.sp,
+                                                fontWeight: FontWeight.bold,
+                                                color: const Color(0xFF0C4A6E),
+                                              ),
+                                            ),
+                                          ),
+                                          if (notification.patientPhone !=
+                                                  null &&
+                                              notification
+                                                  .patientPhone!
+                                                  .isNotEmpty)
+                                            Text(
+                                              notification.patientPhone!,
+                                              style: TextStyle(
+                                                fontSize: 11.sp,
+                                                color: Colors.grey.shade600,
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+                                    ),
+                                  if (notification.bookingDate != null ||
+                                      notification.bookingTime != null)
+                                    Padding(
+                                      padding: EdgeInsets.only(bottom: 4.h),
+                                      child: Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.access_time_outlined,
+                                            size: 14,
+                                            color: Color(0xFF0087BA),
+                                          ),
+                                          SizedBox(width: 6.w),
+                                          Expanded(
+                                            child: Text(
+                                              [
+                                                if (notification.bookingDate !=
+                                                    null)
+                                                  notification.bookingDate,
+                                                if (notification.bookingTime !=
+                                                    null)
+                                                  notification.bookingTime,
+                                              ].join(' - '),
+                                              style: TextStyle(
+                                                fontSize: 11.sp,
+                                                color: Colors.grey.shade700,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  if (notification.notes != null &&
+                                      notification.notes!.isNotEmpty)
+                                    Padding(
+                                      padding: EdgeInsets.only(bottom: 4.h),
+                                      child: Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.description_outlined,
+                                            size: 14,
+                                            color: Color(0xFFD97706),
+                                          ),
+                                          SizedBox(width: 6.w),
+                                          Expanded(
+                                            child: Text(
+                                              notification.notes!,
+                                              style: TextStyle(
+                                                fontSize: 11.sp,
+                                                color: const Color(0xFF92400E),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  if (notification.location != null &&
+                                      notification.location!.isNotEmpty)
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.location_on_outlined,
+                                          size: 14,
+                                          color: Colors.grey,
+                                        ),
+                                        SizedBox(width: 6.w),
+                                        Expanded(
+                                          child: Text(
+                                            notification.location!,
+                                            style: TextStyle(
+                                              fontSize: 11.sp,
+                                              color: Colors.grey.shade600,
+                                            ),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                ],
+                              ),
+                            ),
+                          ],
                           SizedBox(height: 8.h),
                           Text(
                             notification.time.isNotEmpty

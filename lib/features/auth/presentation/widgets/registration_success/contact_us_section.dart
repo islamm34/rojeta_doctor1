@@ -9,27 +9,25 @@ class ContactUsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           context.strings.contactUs,
           style: theme.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
             color: const Color(0xFF10B981),
+            fontSize: 14.sp,
           ),
         ),
         SizedBox(height: 12.h),
-        _buildContactRow(
-          context,
-          context.strings.customerService,
-          '19123',
-        ),
-        SizedBox(height: 8.h),
+        _buildContactRow(context, context.strings.customerService, '19123'),
+        SizedBox(height: 6.h),
         _buildContactRow(
           context,
           context.strings.emailLabel,
-          'drivers@helalfresh.com', // Generic or mock based on image
+          'drivers@helalfresh.com',
         ),
-        SizedBox(height: 8.h),
+        SizedBox(height: 6.h),
         _buildContactRow(
           context,
           context.strings.workingHours,
@@ -41,13 +39,14 @@ class ContactUsSection extends StatelessWidget {
 
   Widget _buildContactRow(BuildContext context, String label, String value) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
           label,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
             color: const Color(0xFF10B981),
             fontWeight: FontWeight.bold,
+            fontSize: 12.sp,
           ),
         ),
         SizedBox(width: 4.w),
@@ -55,6 +54,7 @@ class ContactUsSection extends StatelessWidget {
           value,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
             color: const Color(0xFF10B981),
+            fontSize: 12.sp,
           ),
         ),
       ],

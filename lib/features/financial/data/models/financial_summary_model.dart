@@ -16,39 +16,64 @@ class FinancialSummaryModel extends Equatable {
   double get totalEarnings => totalIncome;
   double get platformFees => commission;
 
+  static double _parseNum(dynamic v, [double def = 0.0]) {
+    if (v == null) return def;
+    if (v is num) return v.toDouble();
+    if (v is String) {
+      final clean = v.replaceAll(RegExp(r'[^\d.]'), '').trim();
+      return double.tryParse(clean) ?? def;
+    }
+    return def;
+  }
+
+  static int _parseInt(dynamic v, [int def = 0]) {
+    if (v == null) return def;
+    if (v is num) return v.toInt();
+    if (v is String) {
+      final clean = v.replaceAll(RegExp(r'[^\d]'), '').trim();
+      return int.tryParse(clean) ?? def;
+    }
+    return def;
+  }
+
   factory FinancialSummaryModel.fromJson(Map<String, dynamic> json) {
-    final total = (json['totalIncome'] ??
-            json['total_income'] ??
-            json['totalEarnings'] ??
-            json['total_earnings'] ??
-            json['totalRevenue'] ??
-            json['total_revenue'] ??
-            json['total_amount'] as num?)
-        ?.toDouble() ??
-        0.0;
+    final rawTotal =
+        json['totalIncome'] ??
+        json['total_income'] ??
+        json['totalEarnings'] ??
+        json['total_earnings'] ??
+        json['totalRevenue'] ??
+        json['total_revenue'] ??
+        json['total_amount'] ??
+        json['total'] ??
+        json['gross_amount'];
+    final total = _parseNum(rawTotal, 0.0);
 
-    final completed = (json['completedAppointments'] ??
-            json['completed_appointments'] ??
-            json['completed_count'] ??
-            json['completedAppointmentsCount'] as num?)
-        ?.toInt() ??
-        0;
+    final rawCompleted =
+        json['completedAppointments'] ??
+        json['completed_appointments'] ??
+        json['completed_count'] ??
+        json['completedAppointmentsCount'] ??
+        json['count'];
+    final completed = _parseInt(rawCompleted, 0);
 
-    final comm = (json['commission'] ??
-            json['platformFees'] ??
-            json['platform_fees'] ??
-            json['platformCommission'] ??
-            json['platform_commission'] as num?)
-        ?.toDouble() ??
-        0.0;
+    final rawComm =
+        json['commission'] ??
+        json['platformFees'] ??
+        json['platform_fees'] ??
+        json['platformCommission'] ??
+        json['platform_commission'] ??
+        json['fees_deducted'];
+    final comm = _parseNum(rawComm, total > 0 ? (total * 0.1) : 0.0);
 
-    final net = (json['netIncome'] ??
-            json['net_income'] ??
-            json['yourEarning'] ??
-            json['your_earning'] ??
-            json['net_amount'] as num?)
-        ?.toDouble() ??
-        (total > 0 ? total - comm : 0.0);
+    final rawNet =
+        json['netIncome'] ??
+        json['net_income'] ??
+        json['yourEarning'] ??
+        json['your_earning'] ??
+        json['net_amount'] ??
+        json['net'];
+    final net = _parseNum(rawNet, total > 0 ? (total - comm) : 0.0);
 
     return FinancialSummaryModel(
       totalIncome: total,
@@ -69,9 +94,9 @@ class FinancialSummaryModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        totalIncome,
-        completedAppointments,
-        commission,
-        netIncome,
-      ];
+    totalIncome,
+    completedAppointments,
+    commission,
+    netIncome,
+  ];
 }

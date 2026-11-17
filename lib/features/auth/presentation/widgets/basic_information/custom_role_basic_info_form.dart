@@ -23,6 +23,7 @@ class CustomRoleBasicInfoForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isArabic = Localizations.localeOf(context).languageCode == 'ar';
 
     return Container(
       decoration: BoxDecoration(
@@ -65,6 +66,7 @@ class CustomRoleBasicInfoForm extends StatelessWidget {
               return CustomTextField(
                 label: nameLabel,
                 hintText: nameHint,
+                isRequired: true,
                 onChanged: (val) =>
                     context.read<AuthBloc>().add(FullNameChangedEvent(val)),
               );
@@ -80,6 +82,7 @@ class CustomRoleBasicInfoForm extends StatelessWidget {
               return CustomTextField(
                 label: context.strings.emailAddress,
                 hintText: context.strings.emailHint,
+                isRequired: true,
                 keyboardType: TextInputType.emailAddress,
                 prefixIcon: const Icon(Icons.mail_outline, color: Colors.grey),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -106,7 +109,7 @@ class CustomRoleBasicInfoForm extends StatelessWidget {
               return CustomTextField(
                 label: context.strings.mobileNumber,
                 hintText: context.strings.mobileHint,
-
+                isRequired: true,
                 keyboardType: TextInputType.phone,
                 prefixIcon: const Icon(
                   Icons.phone_outlined,
@@ -118,7 +121,9 @@ class CustomRoleBasicInfoForm extends StatelessWidget {
                   if (val != null &&
                       val.isNotEmpty &&
                       !Validators.isValidPhone(val.trim())) {
-                    return 'Please enter a valid phone number';
+                    return isArabic
+                        ? 'يرجى إدخال رقم هاتف صحيح'
+                        : 'Please enter a valid phone number';
                   }
                   return null;
                 },
@@ -139,8 +144,15 @@ class CustomRoleBasicInfoForm extends StatelessWidget {
               return CustomTextField(
                 label: context.strings.password,
                 hintText: context.strings.passwordHint,
-
+                isRequired: true,
                 obscureText: !state.isPasswordVisible,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (val) {
+                  if (val != null && val.isNotEmpty && val.length < 6) {
+                    return context.strings.invalidPassword;
+                  }
+                  return null;
+                },
                 suffixIcon: IconButton(
                   icon: Icon(
                     state.isPasswordVisible
@@ -164,14 +176,22 @@ class CustomRoleBasicInfoForm extends StatelessWidget {
           BlocBuilder<AuthBloc, AuthState>(
             buildWhen: (previous, current) =>
                 previous.confirmPassword != current.confirmPassword ||
+                previous.password != current.password ||
                 previous.isConfirmPasswordVisible !=
                     current.isConfirmPasswordVisible,
             builder: (context, state) {
               return CustomTextField(
                 label: context.strings.confirmPassword,
                 hintText: context.strings.confirmPasswordHint,
-
+                isRequired: true,
                 obscureText: !state.isConfirmPasswordVisible,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (val) {
+                  if (val != null && val.isNotEmpty && val != state.password) {
+                    return context.strings.passwordsDoNotMatch;
+                  }
+                  return null;
+                },
                 suffixIcon: IconButton(
                   icon: Icon(
                     state.isConfirmPasswordVisible

@@ -75,7 +75,26 @@ class _MarketingPackagesContentState extends State<_MarketingPackagesContent>
           ),
         ),
       ),
-      body: BlocBuilder<MarketingBloc, MarketingState>(
+      body: BlocConsumer<MarketingBloc, MarketingState>(
+        listener: (context, state) {
+          if (state.subscriptionMessage != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Row(
+                  children: const [
+                    Icon(Icons.check_circle, color: Colors.white),
+                    SizedBox(width: 8),
+                    Expanded(
+                      child: Text('تم الاشتراك بنجاح في باقة Pro ⭐'),
+                    ),
+                  ],
+                ),
+                backgroundColor: const Color(0xFF10B981),
+                duration: const Duration(seconds: 3),
+              ),
+            );
+          }
+        },
         builder: (context, state) {
           if (state.status == MarketingStatus.loading &&
               state.packages.isEmpty) {

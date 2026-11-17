@@ -21,6 +21,22 @@ class BasicInfoSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
+    if (nameController != null &&
+        nameController!.text.trim().isEmpty &&
+        profile.fullName.trim().isNotEmpty) {
+      nameController!.text = profile.fullName;
+    }
+    if (emailController != null &&
+        emailController!.text.trim().isEmpty &&
+        profile.email.trim().isNotEmpty) {
+      emailController!.text = profile.email;
+    }
+    if (phoneController != null &&
+        phoneController!.text.trim().isEmpty &&
+        profile.phone.trim().isNotEmpty) {
+      phoneController!.text = profile.phone;
+    }
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(

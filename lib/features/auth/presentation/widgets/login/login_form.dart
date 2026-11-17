@@ -109,7 +109,7 @@ class _LoginFormState extends State<LoginForm> {
                 if (value == null || value.trim().isEmpty) {
                   return context.strings.fieldRequired;
                 }
-                if (value.length < 6) {
+                if (value.length < 8) {
                   return context.strings.invalidPassword;
                 }
                 return null;

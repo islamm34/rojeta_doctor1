@@ -8,7 +8,15 @@ class GetFinancialSummaryUseCase {
 
   GetFinancialSummaryUseCase(this.repository);
 
-  Future<Either<Failure, FinancialSummaryModel>> call() async {
-    return await repository.getFinancialSummary();
+  Future<Either<Failure, FinancialSummaryModel>> call({
+    String? period,
+    String? startDate,
+    String? endDate,
+  }) async {
+    return await repository.getFinancialSummary(
+      period: period,
+      startDate: startDate,
+      endDate: endDate,
+    );
   }
 }

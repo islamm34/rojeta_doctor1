@@ -1,3 +1,4 @@
+import '../../features/auth/data/models/registration_status_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rojeta_doctor/features/auth/presentation/pages/doctor_registration_flow_pages/professional_information_page.dart';
@@ -206,8 +207,17 @@ class AppRouter {
       case AppRoutes.resetPassword:
         return MaterialPageRoute(builder: (_) => const ResetPasswordPage());
       case AppRoutes.registrationSuccess:
+        RegistrationStatusModel? statusModel;
+        if (settings.arguments is RegistrationStatusModel) {
+          statusModel = settings.arguments as RegistrationStatusModel;
+        } else if (settings.arguments is Map) {
+          final args = settings.arguments as Map;
+          if (args['statusModel'] is RegistrationStatusModel) {
+            statusModel = args['statusModel'] as RegistrationStatusModel;
+          }
+        }
         return MaterialPageRoute(
-          builder: (_) => const RegistrationSuccessPage(),
+          builder: (_) => RegistrationSuccessPage(statusModel: statusModel),
         );
       case AppRoutes.homeDoctor:
         return RightRouting(const HomeLayoutPage());

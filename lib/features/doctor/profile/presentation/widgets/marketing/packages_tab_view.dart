@@ -83,6 +83,7 @@ class _PackagesTabViewState extends State<PackagesTabView> {
             package: pkg,
             isYearly: isYearly,
             isCurrentPlan: isCurrentPlan,
+            onSubscribe: widget.onSubscribe,
           );
         }),
       ],

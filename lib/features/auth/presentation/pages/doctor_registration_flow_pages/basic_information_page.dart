@@ -10,6 +10,7 @@ import '../../../../../shared/widgets/custom_elevated_button.dart';
 import '../../../../../core/di/injector.dart';
 import '../../bloc/auth_bloc.dart';
 import '../../../../../core/utils/snackbar_helper.dart';
+import '../../../../../core/utils/validators.dart';
 import '../../bloc/auth_event.dart';
 import '../../bloc/auth_state.dart';
 import '../../widgets/basic_information/basic_info_form.dart';
@@ -150,13 +151,40 @@ class _BasicInformationView extends StatelessWidget {
                                         foregroundColor: isValid
                                             ? Colors.white
                                             : Colors.grey.shade500,
-                                        onPressed: isValid
-                                            ? () {
-                                                context.read<AuthBloc>().add(
+                                        onPressed: () {
+                                          if (isValid) {
+                                            context.read<AuthBloc>().add(
                                                   const CheckPhoneSubmittedEvent(),
                                                 );
-                                              }
-                                            : null,
+                                          } else {
+                                            if (state.fullName.trim().isEmpty) {
+                                              SnackbarHelper.showError(
+                                                context,
+                                                message: context.strings.fullNameHint,
+                                              );
+                                            } else if (!Validators.isValidEmail(state.email.trim())) {
+                                              SnackbarHelper.showError(
+                                                context,
+                                                message: context.strings.invalidEmail,
+                                              );
+                                            } else if (!Validators.isValidPhone(state.phone.trim())) {
+                                              SnackbarHelper.showError(
+                                                context,
+                                                message: context.strings.phoneHint,
+                                              );
+                                            } else if (!Validators.isValidPassword(state.password, minLength: 6)) {
+                                              SnackbarHelper.showError(
+                                                context,
+                                                message: context.strings.invalidPassword,
+                                              );
+                                            } else if (state.confirmPassword != state.password) {
+                                              SnackbarHelper.showError(
+                                                context,
+                                                message: context.strings.passwordsDoNotMatch,
+                                              );
+                                            }
+                                          }
+                                        },
                                       ),
                               );
                             },

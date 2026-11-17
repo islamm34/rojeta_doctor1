@@ -123,3 +123,21 @@ class SaveSettingsEvent extends ProfileEvent {
   @override
   List<Object?> get props => [settings];
 }
+
+class GenerateDoctorQrCodeEvent extends ProfileEvent {
+  final String qrData;
+
+  const GenerateDoctorQrCodeEvent(this.qrData);
+
+  @override
+  List<Object?> get props => [qrData];
+}
+class SetProStatusEvent extends ProfileEvent {
+  final bool isPro;
+
+  const SetProStatusEvent(this.isPro);
+
+  @override
+  List<Object?> get props => [isPro];
+}
+

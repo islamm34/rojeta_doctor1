@@ -9,6 +9,7 @@ import '../../../../../core/utils/screen_util_like.dart';
 import '../../../../../shared/widgets/custom_elevated_button.dart';
 import '../../../../../core/di/injector.dart';
 import '../../../../../core/utils/snackbar_helper.dart';
+import '../../../../../core/utils/validators.dart';
 import '../../bloc/auth_event.dart';
 import '../../bloc/auth_bloc.dart';
 import '../../bloc/auth_state.dart';
@@ -150,13 +151,55 @@ class _NursingBasicInfoView extends StatelessWidget {
                                         foregroundColor: isValid
                                             ? Colors.white
                                             : Colors.grey.shade500,
-                                        onPressed: isValid
-                                            ? () {
-                                                context.read<AuthBloc>().add(
-                                                      const CheckPhoneSubmittedEvent(),
-                                                    );
-                                              }
-                                            : null,
+                                        onPressed: () {
+                                          if (isValid) {
+                                            context.read<AuthBloc>().add(
+                                                  const CheckPhoneSubmittedEvent(),
+                                                );
+                                          } else {
+                                            if (state.fullName.trim().isEmpty) {
+                                              SnackbarHelper.showError(
+                                                context,
+                                                message: context.strings.fullNameHint,
+                                              );
+                                            } else if (!Validators.isValidEmail(state.email.trim())) {
+                                              SnackbarHelper.showError(
+                                                context,
+                                                message: context.strings.invalidEmail,
+                                              );
+                                            } else if (!Validators.isValidPhone(state.phone.trim())) {
+                                              SnackbarHelper.showError(
+                                                context,
+                                                message: context.strings.phoneHint,
+                                              );
+                                            } else if (!Validators.isValidPassword(state.password, minLength: 6)) {
+                                              SnackbarHelper.showError(
+                                                context,
+                                                message: context.strings.invalidPassword,
+                                              );
+                                            } else if (state.confirmPassword != state.password) {
+                                              SnackbarHelper.showError(
+                                                context,
+                                                message: context.strings.passwordsDoNotMatch,
+                                              );
+                                            } else if (state.governorate.trim().isEmpty) {
+                                              SnackbarHelper.showError(
+                                                context,
+                                                message: context.strings.selectGovernorate,
+                                              );
+                                            } else if (state.city.trim().isEmpty) {
+                                              SnackbarHelper.showError(
+                                                context,
+                                                message: context.strings.selectCity,
+                                              );
+                                            } else if (state.fullAddress.trim().isEmpty) {
+                                              SnackbarHelper.showError(
+                                                context,
+                                                message: context.strings.fullAddress,
+                                              );
+                                            }
+                                          }
+                                        },
                                       ),
                               );
                             },

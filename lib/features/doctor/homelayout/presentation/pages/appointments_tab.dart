@@ -5,6 +5,7 @@ import '../../../../../../config/routes/app_router.dart';
 import '../../../../../../core/di/injector.dart';
 import '../../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
+import '../../../chat/data/repositories/doctor_chat_repository.dart';
 import '../bloc/appointments/doctor_appointments_bloc.dart';
 import '../bloc/appointments/doctor_appointments_event.dart';
 import '../bloc/appointments/doctor_appointments_state.dart';
@@ -15,12 +16,17 @@ class AppointmentsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) =>
-          injector<DoctorAppointmentsBloc>()
-            ..add(const FetchAppointmentsEvent()),
-      child: const AppointmentsTabView(),
-    );
+    try {
+      context.read<DoctorAppointmentsBloc>();
+      return const AppointmentsTabView();
+    } catch (_) {
+      return BlocProvider(
+        create: (_) =>
+            injector<DoctorAppointmentsBloc>()
+              ..add(const FetchAppointmentsEvent()),
+        child: const AppointmentsTabView(),
+      );
+    }
   }
 }
 
@@ -220,13 +226,29 @@ class _AppointmentsTabViewState extends State<AppointmentsTabView> {
                           final appointment = filteredAppointments[index];
                           return AppointmentsTabCard(
                             appointment: appointment,
-                            onAccept: () {
+                            onAccept: () async {
                               context.read<DoctorAppointmentsBloc>().add(
                                 UpdateAppointmentStatusEvent(
                                   appointmentId: appointment.id,
                                   status: 'Confirmed',
                                 ),
                               );
+                              try {
+                                final targetPatientId =
+                                    (appointment.patientId?.isNotEmpty ?? false)
+                                        ? appointment.patientId!
+                                        : appointment.id;
+                                final conv = await injector<DoctorChatRepository>()
+                                    .getOrCreateConversation(
+                                      patientId: targetPatientId,
+                                      patientName: appointment.patientName,
+                                    );
+                                await injector<DoctorChatRepository>().sendMessage(
+                                  conversationId: conv.id,
+                                  content:
+                                      'تم قبول موعدك بنجاح ✅ - الموعد: ${appointment.appointmentDate} الساعة ${appointment.appointmentTime}',
+                                );
+                              } catch (_) {}
                             },
                             onReject: () {
                               context.read<DoctorAppointmentsBloc>().add(
@@ -243,6 +265,23 @@ class _AppointmentsTabViewState extends State<AppointmentsTabView> {
                               );
                             },
                             onStartConsultation: () async {
+                              try {
+                                final targetPatientId =
+                                    (appointment.patientId?.isNotEmpty ?? false)
+                                        ? appointment.patientId!
+                                        : appointment.id;
+                                final conv = await injector<DoctorChatRepository>()
+                                    .getOrCreateConversation(
+                                      patientId: targetPatientId,
+                                      patientName: appointment.patientName,
+                                    );
+                                await injector<DoctorChatRepository>().sendMessage(
+                                  conversationId: conv.id,
+                                  content:
+                                      '🩺 بدأ الطبيب الاستشارة الطبية معك الآن. يمكنك كتابة استفساراتك وسيقوم الطبيب بمتابعتك مباشرة.',
+                                );
+                              } catch (_) {}
+
                               final result = await context.pushNamed(
                                 AppRoutes.medicalConsultation,
                                 extra: appointment,

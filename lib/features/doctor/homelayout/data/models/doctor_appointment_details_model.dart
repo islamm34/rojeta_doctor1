@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
+import '../../../../../../core/local/user_hive_helper.dart';
+import 'doctor_appointment_model.dart';
 
 class DoctorAppointmentDetailsModel extends Equatable {
   final String id;
@@ -112,20 +114,64 @@ class DoctorAppointmentDetailsModel extends Equatable {
               .toString(),
       serviceType: (json['service_type'] ?? json['type'] ?? '').toString(),
       visitType: (json['visit_type'] ?? '').toString(),
-      status: (json['status'] ?? '').toString(),
+      status: DoctorAppointmentModel.normalizeStatus(
+        json['status'] ?? json['booking_status'] ?? json['appointment_status'],
+      ),
       paymentStatus: json['payment_status']?.toString(),
       paymentMethod: json['payment_method']?.toString(),
       feeOriginal: json['fee_original']?.toString(),
       feeCurrent: json['fee_current']?.toString(),
       totalPrice: parsedTotalPrice,
-      notes: json['notes']?.toString(),
+      notes: (json['notes'] ??
+              json['symptoms'] ??
+              json['complaint'] ??
+              json['reason'])
+          ?.toString(),
       attachments: parsedAttachments,
-      address: json['address'] is Map
-          ? (json['address']['formatted'] ??
-                    json['address']['address'] ??
-                    json['address'].toString())
-                .toString()
-          : json['address']?.toString(),
+      address: () {
+        final vType = (json['visit_type'] ?? json['type'] ?? '')
+            .toString()
+            .toLowerCase();
+        final isHome = vType.contains('home');
+        final clinicObj = json['clinic'] is Map<String, dynamic>
+            ? json['clinic'] as Map<String, dynamic>
+            : (json['doctor'] is Map<String, dynamic> &&
+                    json['doctor']['clinic'] is Map<String, dynamic>
+                ? json['doctor']['clinic'] as Map<String, dynamic>
+                : null);
+        final clinicAddrRaw = json['clinic_address'] ??
+            json['clinicAddress'] ??
+            clinicObj?['address'] ??
+            clinicObj?['location'] ??
+            clinicObj?['full_address'];
+        final clinicAddr = DoctorAppointmentModel.formatLocation(clinicAddrRaw);
+        final clinicN = (json['clinic_name'] ??
+                json['clinicName'] ??
+                clinicObj?['name'] ??
+                clinicObj?['title'])
+            ?.toString();
+        if (isHome) {
+          final homeAddr = json['address'] ?? json['patient_address'];
+          return DoctorAppointmentModel.formatLocation(homeAddr);
+        } else {
+          if (clinicAddr.isNotEmpty) {
+            if (clinicN != null &&
+                clinicN.trim().isNotEmpty &&
+                !clinicAddr.contains(clinicN)) {
+              return '${clinicN.trim()}، $clinicAddr';
+            }
+            return clinicAddr;
+          }
+          if (clinicN != null && clinicN.trim().isNotEmpty) {
+            return clinicN.trim();
+          }
+          final cached = UserHiveHelper.getDoctorClinicAddress();
+          if (cached != null && cached.trim().isNotEmpty) {
+            return DoctorAppointmentModel.formatLocation(cached.trim());
+          }
+          return DoctorAppointmentModel.formatLocation(json['address']);
+        }
+      }(),
       consultation: parsedConsultation,
     );
   }

@@ -6,6 +6,7 @@ import '../../../../../../config/routes/app_router.dart';
 import '../bloc/profile/profile_bloc.dart';
 import '../bloc/profile/profile_event.dart';
 import '../../../../../../core/local/user_hive_helper.dart';
+import '../../../../../../core/utils/flutter_secure_storage_helper.dart';
 import '../../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../../auth/presentation/bloc/auth_event.dart';
 import 'settings/settings_footer.dart';
@@ -158,11 +159,18 @@ class SettingsView extends StatelessWidget {
                         DropdownMenuItem(value: 'ar', child: Text('العربية')),
                         DropdownMenuItem(value: 'en', child: Text('English')),
                       ],
-                      onChanged: (String? newValue) {
+                      onChanged: (String? newValue) async {
                         if (newValue != null) {
+                          UserHiveHelper.saveAppLanguage(newValue);
+                          await FlutterSecureStorageHelper.saveAppLanguage(newValue);
                           final user = UserHiveHelper.getUser();
                           if (user != null) {
                             user.languageSetter = newValue;
+                            final userKey = user.id?.toString() ?? user.phone ?? user.email ?? '';
+                            if (userKey.isNotEmpty) {
+                              UserHiveHelper.saveUserLanguage(userKey, newValue);
+                              await FlutterSecureStorageHelper.saveUserLanguage(userKey, newValue);
+                            }
                           }
                         }
                       },

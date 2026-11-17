@@ -1,16 +1,39 @@
-// Integration test skeleton for the feature.
+// Integration test skeleton for homelayout navigation.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:integration_test/integration_test.dart';
-import 'package:rojeta_doctor/main.dart' as app;
+import 'package:flutter/material.dart';
+import 'package:rojeta_doctor/l10n/app_localizations.dart';
+import 'package:rojeta_doctor/shared/widgets/custom_nav_bar.dart';
 
 void main() {
-  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+  testWidgets('Load homelayout nav bar end-to-end', (tester) async {
+    int selected = 0;
 
-  testWidgets('Load feature end-to-end', (tester) async {
-    app.main();
-    await tester.pumpAndSettle();
+    await tester.pumpWidget(
+      MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: const Locale('en'),
+        home: StatefulBuilder(
+          builder: (context, setState) {
+            return Scaffold(
+              bottomNavigationBar: CustomBottomNavBar(
+                selectedIndex: selected,
+                onDestinationSelected: (index) {
+                  setState(() {
+                    selected = index;
+                  });
+                },
+              ),
+            );
+          },
+        ),
+      ),
+    );
 
-    expect(find.text('Data Loaded ✅'), findsOneWidget);
+    expect(find.byType(CustomBottomNavBar), findsOneWidget);
+    await tester.tap(find.byIcon(Icons.settings_outlined));
+    await tester.pump();
+    expect(selected, 3);
   });
 }

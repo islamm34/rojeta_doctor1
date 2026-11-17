@@ -11,22 +11,33 @@ class RegistrationStatusHeader extends StatelessWidget {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.all(16.w),
+          width: 72.w,
+          height: 72.w,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
-                blurRadius: 10,
+                color: Colors.black.withValues(alpha: 0.08),
+                blurRadius: 14,
                 offset: const Offset(0, 4),
               ),
             ],
           ),
-          child: Icon(
-            Icons.check_circle,
-            color: const Color(0xFF10B981), // Green color from design
-            size: 48.w,
+          child: Center(
+            child: Container(
+              width: 52.w,
+              height: 52.w,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: const Color(0xFF10B981), width: 3.w),
+              ),
+              child: Icon(
+                Icons.check,
+                color: const Color(0xFF10B981),
+                size: 32.w,
+              ),
+            ),
           ),
         ),
         SizedBox(height: 16.h),

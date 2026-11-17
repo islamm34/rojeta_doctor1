@@ -2,21 +2,25 @@ import 'package:flutter/material.dart';
 import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
 
-class PeriodToggleButtons extends StatefulWidget {
-  const PeriodToggleButtons({super.key});
+class PeriodToggleButtons extends StatelessWidget {
+  final String selectedPeriod;
+  final ValueChanged<String>? onPeriodChanged;
 
-  @override
-  State<PeriodToggleButtons> createState() => _PeriodToggleButtonsState();
-}
-
-class _PeriodToggleButtonsState extends State<PeriodToggleButtons> {
-  int _selectedIndex = 2; // Default to "Month"
+  const PeriodToggleButtons({
+    super.key,
+    this.selectedPeriod = 'today',
+    this.onPeriodChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final strings = context.strings;
-    final periods = [strings.today, strings.week, strings.month];
+    final periods = [
+      {'key': 'today', 'label': strings.today},
+      {'key': 'week', 'label': strings.week},
+      {'key': 'month', 'label': strings.month},
+    ];
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
@@ -27,14 +31,14 @@ class _PeriodToggleButtonsState extends State<PeriodToggleButtons> {
         border: Border.all(color: Colors.grey.shade300),
       ),
       child: Row(
-        children: List.generate(periods.length, (index) {
-          final isSelected = _selectedIndex == index;
+        children: periods.map((item) {
+          final isSelected = selectedPeriod.toLowerCase() == item['key'];
           return Expanded(
             child: GestureDetector(
               onTap: () {
-                setState(() {
-                  _selectedIndex = index;
-                });
+                if (onPeriodChanged != null) {
+                  onPeriodChanged!(item['key']!);
+                }
               },
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
@@ -45,7 +49,7 @@ class _PeriodToggleButtonsState extends State<PeriodToggleButtons> {
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  periods[index],
+                  item['label']!,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: isSelected ? Colors.white : Colors.grey.shade600,
                     fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
@@ -54,7 +58,7 @@ class _PeriodToggleButtonsState extends State<PeriodToggleButtons> {
               ),
             ),
           );
-        }),
+        }).toList(),
       ),
     );
   }

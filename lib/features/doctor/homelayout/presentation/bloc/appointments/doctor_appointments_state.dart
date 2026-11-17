@@ -6,7 +6,8 @@ enum DoctorAppointmentsStatus { initial, loading, success, failure }
 class DoctorAppointmentsState extends Equatable {
   final DoctorAppointmentsStatus status;
   final List<DoctorAppointmentModel> appointments;
-  final String selectedFilter; // 'All', 'Pending', 'Confirmed', 'Completed', 'Cancelled'
+  final String
+  selectedFilter; // 'All', 'Pending', 'Confirmed', 'Completed', 'Cancelled'
   final String? errorMessage;
   final bool isUpdatingStatus;
 
@@ -19,9 +20,15 @@ class DoctorAppointmentsState extends Equatable {
   });
 
   List<DoctorAppointmentModel> get filteredAppointments {
-    if (selectedFilter == 'All') return appointments;
+    if (selectedFilter.toLowerCase() == 'all') return appointments;
+    final target = DoctorAppointmentModel.normalizeStatus(
+      selectedFilter,
+    ).toLowerCase();
     return appointments.where((a) {
-      return a.status.toLowerCase() == selectedFilter.toLowerCase();
+      final itemStatus = DoctorAppointmentModel.normalizeStatus(
+        a.status,
+      ).toLowerCase();
+      return itemStatus == target;
     }).toList();
   }
 
@@ -43,10 +50,10 @@ class DoctorAppointmentsState extends Equatable {
 
   @override
   List<Object?> get props => [
-        status,
-        appointments,
-        selectedFilter,
-        errorMessage,
-        isUpdatingStatus,
-      ];
+    status,
+    appointments,
+    selectedFilter,
+    errorMessage,
+    isUpdatingStatus,
+  ];
 }

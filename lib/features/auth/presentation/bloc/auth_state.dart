@@ -36,6 +36,9 @@ class AuthState extends Equatable {
     this.governorate = '',
     this.city = '',
     this.fullAddress = '',
+    this.latitude,
+    this.longitude,
+    this.mapAddress,
     this.paymentMethod = 'bank',
     this.accountHolderName = '',
     this.bankName = '',
@@ -81,6 +84,9 @@ class AuthState extends Equatable {
   final String governorate;
   final String city;
   final String fullAddress;
+  final double? latitude;
+  final double? longitude;
+  final String? mapAddress;
   final String paymentMethod; // 'bank' | 'wallet'
   final String accountHolderName;
   final String bankName;
@@ -92,7 +98,7 @@ class AuthState extends Equatable {
       fullName.trim().isNotEmpty &&
       Validators.isValidEmail(email.trim()) &&
       Validators.isValidPhone(phone.trim()) &&
-      password.length >= 6 &&
+      Validators.isValidPassword(password, minLength: 6) &&
       confirmPassword == password;
 
   bool get isProfessionalInfoValid =>
@@ -103,7 +109,7 @@ class AuthState extends Equatable {
       organizationType.trim().isNotEmpty &&
       organizationNumber.trim().isNotEmpty &&
       medicalLicenseNumber.trim().isNotEmpty &&
-      password.length >= 6 &&
+      Validators.isValidPassword(password, minLength: 6) &&
       confirmPassword == password;
 
   bool get isHospitalLocationValid =>
@@ -142,6 +148,10 @@ class AuthState extends Equatable {
     String? governorate,
     String? city,
     String? fullAddress,
+    double? latitude,
+    double? longitude,
+    String? mapAddress,
+    bool clearLocation = false,
     String? paymentMethod,
     String? accountHolderName,
     String? bankName,
@@ -163,7 +173,8 @@ class AuthState extends Equatable {
       password: password ?? this.password,
       confirmPassword: confirmPassword ?? this.confirmPassword,
       isPasswordVisible: isPasswordVisible ?? this.isPasswordVisible,
-      isConfirmPasswordVisible: isConfirmPasswordVisible ?? this.isConfirmPasswordVisible,
+      isConfirmPasswordVisible:
+          isConfirmPasswordVisible ?? this.isConfirmPasswordVisible,
       isPhoneExists: isPhoneExists ?? this.isPhoneExists,
       specialty: specialty ?? this.specialty,
       subSpecialty: subSpecialty ?? this.subSpecialty,
@@ -180,10 +191,14 @@ class AuthState extends Equatable {
       organizationName: organizationName ?? this.organizationName,
       organizationType: organizationType ?? this.organizationType,
       organizationNumber: organizationNumber ?? this.organizationNumber,
-      organizationImagePath: organizationImagePath ?? this.organizationImagePath,
+      organizationImagePath:
+          organizationImagePath ?? this.organizationImagePath,
       governorate: governorate ?? this.governorate,
       city: city ?? this.city,
       fullAddress: fullAddress ?? this.fullAddress,
+      latitude: clearLocation ? null : (latitude ?? this.latitude),
+      longitude: clearLocation ? null : (longitude ?? this.longitude),
+      mapAddress: clearLocation ? null : (mapAddress ?? this.mapAddress),
       paymentMethod: paymentMethod ?? this.paymentMethod,
       accountHolderName: accountHolderName ?? this.accountHolderName,
       bankName: bankName ?? this.bankName,
@@ -195,43 +210,46 @@ class AuthState extends Equatable {
 
   @override
   List<Object?> get props => [
-        status,
-        checkPhoneStatus,
-        message,
-        token,
-        selectedType,
-        fullName,
-        email,
-        phone,
-        password,
-        confirmPassword,
-        isPasswordVisible,
-        isConfirmPasswordVisible,
-        isPhoneExists,
-        specialty,
-        subSpecialty,
-        medicalLicenseNumber,
-        yearsOfExperience,
-        education,
-        about,
-        profileImagePath,
-        medicalLicensePath,
-        certificatesPath,
-        nationalIdPath,
-        otpCode,
-        // Hospital fields
-        organizationName,
-        organizationType,
-        organizationNumber,
-        organizationImagePath,
-        governorate,
-        city,
-        fullAddress,
-        paymentMethod,
-        accountHolderName,
-        bankName,
-        accountNumber,
-        expiryDate,
-        cvv,
-      ];
+    status,
+    checkPhoneStatus,
+    message,
+    token,
+    selectedType,
+    fullName,
+    email,
+    phone,
+    password,
+    confirmPassword,
+    isPasswordVisible,
+    isConfirmPasswordVisible,
+    isPhoneExists,
+    specialty,
+    subSpecialty,
+    medicalLicenseNumber,
+    yearsOfExperience,
+    education,
+    about,
+    profileImagePath,
+    medicalLicensePath,
+    certificatesPath,
+    nationalIdPath,
+    otpCode,
+    // Hospital fields
+    organizationName,
+    organizationType,
+    organizationNumber,
+    organizationImagePath,
+    governorate,
+    city,
+    fullAddress,
+    latitude,
+    longitude,
+    mapAddress,
+    paymentMethod,
+    accountHolderName,
+    bankName,
+    accountNumber,
+    expiryDate,
+    cvv,
+  ];
 }

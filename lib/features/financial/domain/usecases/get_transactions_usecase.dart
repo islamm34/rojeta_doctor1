@@ -8,7 +8,15 @@ class GetTransactionsUseCase {
 
   GetTransactionsUseCase(this.repository);
 
-  Future<Either<Failure, List<TransactionModel>>> call() async {
-    return await repository.getTransactions();
+  Future<Either<Failure, List<TransactionModel>>> call({
+    String? period,
+    String? startDate,
+    String? endDate,
+  }) async {
+    return await repository.getTransactions(
+      period: period,
+      startDate: startDate,
+      endDate: endDate,
+    );
   }
 }

@@ -70,17 +70,22 @@ class _WorkingHoursSectionState extends State<WorkingHoursSection> {
         : const TimeOfDay(hour: 22, minute: 0);
 
     try {
-      final clean = initialStr.trim();
-      final spaceIndex = clean.indexOf(' ');
+      final asciiStr = TimeFormatter.toAsciiDigits(initialStr).trim();
+      final spaceIndex = asciiStr.indexOf(' ');
       if (spaceIndex != -1) {
-        final timePart = clean.substring(0, spaceIndex);
-        final period = clean.substring(spaceIndex + 1).toUpperCase();
+        final timePart = asciiStr.substring(0, spaceIndex).trim();
+        final periodPart =
+            asciiStr.substring(spaceIndex + 1).trim().toUpperCase();
         final colonIndex = timePart.indexOf(':');
-        var hour = int.parse(timePart.substring(0, colonIndex));
-        final minute = int.parse(timePart.substring(colonIndex + 1));
-        if (period == 'PM' && hour < 12) hour += 12;
-        if (period == 'AM' && hour == 12) hour = 0;
-        initialTime = TimeOfDay(hour: hour, minute: minute);
+        if (colonIndex != -1) {
+          var hour = int.parse(timePart.substring(0, colonIndex));
+          final minute = int.parse(timePart.substring(colonIndex + 1));
+          final isPm = periodPart == 'PM' || periodPart == 'م';
+          final isAm = periodPart == 'AM' || periodPart == 'ص';
+          if (isPm && hour < 12) hour += 12;
+          if (isAm && hour == 12) hour = 0;
+          initialTime = TimeOfDay(hour: hour, minute: minute);
+        }
       }
     } catch (_) {}
 
@@ -90,12 +95,12 @@ class _WorkingHoursSectionState extends State<WorkingHoursSection> {
     );
 
     if (picked != null && mounted) {
-      final formatted = picked.formatTimeOfDay;
+      final formatted = picked.formatTimeOfDay(context);
       setState(() {
         if (isStart) {
-          _startTimes[dayKey] = formatted();
+          _startTimes[dayKey] = formatted;
         } else {
-          _endTimes[dayKey] = formatted();
+          _endTimes[dayKey] = formatted;
         }
       });
       _notifyChanges();

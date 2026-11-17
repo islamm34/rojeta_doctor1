@@ -359,17 +359,19 @@ extension TimeOfDayMinutesX on TimeOfDay {
   /// Returns the number of minutes since midnight (0–1439)
   int get minutesSinceMidnight => hour * 60 + minute;
 
-  /// Returns 12-hour formatted time with AM/PM (or ص/م in Arabic) and localized digits
-  String formatTimeOfDay([BuildContext? context]) {
-    final isAr = context != null
-        ? Localizations.localeOf(context).languageCode == 'ar'
-        : (Intl.defaultLocale?.startsWith('ar') == true);
-    final periodStr = hour >= 12 ? (isAr ? 'م' : 'PM') : (isAr ? 'ص' : 'AM');
+  /// Returns 12-hour formatted time with AM/PM (uses English digits by default)
+  String formatTimeOfDay([BuildContext? context, bool useArabicDigits = false]) {
     final hour12 = hour == 0 ? 12 : (hour > 12 ? hour - 12 : hour);
     final paddedHour = hour12.toString().padLeft(2, '0');
     final paddedMinute = minute.toString().padLeft(2, '0');
-    final result = '$paddedHour:$paddedMinute $periodStr';
-    return isAr ? TimeFormatter.toArabicDigits(result) : result;
+    if (useArabicDigits &&
+        context != null &&
+        Localizations.localeOf(context).languageCode == 'ar') {
+      final periodStr = hour >= 12 ? 'م' : 'ص';
+      return TimeFormatter.toArabicDigits('$paddedHour:$paddedMinute $periodStr');
+    }
+    final periodStr = hour >= 12 ? 'PM' : 'AM';
+    return '$paddedHour:$paddedMinute $periodStr';
   }
 }
 

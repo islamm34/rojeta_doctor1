@@ -15,6 +15,8 @@ class RegisterRequestModel {
   final String? city;
   final String? area;
   final String? fullAddress;
+  final double? latitude;
+  final double? longitude;
   final String? about;
   final String? licenseNumber;
   final String? taxId;
@@ -58,6 +60,8 @@ class RegisterRequestModel {
     this.city,
     this.area,
     this.fullAddress,
+    this.latitude,
+    this.longitude,
     this.about,
     this.licenseNumber,
     this.taxId,
@@ -96,6 +100,8 @@ class RegisterRequestModel {
       if (city != null) 'city': city,
       if (area != null) 'area': area,
       if (fullAddress != null) 'full_address': fullAddress,
+      if (latitude != null) 'latitude': latitude,
+      if (longitude != null) 'longitude': longitude,
       if (about != null) 'about': about,
       if (licenseNumber != null) 'license_number': licenseNumber,
       if (taxId != null) 'tax_id': taxId,
@@ -105,7 +111,8 @@ class RegisterRequestModel {
       if (logo != null) 'logo': logo,
       if (specialty != null) 'specialty': specialty,
       if (subSpecialty != null) 'sub_specialty': subSpecialty,
-      if (experienceYears != null) 'experience_years': experienceYears,
+      if (experienceYears != null && experienceYears!.trim().isNotEmpty)
+        'experience_years': int.tryParse(experienceYears!.trim()) ?? 0,
       if (education != null) 'education': education,
       if (homeVisitPrice != null) 'home_visit_price': homeVisitPrice,
       if (callPrice != null) 'call_price': callPrice,
@@ -143,12 +150,21 @@ class RegisterRequestModel {
     addIfNotEmpty('city', city);
     addIfNotEmpty('area', area);
     addIfNotEmpty('full_address', fullAddress);
+    if (latitude != null) map['latitude'] = latitude;
+    if (longitude != null) map['longitude'] = longitude;
     addIfNotEmpty('about', about);
     addIfNotEmpty('license_number', licenseNumber);
     addIfNotEmpty('tax_id', taxId);
     addIfNotEmpty('specialty', specialty);
     addIfNotEmpty('sub_specialty', subSpecialty);
-    addIfNotEmpty('experience_years', experienceYears);
+    if (experienceYears != null && experienceYears!.trim().isNotEmpty) {
+      final expInt = int.tryParse(experienceYears!.trim());
+      if (expInt != null) {
+        map['experience_years'] = expInt;
+      } else {
+        map['experience_years'] = experienceYears!.trim();
+      }
+    }
     addIfNotEmpty('education', education);
     addIfNotEmpty('home_visit_price', homeVisitPrice);
     addIfNotEmpty('call_price', callPrice);
@@ -191,10 +207,12 @@ class RegisterRequestModel {
       for (final path in certificates!) {
         if (path.trim().isNotEmpty) {
           if (_isFile(path)) {
-            certList.add(await MultipartFile.fromFile(
-              path.trim(),
-              filename: _getFilename(path.trim()),
-            ));
+            certList.add(
+              await MultipartFile.fromFile(
+                path.trim(),
+                filename: _getFilename(path.trim()),
+              ),
+            );
           } else {
             certList.add(path.trim());
           }
@@ -208,10 +226,12 @@ class RegisterRequestModel {
       for (final path in images!) {
         if (path.trim().isNotEmpty) {
           if (_isFile(path)) {
-            imgList.add(await MultipartFile.fromFile(
-              path.trim(),
-              filename: _getFilename(path.trim()),
-            ));
+            imgList.add(
+              await MultipartFile.fromFile(
+                path.trim(),
+                filename: _getFilename(path.trim()),
+              ),
+            );
           } else {
             imgList.add(path.trim());
           }

@@ -16,7 +16,8 @@ class FinancialManagementPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => injector<FinancialCubit>()..getFinancialData(),
+      create: (context) =>
+          injector<FinancialCubit>()..getFinancialData(period: 'today'),
       child: Scaffold(
         backgroundColor: const Color(
           0xFFF5F9FC,
@@ -60,17 +61,32 @@ class FinancialManagementPage extends StatelessWidget {
               return const SizedBox.shrink();
             }
 
-            return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const PeriodToggleButtons(),
-                  NetIncomeCard(summary: summary),
-                  BreakdownSection(summary: summary),
-                  if (transactions.isNotEmpty)
-                    TransactionHistorySection(transactions: transactions),
-                  const PaymentScheduleInfo(),
-                ],
+            return RefreshIndicator(
+              onRefresh: () async {
+                context.read<FinancialCubit>().getFinancialData(
+                  period: state.selectedPeriod,
+                );
+              },
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    PeriodToggleButtons(
+                      selectedPeriod: state.selectedPeriod,
+                      onPeriodChanged: (period) {
+                        context.read<FinancialCubit>().getFinancialData(
+                          period: period,
+                        );
+                      },
+                    ),
+                    NetIncomeCard(summary: summary),
+                    BreakdownSection(summary: summary),
+                    if (transactions.isNotEmpty)
+                      TransactionHistorySection(transactions: transactions),
+                    const PaymentScheduleInfo(),
+                  ],
+                ),
               ),
             );
           },

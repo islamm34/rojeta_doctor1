@@ -8,32 +8,45 @@ class WhatsNextCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Container(
-      padding: EdgeInsets.all(20.w),
+      padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
-        color: const Color(0xFFFFF3E0), // Light orange bg
-        borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(color: Colors.orange.shade200),
+        color: const Color(0xFFFFF7ED),
+        borderRadius: BorderRadius.circular(14.r),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                context.strings.whatsNext,
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.brown.shade800,
+              Expanded(
+                child: Row(
+                  children: [
+                    Text(
+                      context.strings.whatsNext,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: const Color(0xFF9A3412),
+                        fontSize: 14.sp,
+                      ),
+                    ),
+                    SizedBox(width: 4.w),
+                    Text('⌛', style: TextStyle(fontSize: 14.sp)),
+                  ],
                 ),
               ),
-              SizedBox(width: 8.w),
-              Icon(Icons.hourglass_top, color: Colors.deepOrange, size: 20.w),
+              Container(
+                padding: EdgeInsets.all(8.w),
+                decoration: const BoxDecoration(
+                  color: Color(0xFFEA580C),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(Icons.access_time, color: Colors.white, size: 20.w),
+              ),
             ],
           ),
-          SizedBox(height: 16.h),
+          SizedBox(height: 12.h),
           _buildStep(context, '1', context.strings.whatsNextStep1),
           _buildStep(context, '2', context.strings.whatsNextStep2),
           _buildStep(context, '3', context.strings.whatsNextStep3),
@@ -45,7 +58,7 @@ class WhatsNextCard extends StatelessWidget {
 
   Widget _buildStep(BuildContext context, String number, String text) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 12.h),
+      padding: EdgeInsets.only(bottom: 8.h),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -53,15 +66,17 @@ class WhatsNextCard extends StatelessWidget {
             '$number. ',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.bold,
-              color: Colors.deepOrange,
+              color: const Color(0xFFEA580C),
+              fontSize: 12.sp,
             ),
           ),
           Expanded(
             child: Text(
               text,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Colors.brown.shade800,
-                height: 1.5,
+                color: const Color(0xFF7C2D12),
+                height: 1.4,
+                fontSize: 12.sp,
               ),
             ),
           ),

@@ -3,6 +3,9 @@ import 'dart:developer';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 
+import '../../config/routes/app_router.dart';
+import '../../main.dart';
+
 class LocalNotificationService {
   static const String _channelKey = 'basic_channel';
   static const String _channelName = 'Basic Notifications';
@@ -82,13 +85,27 @@ class LocalNotificationService {
     ReceivedAction receivedAction,
   ) async {
     log('onActionReceivedMethod: ${receivedAction.id}');
-    // Navigation logic goes here
+    final payload = receivedAction.payload;
+    if (payload != null) {
+      final appointmentId =
+          payload['booking_id'] ??
+          payload['appointment_id'] ??
+          payload['id'] ??
+          payload['bookingRef'];
+      if (appointmentId != null && appointmentId.isNotEmpty) {
+        RojetaDoctorApp.navigatorKey.currentState?.pushNamed(
+          AppRoutes.appointmentDetails,
+          arguments: appointmentId,
+        );
+      }
+    }
   }
 
   static Future<void> showNotification({
     required int id,
     required String title,
     required String body,
+    String? summary,
     Map<String, String>? payload,
   }) async {
     await AwesomeNotifications().createNotification(
@@ -97,6 +114,8 @@ class LocalNotificationService {
         channelKey: _channelKey,
         title: title,
         body: body,
+        summary: summary,
+        notificationLayout: NotificationLayout.BigText,
         payload: payload,
       ),
     );

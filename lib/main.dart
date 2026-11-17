@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
 import 'package:rojeta_doctor/core/utils/firebase_messaging_service.dart';
 import 'package:rojeta_doctor/features/doctor/homelayout/presentation/bloc/homelayout_bloc.dart';
 import 'package:rojeta_doctor/firebase_options.dart';
@@ -41,22 +43,37 @@ class RojetaDoctorApp extends StatefulWidget {
 
 class _RojetaDoctorAppState extends State<RojetaDoctorApp> {
   late String _currentLocale;
+  ValueListenable<Box>? _settingsListenable;
 
   @override
   void initState() {
     super.initState();
-    _currentLocale = UserHiveHelper.getUser()?.language ?? 'ar';
-    UserHiveHelper.getBoxListenable().addListener(_onBoxChanged);
+    _currentLocale = UserHiveHelper.getAppLanguage();
+    try {
+      UserHiveHelper.getBoxListenable().addListener(_onBoxChanged);
+    } catch (_) {}
+    try {
+      _settingsListenable = UserHiveHelper.getSettingsBoxListenable();
+      _settingsListenable?.addListener(_onBoxChanged);
+    } catch (_) {}
   }
 
   @override
   void dispose() {
-    UserHiveHelper.getBoxListenable().removeListener(_onBoxChanged);
+    try {
+      UserHiveHelper.getBoxListenable().removeListener(_onBoxChanged);
+    } catch (_) {}
+    try {
+      _settingsListenable?.removeListener(_onBoxChanged);
+    } catch (_) {}
     super.dispose();
   }
 
   void _onBoxChanged() {
-    final newLocale = UserHiveHelper.getUser()?.language ?? 'ar';
+    final user = UserHiveHelper.getUser();
+    final newLocale = (user?.language != null && user!.language!.isNotEmpty)
+        ? user.language!
+        : UserHiveHelper.getAppLanguage();
     if (newLocale != _currentLocale) {
       setState(() {
         _currentLocale = newLocale;

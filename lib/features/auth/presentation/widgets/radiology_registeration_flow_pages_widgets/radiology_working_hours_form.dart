@@ -162,8 +162,8 @@ class _RadiologyWorkingHoursFormState extends State<RadiologyWorkingHoursForm> {
                     ] else ...[
                       Expanded(
                         child: _buildTimeField(
-                          label: 'From',
-                          value: dayData['from'] as String,
+                          label: context.strings.from,
+                          value: (dayData['from']?.toString()) ?? '09:00 AM',
                           onTap: () => _selectTime(dayData, true),
                         ),
                       ),
@@ -171,8 +171,8 @@ class _RadiologyWorkingHoursFormState extends State<RadiologyWorkingHoursForm> {
                       // "To" Input Box
                       Expanded(
                         child: _buildTimeField(
-                          label: 'To',
-                          value: dayData['to'] as String,
+                          label: context.strings.to,
+                          value: (dayData['to']?.toString()) ?? '05:00 PM',
                           onTap: () => _selectTime(dayData, false),
                         ),
                       ),
@@ -216,22 +216,27 @@ class _RadiologyWorkingHoursFormState extends State<RadiologyWorkingHoursForm> {
 
   Future<void> _selectTime(Map<String, dynamic> dayData, bool isFrom) async {
     final initialStr =
-        (isFrom ? dayData['from'] : dayData['to']) as String? ?? '09:00 AM';
+        (isFrom ? dayData['from'] : dayData['to'])?.toString() ?? '09:00 AM';
 
     TimeOfDay initialTime = const TimeOfDay(hour: 9, minute: 0);
 
     try {
-      final clean = initialStr.trim();
-      final spaceIndex = clean.indexOf(' ');
+      final asciiStr = TimeFormatter.toAsciiDigits(initialStr).trim();
+      final spaceIndex = asciiStr.indexOf(' ');
       if (spaceIndex != -1) {
-        final timePart = clean.substring(0, spaceIndex);
-        final period = clean.substring(spaceIndex + 1).toUpperCase();
+        final timePart = asciiStr.substring(0, spaceIndex).trim();
+        final periodPart =
+            asciiStr.substring(spaceIndex + 1).trim().toUpperCase();
         final colonIndex = timePart.indexOf(':');
-        var hour = int.parse(timePart.substring(0, colonIndex));
-        final minute = int.parse(timePart.substring(colonIndex + 1));
-        if (period == 'PM' && hour < 12) hour += 12;
-        if (period == 'AM' && hour == 12) hour = 0;
-        initialTime = TimeOfDay(hour: hour, minute: minute);
+        if (colonIndex != -1) {
+          var hour = int.parse(timePart.substring(0, colonIndex));
+          final minute = int.parse(timePart.substring(colonIndex + 1));
+          final isPm = periodPart == 'PM' || periodPart == 'م';
+          final isAm = periodPart == 'AM' || periodPart == 'ص';
+          if (isPm && hour < 12) hour += 12;
+          if (isAm && hour == 12) hour = 0;
+          initialTime = TimeOfDay(hour: hour, minute: minute);
+        }
       }
     } catch (_) {}
 
@@ -241,7 +246,7 @@ class _RadiologyWorkingHoursFormState extends State<RadiologyWorkingHoursForm> {
     );
 
     if (picked != null && mounted) {
-      final formatted = picked.formatTimeOfDay;
+      final formatted = picked.formatTimeOfDay(context);
       setState(() {
         if (isFrom) {
           dayData['from'] = formatted;
@@ -269,7 +274,7 @@ class _RadiologyWorkingHoursFormState extends State<RadiologyWorkingHoursForm> {
             fontWeight: FontWeight.w500,
           ),
           floatingLabelBehavior: FloatingLabelBehavior.always,
-          contentPadding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+          contentPadding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.r),
             borderSide: BorderSide(color: Colors.grey.shade300),
@@ -283,12 +288,17 @@ class _RadiologyWorkingHoursFormState extends State<RadiologyWorkingHoursForm> {
             borderSide: const BorderSide(color: Color(0xFF3498DB)),
           ),
         ),
-        child: Text(
-          value,
-          style: TextStyle(
-            color: const Color(0xFF0F1E36),
-            fontSize: 13.sp,
-            fontWeight: FontWeight.w500,
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: AlignmentDirectional.centerStart,
+          child: Text(
+            value,
+            maxLines: 1,
+            style: TextStyle(
+              color: const Color(0xFF0F1E36),
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
       ),

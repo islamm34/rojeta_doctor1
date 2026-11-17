@@ -5395,6 +5395,1260 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Navigate to the Profile tab to edit your medical title, bio, consultation fees, and clinic locations.'**
   String get faqUpdateProfileAnswer;
+
+  /// No description provided for @selectPrimarySpecialtyFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select primary specialty first'**
+  String get selectPrimarySpecialtyFirst;
+
+  /// No description provided for @selectSubSpecialty.
+  ///
+  /// In en, this message translates to:
+  /// **'Select sub-specialty'**
+  String get selectSubSpecialty;
+
+  /// No description provided for @subSpecialtyCardioInterventional.
+  ///
+  /// In en, this message translates to:
+  /// **'Interventional Cardiology'**
+  String get subSpecialtyCardioInterventional;
+
+  /// No description provided for @subSpecialtyCardioElectrophysiology.
+  ///
+  /// In en, this message translates to:
+  /// **'Cardiac Electrophysiology & Arrhythmia'**
+  String get subSpecialtyCardioElectrophysiology;
+
+  /// No description provided for @subSpecialtyCardioCardiothoracicSurgery.
+  ///
+  /// In en, this message translates to:
+  /// **'Cardiothoracic Surgery'**
+  String get subSpecialtyCardioCardiothoracicSurgery;
+
+  /// No description provided for @subSpecialtyCardioPediatric.
+  ///
+  /// In en, this message translates to:
+  /// **'Pediatric Cardiology'**
+  String get subSpecialtyCardioPediatric;
+
+  /// No description provided for @subSpecialtyCardioHeartFailure.
+  ///
+  /// In en, this message translates to:
+  /// **'Heart Failure & Cardiac Transplantation'**
+  String get subSpecialtyCardioHeartFailure;
+
+  /// No description provided for @subSpecialtyCardioImaging.
+  ///
+  /// In en, this message translates to:
+  /// **'Cardiac Imaging & Echocardiography'**
+  String get subSpecialtyCardioImaging;
+
+  /// No description provided for @subSpecialtyCardioValvular.
+  ///
+  /// In en, this message translates to:
+  /// **'Valvular Heart & Vascular Disease'**
+  String get subSpecialtyCardioValvular;
+
+  /// No description provided for @subSpecialtyCardioGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'General Cardiology'**
+  String get subSpecialtyCardioGeneral;
+
+  /// No description provided for @subSpecialtyPedNeonatology.
+  ///
+  /// In en, this message translates to:
+  /// **'Neonatology & Preterm Care'**
+  String get subSpecialtyPedNeonatology;
+
+  /// No description provided for @subSpecialtyPedGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'General Pediatrics'**
+  String get subSpecialtyPedGeneral;
+
+  /// No description provided for @subSpecialtyPedCardiology.
+  ///
+  /// In en, this message translates to:
+  /// **'Pediatric Cardiology'**
+  String get subSpecialtyPedCardiology;
+
+  /// No description provided for @subSpecialtyPedPulmonology.
+  ///
+  /// In en, this message translates to:
+  /// **'Pediatric Pulmonology & Allergy'**
+  String get subSpecialtyPedPulmonology;
+
+  /// No description provided for @subSpecialtyPedEndocrinology.
+  ///
+  /// In en, this message translates to:
+  /// **'Pediatric Endocrinology & Diabetes'**
+  String get subSpecialtyPedEndocrinology;
+
+  /// No description provided for @subSpecialtyPedGastroenterology.
+  ///
+  /// In en, this message translates to:
+  /// **'Pediatric Gastroenterology & Hepatology'**
+  String get subSpecialtyPedGastroenterology;
+
+  /// No description provided for @subSpecialtyPedNeurology.
+  ///
+  /// In en, this message translates to:
+  /// **'Pediatric Neurology'**
+  String get subSpecialtyPedNeurology;
+
+  /// No description provided for @subSpecialtyPedNephrology.
+  ///
+  /// In en, this message translates to:
+  /// **'Pediatric Nephrology'**
+  String get subSpecialtyPedNephrology;
+
+  /// No description provided for @subSpecialtyOphtRetina.
+  ///
+  /// In en, this message translates to:
+  /// **'Retina & Vitreous Surgery'**
+  String get subSpecialtyOphtRetina;
+
+  /// No description provided for @subSpecialtyOphtCorneaRefractive.
+  ///
+  /// In en, this message translates to:
+  /// **'Cornea, Cataract & Refractive Surgery'**
+  String get subSpecialtyOphtCorneaRefractive;
+
+  /// No description provided for @subSpecialtyOphtGlaucoma.
+  ///
+  /// In en, this message translates to:
+  /// **'Glaucoma'**
+  String get subSpecialtyOphtGlaucoma;
+
+  /// No description provided for @subSpecialtyOphtPediatric.
+  ///
+  /// In en, this message translates to:
+  /// **'Pediatric Ophthalmology & Strabismus'**
+  String get subSpecialtyOphtPediatric;
+
+  /// No description provided for @subSpecialtyOphtOculoplastics.
+  ///
+  /// In en, this message translates to:
+  /// **'Oculoplastics & Orbit Surgery'**
+  String get subSpecialtyOphtOculoplastics;
+
+  /// No description provided for @subSpecialtyOphtNeuro.
+  ///
+  /// In en, this message translates to:
+  /// **'Neuro-Ophthalmology'**
+  String get subSpecialtyOphtNeuro;
+
+  /// No description provided for @subSpecialtyOphtGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'General Ophthalmology'**
+  String get subSpecialtyOphtGeneral;
+
+  /// No description provided for @subSpecialtyOrthoJointReplacement.
+  ///
+  /// In en, this message translates to:
+  /// **'Joint Replacement & Arthroplasty'**
+  String get subSpecialtyOrthoJointReplacement;
+
+  /// No description provided for @subSpecialtyOrthoSpine.
+  ///
+  /// In en, this message translates to:
+  /// **'Spine Surgery'**
+  String get subSpecialtyOrthoSpine;
+
+  /// No description provided for @subSpecialtyOrthoSportsInjuries.
+  ///
+  /// In en, this message translates to:
+  /// **'Sports Medicine & Arthroscopy'**
+  String get subSpecialtyOrthoSportsInjuries;
+
+  /// No description provided for @subSpecialtyOrthoPediatric.
+  ///
+  /// In en, this message translates to:
+  /// **'Pediatric Orthopedics'**
+  String get subSpecialtyOrthoPediatric;
+
+  /// No description provided for @subSpecialtyOrthoHand.
+  ///
+  /// In en, this message translates to:
+  /// **'Hand & Upper Extremity Surgery'**
+  String get subSpecialtyOrthoHand;
+
+  /// No description provided for @subSpecialtyOrthoFootAnkle.
+  ///
+  /// In en, this message translates to:
+  /// **'Foot & Ankle Surgery'**
+  String get subSpecialtyOrthoFootAnkle;
+
+  /// No description provided for @subSpecialtyOrthoBoneTumors.
+  ///
+  /// In en, this message translates to:
+  /// **'Orthopedic Oncology'**
+  String get subSpecialtyOrthoBoneTumors;
+
+  /// No description provided for @subSpecialtyOrthoGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'General Orthopedics & Trauma'**
+  String get subSpecialtyOrthoGeneral;
+
+  /// No description provided for @subSpecialtyNeuroSurgery.
+  ///
+  /// In en, this message translates to:
+  /// **'Neurosurgery & Spine Surgery'**
+  String get subSpecialtyNeuroSurgery;
+
+  /// No description provided for @subSpecialtyNeuroStroke.
+  ///
+  /// In en, this message translates to:
+  /// **'Stroke & Neurovascular Intervention'**
+  String get subSpecialtyNeuroStroke;
+
+  /// No description provided for @subSpecialtyNeuroEpilepsy.
+  ///
+  /// In en, this message translates to:
+  /// **'Epilepsy & Clinical Neurophysiology'**
+  String get subSpecialtyNeuroEpilepsy;
+
+  /// No description provided for @subSpecialtyNeuroMovementDisorders.
+  ///
+  /// In en, this message translates to:
+  /// **'Parkinson\'s & Movement Disorders'**
+  String get subSpecialtyNeuroMovementDisorders;
+
+  /// No description provided for @subSpecialtyNeuroMultipleSclerosis.
+  ///
+  /// In en, this message translates to:
+  /// **'Multiple Sclerosis & Neuroimmunology'**
+  String get subSpecialtyNeuroMultipleSclerosis;
+
+  /// No description provided for @subSpecialtyNeuroNeuromuscular.
+  ///
+  /// In en, this message translates to:
+  /// **'Neuromuscular Disorders'**
+  String get subSpecialtyNeuroNeuromuscular;
+
+  /// No description provided for @subSpecialtyNeuroHeadachePain.
+  ///
+  /// In en, this message translates to:
+  /// **'Headache & Neurological Pain'**
+  String get subSpecialtyNeuroHeadachePain;
+
+  /// No description provided for @subSpecialtyNeuroGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'General Neurology'**
+  String get subSpecialtyNeuroGeneral;
+
+  /// No description provided for @subSpecialtyGenInternalMedicine.
+  ///
+  /// In en, this message translates to:
+  /// **'General Internal Medicine'**
+  String get subSpecialtyGenInternalMedicine;
+
+  /// No description provided for @subSpecialtyGenPractice.
+  ///
+  /// In en, this message translates to:
+  /// **'General Practice'**
+  String get subSpecialtyGenPractice;
+
+  /// No description provided for @subSpecialtyGenFamilyMedicine.
+  ///
+  /// In en, this message translates to:
+  /// **'Family Medicine'**
+  String get subSpecialtyGenFamilyMedicine;
+
+  /// No description provided for @subSpecialtyGenGastroenterology.
+  ///
+  /// In en, this message translates to:
+  /// **'Gastroenterology & Hepatology'**
+  String get subSpecialtyGenGastroenterology;
+
+  /// No description provided for @subSpecialtyGenEndocrinology.
+  ///
+  /// In en, this message translates to:
+  /// **'Endocrinology & Diabetes'**
+  String get subSpecialtyGenEndocrinology;
+
+  /// No description provided for @subSpecialtyGenNephrology.
+  ///
+  /// In en, this message translates to:
+  /// **'Nephrology & Hypertension'**
+  String get subSpecialtyGenNephrology;
+
+  /// No description provided for @subSpecialtyGenEmergency.
+  ///
+  /// In en, this message translates to:
+  /// **'Emergency Medicine'**
+  String get subSpecialtyGenEmergency;
+
+  /// No description provided for @subSpecialtyGenGeriatrics.
+  ///
+  /// In en, this message translates to:
+  /// **'Geriatric Medicine'**
+  String get subSpecialtyGenGeriatrics;
+
+  /// No description provided for @selectGovernorate.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Governorate'**
+  String get selectGovernorate;
+
+  /// No description provided for @selectCity.
+  ///
+  /// In en, this message translates to:
+  /// **'Select City / Area'**
+  String get selectCity;
+
+  /// No description provided for @selectGovernorateFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select governorate first'**
+  String get selectGovernorateFirst;
+
+  /// No description provided for @govCairo.
+  ///
+  /// In en, this message translates to:
+  /// **'Cairo'**
+  String get govCairo;
+
+  /// No description provided for @cityCairoNasrCity.
+  ///
+  /// In en, this message translates to:
+  /// **'Nasr City'**
+  String get cityCairoNasrCity;
+
+  /// No description provided for @cityCairoHeliopolis.
+  ///
+  /// In en, this message translates to:
+  /// **'Heliopolis'**
+  String get cityCairoHeliopolis;
+
+  /// No description provided for @cityCairoMaadi.
+  ///
+  /// In en, this message translates to:
+  /// **'Maadi'**
+  String get cityCairoMaadi;
+
+  /// No description provided for @cityCairoNewCairo.
+  ///
+  /// In en, this message translates to:
+  /// **'New Cairo'**
+  String get cityCairoNewCairo;
+
+  /// No description provided for @cityCairoDowntown.
+  ///
+  /// In en, this message translates to:
+  /// **'Downtown'**
+  String get cityCairoDowntown;
+
+  /// No description provided for @cityCairoShubra.
+  ///
+  /// In en, this message translates to:
+  /// **'Shubra'**
+  String get cityCairoShubra;
+
+  /// No description provided for @cityCairoZamalek.
+  ///
+  /// In en, this message translates to:
+  /// **'Zamalek'**
+  String get cityCairoZamalek;
+
+  /// No description provided for @cityCairoMokattam.
+  ///
+  /// In en, this message translates to:
+  /// **'Mokattam'**
+  String get cityCairoMokattam;
+
+  /// No description provided for @cityCairoRehab.
+  ///
+  /// In en, this message translates to:
+  /// **'Al Rehab'**
+  String get cityCairoRehab;
+
+  /// No description provided for @cityCairoMadinaty.
+  ///
+  /// In en, this message translates to:
+  /// **'Madinaty'**
+  String get cityCairoMadinaty;
+
+  /// No description provided for @cityCairoElShorouk.
+  ///
+  /// In en, this message translates to:
+  /// **'El Shorouk'**
+  String get cityCairoElShorouk;
+
+  /// No description provided for @cityCairoBadrCity.
+  ///
+  /// In en, this message translates to:
+  /// **'Badr City'**
+  String get cityCairoBadrCity;
+
+  /// No description provided for @cityCairoHelwan.
+  ///
+  /// In en, this message translates to:
+  /// **'Helwan'**
+  String get cityCairoHelwan;
+
+  /// No description provided for @cityCairoAinShams.
+  ///
+  /// In en, this message translates to:
+  /// **'Ain Shams'**
+  String get cityCairoAinShams;
+
+  /// No description provided for @cityCairoElZaytoun.
+  ///
+  /// In en, this message translates to:
+  /// **'El Zaytoun'**
+  String get cityCairoElZaytoun;
+
+  /// No description provided for @govGiza.
+  ///
+  /// In en, this message translates to:
+  /// **'Giza'**
+  String get govGiza;
+
+  /// No description provided for @cityGizaDokki.
+  ///
+  /// In en, this message translates to:
+  /// **'Dokki'**
+  String get cityGizaDokki;
+
+  /// No description provided for @cityGizaMohandessin.
+  ///
+  /// In en, this message translates to:
+  /// **'Mohandessin'**
+  String get cityGizaMohandessin;
+
+  /// No description provided for @cityGizaOctober6th.
+  ///
+  /// In en, this message translates to:
+  /// **'6th of October'**
+  String get cityGizaOctober6th;
+
+  /// No description provided for @cityGizaSheikhZayed.
+  ///
+  /// In en, this message translates to:
+  /// **'Sheikh Zayed'**
+  String get cityGizaSheikhZayed;
+
+  /// No description provided for @cityGizaHaram.
+  ///
+  /// In en, this message translates to:
+  /// **'Al Haram'**
+  String get cityGizaHaram;
+
+  /// No description provided for @cityGizaFaisal.
+  ///
+  /// In en, this message translates to:
+  /// **'Faisal'**
+  String get cityGizaFaisal;
+
+  /// No description provided for @cityGizaAgouza.
+  ///
+  /// In en, this message translates to:
+  /// **'Agouza'**
+  String get cityGizaAgouza;
+
+  /// No description provided for @cityGizaImbaba.
+  ///
+  /// In en, this message translates to:
+  /// **'Imbaba'**
+  String get cityGizaImbaba;
+
+  /// No description provided for @cityGizaOmrania.
+  ///
+  /// In en, this message translates to:
+  /// **'Al Omrania'**
+  String get cityGizaOmrania;
+
+  /// No description provided for @cityGizaHawamdia.
+  ///
+  /// In en, this message translates to:
+  /// **'Al Hawamdia'**
+  String get cityGizaHawamdia;
+
+  /// No description provided for @govAlexandria.
+  ///
+  /// In en, this message translates to:
+  /// **'Alexandria'**
+  String get govAlexandria;
+
+  /// No description provided for @cityAlexandriaSmouha.
+  ///
+  /// In en, this message translates to:
+  /// **'Smouha'**
+  String get cityAlexandriaSmouha;
+
+  /// No description provided for @cityAlexandriaSidiGaber.
+  ///
+  /// In en, this message translates to:
+  /// **'Sidi Gaber'**
+  String get cityAlexandriaSidiGaber;
+
+  /// No description provided for @cityAlexandriaGleem.
+  ///
+  /// In en, this message translates to:
+  /// **'Gleem'**
+  String get cityAlexandriaGleem;
+
+  /// No description provided for @cityAlexandriaStanley.
+  ///
+  /// In en, this message translates to:
+  /// **'Stanley'**
+  String get cityAlexandriaStanley;
+
+  /// No description provided for @cityAlexandriaRoushdy.
+  ///
+  /// In en, this message translates to:
+  /// **'Roushdy'**
+  String get cityAlexandriaRoushdy;
+
+  /// No description provided for @cityAlexandriaMiami.
+  ///
+  /// In en, this message translates to:
+  /// **'Miami'**
+  String get cityAlexandriaMiami;
+
+  /// No description provided for @cityAlexandriaMandara.
+  ///
+  /// In en, this message translates to:
+  /// **'Mandara'**
+  String get cityAlexandriaMandara;
+
+  /// No description provided for @cityAlexandriaMontazah.
+  ///
+  /// In en, this message translates to:
+  /// **'Montazah'**
+  String get cityAlexandriaMontazah;
+
+  /// No description provided for @cityAlexandriaLoran.
+  ///
+  /// In en, this message translates to:
+  /// **'Loran'**
+  String get cityAlexandriaLoran;
+
+  /// No description provided for @cityAlexandriaSanStefano.
+  ///
+  /// In en, this message translates to:
+  /// **'San Stefano'**
+  String get cityAlexandriaSanStefano;
+
+  /// No description provided for @cityAlexandriaAgami.
+  ///
+  /// In en, this message translates to:
+  /// **'Al Agami'**
+  String get cityAlexandriaAgami;
+
+  /// No description provided for @cityAlexandriaBorgElArab.
+  ///
+  /// In en, this message translates to:
+  /// **'Borg El Arab'**
+  String get cityAlexandriaBorgElArab;
+
+  /// No description provided for @govDakahlia.
+  ///
+  /// In en, this message translates to:
+  /// **'Dakahlia'**
+  String get govDakahlia;
+
+  /// No description provided for @cityDakahliaMansoura.
+  ///
+  /// In en, this message translates to:
+  /// **'Mansoura'**
+  String get cityDakahliaMansoura;
+
+  /// No description provided for @cityDakahliaTalkha.
+  ///
+  /// In en, this message translates to:
+  /// **'Talkha'**
+  String get cityDakahliaTalkha;
+
+  /// No description provided for @cityDakahliaMitGhamr.
+  ///
+  /// In en, this message translates to:
+  /// **'Mit Ghamr'**
+  String get cityDakahliaMitGhamr;
+
+  /// No description provided for @cityDakahliaDikirnis.
+  ///
+  /// In en, this message translates to:
+  /// **'Dikirnis'**
+  String get cityDakahliaDikirnis;
+
+  /// No description provided for @cityDakahliaSenbellawein.
+  ///
+  /// In en, this message translates to:
+  /// **'Senbellawein'**
+  String get cityDakahliaSenbellawein;
+
+  /// No description provided for @cityDakahliaBelqas.
+  ///
+  /// In en, this message translates to:
+  /// **'Belqas'**
+  String get cityDakahliaBelqas;
+
+  /// No description provided for @govSharqia.
+  ///
+  /// In en, this message translates to:
+  /// **'Sharqia'**
+  String get govSharqia;
+
+  /// No description provided for @citySharqiaZagazig.
+  ///
+  /// In en, this message translates to:
+  /// **'Zagazig'**
+  String get citySharqiaZagazig;
+
+  /// No description provided for @citySharqiaRamadan10th.
+  ///
+  /// In en, this message translates to:
+  /// **'10th of Ramadan'**
+  String get citySharqiaRamadan10th;
+
+  /// No description provided for @citySharqiaBelbeis.
+  ///
+  /// In en, this message translates to:
+  /// **'Belbeis'**
+  String get citySharqiaBelbeis;
+
+  /// No description provided for @citySharqiaMinyaElQamh.
+  ///
+  /// In en, this message translates to:
+  /// **'Minya El Qamh'**
+  String get citySharqiaMinyaElQamh;
+
+  /// No description provided for @citySharqiaFaqous.
+  ///
+  /// In en, this message translates to:
+  /// **'Faqous'**
+  String get citySharqiaFaqous;
+
+  /// No description provided for @govGharbia.
+  ///
+  /// In en, this message translates to:
+  /// **'Gharbia'**
+  String get govGharbia;
+
+  /// No description provided for @cityGharbiaTanta.
+  ///
+  /// In en, this message translates to:
+  /// **'Tanta'**
+  String get cityGharbiaTanta;
+
+  /// No description provided for @cityGharbiaMahalla.
+  ///
+  /// In en, this message translates to:
+  /// **'El Mahalla El Kubra'**
+  String get cityGharbiaMahalla;
+
+  /// No description provided for @cityGharbiaZifta.
+  ///
+  /// In en, this message translates to:
+  /// **'Zifta'**
+  String get cityGharbiaZifta;
+
+  /// No description provided for @cityGharbiaKafrElZayat.
+  ///
+  /// In en, this message translates to:
+  /// **'Kafr El Zayat'**
+  String get cityGharbiaKafrElZayat;
+
+  /// No description provided for @govQalyubia.
+  ///
+  /// In en, this message translates to:
+  /// **'Qalyubia'**
+  String get govQalyubia;
+
+  /// No description provided for @cityQalyubiaBanha.
+  ///
+  /// In en, this message translates to:
+  /// **'Banha'**
+  String get cityQalyubiaBanha;
+
+  /// No description provided for @cityQalyubiaShubraElKheima.
+  ///
+  /// In en, this message translates to:
+  /// **'Shubra El Kheima'**
+  String get cityQalyubiaShubraElKheima;
+
+  /// No description provided for @cityQalyubiaObour.
+  ///
+  /// In en, this message translates to:
+  /// **'Al Obour'**
+  String get cityQalyubiaObour;
+
+  /// No description provided for @cityQalyubiaQalyub.
+  ///
+  /// In en, this message translates to:
+  /// **'Qalyub'**
+  String get cityQalyubiaQalyub;
+
+  /// No description provided for @cityQalyubiaKhanka.
+  ///
+  /// In en, this message translates to:
+  /// **'Al Khanka'**
+  String get cityQalyubiaKhanka;
+
+  /// No description provided for @govMonufia.
+  ///
+  /// In en, this message translates to:
+  /// **'Monufia'**
+  String get govMonufia;
+
+  /// No description provided for @cityMonufiaShibinElKom.
+  ///
+  /// In en, this message translates to:
+  /// **'Shibin El Kom'**
+  String get cityMonufiaShibinElKom;
+
+  /// No description provided for @cityMonufiaMenouf.
+  ///
+  /// In en, this message translates to:
+  /// **'Menouf'**
+  String get cityMonufiaMenouf;
+
+  /// No description provided for @cityMonufiaAshmoun.
+  ///
+  /// In en, this message translates to:
+  /// **'Ashmoun'**
+  String get cityMonufiaAshmoun;
+
+  /// No description provided for @cityMonufiaSadatCity.
+  ///
+  /// In en, this message translates to:
+  /// **'Sadat City'**
+  String get cityMonufiaSadatCity;
+
+  /// No description provided for @cityMonufiaQuesna.
+  ///
+  /// In en, this message translates to:
+  /// **'Quesna'**
+  String get cityMonufiaQuesna;
+
+  /// No description provided for @govBeheira.
+  ///
+  /// In en, this message translates to:
+  /// **'Beheira'**
+  String get govBeheira;
+
+  /// No description provided for @cityBeheiraDamanhour.
+  ///
+  /// In en, this message translates to:
+  /// **'Damanhour'**
+  String get cityBeheiraDamanhour;
+
+  /// No description provided for @cityBeheiraKafrElDawwar.
+  ///
+  /// In en, this message translates to:
+  /// **'Kafr El Dawwar'**
+  String get cityBeheiraKafrElDawwar;
+
+  /// No description provided for @cityBeheiraRosetta.
+  ///
+  /// In en, this message translates to:
+  /// **'Rashid (Rosetta)'**
+  String get cityBeheiraRosetta;
+
+  /// No description provided for @cityBeheiraEdko.
+  ///
+  /// In en, this message translates to:
+  /// **'Edko'**
+  String get cityBeheiraEdko;
+
+  /// No description provided for @govDamietta.
+  ///
+  /// In en, this message translates to:
+  /// **'Damietta'**
+  String get govDamietta;
+
+  /// No description provided for @cityDamiettaDamiettaCity.
+  ///
+  /// In en, this message translates to:
+  /// **'Damietta City'**
+  String get cityDamiettaDamiettaCity;
+
+  /// No description provided for @cityDamiettaNewDamietta.
+  ///
+  /// In en, this message translates to:
+  /// **'New Damietta'**
+  String get cityDamiettaNewDamietta;
+
+  /// No description provided for @cityDamiettaRasElBar.
+  ///
+  /// In en, this message translates to:
+  /// **'Ras El Bar'**
+  String get cityDamiettaRasElBar;
+
+  /// No description provided for @cityDamiettaFaraskur.
+  ///
+  /// In en, this message translates to:
+  /// **'Faraskur'**
+  String get cityDamiettaFaraskur;
+
+  /// No description provided for @govPortSaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Port Said'**
+  String get govPortSaid;
+
+  /// No description provided for @cityPortSaidPortSaidCity.
+  ///
+  /// In en, this message translates to:
+  /// **'Port Said City'**
+  String get cityPortSaidPortSaidCity;
+
+  /// No description provided for @cityPortSaidPortFouad.
+  ///
+  /// In en, this message translates to:
+  /// **'Port Fouad'**
+  String get cityPortSaidPortFouad;
+
+  /// No description provided for @cityPortSaidElArab.
+  ///
+  /// In en, this message translates to:
+  /// **'Al Arab'**
+  String get cityPortSaidElArab;
+
+  /// No description provided for @cityPortSaidElZohour.
+  ///
+  /// In en, this message translates to:
+  /// **'Al Zohour'**
+  String get cityPortSaidElZohour;
+
+  /// No description provided for @govIsmailia.
+  ///
+  /// In en, this message translates to:
+  /// **'Ismailia'**
+  String get govIsmailia;
+
+  /// No description provided for @cityIsmailiaIsmailiaCity.
+  ///
+  /// In en, this message translates to:
+  /// **'Ismailia City'**
+  String get cityIsmailiaIsmailiaCity;
+
+  /// No description provided for @cityIsmailiaFayed.
+  ///
+  /// In en, this message translates to:
+  /// **'Fayed'**
+  String get cityIsmailiaFayed;
+
+  /// No description provided for @cityIsmailiaQantara.
+  ///
+  /// In en, this message translates to:
+  /// **'Al Qantara'**
+  String get cityIsmailiaQantara;
+
+  /// No description provided for @govSuez.
+  ///
+  /// In en, this message translates to:
+  /// **'Suez'**
+  String get govSuez;
+
+  /// No description provided for @citySuezSuezCity.
+  ///
+  /// In en, this message translates to:
+  /// **'Suez City'**
+  String get citySuezSuezCity;
+
+  /// No description provided for @citySuezElArbaeen.
+  ///
+  /// In en, this message translates to:
+  /// **'Al Arbaeen'**
+  String get citySuezElArbaeen;
+
+  /// No description provided for @citySuezAttaka.
+  ///
+  /// In en, this message translates to:
+  /// **'Attaka'**
+  String get citySuezAttaka;
+
+  /// No description provided for @govKafrElSheikh.
+  ///
+  /// In en, this message translates to:
+  /// **'Kafr El Sheikh'**
+  String get govKafrElSheikh;
+
+  /// No description provided for @cityKafrElSheikhKafrElSheikhCity.
+  ///
+  /// In en, this message translates to:
+  /// **'Kafr El Sheikh City'**
+  String get cityKafrElSheikhKafrElSheikhCity;
+
+  /// No description provided for @cityKafrElSheikhDesouk.
+  ///
+  /// In en, this message translates to:
+  /// **'Desouk'**
+  String get cityKafrElSheikhDesouk;
+
+  /// No description provided for @cityKafrElSheikhBaltim.
+  ///
+  /// In en, this message translates to:
+  /// **'Baltim'**
+  String get cityKafrElSheikhBaltim;
+
+  /// No description provided for @govFayoum.
+  ///
+  /// In en, this message translates to:
+  /// **'Fayoum'**
+  String get govFayoum;
+
+  /// No description provided for @cityFayoumFayoumCity.
+  ///
+  /// In en, this message translates to:
+  /// **'Fayoum City'**
+  String get cityFayoumFayoumCity;
+
+  /// No description provided for @cityFayoumSenuris.
+  ///
+  /// In en, this message translates to:
+  /// **'Senuris'**
+  String get cityFayoumSenuris;
+
+  /// No description provided for @cityFayoumIbshaway.
+  ///
+  /// In en, this message translates to:
+  /// **'Ibshaway'**
+  String get cityFayoumIbshaway;
+
+  /// No description provided for @govBeniSuef.
+  ///
+  /// In en, this message translates to:
+  /// **'Beni Suef'**
+  String get govBeniSuef;
+
+  /// No description provided for @cityBeniSuefBeniSuefCity.
+  ///
+  /// In en, this message translates to:
+  /// **'Beni Suef City'**
+  String get cityBeniSuefBeniSuefCity;
+
+  /// No description provided for @cityBeniSuefNewBeniSuef.
+  ///
+  /// In en, this message translates to:
+  /// **'New Beni Suef'**
+  String get cityBeniSuefNewBeniSuef;
+
+  /// No description provided for @cityBeniSuefElWasti.
+  ///
+  /// In en, this message translates to:
+  /// **'Al Wasti'**
+  String get cityBeniSuefElWasti;
+
+  /// No description provided for @govMinya.
+  ///
+  /// In en, this message translates to:
+  /// **'Minya'**
+  String get govMinya;
+
+  /// No description provided for @cityMinyaMinyaCity.
+  ///
+  /// In en, this message translates to:
+  /// **'Minya City'**
+  String get cityMinyaMinyaCity;
+
+  /// No description provided for @cityMinyaNewMinya.
+  ///
+  /// In en, this message translates to:
+  /// **'New Minya'**
+  String get cityMinyaNewMinya;
+
+  /// No description provided for @cityMinyaMallawi.
+  ///
+  /// In en, this message translates to:
+  /// **'Mallawi'**
+  String get cityMinyaMallawi;
+
+  /// No description provided for @cityMinyaSamalut.
+  ///
+  /// In en, this message translates to:
+  /// **'Samalut'**
+  String get cityMinyaSamalut;
+
+  /// No description provided for @govAsyut.
+  ///
+  /// In en, this message translates to:
+  /// **'Asyut'**
+  String get govAsyut;
+
+  /// No description provided for @cityAsyutAsyutCity.
+  ///
+  /// In en, this message translates to:
+  /// **'Asyut City'**
+  String get cityAsyutAsyutCity;
+
+  /// No description provided for @cityAsyutNewAsyut.
+  ///
+  /// In en, this message translates to:
+  /// **'New Asyut'**
+  String get cityAsyutNewAsyut;
+
+  /// No description provided for @cityAsyutDairut.
+  ///
+  /// In en, this message translates to:
+  /// **'Dairut'**
+  String get cityAsyutDairut;
+
+  /// No description provided for @cityAsyutManfalut.
+  ///
+  /// In en, this message translates to:
+  /// **'Manfalut'**
+  String get cityAsyutManfalut;
+
+  /// No description provided for @govSohag.
+  ///
+  /// In en, this message translates to:
+  /// **'Sohag'**
+  String get govSohag;
+
+  /// No description provided for @citySohagSohagCity.
+  ///
+  /// In en, this message translates to:
+  /// **'Sohag City'**
+  String get citySohagSohagCity;
+
+  /// No description provided for @citySohagNewSohag.
+  ///
+  /// In en, this message translates to:
+  /// **'New Sohag'**
+  String get citySohagNewSohag;
+
+  /// No description provided for @citySohagAkhmim.
+  ///
+  /// In en, this message translates to:
+  /// **'Akhmim'**
+  String get citySohagAkhmim;
+
+  /// No description provided for @citySohagGirga.
+  ///
+  /// In en, this message translates to:
+  /// **'Girga'**
+  String get citySohagGirga;
+
+  /// No description provided for @citySohagTahta.
+  ///
+  /// In en, this message translates to:
+  /// **'Tahta'**
+  String get citySohagTahta;
+
+  /// No description provided for @govQena.
+  ///
+  /// In en, this message translates to:
+  /// **'Qena'**
+  String get govQena;
+
+  /// No description provided for @cityQenaQenaCity.
+  ///
+  /// In en, this message translates to:
+  /// **'Qena City'**
+  String get cityQenaQenaCity;
+
+  /// No description provided for @cityQenaNagHammadi.
+  ///
+  /// In en, this message translates to:
+  /// **'Nag Hammadi'**
+  String get cityQenaNagHammadi;
+
+  /// No description provided for @cityQenaQus.
+  ///
+  /// In en, this message translates to:
+  /// **'Qus'**
+  String get cityQenaQus;
+
+  /// No description provided for @govLuxor.
+  ///
+  /// In en, this message translates to:
+  /// **'Luxor'**
+  String get govLuxor;
+
+  /// No description provided for @cityLuxorLuxorCity.
+  ///
+  /// In en, this message translates to:
+  /// **'Luxor City'**
+  String get cityLuxorLuxorCity;
+
+  /// No description provided for @cityLuxorEsna.
+  ///
+  /// In en, this message translates to:
+  /// **'Esna'**
+  String get cityLuxorEsna;
+
+  /// No description provided for @cityLuxorArmant.
+  ///
+  /// In en, this message translates to:
+  /// **'Armant'**
+  String get cityLuxorArmant;
+
+  /// No description provided for @govAswan.
+  ///
+  /// In en, this message translates to:
+  /// **'Aswan'**
+  String get govAswan;
+
+  /// No description provided for @cityAswanAswanCity.
+  ///
+  /// In en, this message translates to:
+  /// **'Aswan City'**
+  String get cityAswanAswanCity;
+
+  /// No description provided for @cityAswanNewAswan.
+  ///
+  /// In en, this message translates to:
+  /// **'New Aswan'**
+  String get cityAswanNewAswan;
+
+  /// No description provided for @cityAswanKomOmbo.
+  ///
+  /// In en, this message translates to:
+  /// **'Kom Ombo'**
+  String get cityAswanKomOmbo;
+
+  /// No description provided for @cityAswanEdfu.
+  ///
+  /// In en, this message translates to:
+  /// **'Edfu'**
+  String get cityAswanEdfu;
+
+  /// No description provided for @govRedSea.
+  ///
+  /// In en, this message translates to:
+  /// **'Red Sea'**
+  String get govRedSea;
+
+  /// No description provided for @cityRedSeaHurghada.
+  ///
+  /// In en, this message translates to:
+  /// **'Hurghada'**
+  String get cityRedSeaHurghada;
+
+  /// No description provided for @cityRedSeaGouna.
+  ///
+  /// In en, this message translates to:
+  /// **'El Gouna'**
+  String get cityRedSeaGouna;
+
+  /// No description provided for @cityRedSeaSafaga.
+  ///
+  /// In en, this message translates to:
+  /// **'Safaga'**
+  String get cityRedSeaSafaga;
+
+  /// No description provided for @cityRedSeaMarsaAlam.
+  ///
+  /// In en, this message translates to:
+  /// **'Marsa Alam'**
+  String get cityRedSeaMarsaAlam;
+
+  /// No description provided for @govSouthSinai.
+  ///
+  /// In en, this message translates to:
+  /// **'South Sinai'**
+  String get govSouthSinai;
+
+  /// No description provided for @citySouthSinaiSharmElSheikh.
+  ///
+  /// In en, this message translates to:
+  /// **'Sharm El Sheikh'**
+  String get citySouthSinaiSharmElSheikh;
+
+  /// No description provided for @citySouthSinaiDahab.
+  ///
+  /// In en, this message translates to:
+  /// **'Dahab'**
+  String get citySouthSinaiDahab;
+
+  /// No description provided for @citySouthSinaiNuweiba.
+  ///
+  /// In en, this message translates to:
+  /// **'Nuweiba'**
+  String get citySouthSinaiNuweiba;
+
+  /// No description provided for @citySouthSinaiRasSedr.
+  ///
+  /// In en, this message translates to:
+  /// **'Ras Sedr'**
+  String get citySouthSinaiRasSedr;
+
+  /// No description provided for @govNorthSinai.
+  ///
+  /// In en, this message translates to:
+  /// **'North Sinai'**
+  String get govNorthSinai;
+
+  /// No description provided for @cityNorthSinaiArish.
+  ///
+  /// In en, this message translates to:
+  /// **'Arish'**
+  String get cityNorthSinaiArish;
+
+  /// No description provided for @cityNorthSinaiSheikhZuweid.
+  ///
+  /// In en, this message translates to:
+  /// **'Sheikh Zuweid'**
+  String get cityNorthSinaiSheikhZuweid;
+
+  /// No description provided for @cityNorthSinaiBirElAbd.
+  ///
+  /// In en, this message translates to:
+  /// **'Bir El Abd'**
+  String get cityNorthSinaiBirElAbd;
+
+  /// No description provided for @govMatrouh.
+  ///
+  /// In en, this message translates to:
+  /// **'Matrouh'**
+  String get govMatrouh;
+
+  /// No description provided for @cityMatrouhMarsaMatrouh.
+  ///
+  /// In en, this message translates to:
+  /// **'Marsa Matrouh'**
+  String get cityMatrouhMarsaMatrouh;
+
+  /// No description provided for @cityMatrouhAlamein.
+  ///
+  /// In en, this message translates to:
+  /// **'El Alamein'**
+  String get cityMatrouhAlamein;
+
+  /// No description provided for @cityMatrouhDabaa.
+  ///
+  /// In en, this message translates to:
+  /// **'Al Dabaa'**
+  String get cityMatrouhDabaa;
+
+  /// No description provided for @cityMatrouhSiwa.
+  ///
+  /// In en, this message translates to:
+  /// **'Siwa'**
+  String get cityMatrouhSiwa;
+
+  /// No description provided for @govNewValley.
+  ///
+  /// In en, this message translates to:
+  /// **'New Valley'**
+  String get govNewValley;
+
+  /// No description provided for @cityNewValleyKharga.
+  ///
+  /// In en, this message translates to:
+  /// **'Al Kharga'**
+  String get cityNewValleyKharga;
+
+  /// No description provided for @cityNewValleyDakhla.
+  ///
+  /// In en, this message translates to:
+  /// **'Al Dakhla'**
+  String get cityNewValleyDakhla;
+
+  /// No description provided for @cityNewValleyFarafra.
+  ///
+  /// In en, this message translates to:
+  /// **'Al Farafra'**
+  String get cityNewValleyFarafra;
 }
 
 class _AppLocalizationsDelegate

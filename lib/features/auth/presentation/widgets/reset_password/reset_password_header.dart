@@ -12,13 +12,30 @@ class ResetPasswordHeader extends StatelessWidget {
 
     return Column(
       children: [
-        Image.asset(
-          AppConstants.rLogo,
-          width: 160.w,
-          height: 90.h,
-          fit: BoxFit.contain,
+        Container(
+          width: 95.w,
+          height: 95.h,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(24.r),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.1),
+                blurRadius: 16,
+                offset: const Offset(0, 6),
+              ),
+            ],
+          ),
+          alignment: Alignment.center,
+          padding: EdgeInsets.all(12.w),
+          child: Image.asset(
+            AppConstants.rLogo,
+            width: 65.w,
+            height: 65.h,
+            fit: BoxFit.contain,
+          ),
         ),
-        SizedBox(height: 12.h),
+        SizedBox(height: 16.h),
         Text(
           context.strings.resetPasswordTitle, // "Reset Password"
           style: theme.textTheme.headlineMedium?.copyWith(

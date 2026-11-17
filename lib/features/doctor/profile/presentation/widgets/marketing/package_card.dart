@@ -8,12 +8,14 @@ class PackageCard extends StatelessWidget {
   final MarketingPackageModel package;
   final bool isYearly;
   final bool isCurrentPlan;
+  final void Function(String packageId, String billingCycle)? onSubscribe;
 
   const PackageCard({
     super.key,
     required this.package,
     required this.isYearly,
     this.isCurrentPlan = false,
+    this.onSubscribe,
   });
 
   @override
@@ -177,6 +179,12 @@ class PackageCard extends StatelessWidget {
                                   SubscriptionConfirmationDialog(
                                     package: package,
                                     isYearly: isYearly,
+                                    onConfirm: () {
+                                      onSubscribe?.call(
+                                        package.id,
+                                        isYearly ? 'yearly' : 'monthly',
+                                      );
+                                    },
                                   ),
                             );
                           },

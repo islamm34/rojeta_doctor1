@@ -27,6 +27,16 @@ class TransactionModel extends Equatable {
   double get grossAmount => serviceFee;
   double get feesDeducted => platformCommission;
 
+  static double _parseNum(dynamic v, [double def = 0.0]) {
+    if (v == null) return def;
+    if (v is num) return v.toDouble();
+    if (v is String) {
+      final clean = v.replaceAll(RegExp(r'[^\d.]'), '').trim();
+      return double.tryParse(clean) ?? def;
+    }
+    return def;
+  }
+
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
     final patientObj = json['patient'] as Map<String, dynamic>?;
     final userObj = json['user'] as Map<String, dynamic>?;
@@ -43,6 +53,10 @@ class TransactionModel extends Equatable {
     final rawFee =
         json['serviceFee'] ??
         json['service_fee'] ??
+        json['fee_current'] ??
+        json['fee_original'] ??
+        json['feeCurrent'] ??
+        json['feeOriginal'] ??
         json['total_price'] ??
         json['totalPrice'] ??
         json['grossAmount'] ??
@@ -51,9 +65,7 @@ class TransactionModel extends Equatable {
         json['fee'] ??
         json['amount'] ??
         json['price'];
-    double fee = (rawFee is num)
-        ? rawFee.toDouble()
-        : (rawFee is String ? (double.tryParse(rawFee) ?? 0.0) : 0.0);
+    double fee = _parseNum(rawFee, 0.0);
 
     if (fee == 0.0) {
       final tPrice =
@@ -63,34 +75,30 @@ class TransactionModel extends Equatable {
           json['visit_fee'] ??
           json['collection_fee'] ??
           json['delivery_fee'];
-      final num? parsedT = tPrice is num
-          ? tPrice
-          : (tPrice is String ? num.tryParse(tPrice) : null);
-      final num? parsedH = hFee is num
-          ? hFee
-          : (hFee is String ? num.tryParse(hFee) : null);
-      if (parsedT != null || parsedH != null) {
-        fee = ((parsedT ?? 0) + (parsedH ?? 0)).toDouble();
+      final parsedT = _parseNum(tPrice, 0.0);
+      final parsedH = _parseNum(hFee, 0.0);
+      if (parsedT > 0 || parsedH > 0) {
+        fee = parsedT + parsedH;
       }
     }
 
-    final comm =
-        (json['platformCommission'] ??
-                json['platform_commission'] ??
-                json['feesDeducted'] ??
-                json['fees_deducted'] ??
-                json['commission'] as num?)
-            ?.toDouble() ??
-        (fee > 0 ? (fee * 0.1) : 0.0);
+    final comm = _parseNum(
+      json['platformCommission'] ??
+          json['platform_commission'] ??
+          json['feesDeducted'] ??
+          json['fees_deducted'] ??
+          json['commission'],
+      fee > 0 ? (fee * 0.1) : 0.0,
+    );
 
-    final earn =
-        (json['yourEarning'] ??
-                json['your_earning'] ??
-                json['netIncome'] ??
-                json['net_income'] ??
-                json['net_amount'] as num?)
-            ?.toDouble() ??
-        (fee > 0 ? (fee - comm) : 0.0);
+    final earn = _parseNum(
+      json['yourEarning'] ??
+          json['your_earning'] ??
+          json['netIncome'] ??
+          json['net_income'] ??
+          json['net_amount'],
+      fee > 0 ? (fee - comm) : 0.0,
+    );
 
     return TransactionModel(
       id: (json['id'] ?? json['transaction_id'] ?? json['_id'] ?? '')

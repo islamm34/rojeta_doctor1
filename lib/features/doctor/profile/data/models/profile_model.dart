@@ -32,6 +32,8 @@ class ProfileModel {
   final List<ClinicModel> clinics;
   final List<ServicePricingModel> services;
   final PaymentDetailsModel paymentDetails;
+  final String? qrCodeData;
+  final List<String> certificates;
 
   const ProfileModel({
     required this.id,
@@ -48,6 +50,8 @@ class ProfileModel {
     this.clinics = const [],
     this.services = const [],
     required this.paymentDetails,
+    this.qrCodeData,
+    this.certificates = const [],
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
@@ -84,7 +88,13 @@ class ProfileModel {
       id: json['id']?.toString() ?? '',
       fullName: (json['fullName'] ?? json['full_name'] ?? json['name'] ?? '')
           .toString(),
-      email: (json['email'] ?? '').toString(),
+      email: (json['email'] ??
+              (json['user'] is Map ? json['user']['email'] : null) ??
+              (json['doctor'] is Map ? json['doctor']['email'] : null) ??
+              (json['profile'] is Map ? json['profile']['email'] : null) ??
+              json['user_email'] ??
+              '')
+          .toString(),
       phone: (json['phone'] ?? json['phone_number'] ?? '').toString(),
       specialty: json['specialty'] as String?,
       subSpecialty: (json['subSpecialty'] ?? json['sub_specialty']) as String?,
@@ -106,12 +116,21 @@ class ProfileModel {
       isPro:
           json['isPro'] == true ||
           json['is_pro'] == true ||
-          json['is_pro'] == 1,
+          json['is_pro'] == 1 ||
+          json['is_pro'] == '1' ||
+          json['isPro'] == 1 ||
+          json['isPro'] == '1' ||
+          json['active_plan'] != null ||
+          json['activePlan'] != null ||
+          json['subscription'] != null ||
+          json['has_active_subscription'] == true,
       clinics: clinicsList,
       services: servicesList,
       paymentDetails: paymentMap != null
           ? PaymentDetailsModel.fromJson(paymentMap)
           : const PaymentDetailsModel(paymentType: 'bank_transfer'),
+      qrCodeData: (json['qrCodeData'] ?? json['qr_code_data'] ?? json['qr_data'])?.toString(),
+      certificates: (json['certificates'] as List?)?.map((e) => e.toString()).toList() ?? const [],
     );
   }
 
@@ -131,6 +150,8 @@ class ProfileModel {
       'clinics': clinics.map((e) => e.toJson()).toList(),
       'services': services.map((e) => e.toJson()).toList(),
       'paymentDetails': paymentDetails.toJson(),
+      'qr_code_data': qrCodeData,
+      'certificates': certificates,
     };
   }
 
@@ -149,6 +170,8 @@ class ProfileModel {
     List<ClinicModel>? clinics,
     List<ServicePricingModel>? services,
     PaymentDetailsModel? paymentDetails,
+    String? qrCodeData,
+    List<String>? certificates,
   }) {
     return ProfileModel(
       id: id ?? this.id,
@@ -165,6 +188,8 @@ class ProfileModel {
       clinics: clinics ?? this.clinics,
       services: services ?? this.services,
       paymentDetails: paymentDetails ?? this.paymentDetails,
+      qrCodeData: qrCodeData ?? this.qrCodeData,
+      certificates: certificates ?? this.certificates,
     );
   }
 }

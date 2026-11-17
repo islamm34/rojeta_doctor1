@@ -131,6 +131,13 @@ class HospitalProfessionalInfoForm extends StatelessWidget {
                 hintText: context.strings.passwordHint,
                 isRequired: true,
                 obscureText: !state.isPasswordVisible,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (val) {
+                  if (val != null && val.isNotEmpty && val.length < 6) {
+                    return context.strings.invalidPassword;
+                  }
+                  return null;
+                },
                 suffixIcon: IconButton(
                   icon: Icon(
                     state.isPasswordVisible
@@ -154,13 +161,21 @@ class HospitalProfessionalInfoForm extends StatelessWidget {
           BlocBuilder<AuthBloc, AuthState>(
             buildWhen: (p, c) =>
                 p.confirmPassword != c.confirmPassword ||
-                p.isConfirmPasswordVisible != c.isConfirmPasswordVisible,
+                p.isConfirmPasswordVisible != c.isConfirmPasswordVisible ||
+                p.password != c.password,
             builder: (context, state) {
               return CustomTextField(
                 label: context.strings.confirmPassword,
                 hintText: context.strings.confirmPasswordHint,
                 isRequired: true,
                 obscureText: !state.isConfirmPasswordVisible,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (val) {
+                  if (val != null && val.isNotEmpty && val != state.password) {
+                    return context.strings.passwordsDoNotMatch;
+                  }
+                  return null;
+                },
                 suffixIcon: IconButton(
                   icon: Icon(
                     state.isConfirmPasswordVisible

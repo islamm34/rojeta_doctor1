@@ -65,10 +65,23 @@ class UserProfileResponseModel {
 
   ProfileModel toProfileModel() {
     if (profileModel != null) return profileModel!;
+    final isProValue = rawUser?['is_pro'] == true ||
+        rawUser?['is_pro'] == 1 ||
+        rawUser?['is_pro'] == '1' ||
+        rawUser?['isPro'] == true ||
+        rawUser?['isPro'] == 1 ||
+        rawUser?['isPro'] == '1' ||
+        rawUser?['active_plan'] != null ||
+        rawUser?['activePlan'] != null ||
+        rawUser?['subscription'] != null ||
+        rawUser?['has_active_subscription'] == true;
     return ProfileModel(
       id: user?.id?.toString() ?? profile?.id?.toString() ?? '',
       fullName: user?.name ?? profile?.organizationName ?? '',
-      email: user?.email ?? '',
+      email: user?.email ??
+          (rawUser?['email']?.toString()) ??
+          (rawUser?['user_email']?.toString()) ??
+          '',
       phone: user?.phone ?? profile?.organizationNumber ?? '',
       specialty: profile?.organizationType,
       subSpecialty: null,
@@ -76,10 +89,11 @@ class UserProfileResponseModel {
       about: profile?.about,
       education: null,
       imageUrl: profile?.logo,
-      isPro: false,
+      isPro: isProValue,
       clinics: const [],
       services: const [],
       paymentDetails: const PaymentDetailsModel(paymentType: 'bank_transfer'),
+      certificates: profile?.certificates ?? const [],
     );
   }
 }

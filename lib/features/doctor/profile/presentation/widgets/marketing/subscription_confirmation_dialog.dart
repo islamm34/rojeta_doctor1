@@ -5,11 +5,13 @@ import '../../../data/models/marketing_package_model.dart';
 class SubscriptionConfirmationDialog extends StatelessWidget {
   final MarketingPackageModel package;
   final bool isYearly;
+  final VoidCallback? onConfirm;
 
   const SubscriptionConfirmationDialog({
     super.key,
     required this.package,
     required this.isYearly,
+    this.onConfirm,
   });
 
   @override
@@ -172,8 +174,8 @@ class SubscriptionConfirmationDialog extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                      // Perform subscription logic here
                       Navigator.of(context).pop();
+                      onConfirm?.call();
                     },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.zero,

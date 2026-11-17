@@ -250,6 +250,7 @@ class _ProfileViewState extends State<ProfileView> {
                             'about': _aboutController.text.trim(),
                             'bio': _aboutController.text.trim(),
                             'education': _educationController.text.trim(),
+                            'certificates': context.read<ProfileBloc>().state.profile?.certificates ?? profile.certificates,
                             'payment_details': {
                               'payment_type': profile.paymentDetails.paymentType,
                               'account_holder_name': _accountHolderController.text.trim(),

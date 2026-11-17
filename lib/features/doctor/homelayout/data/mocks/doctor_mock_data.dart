@@ -17,6 +17,7 @@ class DoctorMockData {
     newRequests: 5,
     rating: 4.8,
     totalEarnings: '3600',
+    todayIncome: '1200',
   );
 
   static const List<DoctorAppointmentModel> appointments = [
@@ -92,7 +93,8 @@ class DoctorMockData {
     DoctorNotificationModel(
       id: '2',
       title: 'Upcoming Appointment',
-      body: 'Video consultation with Sara Ahmed starts in 30 minutes at 2:30 PM',
+      body:
+          'Video consultation with Sara Ahmed starts in 30 minutes at 2:30 PM',
       time: '30 minutes ago',
       isRead: false,
       priority: 'High',
@@ -101,7 +103,8 @@ class DoctorMockData {
     DoctorNotificationModel(
       id: '3',
       title: 'Appointment Cancelled',
-      body: 'Ahmed Hassan cancelled the appointment scheduled for Feb 8 at 11:00 AM',
+      body:
+          'Ahmed Hassan cancelled the appointment scheduled for Feb 8 at 11:00 AM',
       time: '1 hour ago',
       isRead: false,
       priority: 'Medium',
@@ -110,7 +113,8 @@ class DoctorMockData {
     DoctorNotificationModel(
       id: '4',
       title: 'Payment Received',
-      body: 'Payment of EGP 200 received from Fatima Ali for consultation on Feb 5',
+      body:
+          'Payment of EGP 200 received from Fatima Ali for consultation on Feb 5',
       time: '2 hours ago',
       isRead: false,
       priority: 'Medium',
@@ -128,7 +132,8 @@ class DoctorMockData {
     DoctorNotificationModel(
       id: '6',
       title: 'New 5-Star Review',
-      body: 'Sara Ahmed left you a great review: "Excellent doctor, very professional and caring!"',
+      body:
+          'Sara Ahmed left you a great review: "Excellent doctor, very professional and caring!"',
       time: '5 hours ago',
       isRead: true,
       priority: 'Low',
@@ -137,7 +142,8 @@ class DoctorMockData {
     DoctorNotificationModel(
       id: '7',
       title: 'New Patient Message',
-      body: 'Mohamed Ali: "Doctor, I have a question about my medication dosage."',
+      body:
+          'Mohamed Ali: "Doctor, I have a question about my medication dosage."',
       time: '8 hours ago',
       isRead: true,
       priority: 'Medium',
@@ -155,7 +161,8 @@ class DoctorMockData {
     DoctorNotificationModel(
       id: '9',
       title: 'Schedule Reminder',
-      body: 'Update your availability for next week. Current schedule ends on Feb 12',
+      body:
+          'Update your availability for next week. Current schedule ends on Feb 12',
       time: '1 day ago',
       isRead: true,
       priority: 'Medium',
@@ -173,7 +180,8 @@ class DoctorMockData {
     DoctorNotificationModel(
       id: '11',
       title: 'New Feature Available',
-      body: 'You can now add prescription templates to save time during consultations',
+      body:
+          'You can now add prescription templates to save time during consultations',
       time: '3 days ago',
       isRead: true,
       priority: 'Low',

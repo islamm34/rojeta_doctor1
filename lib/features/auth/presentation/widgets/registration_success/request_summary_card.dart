@@ -5,21 +5,13 @@ import '../../../../../core/utils/screen_util_like.dart';
 import '../../../data/models/registration_status_model.dart';
 
 class RequestSummaryCard extends StatelessWidget {
-  const RequestSummaryCard({super.key});
+  final RegistrationStatusModel statusModel;
+
+  const RequestSummaryCard({super.key, required this.statusModel});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
-    // Mock Data based on the UI
-    final mockData = const RegistrationStatusModel(
-      requestNumber: '#DRV137825',
-      status: 'pending',
-      doctorName: 'علي عبدالعزيز',
-      phoneNumber: '01111111111',
-      isPhoneVerified: true,
-      uploadedDocuments: ['مثال', 'مثال', 'مثال'],
-    );
 
     return Column(
       children: [
@@ -28,49 +20,61 @@ class RequestSummaryCard extends StatelessWidget {
           style: theme.textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.bold,
             fontSize: 18.sp,
+            color: Colors.black87,
           ),
+          textAlign: TextAlign.center,
         ),
         SizedBox(height: 4.h),
         Text(
           context.strings.submittedDataForReview,
           style: theme.textTheme.bodySmall?.copyWith(
             color: Colors.grey.shade600,
+            fontSize: 12.sp,
           ),
+          textAlign: TextAlign.center,
         ),
         SizedBox(height: 16.h),
         _buildInfoCard(
           context: context,
           icon: Icons.person,
           title: context.strings.doctorName,
-          value: mockData.doctorName,
-          backgroundColor: const Color(0xFFE3F2FD),
-          iconColor: Colors.blue,
+          value: statusModel.doctorName,
+          backgroundColor: const Color(0xFFEFF6FF),
+          iconColor: const Color(0xFF3B82F6),
         ),
         SizedBox(height: 12.h),
         _buildInfoCard(
           context: context,
           icon: Icons.phone,
           title: context.strings.phoneNumber,
-          value: mockData.phoneNumber,
-          backgroundColor: const Color(0xFFE8F5E9),
+          value: statusModel.phoneNumber,
+          backgroundColor: const Color(0xFFF0FDF4),
           iconColor: const Color(0xFF10B981),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.verified, color: const Color(0xFF10B981), size: 16.w),
+              Container(
+                width: 8.w,
+                height: 8.w,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Color(0xFF10B981),
+                ),
+              ),
               SizedBox(width: 4.w),
               Text(
                 context.strings.verified,
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: const Color(0xFF10B981),
                   fontWeight: FontWeight.bold,
+                  fontSize: 11.sp,
                 ),
               ),
             ],
           ),
         ),
         SizedBox(height: 12.h),
-        _buildDocumentsCard(context, mockData.uploadedDocuments),
+        _buildDocumentsCard(context, statusModel.uploadedDocuments),
       ],
     );
   }
@@ -85,11 +89,10 @@ class RequestSummaryCard extends StatelessWidget {
     Widget? trailing,
   }) {
     return Container(
-      padding: EdgeInsets.all(16.w),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: backgroundColor.withValues(alpha: 0.5)),
+        borderRadius: BorderRadius.circular(14.r),
       ),
       child: Row(
         children: [
@@ -99,22 +102,25 @@ class RequestSummaryCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodySmall?.copyWith(color: iconColor),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: iconColor,
+                    fontSize: 11.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 SizedBox(height: 4.h),
-                Row(
-                  children: [
-                    Text(
-                      value,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    if (trailing != null) ...[SizedBox(width: 8.w), trailing],
-                  ],
+                Text(
+                  value,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15.sp,
+                    color: Colors.black87,
+                  ),
                 ),
+                if (trailing != null) ...[
+                  SizedBox(height: 4.h),
+                  trailing,
+                ],
               ],
             ),
           ),
@@ -129,13 +135,16 @@ class RequestSummaryCard extends StatelessWidget {
   }
 
   Widget _buildDocumentsCard(BuildContext context, List<String> docs) {
+    final effectiveDocs = docs.isNotEmpty ? docs : const ['مثال', 'مثال', 'مثال'];
+
     return Container(
-      padding: EdgeInsets.all(16.w),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
       decoration: BoxDecoration(
-        color: const Color(0xFFF3E5F5),
-        borderRadius: BorderRadius.circular(12.r),
+        color: const Color(0xFFFAF5FF),
+        borderRadius: BorderRadius.circular(14.r),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             child: Column(
@@ -143,22 +152,31 @@ class RequestSummaryCard extends StatelessWidget {
               children: [
                 Text(
                   context.strings.uploadedDocuments,
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodySmall?.copyWith(color: Colors.purple),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: const Color(0xFF8B5CF6),
+                    fontSize: 11.sp,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 SizedBox(height: 8.h),
-                ...docs.map(
+                ...effectiveDocs.map(
                   (doc) => Padding(
                     padding: EdgeInsets.only(bottom: 4.h),
                     child: Row(
                       children: [
-                        Icon(Icons.check, color: Colors.purple, size: 16.w),
+                        Icon(
+                          Icons.check,
+                          color: const Color(0xFF8B5CF6),
+                          size: 16.w,
+                        ),
                         SizedBox(width: 4.w),
                         Text(
                           doc,
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: const Color(0xFF6B21A8),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 13.sp,
+                          ),
                         ),
                       ],
                     ),
@@ -170,7 +188,7 @@ class RequestSummaryCard extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(8.w),
             decoration: const BoxDecoration(
-              color: Colors.purpleAccent,
+              color: Color(0xFF8B5CF6),
               shape: BoxShape.circle,
             ),
             child: Icon(Icons.description, color: Colors.white, size: 20.w),

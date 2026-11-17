@@ -1,8 +1,8 @@
+import '../../../data/models/registration_status_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinput/pinput.dart';
 import 'package:rojeta_doctor/core/utils/flutter_secure_storage_helper.dart';
-import 'package:rojeta_doctor/core/utils/role_navigation_helper.dart';
 import '../../../../../config/routes/app_router.dart';
 import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
@@ -69,28 +69,61 @@ class _VerifyPhoneCardState extends State<VerifyPhoneCard> {
     super.dispose();
   }
 
-  Future<void> _navigateBasedOnRole(
+  Future<void> _navigateToRegistrationSuccess(
     BuildContext context,
     AuthState state,
   ) async {
-    final token = (state.token != null && state.token!.trim().isNotEmpty)
-        ? state.token
-        : (await FlutterSecureStorageHelper.getToken());
+    final doctorName = state.fullName.isNotEmpty
+        ? state.fullName
+        : (state.organizationName.isNotEmpty
+            ? state.organizationName
+            : 'علي عبدالعزيز');
+
+    final phoneNumber = _effectivePhone.isNotEmpty
+        ? _effectivePhone
+        : (state.phone.isNotEmpty
+            ? state.phone
+            : (state.organizationNumber.isNotEmpty
+                ? state.organizationNumber
+                : '01111111111'));
+
+    final docs = <String>[];
+    if (state.medicalLicensePath != null &&
+        state.medicalLicensePath!.trim().isNotEmpty) {
+      docs.add(context.strings.medicalLicense);
+    }
+    if (state.certificatesPath != null &&
+        state.certificatesPath!.trim().isNotEmpty) {
+      docs.add(context.strings.certificates);
+    }
+    if (docs.isEmpty) {
+      docs.addAll(const ['مثال', 'مثال', 'مثال']);
+    }
+
+    final user = UserHiveHelper.getUser();
+    final requestNumber = (user?.id != null)
+        ? '#DRV${user!.id.toString().padLeft(6, '0')}'
+        : '#DRV137825';
+
+    final statusModel = RegistrationStatusModel(
+      requestNumber: requestNumber,
+      status: 'pending',
+      doctorName: doctorName,
+      phoneNumber: phoneNumber,
+      isPhoneVerified: true,
+      uploadedDocuments: docs,
+    );
+
+    // Clear session so user remains unauthenticated until approved by admin
+    await FlutterSecureStorageHelper.clearAll();
+    UserHiveHelper.clearSession();
 
     if (!context.mounted) return;
 
-    if (token == null || token.trim().isEmpty) {
-      context.pushNamedAndRemoveUntil(
-        AppRoutes.login,
-        predicate: (route) => false,
-      );
-      return;
-    }
-
-    RoleNavigationHelper.navigateToRoleDashboard(
-      context,
-      fallbackType: state.selectedType,
-      clearStack: true,
+    context.pushNamedAndRemoveUntil(
+      AppRoutes.registrationSuccess,
+      predicate: (route) => false,
+      extra: statusModel,
     );
   }
 
@@ -228,7 +261,7 @@ class _VerifyPhoneCardState extends State<VerifyPhoneCard> {
                     predicate: (route) => false,
                   );
                 } else {
-                  _navigateBasedOnRole(context, state);
+                  _navigateToRegistrationSuccess(context, state);
                 }
               } else if (state.status == AuthStatus.error) {
                 if (state.message.isNotEmpty) {

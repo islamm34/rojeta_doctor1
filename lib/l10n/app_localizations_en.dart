@@ -2754,4 +2754,642 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get faqUpdateProfileAnswer =>
       'Navigate to the Profile tab to edit your medical title, bio, consultation fees, and clinic locations.';
+
+  @override
+  String get selectPrimarySpecialtyFirst =>
+      'Please select primary specialty first';
+
+  @override
+  String get selectSubSpecialty => 'Select sub-specialty';
+
+  @override
+  String get subSpecialtyCardioInterventional => 'Interventional Cardiology';
+
+  @override
+  String get subSpecialtyCardioElectrophysiology =>
+      'Cardiac Electrophysiology & Arrhythmia';
+
+  @override
+  String get subSpecialtyCardioCardiothoracicSurgery =>
+      'Cardiothoracic Surgery';
+
+  @override
+  String get subSpecialtyCardioPediatric => 'Pediatric Cardiology';
+
+  @override
+  String get subSpecialtyCardioHeartFailure =>
+      'Heart Failure & Cardiac Transplantation';
+
+  @override
+  String get subSpecialtyCardioImaging => 'Cardiac Imaging & Echocardiography';
+
+  @override
+  String get subSpecialtyCardioValvular => 'Valvular Heart & Vascular Disease';
+
+  @override
+  String get subSpecialtyCardioGeneral => 'General Cardiology';
+
+  @override
+  String get subSpecialtyPedNeonatology => 'Neonatology & Preterm Care';
+
+  @override
+  String get subSpecialtyPedGeneral => 'General Pediatrics';
+
+  @override
+  String get subSpecialtyPedCardiology => 'Pediatric Cardiology';
+
+  @override
+  String get subSpecialtyPedPulmonology => 'Pediatric Pulmonology & Allergy';
+
+  @override
+  String get subSpecialtyPedEndocrinology =>
+      'Pediatric Endocrinology & Diabetes';
+
+  @override
+  String get subSpecialtyPedGastroenterology =>
+      'Pediatric Gastroenterology & Hepatology';
+
+  @override
+  String get subSpecialtyPedNeurology => 'Pediatric Neurology';
+
+  @override
+  String get subSpecialtyPedNephrology => 'Pediatric Nephrology';
+
+  @override
+  String get subSpecialtyOphtRetina => 'Retina & Vitreous Surgery';
+
+  @override
+  String get subSpecialtyOphtCorneaRefractive =>
+      'Cornea, Cataract & Refractive Surgery';
+
+  @override
+  String get subSpecialtyOphtGlaucoma => 'Glaucoma';
+
+  @override
+  String get subSpecialtyOphtPediatric =>
+      'Pediatric Ophthalmology & Strabismus';
+
+  @override
+  String get subSpecialtyOphtOculoplastics => 'Oculoplastics & Orbit Surgery';
+
+  @override
+  String get subSpecialtyOphtNeuro => 'Neuro-Ophthalmology';
+
+  @override
+  String get subSpecialtyOphtGeneral => 'General Ophthalmology';
+
+  @override
+  String get subSpecialtyOrthoJointReplacement =>
+      'Joint Replacement & Arthroplasty';
+
+  @override
+  String get subSpecialtyOrthoSpine => 'Spine Surgery';
+
+  @override
+  String get subSpecialtyOrthoSportsInjuries => 'Sports Medicine & Arthroscopy';
+
+  @override
+  String get subSpecialtyOrthoPediatric => 'Pediatric Orthopedics';
+
+  @override
+  String get subSpecialtyOrthoHand => 'Hand & Upper Extremity Surgery';
+
+  @override
+  String get subSpecialtyOrthoFootAnkle => 'Foot & Ankle Surgery';
+
+  @override
+  String get subSpecialtyOrthoBoneTumors => 'Orthopedic Oncology';
+
+  @override
+  String get subSpecialtyOrthoGeneral => 'General Orthopedics & Trauma';
+
+  @override
+  String get subSpecialtyNeuroSurgery => 'Neurosurgery & Spine Surgery';
+
+  @override
+  String get subSpecialtyNeuroStroke => 'Stroke & Neurovascular Intervention';
+
+  @override
+  String get subSpecialtyNeuroEpilepsy => 'Epilepsy & Clinical Neurophysiology';
+
+  @override
+  String get subSpecialtyNeuroMovementDisorders =>
+      'Parkinson\'s & Movement Disorders';
+
+  @override
+  String get subSpecialtyNeuroMultipleSclerosis =>
+      'Multiple Sclerosis & Neuroimmunology';
+
+  @override
+  String get subSpecialtyNeuroNeuromuscular => 'Neuromuscular Disorders';
+
+  @override
+  String get subSpecialtyNeuroHeadachePain => 'Headache & Neurological Pain';
+
+  @override
+  String get subSpecialtyNeuroGeneral => 'General Neurology';
+
+  @override
+  String get subSpecialtyGenInternalMedicine => 'General Internal Medicine';
+
+  @override
+  String get subSpecialtyGenPractice => 'General Practice';
+
+  @override
+  String get subSpecialtyGenFamilyMedicine => 'Family Medicine';
+
+  @override
+  String get subSpecialtyGenGastroenterology => 'Gastroenterology & Hepatology';
+
+  @override
+  String get subSpecialtyGenEndocrinology => 'Endocrinology & Diabetes';
+
+  @override
+  String get subSpecialtyGenNephrology => 'Nephrology & Hypertension';
+
+  @override
+  String get subSpecialtyGenEmergency => 'Emergency Medicine';
+
+  @override
+  String get subSpecialtyGenGeriatrics => 'Geriatric Medicine';
+
+  @override
+  String get selectGovernorate => 'Select Governorate';
+
+  @override
+  String get selectCity => 'Select City / Area';
+
+  @override
+  String get selectGovernorateFirst => 'Please select governorate first';
+
+  @override
+  String get govCairo => 'Cairo';
+
+  @override
+  String get cityCairoNasrCity => 'Nasr City';
+
+  @override
+  String get cityCairoHeliopolis => 'Heliopolis';
+
+  @override
+  String get cityCairoMaadi => 'Maadi';
+
+  @override
+  String get cityCairoNewCairo => 'New Cairo';
+
+  @override
+  String get cityCairoDowntown => 'Downtown';
+
+  @override
+  String get cityCairoShubra => 'Shubra';
+
+  @override
+  String get cityCairoZamalek => 'Zamalek';
+
+  @override
+  String get cityCairoMokattam => 'Mokattam';
+
+  @override
+  String get cityCairoRehab => 'Al Rehab';
+
+  @override
+  String get cityCairoMadinaty => 'Madinaty';
+
+  @override
+  String get cityCairoElShorouk => 'El Shorouk';
+
+  @override
+  String get cityCairoBadrCity => 'Badr City';
+
+  @override
+  String get cityCairoHelwan => 'Helwan';
+
+  @override
+  String get cityCairoAinShams => 'Ain Shams';
+
+  @override
+  String get cityCairoElZaytoun => 'El Zaytoun';
+
+  @override
+  String get govGiza => 'Giza';
+
+  @override
+  String get cityGizaDokki => 'Dokki';
+
+  @override
+  String get cityGizaMohandessin => 'Mohandessin';
+
+  @override
+  String get cityGizaOctober6th => '6th of October';
+
+  @override
+  String get cityGizaSheikhZayed => 'Sheikh Zayed';
+
+  @override
+  String get cityGizaHaram => 'Al Haram';
+
+  @override
+  String get cityGizaFaisal => 'Faisal';
+
+  @override
+  String get cityGizaAgouza => 'Agouza';
+
+  @override
+  String get cityGizaImbaba => 'Imbaba';
+
+  @override
+  String get cityGizaOmrania => 'Al Omrania';
+
+  @override
+  String get cityGizaHawamdia => 'Al Hawamdia';
+
+  @override
+  String get govAlexandria => 'Alexandria';
+
+  @override
+  String get cityAlexandriaSmouha => 'Smouha';
+
+  @override
+  String get cityAlexandriaSidiGaber => 'Sidi Gaber';
+
+  @override
+  String get cityAlexandriaGleem => 'Gleem';
+
+  @override
+  String get cityAlexandriaStanley => 'Stanley';
+
+  @override
+  String get cityAlexandriaRoushdy => 'Roushdy';
+
+  @override
+  String get cityAlexandriaMiami => 'Miami';
+
+  @override
+  String get cityAlexandriaMandara => 'Mandara';
+
+  @override
+  String get cityAlexandriaMontazah => 'Montazah';
+
+  @override
+  String get cityAlexandriaLoran => 'Loran';
+
+  @override
+  String get cityAlexandriaSanStefano => 'San Stefano';
+
+  @override
+  String get cityAlexandriaAgami => 'Al Agami';
+
+  @override
+  String get cityAlexandriaBorgElArab => 'Borg El Arab';
+
+  @override
+  String get govDakahlia => 'Dakahlia';
+
+  @override
+  String get cityDakahliaMansoura => 'Mansoura';
+
+  @override
+  String get cityDakahliaTalkha => 'Talkha';
+
+  @override
+  String get cityDakahliaMitGhamr => 'Mit Ghamr';
+
+  @override
+  String get cityDakahliaDikirnis => 'Dikirnis';
+
+  @override
+  String get cityDakahliaSenbellawein => 'Senbellawein';
+
+  @override
+  String get cityDakahliaBelqas => 'Belqas';
+
+  @override
+  String get govSharqia => 'Sharqia';
+
+  @override
+  String get citySharqiaZagazig => 'Zagazig';
+
+  @override
+  String get citySharqiaRamadan10th => '10th of Ramadan';
+
+  @override
+  String get citySharqiaBelbeis => 'Belbeis';
+
+  @override
+  String get citySharqiaMinyaElQamh => 'Minya El Qamh';
+
+  @override
+  String get citySharqiaFaqous => 'Faqous';
+
+  @override
+  String get govGharbia => 'Gharbia';
+
+  @override
+  String get cityGharbiaTanta => 'Tanta';
+
+  @override
+  String get cityGharbiaMahalla => 'El Mahalla El Kubra';
+
+  @override
+  String get cityGharbiaZifta => 'Zifta';
+
+  @override
+  String get cityGharbiaKafrElZayat => 'Kafr El Zayat';
+
+  @override
+  String get govQalyubia => 'Qalyubia';
+
+  @override
+  String get cityQalyubiaBanha => 'Banha';
+
+  @override
+  String get cityQalyubiaShubraElKheima => 'Shubra El Kheima';
+
+  @override
+  String get cityQalyubiaObour => 'Al Obour';
+
+  @override
+  String get cityQalyubiaQalyub => 'Qalyub';
+
+  @override
+  String get cityQalyubiaKhanka => 'Al Khanka';
+
+  @override
+  String get govMonufia => 'Monufia';
+
+  @override
+  String get cityMonufiaShibinElKom => 'Shibin El Kom';
+
+  @override
+  String get cityMonufiaMenouf => 'Menouf';
+
+  @override
+  String get cityMonufiaAshmoun => 'Ashmoun';
+
+  @override
+  String get cityMonufiaSadatCity => 'Sadat City';
+
+  @override
+  String get cityMonufiaQuesna => 'Quesna';
+
+  @override
+  String get govBeheira => 'Beheira';
+
+  @override
+  String get cityBeheiraDamanhour => 'Damanhour';
+
+  @override
+  String get cityBeheiraKafrElDawwar => 'Kafr El Dawwar';
+
+  @override
+  String get cityBeheiraRosetta => 'Rashid (Rosetta)';
+
+  @override
+  String get cityBeheiraEdko => 'Edko';
+
+  @override
+  String get govDamietta => 'Damietta';
+
+  @override
+  String get cityDamiettaDamiettaCity => 'Damietta City';
+
+  @override
+  String get cityDamiettaNewDamietta => 'New Damietta';
+
+  @override
+  String get cityDamiettaRasElBar => 'Ras El Bar';
+
+  @override
+  String get cityDamiettaFaraskur => 'Faraskur';
+
+  @override
+  String get govPortSaid => 'Port Said';
+
+  @override
+  String get cityPortSaidPortSaidCity => 'Port Said City';
+
+  @override
+  String get cityPortSaidPortFouad => 'Port Fouad';
+
+  @override
+  String get cityPortSaidElArab => 'Al Arab';
+
+  @override
+  String get cityPortSaidElZohour => 'Al Zohour';
+
+  @override
+  String get govIsmailia => 'Ismailia';
+
+  @override
+  String get cityIsmailiaIsmailiaCity => 'Ismailia City';
+
+  @override
+  String get cityIsmailiaFayed => 'Fayed';
+
+  @override
+  String get cityIsmailiaQantara => 'Al Qantara';
+
+  @override
+  String get govSuez => 'Suez';
+
+  @override
+  String get citySuezSuezCity => 'Suez City';
+
+  @override
+  String get citySuezElArbaeen => 'Al Arbaeen';
+
+  @override
+  String get citySuezAttaka => 'Attaka';
+
+  @override
+  String get govKafrElSheikh => 'Kafr El Sheikh';
+
+  @override
+  String get cityKafrElSheikhKafrElSheikhCity => 'Kafr El Sheikh City';
+
+  @override
+  String get cityKafrElSheikhDesouk => 'Desouk';
+
+  @override
+  String get cityKafrElSheikhBaltim => 'Baltim';
+
+  @override
+  String get govFayoum => 'Fayoum';
+
+  @override
+  String get cityFayoumFayoumCity => 'Fayoum City';
+
+  @override
+  String get cityFayoumSenuris => 'Senuris';
+
+  @override
+  String get cityFayoumIbshaway => 'Ibshaway';
+
+  @override
+  String get govBeniSuef => 'Beni Suef';
+
+  @override
+  String get cityBeniSuefBeniSuefCity => 'Beni Suef City';
+
+  @override
+  String get cityBeniSuefNewBeniSuef => 'New Beni Suef';
+
+  @override
+  String get cityBeniSuefElWasti => 'Al Wasti';
+
+  @override
+  String get govMinya => 'Minya';
+
+  @override
+  String get cityMinyaMinyaCity => 'Minya City';
+
+  @override
+  String get cityMinyaNewMinya => 'New Minya';
+
+  @override
+  String get cityMinyaMallawi => 'Mallawi';
+
+  @override
+  String get cityMinyaSamalut => 'Samalut';
+
+  @override
+  String get govAsyut => 'Asyut';
+
+  @override
+  String get cityAsyutAsyutCity => 'Asyut City';
+
+  @override
+  String get cityAsyutNewAsyut => 'New Asyut';
+
+  @override
+  String get cityAsyutDairut => 'Dairut';
+
+  @override
+  String get cityAsyutManfalut => 'Manfalut';
+
+  @override
+  String get govSohag => 'Sohag';
+
+  @override
+  String get citySohagSohagCity => 'Sohag City';
+
+  @override
+  String get citySohagNewSohag => 'New Sohag';
+
+  @override
+  String get citySohagAkhmim => 'Akhmim';
+
+  @override
+  String get citySohagGirga => 'Girga';
+
+  @override
+  String get citySohagTahta => 'Tahta';
+
+  @override
+  String get govQena => 'Qena';
+
+  @override
+  String get cityQenaQenaCity => 'Qena City';
+
+  @override
+  String get cityQenaNagHammadi => 'Nag Hammadi';
+
+  @override
+  String get cityQenaQus => 'Qus';
+
+  @override
+  String get govLuxor => 'Luxor';
+
+  @override
+  String get cityLuxorLuxorCity => 'Luxor City';
+
+  @override
+  String get cityLuxorEsna => 'Esna';
+
+  @override
+  String get cityLuxorArmant => 'Armant';
+
+  @override
+  String get govAswan => 'Aswan';
+
+  @override
+  String get cityAswanAswanCity => 'Aswan City';
+
+  @override
+  String get cityAswanNewAswan => 'New Aswan';
+
+  @override
+  String get cityAswanKomOmbo => 'Kom Ombo';
+
+  @override
+  String get cityAswanEdfu => 'Edfu';
+
+  @override
+  String get govRedSea => 'Red Sea';
+
+  @override
+  String get cityRedSeaHurghada => 'Hurghada';
+
+  @override
+  String get cityRedSeaGouna => 'El Gouna';
+
+  @override
+  String get cityRedSeaSafaga => 'Safaga';
+
+  @override
+  String get cityRedSeaMarsaAlam => 'Marsa Alam';
+
+  @override
+  String get govSouthSinai => 'South Sinai';
+
+  @override
+  String get citySouthSinaiSharmElSheikh => 'Sharm El Sheikh';
+
+  @override
+  String get citySouthSinaiDahab => 'Dahab';
+
+  @override
+  String get citySouthSinaiNuweiba => 'Nuweiba';
+
+  @override
+  String get citySouthSinaiRasSedr => 'Ras Sedr';
+
+  @override
+  String get govNorthSinai => 'North Sinai';
+
+  @override
+  String get cityNorthSinaiArish => 'Arish';
+
+  @override
+  String get cityNorthSinaiSheikhZuweid => 'Sheikh Zuweid';
+
+  @override
+  String get cityNorthSinaiBirElAbd => 'Bir El Abd';
+
+  @override
+  String get govMatrouh => 'Matrouh';
+
+  @override
+  String get cityMatrouhMarsaMatrouh => 'Marsa Matrouh';
+
+  @override
+  String get cityMatrouhAlamein => 'El Alamein';
+
+  @override
+  String get cityMatrouhDabaa => 'Al Dabaa';
+
+  @override
+  String get cityMatrouhSiwa => 'Siwa';
+
+  @override
+  String get govNewValley => 'New Valley';
+
+  @override
+  String get cityNewValleyKharga => 'Al Kharga';
+
+  @override
+  String get cityNewValleyDakhla => 'Al Dakhla';
+
+  @override
+  String get cityNewValleyFarafra => 'Al Farafra';
 }

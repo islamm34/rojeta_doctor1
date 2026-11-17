@@ -2726,4 +2726,643 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get faqUpdateProfileAnswer =>
       'انتقل إلى تبويب الملف الشخصي لتعديل لقبك المهني، والنبذة التعريفية، ورسوم الكشف، ومواقع العيادات.';
+
+  @override
+  String get selectPrimarySpecialtyFirst => 'يرجى اختيار التخصص الرئيسي أولاً';
+
+  @override
+  String get selectSubSpecialty => 'اختر التخصص الدقيق';
+
+  @override
+  String get subSpecialtyCardioInterventional =>
+      'أمراض القلب التداخلية وقسطرة القلب';
+
+  @override
+  String get subSpecialtyCardioElectrophysiology =>
+      'كهروفسيولوجيا وكهرباء القلب واضطراب النبض';
+
+  @override
+  String get subSpecialtyCardioCardiothoracicSurgery => 'جراحة القلب والصدر';
+
+  @override
+  String get subSpecialtyCardioPediatric => 'طب قلب الأطفال والعيوب الخلقية';
+
+  @override
+  String get subSpecialtyCardioHeartFailure => 'قصور وعضلة القلب وزراعة القلب';
+
+  @override
+  String get subSpecialtyCardioImaging => 'تصوير القلب والموجات الصوتية (إيكو)';
+
+  @override
+  String get subSpecialtyCardioValvular => 'أمراض صمامات القلب وتصلب الشرايين';
+
+  @override
+  String get subSpecialtyCardioGeneral => 'أمراض القلب والأوعية الدموية العامة';
+
+  @override
+  String get subSpecialtyPedNeonatology => 'طب حديثي الولادة والمبتسرين';
+
+  @override
+  String get subSpecialtyPedGeneral => 'طب الأطفال العام';
+
+  @override
+  String get subSpecialtyPedCardiology => 'أمراض قلب الأطفال';
+
+  @override
+  String get subSpecialtyPedPulmonology => 'أمراض الصدر وحساسية الأطفال';
+
+  @override
+  String get subSpecialtyPedEndocrinology => 'غدد صماء وسكري الأطفال';
+
+  @override
+  String get subSpecialtyPedGastroenterology => 'جهاز هضمي وكبد الأطفال';
+
+  @override
+  String get subSpecialtyPedNeurology => 'مخ وأعصاب الأطفال';
+
+  @override
+  String get subSpecialtyPedNephrology => 'أمراض كلى ومسالك الأطفال';
+
+  @override
+  String get subSpecialtyOphtRetina => 'جراحة الشبكية والجسم الزجاجي';
+
+  @override
+  String get subSpecialtyOphtCorneaRefractive =>
+      'القرنية وتصحيح الإبصار والمياه البيضاء';
+
+  @override
+  String get subSpecialtyOphtGlaucoma => 'المياه الزرقاء (الجلوكوما)';
+
+  @override
+  String get subSpecialtyOphtPediatric => 'عيون الأطفال وعلاج الحول';
+
+  @override
+  String get subSpecialtyOphtOculoplastics =>
+      'تجميل العيون وجراحة الجفون والجهاز الدمعي';
+
+  @override
+  String get subSpecialtyOphtNeuro => 'أمراض العصب البصري والعيون العصبية';
+
+  @override
+  String get subSpecialtyOphtGeneral => 'طب وجراحة العيون العامة';
+
+  @override
+  String get subSpecialtyOrthoJointReplacement =>
+      'جراحة وتغيير المفاصل (الركبة والفخذ)';
+
+  @override
+  String get subSpecialtyOrthoSpine => 'جراحة العمود الفقري والانزلاق الغضروفي';
+
+  @override
+  String get subSpecialtyOrthoSportsInjuries =>
+      'مناظير المفاصل وإصابات الملاعب والرباط الصليبي';
+
+  @override
+  String get subSpecialtyOrthoPediatric => 'عظام الأطفال والتشوهات الخلقية';
+
+  @override
+  String get subSpecialtyOrthoHand =>
+      'جراحة اليد والطرف العلوي والجراحة الميكروسكوبية';
+
+  @override
+  String get subSpecialtyOrthoFootAnkle => 'جراحة القدم والكاحل';
+
+  @override
+  String get subSpecialtyOrthoBoneTumors => 'أورام العظام والأنسجة الرخوة';
+
+  @override
+  String get subSpecialtyOrthoGeneral => 'جراحة الكسور والعظام العامة';
+
+  @override
+  String get subSpecialtyNeuroSurgery => 'جراحة المخ والأعصاب والعمود الفقري';
+
+  @override
+  String get subSpecialtyNeuroStroke =>
+      'السكتات الدماغية والقسطرة المخية التداخلية';
+
+  @override
+  String get subSpecialtyNeuroEpilepsy => 'الصرع وتخطيط كهربية المخ (EEG)';
+
+  @override
+  String get subSpecialtyNeuroMovementDisorders =>
+      'اضطرابات الحركة والشلل الرعاش (باركنسون)';
+
+  @override
+  String get subSpecialtyNeuroMultipleSclerosis =>
+      'التصلب اللويحي المتعدد والأمراض المناعية';
+
+  @override
+  String get subSpecialtyNeuroNeuromuscular => 'أمراض الأعصاب الطرفية والعضلات';
+
+  @override
+  String get subSpecialtyNeuroHeadachePain =>
+      'علاج الصداع المزمن وآلام الأعصاب';
+
+  @override
+  String get subSpecialtyNeuroGeneral => 'أمراض المخ والأعصاب العامة';
+
+  @override
+  String get subSpecialtyGenInternalMedicine => 'أمراض باطنة عامة';
+
+  @override
+  String get subSpecialtyGenPractice => 'ممارسة طبية عامة';
+
+  @override
+  String get subSpecialtyGenFamilyMedicine => 'طب الأسرة';
+
+  @override
+  String get subSpecialtyGenGastroenterology =>
+      'أمراض الجهاز الهضمي والكبد والمناظير';
+
+  @override
+  String get subSpecialtyGenEndocrinology => 'أمراض السكري والغدد الصماء';
+
+  @override
+  String get subSpecialtyGenNephrology => 'أمراض الكلى وارتفاع ضغط الدم';
+
+  @override
+  String get subSpecialtyGenEmergency => 'طب الطوارئ والحالات الحرجة';
+
+  @override
+  String get subSpecialtyGenGeriatrics => 'طب وصحة المسنين (الشيخوخة)';
+
+  @override
+  String get selectGovernorate => 'اختر المحافظة';
+
+  @override
+  String get selectCity => 'اختر المدينة / المنطقة';
+
+  @override
+  String get selectGovernorateFirst => 'يرجى اختيار المحافظة أولاً';
+
+  @override
+  String get govCairo => 'القاهرة';
+
+  @override
+  String get cityCairoNasrCity => 'مدينة نصر';
+
+  @override
+  String get cityCairoHeliopolis => 'مصر الجديدة';
+
+  @override
+  String get cityCairoMaadi => 'المعادي';
+
+  @override
+  String get cityCairoNewCairo => 'القاهرة الجديدة';
+
+  @override
+  String get cityCairoDowntown => 'وسط البلد';
+
+  @override
+  String get cityCairoShubra => 'شبرا';
+
+  @override
+  String get cityCairoZamalek => 'الزمالك';
+
+  @override
+  String get cityCairoMokattam => 'المقطم';
+
+  @override
+  String get cityCairoRehab => 'الرحاب';
+
+  @override
+  String get cityCairoMadinaty => 'مدينتي';
+
+  @override
+  String get cityCairoElShorouk => 'الشروق';
+
+  @override
+  String get cityCairoBadrCity => 'مدينة بدر';
+
+  @override
+  String get cityCairoHelwan => 'حلوان';
+
+  @override
+  String get cityCairoAinShams => 'عين شمس';
+
+  @override
+  String get cityCairoElZaytoun => 'الزيتون';
+
+  @override
+  String get govGiza => 'الجيزة';
+
+  @override
+  String get cityGizaDokki => 'الدقي';
+
+  @override
+  String get cityGizaMohandessin => 'المهندسين';
+
+  @override
+  String get cityGizaOctober6th => 'السادس من أكتوبر';
+
+  @override
+  String get cityGizaSheikhZayed => 'الشيخ زايد';
+
+  @override
+  String get cityGizaHaram => 'الهرم';
+
+  @override
+  String get cityGizaFaisal => 'فيصل';
+
+  @override
+  String get cityGizaAgouza => 'العجوزة';
+
+  @override
+  String get cityGizaImbaba => 'إمبابة';
+
+  @override
+  String get cityGizaOmrania => 'العمرانية';
+
+  @override
+  String get cityGizaHawamdia => 'الحوامدية';
+
+  @override
+  String get govAlexandria => 'الإسكندرية';
+
+  @override
+  String get cityAlexandriaSmouha => 'سموحة';
+
+  @override
+  String get cityAlexandriaSidiGaber => 'سيدي جابر';
+
+  @override
+  String get cityAlexandriaGleem => 'جليم';
+
+  @override
+  String get cityAlexandriaStanley => 'ستانلي';
+
+  @override
+  String get cityAlexandriaRoushdy => 'رشدي';
+
+  @override
+  String get cityAlexandriaMiami => 'ميامي';
+
+  @override
+  String get cityAlexandriaMandara => 'المندرة';
+
+  @override
+  String get cityAlexandriaMontazah => 'المنتزه';
+
+  @override
+  String get cityAlexandriaLoran => 'لوران';
+
+  @override
+  String get cityAlexandriaSanStefano => 'سان ستيفانو';
+
+  @override
+  String get cityAlexandriaAgami => 'العجمي';
+
+  @override
+  String get cityAlexandriaBorgElArab => 'برج العرب';
+
+  @override
+  String get govDakahlia => 'الدقهلية';
+
+  @override
+  String get cityDakahliaMansoura => 'المنصورة';
+
+  @override
+  String get cityDakahliaTalkha => 'طلخا';
+
+  @override
+  String get cityDakahliaMitGhamr => 'ميت غمر';
+
+  @override
+  String get cityDakahliaDikirnis => 'دكرنس';
+
+  @override
+  String get cityDakahliaSenbellawein => 'السنبلاوين';
+
+  @override
+  String get cityDakahliaBelqas => 'بلقاس';
+
+  @override
+  String get govSharqia => 'الشرقية';
+
+  @override
+  String get citySharqiaZagazig => 'الزقازيق';
+
+  @override
+  String get citySharqiaRamadan10th => 'العاشر من رمضان';
+
+  @override
+  String get citySharqiaBelbeis => 'بلبيس';
+
+  @override
+  String get citySharqiaMinyaElQamh => 'منيا القمح';
+
+  @override
+  String get citySharqiaFaqous => 'فاقوس';
+
+  @override
+  String get govGharbia => 'الغربية';
+
+  @override
+  String get cityGharbiaTanta => 'طنطا';
+
+  @override
+  String get cityGharbiaMahalla => 'المحلة الكبرى';
+
+  @override
+  String get cityGharbiaZifta => 'زفتى';
+
+  @override
+  String get cityGharbiaKafrElZayat => 'كفر الزيات';
+
+  @override
+  String get govQalyubia => 'القليوبية';
+
+  @override
+  String get cityQalyubiaBanha => 'بنها';
+
+  @override
+  String get cityQalyubiaShubraElKheima => 'شبرا الخيمة';
+
+  @override
+  String get cityQalyubiaObour => 'العبور';
+
+  @override
+  String get cityQalyubiaQalyub => 'قليوب';
+
+  @override
+  String get cityQalyubiaKhanka => 'الخانكة';
+
+  @override
+  String get govMonufia => 'المنوفية';
+
+  @override
+  String get cityMonufiaShibinElKom => 'شبين الكوم';
+
+  @override
+  String get cityMonufiaMenouf => 'منوف';
+
+  @override
+  String get cityMonufiaAshmoun => 'أشمون';
+
+  @override
+  String get cityMonufiaSadatCity => 'مدينة السادات';
+
+  @override
+  String get cityMonufiaQuesna => 'قويسنا';
+
+  @override
+  String get govBeheira => 'البحيرة';
+
+  @override
+  String get cityBeheiraDamanhour => 'دمنهور';
+
+  @override
+  String get cityBeheiraKafrElDawwar => 'كفر الدوار';
+
+  @override
+  String get cityBeheiraRosetta => 'رشيد';
+
+  @override
+  String get cityBeheiraEdko => 'إدكو';
+
+  @override
+  String get govDamietta => 'دمياط';
+
+  @override
+  String get cityDamiettaDamiettaCity => 'مدينة دمياط';
+
+  @override
+  String get cityDamiettaNewDamietta => 'دمياط الجديدة';
+
+  @override
+  String get cityDamiettaRasElBar => 'رأس البر';
+
+  @override
+  String get cityDamiettaFaraskur => 'فارسكور';
+
+  @override
+  String get govPortSaid => 'بورسعيد';
+
+  @override
+  String get cityPortSaidPortSaidCity => 'مدينة بورسعيد';
+
+  @override
+  String get cityPortSaidPortFouad => 'بورفؤاد';
+
+  @override
+  String get cityPortSaidElArab => 'حي العرب';
+
+  @override
+  String get cityPortSaidElZohour => 'حي الزهور';
+
+  @override
+  String get govIsmailia => 'الإسماعيلية';
+
+  @override
+  String get cityIsmailiaIsmailiaCity => 'مدينة الإسماعيلية';
+
+  @override
+  String get cityIsmailiaFayed => 'فايد';
+
+  @override
+  String get cityIsmailiaQantara => 'القنطرة';
+
+  @override
+  String get govSuez => 'السويس';
+
+  @override
+  String get citySuezSuezCity => 'السويس';
+
+  @override
+  String get citySuezElArbaeen => 'حي الأربعين';
+
+  @override
+  String get citySuezAttaka => 'حي عتاقة';
+
+  @override
+  String get govKafrElSheikh => 'كفر الشيخ';
+
+  @override
+  String get cityKafrElSheikhKafrElSheikhCity => 'كفر الشيخ';
+
+  @override
+  String get cityKafrElSheikhDesouk => 'دسوق';
+
+  @override
+  String get cityKafrElSheikhBaltim => 'بلطيم';
+
+  @override
+  String get govFayoum => 'الفيوم';
+
+  @override
+  String get cityFayoumFayoumCity => 'مدينة الفيوم';
+
+  @override
+  String get cityFayoumSenuris => 'سنورس';
+
+  @override
+  String get cityFayoumIbshaway => 'إبشواي';
+
+  @override
+  String get govBeniSuef => 'بني سويف';
+
+  @override
+  String get cityBeniSuefBeniSuefCity => 'مدينة بني سويف';
+
+  @override
+  String get cityBeniSuefNewBeniSuef => 'بني سويف الجديدة';
+
+  @override
+  String get cityBeniSuefElWasti => 'الواسطى';
+
+  @override
+  String get govMinya => 'المنيا';
+
+  @override
+  String get cityMinyaMinyaCity => 'مدينة المنيا';
+
+  @override
+  String get cityMinyaNewMinya => 'المنيا الجديدة';
+
+  @override
+  String get cityMinyaMallawi => 'ملوي';
+
+  @override
+  String get cityMinyaSamalut => 'سمالوط';
+
+  @override
+  String get govAsyut => 'أسيوط';
+
+  @override
+  String get cityAsyutAsyutCity => 'مدينة أسيوط';
+
+  @override
+  String get cityAsyutNewAsyut => 'أسيوط الجديدة';
+
+  @override
+  String get cityAsyutDairut => 'ديروط';
+
+  @override
+  String get cityAsyutManfalut => 'منفلوط';
+
+  @override
+  String get govSohag => 'سوهاج';
+
+  @override
+  String get citySohagSohagCity => 'مدينة سوهاج';
+
+  @override
+  String get citySohagNewSohag => 'سوهاج الجديدة';
+
+  @override
+  String get citySohagAkhmim => 'أخميم';
+
+  @override
+  String get citySohagGirga => 'جرجا';
+
+  @override
+  String get citySohagTahta => 'طهطا';
+
+  @override
+  String get govQena => 'قنا';
+
+  @override
+  String get cityQenaQenaCity => 'مدينة قنا';
+
+  @override
+  String get cityQenaNagHammadi => 'نجع حمادي';
+
+  @override
+  String get cityQenaQus => 'قوص';
+
+  @override
+  String get govLuxor => 'الأقصر';
+
+  @override
+  String get cityLuxorLuxorCity => 'مدينة الأقصر';
+
+  @override
+  String get cityLuxorEsna => 'إسنا';
+
+  @override
+  String get cityLuxorArmant => 'أرمنت';
+
+  @override
+  String get govAswan => 'أسوان';
+
+  @override
+  String get cityAswanAswanCity => 'مدينة أسوان';
+
+  @override
+  String get cityAswanNewAswan => 'أسوان الجديدة';
+
+  @override
+  String get cityAswanKomOmbo => 'كوم أمبو';
+
+  @override
+  String get cityAswanEdfu => 'إدفو';
+
+  @override
+  String get govRedSea => 'البحر الأحمر';
+
+  @override
+  String get cityRedSeaHurghada => 'الغردقة';
+
+  @override
+  String get cityRedSeaGouna => 'الجونة';
+
+  @override
+  String get cityRedSeaSafaga => 'سفاجا';
+
+  @override
+  String get cityRedSeaMarsaAlam => 'مرسى علم';
+
+  @override
+  String get govSouthSinai => 'جنوب سيناء';
+
+  @override
+  String get citySouthSinaiSharmElSheikh => 'شرم الشيخ';
+
+  @override
+  String get citySouthSinaiDahab => 'دهب';
+
+  @override
+  String get citySouthSinaiNuweiba => 'نويبع';
+
+  @override
+  String get citySouthSinaiRasSedr => 'رأس سدر';
+
+  @override
+  String get govNorthSinai => 'شمال سيناء';
+
+  @override
+  String get cityNorthSinaiArish => 'العريش';
+
+  @override
+  String get cityNorthSinaiSheikhZuweid => 'الشيخ زويد';
+
+  @override
+  String get cityNorthSinaiBirElAbd => 'بئر العبد';
+
+  @override
+  String get govMatrouh => 'مطروح';
+
+  @override
+  String get cityMatrouhMarsaMatrouh => 'مرسى مطروح';
+
+  @override
+  String get cityMatrouhAlamein => 'العلمين';
+
+  @override
+  String get cityMatrouhDabaa => 'الضبعة';
+
+  @override
+  String get cityMatrouhSiwa => 'سيوة';
+
+  @override
+  String get govNewValley => 'الوادي الجديد';
+
+  @override
+  String get cityNewValleyKharga => 'الخارجة';
+
+  @override
+  String get cityNewValleyDakhla => 'الداخلة';
+
+  @override
+  String get cityNewValleyFarafra => 'الفرافرة';
 }

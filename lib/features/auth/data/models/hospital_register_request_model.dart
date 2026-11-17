@@ -18,6 +18,8 @@ class HospitalRegisterRequestModel {
   final String? governorate;
   final String? city;
   final String? fullAddress;
+  final double? latitude;
+  final double? longitude;
   final String? paymentMethod;
   final String? accountHolderName;
   final String? bankName;
@@ -44,6 +46,8 @@ class HospitalRegisterRequestModel {
     this.governorate,
     this.city,
     this.fullAddress,
+    this.latitude,
+    this.longitude,
     this.paymentMethod,
     this.accountHolderName,
     this.bankName,
@@ -84,39 +88,40 @@ class HospitalRegisterRequestModel {
   }
 
   Map<String, dynamic> toJson() => {
-        'role': role,
-        'name': name,
-        if (email != null && email!.isNotEmpty) 'email': email,
-        'phone_number': phoneNumber,
-        'password': password,
-        'password_confirmation': passwordConfirmation ?? password,
-        'organization_name': organizationName,
-        'organization_type': organizationType,
-        'organization_number': organizationNumber,
-        'license_number': licenseNumber,
-        if (about != null && about!.isNotEmpty) 'about': about,
-        if (logoPath != null && logoPath!.isNotEmpty) 'logo': logoPath,
-        if (imagePath != null && imagePath!.isNotEmpty) 'image': imagePath,
-        if (governorate != null && governorate!.isNotEmpty)
-          'governorate': governorate,
-        if (city != null && city!.isNotEmpty) 'city': city,
-        if (fullAddress != null && fullAddress!.isNotEmpty)
-          'full_address': fullAddress,
-        if (paymentMethod != null && paymentMethod!.isNotEmpty)
-          'payment_method': paymentMethod,
-        if (accountHolderName != null && accountHolderName!.isNotEmpty)
-          'account_holder_name': accountHolderName,
-        if (bankName != null && bankName!.isNotEmpty) 'bank_name': bankName,
-        if (accountNumber != null && accountNumber!.isNotEmpty)
-          'account_number': accountNumber,
-        if (expiryDate != null && expiryDate!.isNotEmpty)
-          'expiry_date': expiryDate,
-        if (medicalLicensePath != null && medicalLicensePath!.isNotEmpty)
-          'medical_license': medicalLicensePath,
-        if (certificatesPath != null && certificatesPath!.isNotEmpty)
-          'certificates': certificatesPath,
-        if (taxIdPath != null && taxIdPath!.isNotEmpty) 'tax_id': taxIdPath,
-      };
+    'role': role,
+    'name': name,
+    if (email != null && email!.isNotEmpty) 'email': email,
+    'phone_number': phoneNumber,
+    'password': password,
+    'password_confirmation': passwordConfirmation ?? password,
+    'organization_name': organizationName,
+    'organization_type': organizationType,
+    'organization_number': organizationNumber,
+    'license_number': licenseNumber,
+    if (about != null && about!.isNotEmpty) 'about': about,
+    if (logoPath != null && logoPath!.isNotEmpty) 'logo': logoPath,
+    if (imagePath != null && imagePath!.isNotEmpty) 'image': imagePath,
+    if (governorate != null && governorate!.isNotEmpty)
+      'governorate': governorate,
+    if (city != null && city!.isNotEmpty) 'city': city,
+    if (fullAddress != null && fullAddress!.isNotEmpty)
+      'full_address': fullAddress,
+        if (latitude != null) 'latitude': latitude,
+        if (longitude != null) 'longitude': longitude,
+    if (paymentMethod != null && paymentMethod!.isNotEmpty)
+      'payment_method': paymentMethod,
+    if (accountHolderName != null && accountHolderName!.isNotEmpty)
+      'account_holder_name': accountHolderName,
+    if (bankName != null && bankName!.isNotEmpty) 'bank_name': bankName,
+    if (accountNumber != null && accountNumber!.isNotEmpty)
+      'account_number': accountNumber,
+    if (expiryDate != null && expiryDate!.isNotEmpty) 'expiry_date': expiryDate,
+    if (medicalLicensePath != null && medicalLicensePath!.isNotEmpty)
+      'medical_license': medicalLicensePath,
+    if (certificatesPath != null && certificatesPath!.isNotEmpty)
+      'certificates': certificatesPath,
+    if (taxIdPath != null && taxIdPath!.isNotEmpty) 'tax_id': taxIdPath,
+  };
 
   Future<FormData> toFormData() async {
     final Map<String, dynamic> map = {};
@@ -141,6 +146,8 @@ class HospitalRegisterRequestModel {
     addIfNotEmpty('governorate', governorate);
     addIfNotEmpty('city', city);
     addIfNotEmpty('full_address', fullAddress);
+    if (latitude != null) map['latitude'] = latitude;
+    if (longitude != null) map['longitude'] = longitude;
     addIfNotEmpty('payment_method', paymentMethod);
     addIfNotEmpty('account_holder_name', accountHolderName);
     addIfNotEmpty('bank_name', bankName);

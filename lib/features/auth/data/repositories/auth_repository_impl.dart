@@ -71,6 +71,23 @@ class AuthRepositoryImpl implements AuthRepository {
     if (response.token != null && response.token!.isNotEmpty) {
       savedUser.token = response.token;
     }
+    final userKey =
+        savedUser.id?.toString() ?? savedUser.phone ?? savedUser.email ?? '';
+    final savedLang =
+        UserHiveHelper.getUserLanguage(userKey) ??
+        UserHiveHelper.getAppLanguage();
+    savedUser.language = savedLang;
+
+    if (savedUser.image == null || savedUser.image!.trim().isEmpty) {
+      final savedImage = UserHiveHelper.getUserImage(userKey) ??
+          UserHiveHelper.getDoctorImage(userKey) ??
+          UserHiveHelper.getDoctorImage('latest') ??
+          await FlutterSecureStorageHelper.getDoctorImage(userKey);
+      if (savedImage != null && savedImage.trim().isNotEmpty) {
+        savedUser.image = savedImage.trim();
+      }
+    }
+
     UserHiveHelper.saveUser(savedUser);
 
     if (response.token != null && response.token!.isNotEmpty) {
@@ -123,6 +140,10 @@ class AuthRepositoryImpl implements AuthRepository {
           existingUser.role != null) {
         userToSave.role = existingUser.role;
       }
+      if ((userToSave.image == null || userToSave.image!.isEmpty) &&
+          existingUser.image != null) {
+        userToSave.image = existingUser.image;
+      }
     }
     if (userToSave.phone == null || userToSave.phone!.isEmpty) {
       userToSave.phone = requestModel.phone;
@@ -130,6 +151,23 @@ class AuthRepositoryImpl implements AuthRepository {
     if (response.token != null && response.token!.isNotEmpty) {
       userToSave.token = response.token;
     }
+    final userKey =
+        userToSave.id?.toString() ?? userToSave.phone ?? userToSave.email ?? '';
+    final savedLang =
+        UserHiveHelper.getUserLanguage(userKey) ??
+        UserHiveHelper.getAppLanguage();
+    userToSave.language = savedLang;
+
+    if (userToSave.image == null || userToSave.image!.trim().isEmpty) {
+      final savedImage = UserHiveHelper.getUserImage(userKey) ??
+          UserHiveHelper.getDoctorImage(userKey) ??
+          UserHiveHelper.getDoctorImage('latest') ??
+          await FlutterSecureStorageHelper.getDoctorImage(userKey);
+      if (savedImage != null && savedImage.trim().isNotEmpty) {
+        userToSave.image = savedImage.trim();
+      }
+    }
+
     UserHiveHelper.saveUser(userToSave);
 
     if (response.token != null && response.token!.isNotEmpty) {
@@ -189,6 +227,23 @@ class AuthRepositoryImpl implements AuthRepository {
     if (response.token != null && response.token!.isNotEmpty) {
       userToSave.token = response.token;
     }
+    final userKey =
+        userToSave.id?.toString() ?? userToSave.phone ?? userToSave.email ?? '';
+    final savedLang =
+        UserHiveHelper.getUserLanguage(userKey) ??
+        UserHiveHelper.getAppLanguage();
+    userToSave.language = savedLang;
+
+    if (userToSave.image == null || userToSave.image!.trim().isEmpty) {
+      final savedImage = UserHiveHelper.getUserImage(userKey) ??
+          UserHiveHelper.getDoctorImage(userKey) ??
+          UserHiveHelper.getDoctorImage('latest') ??
+          await FlutterSecureStorageHelper.getDoctorImage(userKey);
+      if (savedImage != null && savedImage.trim().isNotEmpty) {
+        userToSave.image = savedImage.trim();
+      }
+    }
+
     UserHiveHelper.saveUser(userToSave);
 
     if (response.token != null && response.token!.isNotEmpty) {
@@ -218,7 +273,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<void> logout() async {
-    await FlutterSecureStorageHelper.clearAll();
+    await FlutterSecureStorageHelper.deleteToken();
     UserHiveHelper.clearSession();
   }
 }

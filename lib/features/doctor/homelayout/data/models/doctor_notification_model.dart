@@ -23,11 +23,18 @@ class DoctorNotificationModel {
     this.isPinned = false,
   });
 
-  String? get patientName =>
-      (data?['patient_name'] ?? data?['patientName'])?.toString();
+  String? get patientName => (data?['patient_name'] ??
+          data?['patientName'] ??
+          data?['patient']?['name'] ??
+          data?['name'])
+      ?.toString();
 
-  String? get patientPhone =>
-      (data?['patient_phone'] ?? data?['patientPhone'])?.toString();
+  String? get patientPhone => (data?['patient_phone'] ??
+          data?['patientPhone'] ??
+          data?['phone'] ??
+          data?['contact_phone'] ??
+          data?['patient']?['phone'])
+      ?.toString();
 
   String? get bookingRef => (data?['booking_ref'] ??
           data?['bookingRef'] ??
@@ -36,21 +43,59 @@ class DoctorNotificationModel {
           data?['appointment_id'])
       ?.toString();
 
-  String? get bookingDate =>
-      (data?['booking_date'] ?? data?['bookingDate'])?.toString();
+  String? get bookingDate => (data?['booking_date'] ??
+          data?['bookingDate'] ??
+          data?['date'] ??
+          data?['appointment_date'])
+      ?.toString();
 
-  String? get bookingTime =>
-      (data?['booking_time'] ?? data?['bookingTime'])?.toString();
+  String? get bookingTime => (data?['booking_time'] ??
+          data?['bookingTime'] ??
+          data?['time'] ??
+          data?['appointment_time'])
+      ?.toString();
 
   String? get visitType =>
-      (data?['visit_type'] ?? data?['visitType'])?.toString();
+      (data?['visit_type'] ?? data?['visitType'] ?? data?['service_type'])
+          ?.toString();
+
+  String? get notes => (data?['notes'] ??
+          data?['reason'] ??
+          data?['complaint'] ??
+          data?['patient_notes'] ??
+          data?['patientNotes'] ??
+          data?['symptoms'])
+      ?.toString();
+
+  String? get location => (data?['location'] ??
+          data?['clinic_address'] ??
+          data?['clinic_name'] ??
+          data?['clinicAddress'] ??
+          data?['address'])
+      ?.toString();
+
+  String? get fee => (data?['fee'] ??
+          data?['price'] ??
+          data?['fee_current'] ??
+          data?['feeCurrent'] ??
+          data?['total_amount'] ??
+          data?['totalAmount'] ??
+          data?['consultation_fee'])
+      ?.toString();
+
+  String? get paymentMethod => (data?['payment_method'] ??
+          data?['paymentMethod'] ??
+          data?['payment_type'] ??
+          data?['payment'])
+      ?.toString();
 
   String? get route => data?['route']?.toString();
 
   String? get appointmentId => (data?['appointment_id'] ??
           data?['appointmentId'] ??
           data?['booking_id'] ??
-          data?['bookingId'])
+          data?['bookingId'] ??
+          data?['id'])
       ?.toString();
 
   factory DoctorNotificationModel.fromJson(Map<String, dynamic> json) {
@@ -68,22 +113,172 @@ class DoctorNotificationModel {
 
     final isPinnedVal = json['is_pinned'] ?? json['isPinned'];
 
+    final rawTitle = (json['title'] ??
+            json['header'] ??
+            json['subject'] ??
+            json['type'] ??
+            'Notification')
+        .toString();
+
+    final rawBody = (json['body'] ??
+            json['message'] ??
+            json['content'] ??
+            json['text'] ??
+            json['description'] ??
+            '')
+        .toString();
+
+    final pName = (dataMap?['patient_name'] ??
+            dataMap?['patientName'] ??
+            dataMap?['patient']?['name'] ??
+            dataMap?['name'])
+        ?.toString()
+        .trim();
+
+    final typeLower =
+        (json['type'] ?? dataMap?['type'] ?? '').toString().toLowerCase();
+    final isPayment = typeLower == 'payment' ||
+        typeLower == 'payment_received' ||
+        typeLower == 'payment_success' ||
+        typeLower == 'cash_payment_confirmed' ||
+        (dataMap != null && dataMap.containsKey('amount_paid')) ||
+        rawTitle.toLowerCase().contains('payment') ||
+        rawTitle.contains('دفع') ||
+        rawBody.contains('تم دفع');
+
+    final isBooking = !isPayment &&
+        ((dataMap != null &&
+                (dataMap.containsKey('booking_id') ||
+                    dataMap.containsKey('appointment_id') ||
+                    dataMap['type'] == 'booking' ||
+                    dataMap['type'] == 'new_booking' ||
+                    dataMap['type'] == 'appointment' ||
+                    dataMap['type'] == 'new_appointment')) ||
+            (json['type'] == 'appointment' ||
+                json['type'] == 'new_appointment' ||
+                json['type'] == 'booking') ||
+            (pName != null && pName.isNotEmpty));
+
+    // Enrich title with patient name if available
+    String resolvedTitle = rawTitle;
+    String resolvedBody = rawBody;
+
+    if (isPayment) {
+      if (pName != null && pName.isNotEmpty) {
+        resolvedTitle = '💰 استلام دفعة مالية من $pName';
+      } else if (rawTitle.isEmpty || rawTitle == 'Notification') {
+        resolvedTitle = '💰 استلام دفعة مالية جديدة';
+      }
+
+      final fee = (dataMap?['amount_paid'] ??
+              dataMap?['fee'] ??
+              dataMap?['total_amount'] ??
+              dataMap?['price'])
+          ?.toString();
+      final payment = (dataMap?['payment_method'] ??
+              dataMap?['paymentMethod'] ??
+              dataMap?['payment'])
+          ?.toString();
+
+      final lines = <String>[];
+      if (pName != null && pName.isNotEmpty && !resolvedBody.contains(pName)) {
+        lines.add('المريض: $pName');
+      }
+      if (fee != null && fee.isNotEmpty && !resolvedBody.contains(fee)) {
+        lines.add('المبلغ: $fee ج.م');
+      }
+      if (payment != null && payment.isNotEmpty && !resolvedBody.contains(payment)) {
+        lines.add('الدفع: $payment');
+      }
+      if (lines.isNotEmpty) {
+        resolvedBody = lines.join(' • ');
+      }
+    } else if (pName != null && pName.isNotEmpty) {
+      if (rawTitle.isEmpty ||
+          rawTitle == 'Notification' ||
+          rawTitle == 'إشعار جديد' ||
+          rawTitle == 'طلب حجز جديد' ||
+          rawTitle == 'New Appointment') {
+        resolvedTitle = 'طلب حجز جديد من $pName';
+      } else if (!rawTitle.contains(pName)) {
+        resolvedTitle = '$rawTitle - $pName';
+      }
+    }
+    if (isBooking && dataMap != null) {
+      final date = (dataMap['booking_date'] ??
+              dataMap['date'] ??
+              dataMap['appointment_date'])
+          ?.toString();
+      final time = (dataMap['booking_time'] ??
+              dataMap['time'] ??
+              dataMap['appointment_time'])
+          ?.toString();
+      final notes = (dataMap['notes'] ??
+              dataMap['reason'] ??
+              dataMap['complaint'] ??
+              dataMap['patient_notes'] ??
+              dataMap['symptoms'])
+          ?.toString();
+      final location = (dataMap['location'] ??
+              dataMap['clinic_name'] ??
+              dataMap['clinic_address'] ??
+              dataMap['address'])
+          ?.toString();
+      final fee = (dataMap['fee'] ??
+              dataMap['price'] ??
+              dataMap['total_amount'] ??
+              dataMap['consultation_fee'])
+          ?.toString();
+      final payment = (dataMap['payment_method'] ??
+              dataMap['paymentMethod'] ??
+              dataMap['payment'])
+          ?.toString();
+
+      final lines = <String>[];
+      if (pName != null && pName.isNotEmpty && !resolvedBody.contains(pName)) {
+        lines.add('المريض: $pName');
+      }
+      if ((date != null && date.isNotEmpty) ||
+          (time != null && time.isNotEmpty)) {
+        final dt = [
+          if (date != null && date.isNotEmpty) date,
+          if (time != null && time.isNotEmpty) time,
+        ].join(' - ');
+        if (!resolvedBody.contains(dt)) lines.add('الموعد: $dt');
+      }
+      if (location != null &&
+          location.isNotEmpty &&
+          !resolvedBody.contains(location)) {
+        lines.add('الموقع: $location');
+      }
+      if (notes != null &&
+          notes.isNotEmpty &&
+          !resolvedBody.contains(notes)) {
+        lines.add('الشكوى: $notes');
+      }
+      if (fee != null && fee.isNotEmpty && !resolvedBody.contains(fee)) {
+        final payStr =
+            payment != null && payment.isNotEmpty ? ' ($payment)' : '';
+        lines.add('الرسوم: $fee ج.م$payStr');
+      }
+
+      if (lines.isNotEmpty) {
+        if (resolvedBody.isEmpty ||
+            resolvedBody == 'New appointment' ||
+            resolvedBody == 'لديك طلب حجز جديد' ||
+            resolvedBody == 'طلب حجز جديد') {
+          resolvedBody = lines.join(' | ');
+        } else if (!lines.every((l) => resolvedBody.contains(l))) {
+          resolvedBody = '$resolvedBody\n${lines.join(' | ')}';
+        }
+      }
+    }
+
     return DoctorNotificationModel(
       id: (json['id'] ?? json['notification_id'] ?? json['_id'] ?? '')
           .toString(),
-      title: (json['title'] ??
-              json['header'] ??
-              json['subject'] ??
-              json['type'] ??
-              'Notification')
-          .toString(),
-      body: (json['body'] ??
-              json['message'] ??
-              json['content'] ??
-              json['text'] ??
-              json['description'] ??
-              '')
-          .toString(),
+      title: resolvedTitle,
+      body: resolvedBody,
       time: (json['time'] ??
               json['created_at'] ??
               json['createdAt'] ??

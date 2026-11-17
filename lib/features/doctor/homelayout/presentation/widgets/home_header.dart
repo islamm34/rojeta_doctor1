@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'package:hive_flutter/hive_flutter.dart';
+import '../../../../../../core/local/user_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rojeta_doctor/features/doctor/homelayout/presentation/widgets/home_stat_card.dart';
@@ -14,28 +17,56 @@ class HomeHeader extends StatelessWidget {
 
   const HomeHeader({super.key, this.onNotificationTap});
 
+  Widget _buildAvatar(String? imageUrl) {
+    Widget? avatarContent;
+    if (imageUrl != null && imageUrl.trim().isNotEmpty) {
+      final cleanPath = imageUrl.trim();
+      if (cleanPath.startsWith('http://') || cleanPath.startsWith('https://')) {
+        avatarContent = Image.network(
+          cleanPath,
+          fit: BoxFit.cover,
+          width: 52.r,
+          height: 52.r,
+          errorBuilder: (_, _, _) => const Icon(Icons.person, color: Colors.white),
+        );
+      } else {
+        final file = File(cleanPath);
+        if (file.existsSync()) {
+          avatarContent = Image.file(
+            file,
+            fit: BoxFit.cover,
+            width: 52.r,
+            height: 52.r,
+            errorBuilder: (_, _, _) => const Icon(Icons.person, color: Colors.white),
+          );
+        }
+      }
+    }
+
+    return Container(
+      width: 52.r,
+      height: 52.r,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.white.withValues(alpha: 0.2),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.4),
+          width: 1.5,
+        ),
+      ),
+      child: ClipOval(
+        child: avatarContent ??
+            const Icon(Icons.person, color: Colors.white),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = context.watch<HomelayoutBloc>().state;
     final profile = state.profileSummary;
     final stats = state.stats;
     final paddingTop = MediaQuery.paddingOf(context).top;
-
-    final cachedUser = UserHiveHelper.getUser();
-    final String cachedName = (cachedUser?.name?.isNotEmpty == true)
-        ? cachedUser!.name!
-        : '${cachedUser?.firstName ?? ''} ${cachedUser?.secondName ?? ''}'.trim();
-    final String doctorName = profile?.name.isNotEmpty == true
-        ? profile!.name
-        : (cachedName.isNotEmpty ? cachedName : context.strings.doctor);
-    final String rawSpecialty = profile?.specialty.isNotEmpty == true
-        ? profile!.specialty
-        : (cachedUser?.role?.isNotEmpty == true ? cachedUser!.role! : '');
-    final String doctorSpecialty = DoctorSpecialty.localizedNameFromValue(
-      context,
-      rawSpecialty,
-    );
-    final String? imageUrl = profile?.imageUrl ?? cachedUser?.image;
 
     return Container(
       width: double.infinity,
@@ -56,96 +87,133 @@ class HomeHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Top Row: Profile Info & Action Icons
-          Row(
-            children: [
-              // Doctor Avatar
-              CircleAvatar(
-                radius: 26.r,
-                backgroundColor: Colors.white.withValues(alpha: 0.2),
-                backgroundImage: imageUrl != null && imageUrl.startsWith('http')
-                    ? NetworkImage(imageUrl)
-                    : null,
-                child: imageUrl == null || !imageUrl.startsWith('http')
-                    ? const Icon(Icons.person, color: Colors.white)
-                    : null,
-              ),
-              SizedBox(width: 12.w),
-              // Doctor Info
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      context.strings.welcomeBack,
-                      style: context.textTheme.titleMedium?.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.sp,
-                      ),
-                    ),
-                    SizedBox(height: 2.h),
-                    Text(
-                      doctorName,
-                      style: context.textTheme.bodyMedium?.copyWith(
-                        color: Colors.white70,
-                        fontSize: 14.sp,
-                      ),
-                    ),
-                    if (doctorSpecialty.isNotEmpty)
-                      Text(
-                        doctorSpecialty,
-                        style: context.textTheme.bodySmall?.copyWith(
-                          color: Colors.white60,
-                          fontSize: 12.sp,
+          ValueListenableBuilder<Box<UserData>>(
+            valueListenable: UserHiveHelper.getBoxListenable(),
+            builder: (context, box, _) {
+              final cachedUser = box.get('currentUser') ?? UserHiveHelper.getUser();
+              final String cachedName = (cachedUser?.name?.isNotEmpty == true)
+                  ? cachedUser!.name!
+                  : '${cachedUser?.firstName ?? ''} ${cachedUser?.secondName ?? ''}'.trim();
+              final String doctorName = (cachedName.isNotEmpty)
+                  ? cachedName
+                  : (profile?.name.isNotEmpty == true
+                      ? profile!.name
+                      : context.strings.doctor);
+              final String rawSpecialty = (cachedUser?.role?.isNotEmpty == true)
+                  ? cachedUser!.role!
+                  : (profile?.specialty.isNotEmpty == true ? profile!.specialty : '');
+              final String doctorSpecialty = DoctorSpecialty.localizedNameFromValue(
+                context,
+                rawSpecialty,
+              );
+              final userKey = cachedUser?.id?.toString() ?? cachedUser?.phone ?? '';
+              final savedUserImg = userKey.isNotEmpty ? UserHiveHelper.getUserImage(userKey) : null;
+              final savedDocImg = userKey.isNotEmpty ? UserHiveHelper.getDoctorImage(userKey) : null;
+              final latestImg = UserHiveHelper.getDoctorImage('latest');
+
+              final String? imageUrl = (cachedUser?.image != null && cachedUser!.image!.trim().isNotEmpty)
+                  ? cachedUser.image!.trim()
+                  : ((savedUserImg != null && savedUserImg.trim().isNotEmpty)
+                      ? savedUserImg.trim()
+                      : ((savedDocImg != null && savedDocImg.trim().isNotEmpty)
+                          ? savedDocImg.trim()
+                          : ((latestImg != null && latestImg.trim().isNotEmpty)
+                              ? latestImg.trim()
+                              : (profile?.imageUrl != null && profile!.imageUrl.trim().isNotEmpty
+                                  ? profile.imageUrl.trim()
+                                  : null))));
+
+              if (cachedUser != null &&
+                  (cachedUser.image == null || cachedUser.image!.trim().isEmpty) &&
+                  imageUrl != null &&
+                  imageUrl.isNotEmpty) {
+                cachedUser.image = imageUrl;
+                UserHiveHelper.saveUser(cachedUser);
+              }
+
+              return Row(
+                children: [
+                  // Doctor Avatar
+                  _buildAvatar(imageUrl),
+                  SizedBox(width: 12.w),
+                  // Doctor Info
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          context.strings.welcomeBack,
+                          style: context.textTheme.titleMedium?.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.sp,
+                          ),
                         ),
+                        SizedBox(height: 2.h),
+                        Text(
+                          doctorName,
+                          style: context.textTheme.bodyMedium?.copyWith(
+                            color: Colors.white70,
+                            fontSize: 14.sp,
+                          ),
+                        ),
+                        if (doctorSpecialty.isNotEmpty)
+                          Text(
+                            doctorSpecialty,
+                            style: context.textTheme.bodySmall?.copyWith(
+                              color: Colors.white60,
+                              fontSize: 12.sp,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                  // Chat / Messages Icon
+                  Container(
+                    width: 40.w,
+                    height: 40.h,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(12.r),
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.1),
                       ),
-                  ],
-                ),
-              ),
-              // Chat / Messages Icon
-              Container(
-                width: 40.w,
-                height: 40.h,
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(12.r),
-                  border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.1),
+                    ),
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      icon: const Icon(
+                        Icons.chat_bubble_outline,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        context.pushNamed(AppRoutes.doctorConversations);
+                      },
+                    ),
                   ),
-                ),
-                child: IconButton(
-                  padding: EdgeInsets.zero,
-                  icon: const Icon(
-                    Icons.chat_bubble_outline,
-                    color: Colors.white,
+                  SizedBox(width: 10.w),
+                  // Notification Icon
+                  Container(
+                    width: 40.w,
+                    height: 40.h,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(12.r),
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.1),
+                      ),
+                    ),
+                    child: IconButton(
+                      padding: EdgeInsets.zero,
+                      icon: const Icon(
+                        Icons.notifications_none_outlined,
+                        color: Colors.white,
+                      ),
+                      onPressed: onNotificationTap ?? () {},
+                    ),
                   ),
-                  onPressed: () {
-                    context.pushNamed(AppRoutes.doctorConversations);
-                  },
-                ),
-              ),
-              SizedBox(width: 10.w),
-              // Notification Icon
-              Container(
-                width: 40.w,
-                height: 40.h,
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(12.r),
-                  border: Border.all(
-                    color: Colors.white.withValues(alpha: 0.1),
-                  ),
-                ),
-                child: IconButton(
-                  padding: EdgeInsets.zero,
-                  icon: const Icon(
-                    Icons.notifications_none_outlined,
-                    color: Colors.white,
-                  ),
-                  onPressed: onNotificationTap ?? () {},
-                ),
-              ),
-            ],
+                ],
+              );
+            },
           ),
           SizedBox(height: 24.h),
           // Banner Card: Today's Appointments

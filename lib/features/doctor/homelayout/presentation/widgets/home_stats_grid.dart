@@ -20,7 +20,7 @@ class HomeStatsGrid extends StatelessWidget {
             Expanded(
               child: HomeStatCard(
                 icon: Icons.attach_money,
-                value: stats?.totalEarnings ?? '0',
+                value: stats?.todayIncome ?? '0',
                 title: context.strings.todaysIncome,
                 iconColor: AppColors.incomeIcon,
                 bgColor: AppColors.incomeIconBg,

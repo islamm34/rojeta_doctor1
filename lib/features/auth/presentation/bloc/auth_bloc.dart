@@ -83,7 +83,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     // Professional Information Events
     on<SpecialtyChangedEvent>(
-      (event, emit) => emit(state.copyWith(specialty: event.specialty)),
+      (event, emit) {
+        if (state.specialty != event.specialty) {
+          emit(
+            state.copyWith(
+              specialty: event.specialty,
+              subSpecialty: '',
+            ),
+          );
+        }
+      },
     );
     on<SubSpecialtyChangedEvent>(
       (event, emit) => emit(state.copyWith(subSpecialty: event.subSpecialty)),
@@ -140,7 +149,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (event, emit) => emit(state.copyWith(organizationImagePath: event.path)),
     );
     on<GovernorateChangedEvent>(
-      (event, emit) => emit(state.copyWith(governorate: event.governorate)),
+      (event, emit) {
+        if (state.governorate != event.governorate) {
+          emit(
+            state.copyWith(
+              governorate: event.governorate,
+              city: '',
+            ),
+          );
+        }
+      },
     );
     on<CityChangedEvent>(
       (event, emit) => emit(state.copyWith(city: event.city)),
@@ -148,6 +166,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<FullAddressChangedEvent>(
       (event, emit) => emit(state.copyWith(fullAddress: event.address)),
     );
+    on<LocationSelectedEvent>((event, emit) {
+      final selectedAddr =
+          (event.address != null && event.address!.trim().isNotEmpty)
+              ? event.address!.trim()
+              : '${event.latitude.toStringAsFixed(5)}, ${event.longitude.toStringAsFixed(5)}';
+      emit(state.copyWith(
+        latitude: event.latitude,
+        longitude: event.longitude,
+        mapAddress: selectedAddr,
+        fullAddress: selectedAddr,
+      ));
+    });
+    on<LocationClearedEvent>((event, emit) {
+      emit(state.copyWith(clearLocation: true));
+    });
     on<PaymentMethodChangedEvent>(
       (event, emit) => emit(state.copyWith(paymentMethod: event.method)),
     );
@@ -206,6 +239,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 'full_address': state.fullAddress.isNotEmpty
                     ? state.fullAddress
                     : 'Main Address',
+                if (state.latitude != null) 'latitude': state.latitude,
+                if (state.longitude != null) 'longitude': state.longitude,
               },
             ]
           : null;
@@ -232,6 +267,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         city: state.city,
         area: state.city.isNotEmpty ? state.city : state.governorate,
         fullAddress: state.fullAddress,
+        latitude: state.latitude,
+        longitude: state.longitude,
         about: state.about,
         licenseNumber: state.medicalLicenseNumber,
         medicalLicense: _getFileName(state.medicalLicensePath),

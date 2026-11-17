@@ -73,26 +73,64 @@ class _RadiologyHomeSampleCollectionFormState
           ),
           if (_isAvailable) ...[
             SizedBox(height: 20.h),
-            IntrinsicHeight(
-              child: Row(
-                children: [
-                  Expanded(
-                    child: CustomTextField(
-                      label: context.strings.homeSampleCollectionFee,
-                      hintText: context.strings.homeSampleCollectionFeeHint,
-                      keyboardType: TextInputType.number,
+            Row(
+              children: [
+                Expanded(
+                  child: SizedBox(
+                    height: 20.h,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: AlignmentDirectional.centerStart,
+                      child: Text(
+                        context.strings.homeSampleCollectionFee,
+                        maxLines: 1,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: theme.colorScheme.onSurface,
+                          fontSize: 13.sp,
+                        ),
+                      ),
                     ),
                   ),
-                  SizedBox(width: 16.w),
-                  Expanded(
-                    child: CustomTextField(
-                      label: context.strings.serviceAreaRadius,
-                      hintText: context.strings.serviceAreaRadiusHint,
-                      keyboardType: TextInputType.number,
+                ),
+                SizedBox(width: 16.w),
+                Expanded(
+                  child: SizedBox(
+                    height: 20.h,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: AlignmentDirectional.centerStart,
+                      child: Text(
+                        context.strings.serviceAreaRadius,
+                        maxLines: 1,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: theme.colorScheme.onSurface,
+                          fontSize: 13.sp,
+                        ),
+                      ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
+            ),
+            SizedBox(height: 8.h),
+            Row(
+              children: [
+                Expanded(
+                  child: CustomTextField(
+                    hintText: context.strings.homeSampleCollectionFeeHint,
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+                SizedBox(width: 16.w),
+                Expanded(
+                  child: CustomTextField(
+                    hintText: context.strings.serviceAreaRadiusHint,
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+              ],
             ),
           ],
         ],

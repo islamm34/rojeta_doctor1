@@ -16,6 +16,38 @@ class UpcomingAppointmentCard extends StatelessWidget {
     this.onTap,
   });
 
+  String _formatFee(String? rawFee) {
+    if (rawFee == null || rawFee.trim().isEmpty) return '';
+    final clean = rawFee.trim();
+    if (clean.toUpperCase().contains('EGP') || clean.contains('ج.م')) return clean;
+    final numVal = double.tryParse(clean);
+    if (numVal != null) {
+      return 'EGP ${numVal.toStringAsFixed(2)}';
+    }
+    return 'EGP $clean';
+  }
+
+  String _formatDiscount(String? rawDiscount) {
+    if (rawDiscount == null || rawDiscount.trim().isEmpty) return '';
+    final clean = rawDiscount.trim();
+    final numVal = double.tryParse(clean);
+    if (numVal != null) {
+      if (numVal <= 0) return '';
+      return numVal.toStringAsFixed(2);
+    }
+    if (clean == '0' || clean == '0.00' || clean == '0.0') return '';
+    return clean;
+  }
+
+  String _formatPaymentMethod(BuildContext context, String? method) {
+    if (method == null || method.trim().isEmpty) return context.strings.cash;
+    final m = method.trim().toLowerCase();
+    if (m.contains('credit') || m.contains('card')) return context.strings.creditCard;
+    if (m.contains('cash')) return context.strings.cash;
+    if (m.contains('wallet')) return 'محفظة';
+    return method;
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = context.theme;
@@ -34,6 +66,10 @@ class UpcomingAppointmentCard extends StatelessWidget {
       statusTextColor = Colors.grey.shade700;
     }
 
+    final feeCurrentFormatted = _formatFee(appointment.feeCurrent);
+    final feeOriginalFormatted = _formatFee(appointment.feeOriginal);
+    final discountFormatted = _formatDiscount(appointment.discount);
+
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(16.r),
@@ -43,7 +79,7 @@ class UpcomingAppointmentCard extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(16.r),
           border: Border.all(
-            color: isActive ? theme.colorScheme.primary : Colors.grey.shade200,
+            color: isActive ? const Color(0xFF00B4D8) : Colors.grey.shade200,
             width: isActive ? 2.0 : 1.0,
           ),
           boxShadow: [
@@ -111,17 +147,18 @@ class UpcomingAppointmentCard extends StatelessWidget {
                       SizedBox(height: 4.h),
                       Row(
                         children: [
-                          Icon(
-                            Icons.phone_outlined,
-                            size: 14.sp,
-                            color: Colors.grey.shade500,
-                          ),
-                          SizedBox(width: 4.w),
                           Text(
                             appointment.patientPhone ?? '',
                             style: theme.textTheme.bodySmall?.copyWith(
                               color: Colors.grey.shade600,
+                              fontWeight: FontWeight.w500,
                             ),
+                          ),
+                          SizedBox(width: 4.w),
+                          Icon(
+                            Icons.phone_outlined,
+                            size: 14.sp,
+                            color: Colors.grey.shade500,
                           ),
                         ],
                       ),
@@ -130,7 +167,7 @@ class UpcomingAppointmentCard extends StatelessWidget {
                 ),
                 Container(
                   padding: EdgeInsets.symmetric(
-                    horizontal: 10.w,
+                    horizontal: 12.w,
                     vertical: 4.h,
                   ),
                   decoration: BoxDecoration(
@@ -161,22 +198,23 @@ class UpcomingAppointmentCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12.r),
                     ),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
-                              Icons.access_time,
-                              size: 14.sp,
-                              color: Colors.blue.shade400,
-                            ),
-                            SizedBox(width: 4.w),
                             Text(
                               'Time',
                               style: TextStyle(
                                 color: Colors.grey.shade600,
                                 fontSize: 12.sp,
                               ),
+                            ),
+                            SizedBox(width: 4.w),
+                            Icon(
+                              Icons.access_time,
+                              size: 14.sp,
+                              color: Colors.blue.shade400,
                             ),
                           ],
                         ),
@@ -186,6 +224,7 @@ class UpcomingAppointmentCard extends StatelessWidget {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 14.sp,
+                            color: Colors.black87,
                           ),
                         ),
                       ],
@@ -201,22 +240,23 @@ class UpcomingAppointmentCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12.r),
                     ),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(
-                              Icons.calendar_today_outlined,
-                              size: 14.sp,
-                              color: Colors.purple.shade400,
-                            ),
-                            SizedBox(width: 4.w),
                             Text(
                               'Date',
                               style: TextStyle(
                                 color: Colors.grey.shade600,
                                 fontSize: 12.sp,
                               ),
+                            ),
+                            SizedBox(width: 4.w),
+                            Icon(
+                              Icons.calendar_today_outlined,
+                              size: 14.sp,
+                              color: Colors.purple.shade400,
                             ),
                           ],
                         ),
@@ -229,6 +269,7 @@ class UpcomingAppointmentCard extends StatelessWidget {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 14.sp,
+                            color: Colors.black87,
                           ),
                         ),
                       ],
@@ -248,16 +289,11 @@ class UpcomingAppointmentCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(
-                        Icons.location_on_outlined,
-                        size: 14.sp,
-                        color: Colors.orange.shade400,
-                      ),
-                      SizedBox(width: 4.w),
                       Text(
                         'Location',
                         style: TextStyle(
@@ -265,12 +301,23 @@ class UpcomingAppointmentCard extends StatelessWidget {
                           fontSize: 12.sp,
                         ),
                       ),
+                      SizedBox(width: 4.w),
+                      Icon(
+                        Icons.location_on_outlined,
+                        size: 14.sp,
+                        color: Colors.orange.shade400,
+                      ),
                     ],
                   ),
                   SizedBox(height: 4.h),
                   Text(
                     appointment.location ?? '',
-                    style: TextStyle(fontSize: 13.sp, color: Colors.black87),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 13.sp,
+                      color: Colors.black87,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ],
               ),
@@ -288,22 +335,24 @@ class UpcomingAppointmentCard extends StatelessWidget {
                   border: Border.all(color: Colors.amber.shade200, width: 0.5),
                 ),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    Expanded(
+                      child: Text(
+                        appointment.notes!,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          color: Colors.amber.shade900,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 8.w),
                     Icon(
                       Icons.description_outlined,
                       size: 16.sp,
                       color: Colors.amber.shade700,
-                    ),
-                    SizedBox(width: 8.w),
-                    Expanded(
-                      child: Text(
-                        appointment.notes!,
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          color: Colors.amber.shade900,
-                        ),
-                      ),
                     ),
                   ],
                 ),
@@ -314,85 +363,96 @@ class UpcomingAppointmentCard extends StatelessWidget {
 
             // Fee and Payment Row
             Container(
-              padding: EdgeInsets.all(12.w),
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
               decoration: BoxDecoration(
                 color: Colors.green.shade50.withValues(alpha: 0.4),
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: Row(
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Fee',
-                        style: TextStyle(
-                          color: Colors.grey.shade600,
-                          fontSize: 12.sp,
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          if (appointment.feeOriginal != null)
-                            Text(
-                              appointment.feeOriginal!,
-                              style: TextStyle(
-                                color: Colors.grey.shade400,
-                                decoration: TextDecoration.lineThrough,
-                                fontSize: 12.sp,
-                              ),
-                            ),
-                          if (appointment.feeOriginal != null)
-                            SizedBox(width: 6.w),
-                          Text(
-                            appointment.feeCurrent ?? '',
-                            style: TextStyle(
-                              color: Colors.green.shade700,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16.sp,
-                            ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          context.strings.feeLabel,
+                          style: TextStyle(
+                            color: Colors.grey.shade600,
+                            fontSize: 11.sp,
                           ),
-                          if (appointment.discount != null) ...[
-                            SizedBox(width: 8.w),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 6.w,
-                                vertical: 2.h,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(12.r),
-                              ),
-                              child: Text(
-                                appointment.discount!,
+                        ),
+                        SizedBox(height: 2.h),
+                        Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          spacing: 6.w,
+                          runSpacing: 2.h,
+                          children: [
+                            if (discountFormatted.isNotEmpty &&
+                                feeOriginalFormatted.isNotEmpty &&
+                                feeOriginalFormatted != feeCurrentFormatted)
+                              Text(
+                                feeOriginalFormatted,
                                 style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey.shade400,
+                                  decoration: TextDecoration.lineThrough,
+                                  fontSize: 12.sp,
                                 ),
                               ),
+                            Text(
+                              feeCurrentFormatted.isNotEmpty
+                                  ? feeCurrentFormatted
+                                  : 'EGP 0.00',
+                              style: TextStyle(
+                                color: Colors.green.shade700,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15.sp,
+                              ),
                             ),
+                            if (discountFormatted.isNotEmpty &&
+                                feeOriginalFormatted != feeCurrentFormatted) ...[
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 6.w,
+                                  vertical: 2.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(12.r),
+                                ),
+                                child: Text(
+                                  discountFormatted,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ],
-                        ],
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
-                  const Spacer(),
+                  SizedBox(width: 8.w),
                   Container(
                     padding: EdgeInsets.symmetric(
-                      horizontal: 16.w,
-                      vertical: 8.h,
+                      horizontal: 12.w,
+                      vertical: 6.h,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.orange.shade100.withValues(alpha: 0.8),
-                      borderRadius: BorderRadius.circular(16.r),
+                      color: Colors.orange.shade50,
+                      borderRadius: BorderRadius.circular(12.r),
+                      border: Border.all(color: Colors.orange.shade200),
                     ),
                     child: Text(
-                      appointment.paymentMethod ?? 'Cash',
+                      _formatPaymentMethod(context, appointment.paymentMethod),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        color: Colors.black87,
+                        color: Colors.orange.shade900,
                         fontWeight: FontWeight.bold,
-                        fontSize: 13.sp,
+                        fontSize: 12.sp,
                       ),
                     ),
                   ),

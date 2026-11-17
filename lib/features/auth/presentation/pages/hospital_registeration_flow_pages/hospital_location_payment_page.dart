@@ -7,6 +7,7 @@ import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
 import '../../../../../shared/widgets/custom_elevated_button.dart';
 import '../../../../../core/di/injector.dart';
+import '../../../../../core/utils/snackbar_helper.dart';
 import '../../bloc/auth_bloc.dart';
 import '../../bloc/auth_state.dart';
 import '../../widgets/hospital_registeration_flow_pages_widgets/hospital_location_form.dart';
@@ -95,11 +96,30 @@ class _HospitalLocationPaymentView extends StatelessWidget {
                                   foregroundColor: isValid
                                       ? Colors.white
                                       : Colors.grey.shade500,
-                                  onPressed: isValid
-                                      ? () => context.pushNamed(
-                                          AppRoutes.hospitalDocumentUpload,
-                                        )
-                                      : () {},
+                                  onPressed: () {
+                                    if (isValid) {
+                                      context.pushNamed(
+                                        AppRoutes.hospitalDocumentUpload,
+                                      );
+                                    } else {
+                                      if (state.governorate.trim().isEmpty) {
+                                        SnackbarHelper.showError(
+                                          context,
+                                          message: context.strings.selectGovernorate,
+                                        );
+                                      } else if (state.city.trim().isEmpty) {
+                                        SnackbarHelper.showError(
+                                          context,
+                                          message: context.strings.selectCity,
+                                        );
+                                      } else if (state.fullAddress.trim().isEmpty) {
+                                        SnackbarHelper.showError(
+                                          context,
+                                          message: context.strings.fullAddress,
+                                        );
+                                      }
+                                    }
+                                  },
                                 ),
                               );
                             },

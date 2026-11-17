@@ -1,16 +1,42 @@
-// Integration test skeleton for the feature.
+// Integration test skeleton for the auth feature.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:integration_test/integration_test.dart';
-import 'package:rojeta_doctor/main.dart' as app;
+import 'package:flutter/material.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:rojeta_doctor/core/di/injector.dart' as core_injector;
+import 'package:rojeta_doctor/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:rojeta_doctor/features/auth/presentation/bloc/auth_state.dart';
+import 'package:rojeta_doctor/features/auth/presentation/pages/doctor_registration_flow_pages/login_page.dart';
+import 'package:rojeta_doctor/l10n/app_localizations.dart';
+
+class MockAuthBloc extends Mock implements AuthBloc {}
 
 void main() {
-  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+  late MockAuthBloc mockAuthBloc;
 
-  testWidgets('Load feature end-to-end', (tester) async {
-    app.main();
-    await tester.pumpAndSettle();
+  setUp(() async {
+    await core_injector.injector.reset();
+    mockAuthBloc = MockAuthBloc();
+    when(() => mockAuthBloc.state).thenReturn(const AuthState());
+    when(() => mockAuthBloc.stream).thenAnswer((_) => const Stream.empty());
+    when(() => mockAuthBloc.close()).thenAnswer((_) async {});
+    core_injector.injector.registerFactory<AuthBloc>(() => mockAuthBloc);
+  });
 
-    expect(find.text('Data Loaded ✅'), findsOneWidget);
+  tearDown(() async {
+    await core_injector.injector.reset();
+  });
+
+  testWidgets('Load auth feature end-to-end', (tester) async {
+    await tester.pumpWidget(
+      const MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: Locale('en'),
+        home: LoginPage(),
+      ),
+    );
+
+    expect(find.byType(LoginPage), findsOneWidget);
   });
 }

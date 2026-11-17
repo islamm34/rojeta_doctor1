@@ -15,6 +15,10 @@ void main() {
   late MockRemoteDS mockRemote;
   late MockLocalDS mockLocal;
 
+  setUpAll(() {
+    registerFallbackValue(AuthModel.fake());
+  });
+
   setUp(() {
     mockRemote = MockRemoteDS();
     mockLocal = MockLocalDS();

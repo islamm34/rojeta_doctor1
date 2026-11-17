@@ -12,9 +12,17 @@ class FinancialRepositoryImpl implements FinancialRepository {
   FinancialRepositoryImpl({required this.remoteDataSource});
 
   @override
-  Future<Either<Failure, FinancialSummaryModel>> getFinancialSummary() async {
+  Future<Either<Failure, FinancialSummaryModel>> getFinancialSummary({
+    String? period,
+    String? startDate,
+    String? endDate,
+  }) async {
     try {
-      final remoteSummary = await remoteDataSource.getFinancialSummary();
+      final remoteSummary = await remoteDataSource.getFinancialSummary(
+        period: period,
+        startDate: startDate,
+        endDate: endDate,
+      );
       return Right(remoteSummary);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
@@ -24,9 +32,17 @@ class FinancialRepositoryImpl implements FinancialRepository {
   }
 
   @override
-  Future<Either<Failure, List<TransactionModel>>> getTransactions() async {
+  Future<Either<Failure, List<TransactionModel>>> getTransactions({
+    String? period,
+    String? startDate,
+    String? endDate,
+  }) async {
     try {
-      final remoteTransactions = await remoteDataSource.getTransactions();
+      final remoteTransactions = await remoteDataSource.getTransactions(
+        period: period,
+        startDate: startDate,
+        endDate: endDate,
+      );
       return Right(remoteTransactions);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));

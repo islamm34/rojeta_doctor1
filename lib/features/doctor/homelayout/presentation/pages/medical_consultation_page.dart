@@ -10,8 +10,10 @@ import 'package:rojeta_doctor/core/utils/snackbar_helper.dart';
 import 'package:rojeta_doctor/features/doctor/homelayout/data/models/consultation_request_model.dart';
 import 'package:rojeta_doctor/features/doctor/homelayout/data/models/doctor_appointment_model.dart';
 
+import '../../../../../core/di/injector.dart';
 import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
+import '../../../chat/data/repositories/doctor_chat_repository.dart';
 import '../../data/datasources/local/consultation_draft_local_data_source.dart';
 import '../bloc/medical_consultation/medical_consultation_bloc.dart';
 import '../bloc/medical_consultation/medical_consultation_event.dart';
@@ -414,10 +416,29 @@ class _MedicalConsultationPageState extends State<MedicalConsultationPage> {
                         SizedBox(height: 16.h),
                         StartConsultationButton(
                           isInProgress: _isConsultationStarted,
-                          onPressed: () {
+                          onPressed: () async {
+                            final willStart = !_isConsultationStarted;
                             setState(() {
-                              _isConsultationStarted = !_isConsultationStarted;
+                              _isConsultationStarted = willStart;
                             });
+                            if (willStart) {
+                              try {
+                                final targetPatientId =
+                                    (widget.appointment.patientId?.isNotEmpty ?? false)
+                                        ? widget.appointment.patientId!
+                                        : widget.appointment.id;
+                                final conv = await injector<DoctorChatRepository>()
+                                    .getOrCreateConversation(
+                                      patientId: targetPatientId,
+                                      patientName: widget.appointment.patientName,
+                                    );
+                                await injector<DoctorChatRepository>().sendMessage(
+                                  conversationId: conv.id,
+                                  content:
+                                      '🩺 بدأ الطبيب الاستشارة الطبية معك الآن. يمكنك كتابة استفساراتك وسيقوم الطبيب بالرد والمتابعة معك مباشرة.',
+                                );
+                              } catch (_) {}
+                            }
                           },
                         ),
                         SizedBox(height: 16.h),

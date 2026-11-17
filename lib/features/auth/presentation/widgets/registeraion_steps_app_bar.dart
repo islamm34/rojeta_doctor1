@@ -46,7 +46,7 @@ class RegisteraionStepsAppBar extends StatelessWidget
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: Image.asset(
             AppConstants.rLogo,
-            height: 32.h,
+            height: 38.7.h,
             fit: BoxFit.contain,
           ),
         ),

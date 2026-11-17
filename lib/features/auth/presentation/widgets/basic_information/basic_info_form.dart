@@ -15,6 +15,7 @@ class BasicInfoForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isArabic = Localizations.localeOf(context).languageCode == 'ar';
 
     return Container(
       decoration: BoxDecoration(
@@ -81,7 +82,7 @@ class BasicInfoForm extends StatelessWidget {
                   if (val != null &&
                       val.isNotEmpty &&
                       !Validators.isValidEmail(val.trim())) {
-                    return 'Please enter a valid email address'; // Ideally localized
+                    return context.strings.invalidEmail;
                   }
                   return null;
                 },
@@ -106,15 +107,15 @@ class BasicInfoForm extends StatelessWidget {
                   Icons.phone_outlined,
                   color: Colors.grey,
                 ),
-                // the design does not show a country code prefix text, so we disable the default behavior if needed
-                // actually in custom_textfield `isPhoneField` adds the +234, so we leave it false and just use keyboardType
                 isPhoneField: false,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (val) {
                   if (val != null &&
                       val.isNotEmpty &&
                       !Validators.isValidPhone(val.trim())) {
-                    return 'Please enter a valid phone number'; // Ideally localized
+                    return isArabic
+                        ? 'يرجى إدخال رقم هاتف صحيح'
+                        : 'Please enter a valid phone number';
                   }
                   return null;
                 },
@@ -137,6 +138,13 @@ class BasicInfoForm extends StatelessWidget {
                 hintText: context.strings.passwordHint,
                 isRequired: true,
                 obscureText: !state.isPasswordVisible,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (val) {
+                  if (val != null && val.isNotEmpty && val.length < 6) {
+                    return context.strings.invalidPassword;
+                  }
+                  return null;
+                },
                 suffixIcon: IconButton(
                   icon: Icon(
                     state.isPasswordVisible
@@ -160,6 +168,7 @@ class BasicInfoForm extends StatelessWidget {
           BlocBuilder<AuthBloc, AuthState>(
             buildWhen: (previous, current) =>
                 previous.confirmPassword != current.confirmPassword ||
+                previous.password != current.password ||
                 previous.isConfirmPasswordVisible !=
                     current.isConfirmPasswordVisible,
             builder: (context, state) {
@@ -168,6 +177,15 @@ class BasicInfoForm extends StatelessWidget {
                 hintText: context.strings.confirmPasswordHint,
                 isRequired: true,
                 obscureText: !state.isConfirmPasswordVisible,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                validator: (val) {
+                  if (val != null &&
+                      val.isNotEmpty &&
+                      val != state.password) {
+                    return context.strings.passwordsDoNotMatch;
+                  }
+                  return null;
+                },
                 suffixIcon: IconButton(
                   icon: Icon(
                     state.isConfirmPasswordVisible

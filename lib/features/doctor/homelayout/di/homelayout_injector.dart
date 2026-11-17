@@ -16,6 +16,7 @@ import '../domain/datasources/homelayout_local_data_source.dart' as local_ds;
 import '../domain/datasources/homelayout_remote_data_source.dart' as remote_ds;
 import '../domain/repositories/homelayout_repository.dart';
 import '../domain/usecases/get_homelayout.dart';
+import 'package:rojeta_doctor/features/financial/domain/repositories/financial_repository.dart';
 import '../presentation/bloc/appointment_details/appointment_details_bloc.dart';
 import '../presentation/bloc/appointments/doctor_appointments_bloc.dart';
 import '../presentation/bloc/homelayout_bloc.dart';
@@ -79,6 +80,9 @@ Future<void> initHomelayoutInjector() async {
     () => HomelayoutBloc(
       dashboardRepository: injector(),
       appointmentsRepository: injector(),
+      financialRepository: injector.isRegistered<FinancialRepository>()
+          ? injector<FinancialRepository>()
+          : null,
     ),
   );
   injector.registerFactory(

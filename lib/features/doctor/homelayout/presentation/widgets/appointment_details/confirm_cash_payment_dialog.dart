@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../../core/utils/extensions/context_extensions.dart';
+import '../../../../../../core/utils/local_notification_service.dart';
 import '../../../../../../core/utils/screen_util_like.dart';
 import '../../../data/models/doctor_appointment_details_model.dart';
 import '../../bloc/appointment_details/appointment_details_bloc.dart';
@@ -114,6 +115,17 @@ class ConfirmCashPaymentDialog extends StatelessWidget {
                 appointmentId: details.id,
                 amountPaid: details.totalPrice?.toDouble(),
               ),
+            );
+            LocalNotificationService.showNotification(
+              id: DateTime.now().millisecondsSinceEpoch ~/ 1000,
+              title: '💰 تم تأكيد الدفع النقدي',
+              body:
+                  'تم استلام مبلغ $amount ج.م نقداً من ${details.patient?.name ?? 'المريض'} للموعد #${details.id}',
+              payload: {
+                'id': details.id,
+                'appointment_id': details.id,
+                'type': 'payment',
+              },
             );
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(

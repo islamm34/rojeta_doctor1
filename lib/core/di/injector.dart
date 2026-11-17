@@ -36,9 +36,9 @@ Future<void> setupInjector() async {
 
   // Features
   await initAuthInjector();
+  await initFinancialInjector();
   await initHomelayoutInjector();
   await initDoctorProfileInjector();
-  await initFinancialInjector();
   await initHospitalInjector();
   await initMedicalServicesInjector();
   await initSettingsInjector();

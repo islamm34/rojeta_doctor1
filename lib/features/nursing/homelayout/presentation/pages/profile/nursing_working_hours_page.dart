@@ -49,10 +49,10 @@ class _NursingWorkingHoursPageState extends State<NursingWorkingHoursPage> {
       context: context,
       initialTime: TimeOfDay.now(),
     );
-    if (picked != null) {
+    if (picked != null && mounted) {
       final days = _workingHours.days;
       final day = days[index];
-      final formattedTime = picked.formatTimeOfDay();
+      final formattedTime = picked.formatTimeOfDay(context);
       if (isOpenTime) {
         _updateDay(index, day.copyWith(openTime: formattedTime));
       } else {

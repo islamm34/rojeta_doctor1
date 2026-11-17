@@ -4,6 +4,14 @@ import '../../data/models/financial_summary_model.dart';
 import '../../data/models/transaction_model.dart';
 
 abstract class FinancialRepository {
-  Future<Either<Failure, FinancialSummaryModel>> getFinancialSummary();
-  Future<Either<Failure, List<TransactionModel>>> getTransactions();
+  Future<Either<Failure, FinancialSummaryModel>> getFinancialSummary({
+    String? period,
+    String? startDate,
+    String? endDate,
+  });
+  Future<Either<Failure, List<TransactionModel>>> getTransactions({
+    String? period,
+    String? startDate,
+    String? endDate,
+  });
 }

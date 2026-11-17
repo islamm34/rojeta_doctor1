@@ -8,6 +8,8 @@ import '../../../../../core/utils/extensions/context_extensions.dart';
 import '../../../../../core/utils/screen_util_like.dart';
 import '../../../../../shared/widgets/custom_elevated_button.dart';
 import '../../../../../core/di/injector.dart';
+import '../../../../../core/utils/snackbar_helper.dart';
+import '../../../../../core/utils/validators.dart';
 import '../../bloc/auth_bloc.dart';
 import '../../bloc/auth_state.dart';
 import '../../widgets/hospital_registeration_flow_pages_widgets/hospital_professional_info_form.dart';
@@ -91,11 +93,45 @@ class _HospitalProfessionalInfoView extends StatelessWidget {
                                   foregroundColor: isValid
                                       ? Colors.white
                                       : Colors.grey.shade500,
-                                  onPressed: isValid
-                                      ? () => context.pushNamed(
-                                          AppRoutes.hospitalLocationPayment,
-                                        )
-                                      : () {},
+                                  onPressed: () {
+                                    if (isValid) {
+                                      context.pushNamed(
+                                        AppRoutes.hospitalLocationPayment,
+                                      );
+                                    } else {
+                                      if (state.organizationName.trim().isEmpty) {
+                                        SnackbarHelper.showError(
+                                          context,
+                                          message: context.strings.organizationNameHint,
+                                        );
+                                      } else if (state.organizationType.trim().isEmpty) {
+                                        SnackbarHelper.showError(
+                                          context,
+                                          message: context.strings.organizationTypeHint,
+                                        );
+                                      } else if (state.organizationNumber.trim().isEmpty) {
+                                        SnackbarHelper.showError(
+                                          context,
+                                          message: context.strings.organizationNumberHint,
+                                        );
+                                      } else if (state.medicalLicenseNumber.trim().isEmpty) {
+                                        SnackbarHelper.showError(
+                                          context,
+                                          message: context.strings.licenseNumberHint,
+                                        );
+                                      } else if (!Validators.isValidPassword(state.password, minLength: 6)) {
+                                        SnackbarHelper.showError(
+                                          context,
+                                          message: context.strings.invalidPassword,
+                                        );
+                                      } else if (state.confirmPassword != state.password) {
+                                        SnackbarHelper.showError(
+                                          context,
+                                          message: context.strings.passwordsDoNotMatch,
+                                        );
+                                      }
+                                    }
+                                  },
                                 ),
                               );
                             },

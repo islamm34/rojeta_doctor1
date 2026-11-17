@@ -183,6 +183,28 @@ class FullAddressChangedEvent extends AuthEvent {
   List<Object?> get props => [address];
 }
 
+class LocationSelectedEvent extends AuthEvent {
+  final double latitude;
+  final double longitude;
+  final String? address;
+
+  const LocationSelectedEvent({
+    required this.latitude,
+    required this.longitude,
+    this.address,
+  });
+
+  @override
+  List<Object?> get props => [latitude, longitude, address];
+}
+
+class LocationClearedEvent extends AuthEvent {
+  const LocationClearedEvent();
+
+  @override
+  List<Object?> get props => [];
+}
+
 class PaymentMethodChangedEvent extends AuthEvent {
   final String method; // 'bank' | 'wallet'
   const PaymentMethodChangedEvent(this.method);

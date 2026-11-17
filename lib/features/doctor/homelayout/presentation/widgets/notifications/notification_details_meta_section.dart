@@ -38,6 +38,11 @@ class NotificationDetailsMetaSection extends StatelessWidget {
         notification.bookingTime!.isNotEmpty;
     final hasVisitType =
         notification.visitType != null && notification.visitType!.isNotEmpty;
+    final hasLocation =
+        notification.location != null && notification.location!.isNotEmpty;
+    final hasNotes =
+        notification.notes != null && notification.notes!.isNotEmpty;
+    final hasFee = notification.fee != null && notification.fee!.isNotEmpty;
 
     final bool hasAnyMeta =
         hasPatientName ||
@@ -45,7 +50,7 @@ class NotificationDetailsMetaSection extends StatelessWidget {
         hasBookingRef ||
         hasBookingDate ||
         hasBookingTime ||
-        hasVisitType;
+    hasVisitType || hasLocation || hasNotes || hasFee;
 
     if (!hasAnyMeta) {
       return const SizedBox.shrink();
@@ -97,6 +102,28 @@ class NotificationDetailsMetaSection extends StatelessWidget {
               icon: Icons.medical_services_outlined,
               label: context.strings.visitType,
               value: notification.visitType!,
+            ),
+          if (hasLocation)
+            NotificationDetailInfoRow(
+              icon: Icons.location_on_outlined,
+              label: context.strings.location,
+              value: notification.location!,
+            ),
+          if (hasNotes)
+            NotificationDetailInfoRow(
+              icon: Icons.description_outlined,
+              label: context.strings.patientNotes,
+              value: notification.notes!,
+            ),
+          if (hasFee)
+            NotificationDetailInfoRow(
+              icon: Icons.payments_outlined,
+              label: context.strings.feeLabel,
+              value:
+                  notification.paymentMethod != null &&
+                      notification.paymentMethod!.isNotEmpty
+                  ? '${notification.fee} EGP (${notification.paymentMethod})'
+                  : '${notification.fee} EGP',
             ),
         ],
       ),

@@ -1,26 +1,44 @@
-// Widget test skeleton for the feature page.
+// Widget test for auth LoginPage.
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rojeta_doctor/features/auth/presentation/pages/auth_page.dart';
-import 'package:rojeta_doctor/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:rojeta_doctor/core/di/injector.dart' as core_injector;
+import 'package:rojeta_doctor/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:rojeta_doctor/features/auth/presentation/bloc/auth_state.dart';
+import 'package:rojeta_doctor/features/auth/presentation/pages/doctor_registration_flow_pages/login_page.dart';
+import 'package:rojeta_doctor/features/auth/presentation/widgets/login/login_form.dart';
+import 'package:rojeta_doctor/l10n/app_localizations.dart';
+
+class MockAuthBloc extends Mock implements AuthBloc {}
 
 void main() {
-  testWidgets('Shows loading and then loaded text', (tester) async {
-    // If you use dependency injection, make sure injector is configured in tests.
+  late MockAuthBloc mockAuthBloc;
+
+  setUp(() async {
+    await core_injector.injector.reset();
+    mockAuthBloc = MockAuthBloc();
+    when(() => mockAuthBloc.state).thenReturn(const AuthState());
+    when(() => mockAuthBloc.stream).thenAnswer((_) => const Stream.empty());
+    when(() => mockAuthBloc.close()).thenAnswer((_) async {});
+    core_injector.injector.registerFactory<AuthBloc>(() => mockAuthBloc);
+  });
+
+  tearDown(() async {
+    await core_injector.injector.reset();
+  });
+
+  testWidgets('LoginPage renders correctly with form', (tester) async {
     await tester.pumpWidget(
-      MaterialApp(
-        home: BlocProvider(
-          create: (_) => core_injector.injector<AuthBloc>(),
-          child: const AuthPage(),
-        ),
+      const MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: Locale('en'),
+        home: LoginPage(),
       ),
     );
 
-    expect(find.byType(CircularProgressIndicator), findsOneWidget);
-    await tester.pumpAndSettle();
-    expect(find.text('Data Loaded ✅'), findsOneWidget);
+    expect(find.byType(LoginPage), findsOneWidget);
+    expect(find.byType(LoginForm), findsOneWidget);
   });
 }
